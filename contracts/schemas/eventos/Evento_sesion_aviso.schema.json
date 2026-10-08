@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evento_sesion_aviso",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Servidor → cliente: aviso previo a un corte (R60, ADR 0005).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "tipo",
+    "seq",
+    "ts",
+    "datos"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "const": "sesion.aviso"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts": {
+      "$ref": "../FechaHora.schema.json"
+    },
+    "datos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aviso",
+        "segundos_restantes"
+      ],
+      "properties": {
+        "aviso": {
+          "type": "string",
+          "enum": [
+            "sin_voz_proximo",
+            "duracion_proxima",
+            "cuota_proxima"
+          ]
+        },
+        "segundos_restantes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "sesion.aviso",
+      "seq": 7,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "aviso": "sin_voz_proximo",
+        "segundos_restantes": 10
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "sesion.aviso",
+      "seq": 8,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "aviso": "duracion_proxima",
+        "segundos_restantes": 11
+      }
+    }
+  ]
+}

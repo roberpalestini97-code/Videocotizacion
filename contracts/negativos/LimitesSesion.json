@@ -1,0 +1,73 @@
+[
+  {
+    "esquema": "LimitesSesion",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sin_voz_s": 20,
+      "duracion_maxima_s": 900,
+      "caracteres_max_por_turno": 500,
+      "turnos_llm_max": 60,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      },
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "LimitesSesion",
+    "caso": "falta \"sin_voz_s\"",
+    "falla_por": "required",
+    "instancia": {
+      "duracion_maxima_s": 900,
+      "caracteres_max_por_turno": 500,
+      "turnos_llm_max": 60,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      }
+    }
+  },
+  {
+    "esquema": "LimitesSesion",
+    "caso": "falta \"duracion_maxima_s\"",
+    "falla_por": "required",
+    "instancia": {
+      "sin_voz_s": 20,
+      "caracteres_max_por_turno": 500,
+      "turnos_llm_max": 60,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      }
+    }
+  },
+  {
+    "esquema": "LimitesSesion",
+    "caso": "sin_voz_s de 0",
+    "falla_por": "minimum",
+    "instancia": {
+      "sin_voz_s": 0,
+      "duracion_maxima_s": 900,
+      "caracteres_max_por_turno": 500,
+      "turnos_llm_max": 60,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      }
+    }
+  }
+]

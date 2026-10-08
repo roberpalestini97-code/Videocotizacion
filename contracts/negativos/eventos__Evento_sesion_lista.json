@@ -1,0 +1,82 @@
+[
+  {
+    "esquema": "eventos/Evento_sesion_lista",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "v": 1,
+      "tipo": "sesion.lista",
+      "seq": 0,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "limites": {
+          "sin_voz_s": 20,
+          "duracion_maxima_s": 900,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        }
+      },
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "eventos/Evento_sesion_lista",
+    "caso": "falta \"v\"",
+    "falla_por": "required",
+    "instancia": {
+      "tipo": "sesion.lista",
+      "seq": 0,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "limites": {
+          "sin_voz_s": 20,
+          "duracion_maxima_s": 900,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        }
+      }
+    }
+  },
+  {
+    "esquema": "eventos/Evento_sesion_lista",
+    "caso": "falta \"tipo\"",
+    "falla_por": "required",
+    "instancia": {
+      "v": 1,
+      "seq": 0,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "limites": {
+          "sin_voz_s": 20,
+          "duracion_maxima_s": 900,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        }
+      }
+    }
+  }
+]

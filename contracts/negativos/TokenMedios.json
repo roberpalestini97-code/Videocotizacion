@@ -1,0 +1,92 @@
+[
+  {
+    "esquema": "TokenMedios",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 30,
+      "un_solo_uso": true,
+      "protocolo_eventos": "vc-eventos.borrador.1",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "TokenMedios",
+    "caso": "falta \"token\"",
+    "falla_por": "required",
+    "instancia": {
+      "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 30,
+      "un_solo_uso": true,
+      "protocolo_eventos": "vc-eventos.borrador.1"
+    }
+  },
+  {
+    "esquema": "TokenMedios",
+    "caso": "falta \"ws_url\"",
+    "falla_por": "required",
+    "instancia": {
+      "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 30,
+      "un_solo_uso": true,
+      "protocolo_eventos": "vc-eventos.borrador.1"
+    }
+  },
+  {
+    "esquema": "TokenMedios",
+    "caso": "vence en 300 s",
+    "falla_por": "maximum",
+    "instancia": {
+      "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 300,
+      "un_solo_uso": true,
+      "protocolo_eventos": "vc-eventos.borrador.1"
+    }
+  },
+  {
+    "esquema": "TokenMedios",
+    "caso": "ws sin TLS",
+    "falla_por": "pattern",
+    "instancia": {
+      "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "ws_url": "ws://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 30,
+      "un_solo_uso": true,
+      "protocolo_eventos": "vc-eventos.borrador.1"
+    }
+  },
+  {
+    "esquema": "TokenMedios",
+    "caso": "token en la URL",
+    "falla_por": "pattern",
+    "instancia": {
+      "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios?token=abc",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 30,
+      "un_solo_uso": true,
+      "protocolo_eventos": "vc-eventos.borrador.1"
+    }
+  },
+  {
+    "esquema": "TokenMedios",
+    "caso": "reutilizable",
+    "falla_por": "const",
+    "instancia": {
+      "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 30,
+      "un_solo_uso": false,
+      "protocolo_eventos": "vc-eventos.borrador.1"
+    }
+  }
+]

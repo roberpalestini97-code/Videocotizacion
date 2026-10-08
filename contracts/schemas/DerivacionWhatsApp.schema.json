@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DerivacionWhatsApp",
+  "description": "Derivación a WhatsApp con el profesional (BRIEF 6). La URL lleva el número del profesional y un texto con SOLO el código de referencia (R50). El backend no envía mensajes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "codigo_referencia",
+    "url_wa_me",
+    "texto_prellenado",
+    "generada_en"
+  ],
+  "properties": {
+    "codigo_referencia": {
+      "$ref": "CodigoReferencia.schema.json"
+    },
+    "url_wa_me": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600,
+      "pattern": "^https://wa\\.me/[1-9][0-9]{7,14}\\?text=[A-Za-z0-9%._~-]+$"
+    },
+    "texto_prellenado": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "generada_en": {
+      "$ref": "FechaHora.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "codigo_referencia": "VC-6X0B-5RD4NC",
+      "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+      "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+      "generada_en": "2026-10-08T13:25:00Z"
+    }
+  ]
+}

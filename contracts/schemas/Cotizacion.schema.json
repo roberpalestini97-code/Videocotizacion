@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cotizacion",
+  "description": "Presupuesto orientativo emitido al final (BRIEF 5). total_centavos = suma de importes. zona \"otra\" ⇒ fuera_de_zona true y se emite igual (T24).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cotizacion_id",
+    "sesion_id",
+    "emitida_en",
+    "moneda",
+    "oficio",
+    "zona",
+    "fuera_de_zona",
+    "items",
+    "total_centavos",
+    "orientativa",
+    "leyenda",
+    "tarifas",
+    "validez_dias"
+  ],
+  "properties": {
+    "cotizacion_id": {
+      "$ref": "IdCotizacion.schema.json"
+    },
+    "sesion_id": {
+      "$ref": "IdSesion.schema.json"
+    },
+    "emitida_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "moneda": {
+      "$ref": "Moneda.schema.json"
+    },
+    "oficio": {
+      "$ref": "Oficio.schema.json"
+    },
+    "zona": {
+      "$ref": "Zona.schema.json"
+    },
+    "fuera_de_zona": {
+      "type": "boolean"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "ItemCotizacion.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 30
+    },
+    "total_centavos": {
+      "$ref": "Centavos.schema.json"
+    },
+    "orientativa": {
+      "type": "boolean",
+      "const": true
+    },
+    "leyenda": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "tarifas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "estado"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]{4}\\.[0-9]{1,3}$"
+        },
+        "estado": {
+          "type": "string",
+          "enum": [
+            "referencia_publica_sin_validar",
+            "validada"
+          ]
+        }
+      }
+    },
+    "validez_dias": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 90
+    }
+  },
+  "if": {
+    "type": "object",
+    "properties": {
+      "zona": {
+        "const": "otra"
+      }
+    },
+    "required": [
+      "zona"
+    ]
+  },
+  "then": {
+    "type": "object",
+    "properties": {
+      "fuera_de_zona": {
+        "const": true
+      }
+    }
+  },
+  "else": {
+    "type": "object",
+    "properties": {
+      "fuera_de_zona": {
+        "const": false
+      }
+    }
+  },
+  "examples": [
+    {
+      "cotizacion_id": "cot_N601R3XEE3HYJYTD08YWEGKTCC",
+      "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+      "emitida_en": "2026-10-08T13:20:00Z",
+      "moneda": "ARS",
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "items": [
+        {
+          "tipo": "mano_de_obra",
+          "codigo_tarea": "pintura_interior",
+          "descripcion": "Pintura interior látex, dos manos",
+          "unidad": "m2",
+          "cantidad_centesimas": 1250,
+          "precio_unitario_centavos": 185000,
+          "importe_centavos": 2312500
+        }
+      ],
+      "total_centavos": 2312500,
+      "orientativa": true,
+      "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+      "tarifas": {
+        "version": "2026.1",
+        "estado": "referencia_publica_sin_validar"
+      },
+      "validez_dias": 15
+    },
+    {
+      "cotizacion_id": "cot_ZJ88AH2DQE77V1P5HHDAVF2QTS",
+      "sesion_id": "ses_RVP4JPJJ38VTRF0V8WABZMDF9J",
+      "emitida_en": "2026-10-08T13:21:00Z",
+      "moneda": "ARS",
+      "oficio": "jardineria",
+      "zona": "otra",
+      "fuera_de_zona": true,
+      "items": [
+        {
+          "tipo": "mano_de_obra",
+          "codigo_tarea": "corte_cesped",
+          "descripcion": "Corte de césped y bordeado",
+          "unidad": "m2",
+          "cantidad_centesimas": 1625,
+          "precio_unitario_centavos": 30007,
+          "importe_centavos": 487614
+        },
+        {
+          "tipo": "mano_de_obra",
+          "codigo_tarea": "poda",
+          "descripcion": "Poda de árbol mediano",
+          "unidad": "unidad",
+          "cantidad_centesimas": 300,
+          "precio_unitario_centavos": 4500014,
+          "importe_centavos": 13500042
+        },
+        {
+          "tipo": "traslado",
+          "codigo_tarea": "traslado_fuera_de_zona",
+          "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
+          "unidad": "global",
+          "cantidad_centesimas": 100,
+          "precio_unitario_centavos": 1500001,
+          "importe_centavos": 1500001
+        }
+      ],
+      "total_centavos": 15487657,
+      "orientativa": true,
+      "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
+      "tarifas": {
+        "version": "2026.1",
+        "estado": "referencia_publica_sin_validar"
+      },
+      "validez_dias": 15
+    }
+  ]
+}

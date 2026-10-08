@@ -1,0 +1,97 @@
+[
+  {
+    "esquema": "PerfilAsesor",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+      "rol": "asesor",
+      "nombre_visible": "Juan P.",
+      "email": "juan@asesores.local",
+      "whatsapp": "+5492235550101",
+      "oficios": [
+        "pintura"
+      ],
+      "zonas": [
+        "mar_chiquita"
+      ],
+      "totp_activo": true,
+      "consentimiento_asesor": {
+        "version": "2026-10-08.1",
+        "aceptado_en": "2026-10-01T14:20:00Z"
+      },
+      "creado_en": "2026-10-01T14:20:00Z",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "PerfilAsesor",
+    "caso": "falta \"asesor_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "rol": "asesor",
+      "nombre_visible": "Juan P.",
+      "email": "juan@asesores.local",
+      "whatsapp": "+5492235550101",
+      "oficios": [
+        "pintura"
+      ],
+      "zonas": [
+        "mar_chiquita"
+      ],
+      "totp_activo": true,
+      "consentimiento_asesor": {
+        "version": "2026-10-08.1",
+        "aceptado_en": "2026-10-01T14:20:00Z"
+      },
+      "creado_en": "2026-10-01T14:20:00Z"
+    }
+  },
+  {
+    "esquema": "PerfilAsesor",
+    "caso": "falta \"rol\"",
+    "falla_por": "required",
+    "instancia": {
+      "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+      "nombre_visible": "Juan P.",
+      "email": "juan@asesores.local",
+      "whatsapp": "+5492235550101",
+      "oficios": [
+        "pintura"
+      ],
+      "zonas": [
+        "mar_chiquita"
+      ],
+      "totp_activo": true,
+      "consentimiento_asesor": {
+        "version": "2026-10-08.1",
+        "aceptado_en": "2026-10-01T14:20:00Z"
+      },
+      "creado_en": "2026-10-01T14:20:00Z"
+    }
+  },
+  {
+    "esquema": "PerfilAsesor",
+    "caso": "zona \"otra\" en el perfil",
+    "falla_por": "enum",
+    "instancia": {
+      "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+      "rol": "asesor",
+      "nombre_visible": "Juan P.",
+      "email": "juan@asesores.local",
+      "whatsapp": "+5492235550101",
+      "oficios": [
+        "pintura"
+      ],
+      "zonas": [
+        "otra"
+      ],
+      "totp_activo": true,
+      "consentimiento_asesor": {
+        "version": "2026-10-08.1",
+        "aceptado_en": "2026-10-01T14:20:00Z"
+      },
+      "creado_en": "2026-10-01T14:20:00Z"
+    }
+  }
+]

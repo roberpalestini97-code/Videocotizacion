@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConsumoDiario",
+  "description": "Consumo de un día (contrato 0.1.3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fecha",
+    "segundos",
+    "sesiones",
+    "cotizaciones_emitidas"
+  ],
+  "properties": {
+    "fecha": {
+      "type": "string",
+      "format": "date"
+    },
+    "segundos": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 432000
+    },
+    "sesiones": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000
+    },
+    "cotizaciones_emitidas": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000
+    }
+  },
+  "examples": [
+    {
+      "fecha": "2026-10-08",
+      "segundos": 1800,
+      "sesiones": 3,
+      "cotizaciones_emitidas": 2
+    }
+  ]
+}

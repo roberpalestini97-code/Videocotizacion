@@ -1,0 +1,1590 @@
+[
+  {
+    "id": "V001",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerEnlacePublico con credencial publica",
+    "operacion": "leerEnlacePublico",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "profesional": {
+          "nombre_visible": "Juan P.",
+          "oficios": [
+            "pintura"
+          ],
+          "zonas": [
+            "mar_chiquita"
+          ]
+        },
+        "avatares": [
+          {
+            "avatar_id": "av_obrero_casco",
+            "nombre": "Juan",
+            "modos": [
+              "3d",
+              "clips"
+            ],
+            "descripcion_accesible": "Trabajador con casco amarillo y ropa de obra"
+          }
+        ],
+        "aviso_privacidad": {
+          "version": "2026-10-08.1",
+          "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "camara_obligatoria": true,
+        "fotograma": {
+          "formato": "image/jpeg",
+          "lado_max_px": 1024,
+          "bytes_max": 131072,
+          "intervalo_min_ms": 3000,
+          "max_por_sesion": 400
+        },
+        "asistente_automatico": true
+      }
+    }
+  },
+  {
+    "id": "V013",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "emitirDesafio con credencial publica",
+    "operacion": "emitirDesafio",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "desafio": "dsf_KNUl317y39WaG4rBFjMfm4OxyKdm1uaWKlYzmaQcNNz",
+        "mecanismo": "prueba_de_trabajo_sha256",
+        "dificultad_bits": 16,
+        "vence_en": "2026-10-08T13:02:00Z",
+        "vence_en_s": 120,
+        "provisorio": true
+      }
+    }
+  },
+  {
+    "id": "V021",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerAvisoPrivacidad con credencial publica",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "version": "2026-10-08.1",
+        "vigente_desde": "2026-10-08",
+        "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1",
+        "resumen": "Usamos tu imagen y tu voz solo durante la llamada para cotizar el trabajo; no guardamos fotogramas ni audio.",
+        "incisos": [
+          "finalidad",
+          "destinatarios",
+          "responsable",
+          "obligatoriedad",
+          "consecuencias",
+          "derechos_arco",
+          "transferencia_internacional",
+          "autoridad_de_control"
+        ],
+        "a_validar_con_abogado": true
+      }
+    }
+  },
+  {
+    "id": "V022",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerAvisoPrivacidad con credencial secreta",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "version": "2026-10-08.1",
+        "vigente_desde": "2026-10-08",
+        "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1",
+        "resumen": "Usamos tu imagen y tu voz solo durante la llamada para cotizar el trabajo; no guardamos fotogramas ni audio.",
+        "incisos": [
+          "finalidad",
+          "destinatarios",
+          "responsable",
+          "obligatoriedad",
+          "consecuencias",
+          "derechos_arco",
+          "transferencia_internacional",
+          "autoridad_de_control"
+        ],
+        "a_validar_con_abogado": true
+      }
+    }
+  },
+  {
+    "id": "V031",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "crearSesion con credencial publica",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_zqH_QeT8gzh36yFkxFok1WZ00X8bLivXDJYsocQursD",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 20,
+          "duracion_maxima_s": 900,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V032",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "crearSesion con credencial secreta",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_zqH_QeT8gzh36yFkxFok1WZ00X8bLivXDJYsocQursD",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 20,
+          "duracion_maxima_s": 900,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V064",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerSesion con credencial secreta",
+    "operacion": "leerSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "estado": "creada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "duracion_s": 0
+      }
+    }
+  },
+  {
+    "id": "V065",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerSesion con credencial sesion",
+    "operacion": "leerSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "estado": "creada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "duracion_s": 0
+      }
+    }
+  },
+  {
+    "id": "V078",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "registrarConsentimiento con credencial sesion",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "consentimiento_id": "cns_M4D399VWAKXGCWFXMS45D8EN72",
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "aviso_version": "2026-10-08.1",
+        "registrado_en": "2026-10-08T13:01:00Z",
+        "estado_sesion": "consentida"
+      }
+    }
+  },
+  {
+    "id": "V097",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "emitirTokenMedios con credencial sesion",
+    "operacion": "emitirTokenMedios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "consentida",
+        "cotizacion_emitida": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+        "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
+        "vence_en": "2026-10-08T13:02:00Z",
+        "vence_en_s": 30,
+        "un_solo_uso": true,
+        "protocolo_eventos": "vc-eventos.borrador.1"
+      }
+    }
+  },
+  {
+    "id": "V106",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "cerrarSesion con credencial sesion",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "estado": "cerrada",
+        "motivo_cierre": "completada",
+        "cerrada_en": "2026-10-08T13:15:00Z",
+        "duracion_s": 300,
+        "cotizacion_id": "cot_9DQCFQZZ7H1RQ0CKK4EQF7C54A",
+        "derivacion": {
+          "codigo_referencia": "VC-6X0B-5RD4NC",
+          "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+          "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+          "generada_en": "2026-10-08T13:25:00Z"
+        }
+      }
+    }
+  },
+  {
+    "id": "V107",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "cerrarSesion con credencial secreta",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "estado": "cerrada",
+        "motivo_cierre": "completada",
+        "cerrada_en": "2026-10-08T13:15:00Z",
+        "duracion_s": 300,
+        "cotizacion_id": "cot_9DQCFQZZ7H1RQ0CKK4EQF7C54A",
+        "derivacion": {
+          "codigo_referencia": "VC-6X0B-5RD4NC",
+          "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+          "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+          "generada_en": "2026-10-08T13:25:00Z"
+        }
+      }
+    }
+  },
+  {
+    "id": "V125",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerCotizacion con credencial sesion",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+        "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+        "emitida_en": "2026-10-08T13:20:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "mar_chiquita",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 1250,
+            "precio_unitario_centavos": 185000,
+            "importe_centavos": 2312500
+          }
+        ],
+        "total_centavos": 2312500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V126",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerCotizacion con credencial secreta",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+        "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+        "emitida_en": "2026-10-08T13:20:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "mar_chiquita",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 1250,
+            "precio_unitario_centavos": 185000,
+            "importe_centavos": 2312500
+          }
+        ],
+        "total_centavos": 2312500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V139",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerDerivacion con credencial sesion",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+        "generada_en": "2026-10-08T13:25:00Z"
+      }
+    }
+  },
+  {
+    "id": "V140",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerDerivacion con credencial secreta",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+        "generada_en": "2026-10-08T13:25:00Z"
+      }
+    }
+  },
+  {
+    "id": "V153",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "registrarContacto con credencial sesion",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "registrado_en": "2026-10-08T13:16:00Z",
+        "aviso_version": "2026-10-08.1",
+        "retencion_dias": 90
+      }
+    }
+  },
+  {
+    "id": "V174",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "crearSolicitudArco con credencial secreta",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      }
+    },
+    "esperado": {
+      "status": 202,
+      "cuerpo": {
+        "solicitud_id": "arc_FYKETHGSSBDVH2B6JPQHGKJG29",
+        "estado": "recibida",
+        "recibida_en": "2026-10-08T13:30:00Z",
+        "plazo_vence_en": "2026-10-18T13:30:00Z",
+        "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal."
+      }
+    }
+  },
+  {
+    "id": "V192",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerRetencion con credencial ninguna",
+    "operacion": "leerRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "version": "2026-10-08.1",
+        "a_validar_con_abogado": true,
+        "reglas": [
+          {
+            "tipo_dato": "consulta_y_presupuesto",
+            "finalidad": "Backoffice y seguimiento del presupuesto",
+            "persistido": true,
+            "plazo_dias": 365,
+            "configurable": true
+          },
+          {
+            "tipo_dato": "contacto_cliente",
+            "finalidad": "Que el profesional te contacte",
+            "persistido": true,
+            "plazo_dias": 90,
+            "configurable": true
+          },
+          {
+            "tipo_dato": "registro_lecturas",
+            "finalidad": "Trazabilidad de accesos",
+            "persistido": true,
+            "plazo_dias": 730,
+            "configurable": true
+          },
+          {
+            "tipo_dato": "consentimientos",
+            "finalidad": "Prueba del consentimiento",
+            "persistido": true,
+            "plazo_dias": 730,
+            "configurable": true
+          },
+          {
+            "tipo_dato": "solicitudes_arco",
+            "finalidad": "Constancia de derechos ARCO (anonimizada)",
+            "persistido": true,
+            "plazo_dias": 730,
+            "configurable": true
+          },
+          {
+            "tipo_dato": "perfil_asesor",
+            "finalidad": "Operar el panel",
+            "persistido": true,
+            "plazo_dias": 365,
+            "configurable": true
+          },
+          {
+            "tipo_dato": "fotogramas",
+            "finalidad": "Extraer datos del trabajo en memoria",
+            "persistido": false,
+            "plazo_dias": 0,
+            "configurable": false
+          },
+          {
+            "tipo_dato": "audio",
+            "finalidad": "Transcripción en memoria",
+            "persistido": false,
+            "plazo_dias": 0,
+            "configurable": false
+          },
+          {
+            "tipo_dato": "transcripcion_completa",
+            "finalidad": "No se guarda (ADR 0004)",
+            "persistido": false,
+            "plazo_dias": 0,
+            "configurable": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "V194",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerConsumo con credencial secreta",
+    "operacion": "leerConsumo",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "ambito": "tenant",
+        "periodo": "2026-10",
+        "segundos_usados": 0,
+        "segundos_tope": 30000,
+        "simultaneas_en_curso": 0,
+        "simultaneas_tope": 5,
+        "alerta": "ninguna",
+        "diario": [],
+        "actualizado_en": "2026-10-08T13:05:00Z"
+      }
+    }
+  },
+  {
+    "id": "V201",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerVersion con credencial ninguna",
+    "operacion": "leerVersion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "api": "0.1.4-borrador",
+        "estado_api": "borrador",
+        "eventos_sesion": {
+          "version": "vc-eventos.borrador.1",
+          "estado": "borrador"
+        },
+        "deprecaciones": []
+      }
+    }
+  },
+  {
+    "id": "V203",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerCatalogoTextos con credencial ninguna",
+    "operacion": "leerCatalogoTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "version": "1.3.0",
+        "idioma": "es-AR",
+        "textos": {
+          "widget.boton_iniciar": "Iniciar VideoCotización",
+          "widget.asistente_automatico": "Te atiende un asistente automático.",
+          "widget.presupuesto_orientativo": "Presupuesto orientativo: lo confirma el profesional.",
+          "panel.menu.perfil": "Perfil",
+          "panel.menu.mis_cotizaciones": "Mis cotizaciones",
+          "panel.menu.registros": "Registros",
+          "panel.contacto_disponible": "Dejó contacto",
+          "error.solicitud_invalida": "No pudimos leer el pedido. Revisá los datos e intentá de nuevo.",
+          "error.validacion_fallida": "Hay datos que no cumplen el formato esperado.",
+          "error.cuerpo_demasiado_grande": "El pedido supera el tamaño máximo permitido.",
+          "error.tipo_de_contenido_no_soportado": "El formato enviado no está soportado.",
+          "error.credencial_ausente": "Falta la credencial de acceso.",
+          "error.credencial_invalida": "La credencial no es válida o fue revocada.",
+          "error.credenciales_incorrectas": "El email o la contraseña no son correctos.",
+          "error.totp_invalido": "El código de verificación no es correcto o ya se usó.",
+          "error.sesion_vencida": "Tu sesión venció. Ingresá de nuevo.",
+          "error.reautenticacion_requerida": "Para esta acción tenés que volver a ingresar tu contraseña y código.",
+          "error.origen_no_permitido": "Este sitio no está autorizado para usar la clave.",
+          "error.desafio_invalido": "No pudimos verificar el navegador. Recargá la página e intentá de nuevo.",
+          "error.clave_secreta_desde_navegador": "La clave secreta no se puede usar desde un navegador.",
+          "error.alcance_insuficiente": "La credencial no permite esta operación.",
+          "error.csrf_invalido": "No pudimos verificar el pedido. Recargá el panel.",
+          "error.no_encontrado": "No encontramos lo que buscás.",
+          "error.version_retirada": "Esta versión de la API ya no está disponible.",
+          "error.estado_invalido": "La operación no corresponde en el estado actual.",
+          "error.consentimiento_requerido": "Antes de empezar tenés que aceptar el aviso de privacidad.",
+          "error.sesion_cerrada": "La videocotización ya terminó.",
+          "error.cotizacion_no_emitida": "El presupuesto todavía no se emitió.",
+          "error.contacto_ya_registrado": "Ya dejaste tus datos de contacto para esta consulta.",
+          "error.limite_de_tasa": "Hiciste muchos pedidos seguidos. Esperá un momento.",
+          "error.cuota_agotada": "Por ahora no hay cupo para videocotizaciones. Escribinos por WhatsApp.",
+          "error.simultaneas_agotadas": "En este momento hay muchas videocotizaciones en curso. Probá en unos minutos.",
+          "error.intentos_excedidos": "Hubo demasiados intentos. Esperá antes de volver a probar.",
+          "error.limite_lecturas_contacto": "Llegaste al límite diario de lecturas de contactos.",
+          "error.error_interno": "Tuvimos un problema. Intentá de nuevo más tarde.",
+          "error.proveedor_no_disponible": "Un servicio que usamos no responde. Intentá de nuevo en unos minutos.",
+          "error.servicio_no_disponible": "El servicio no está disponible en este momento.",
+          "motivo.completada": "Completada",
+          "motivo.cliente_cerro": "El cliente cortó",
+          "motivo.sin_voz": "Cortada por silencio",
+          "motivo.sin_camara": "Sin cámara",
+          "motivo.sin_consentimiento": "Sin consentimiento",
+          "motivo.duracion_maxima": "Duración máxima",
+          "motivo.cuota_agotada": "Cupo agotado",
+          "motivo.desafio_invalido": "Verificación fallida",
+          "motivo.error_proveedor": "Falla de un servicio externo",
+          "motivo.error_interno": "Error interno",
+          "oficio.pintura": "Pintura",
+          "oficio.jardineria": "Jardinería",
+          "oficio.reparaciones": "Reparaciones",
+          "oficio.mantenimiento": "Mantenimiento",
+          "oficio.limpieza": "Limpieza",
+          "zona.mar_chiquita": "Mar Chiquita",
+          "zona.cobo": "Cobo",
+          "zona.santa_clara": "Santa Clara del Mar",
+          "zona.parque_lago": "Parque Lago",
+          "zona.otra": "fuera de zona"
+        }
+      }
+    }
+  },
+  {
+    "id": "V205",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "iniciarSesionPanel con credencial ninguna",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "email": "juan@asesores.local",
+        "contrasena": "una-frase-larga-de-prueba-0"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "paso": "totp",
+        "csrf_token": "1XSJcMMHC-cb3dy6BpcSlzubanTcfMpSi7NJNQzCB1U",
+        "vence_en": "2026-10-08T13:05:00Z"
+      }
+    }
+  },
+  {
+    "id": "V213",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "verificarTotp con credencial panel",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor": {
+          "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+          "nombre_visible": "Juan P.",
+          "rol": "asesor"
+        },
+        "csrf_token": "rCcAVgku2ce_lHlEGHVjb0BzZaWS3a3Bgz4Crace5rv",
+        "vence_inactividad_en": "2026-10-08T13:30:00Z",
+        "vence_absoluto_en": "2026-10-09T01:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "V227",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerSesionPanel con credencial panel",
+    "operacion": "leerSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor": {
+          "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+          "nombre_visible": "Juan P.",
+          "rol": "asesor"
+        },
+        "csrf_token": "rCcAVgku2ce_lHlEGHVjb0BzZaWS3a3Bgz4Crace5rv",
+        "vence_inactividad_en": "2026-10-08T13:30:00Z",
+        "vence_absoluto_en": "2026-10-09T01:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "V232",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "cerrarSesionPanel con credencial panel",
+    "operacion": "cerrarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true
+    },
+    "esperado": {
+      "status": 204
+    }
+  },
+  {
+    "id": "V239",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "reautenticar con credencial panel",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "valida_hasta": "2026-10-08T13:05:00Z",
+        "valida_s": 300
+      }
+    }
+  },
+  {
+    "id": "V252",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerPerfil con credencial panel",
+    "operacion": "leerPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+        "rol": "asesor",
+        "nombre_visible": "Juan P.",
+        "email": "juan@asesores.local",
+        "whatsapp": "+5492235550101",
+        "oficios": [
+          "pintura"
+        ],
+        "zonas": [
+          "mar_chiquita"
+        ],
+        "totp_activo": true,
+        "consentimiento_asesor": {
+          "version": "2026-10-08.1",
+          "aceptado_en": "2026-10-01T14:20:00Z"
+        },
+        "creado_en": "2026-10-01T14:20:00Z"
+      }
+    }
+  },
+  {
+    "id": "V257",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "actualizarPerfil con credencial panel",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "nombre_visible": "Juan Pérez"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+        "rol": "asesor",
+        "nombre_visible": "Juan P.",
+        "email": "juan@asesores.local",
+        "whatsapp": "+5492235550101",
+        "oficios": [
+          "pintura"
+        ],
+        "zonas": [
+          "mar_chiquita"
+        ],
+        "totp_activo": true,
+        "consentimiento_asesor": {
+          "version": "2026-10-08.1",
+          "aceptado_en": "2026-10-01T14:20:00Z"
+        },
+        "creado_en": "2026-10-01T14:20:00Z"
+      }
+    }
+  },
+  {
+    "id": "V272",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "cambiarContrasena con credencial panel",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-0"
+      }
+    },
+    "esperado": {
+      "status": 204
+    }
+  },
+  {
+    "id": "V284",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "listarMisCotizaciones con credencial panel",
+    "operacion": "listarMisCotizaciones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "items": []
+      }
+    }
+  },
+  {
+    "id": "V289",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerMiCotizacion con credencial panel",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 780,
+        "datos_extraidos": {
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "pintura_interior",
+          "superficie_centesimas_m2": 1250,
+          "interior_exterior": "interior",
+          "altura": "planta_baja",
+          "estado_superficie": "bueno",
+          "urgencia": "baja",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de pintura en Mar Chiquita.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_pintura@755b9690b387",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+          "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+          "emitida_en": "2026-10-08T13:20:00Z",
+          "moneda": "ARS",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_interior",
+              "descripcion": "Pintura interior látex, dos manos",
+              "unidad": "m2",
+              "cantidad_centesimas": 1250,
+              "precio_unitario_centavos": 185000,
+              "importe_centavos": 2312500
+            }
+          ],
+          "total_centavos": 2312500,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V298",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerContactoCliente con credencial panel",
+    "operacion": "leerContactoCliente",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "nombre": "Marta",
+        "consentido_en": "2026-10-08T13:16:00Z",
+        "aviso_version": "2026-10-08.1",
+        "lectura": {
+          "registro_id": "reg_59FDJY04C2H3FS1NJ57JP3BY9V",
+          "lecturas_restantes_hoy": 20
+        },
+        "telefono": "+5492235551000"
+      }
+    }
+  },
+  {
+    "id": "V307",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "listarRegistros con credencial panel",
+    "operacion": "listarRegistros",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "items": []
+      }
+    }
+  },
+  {
+    "id": "V312",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerConsumoPanel con credencial panel",
+    "operacion": "leerConsumoPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "ambito": "asesor",
+        "periodo": "2026-10",
+        "segundos_usados": 0,
+        "segundos_tope": 30000,
+        "simultaneas_en_curso": 0,
+        "simultaneas_tope": 5,
+        "alerta": "ninguna",
+        "diario": [],
+        "actualizado_en": "2026-10-08T13:05:00Z"
+      }
+    }
+  },
+  {
+    "id": "V317",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "leerEnlaceCompartir con credencial panel",
+    "operacion": "leerEnlaceCompartir",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "url": "https://cotizar.videocotizacion.local/c/RYZ4c3qAHifF6Rh4XEo3fG",
+        "texto_compartir": "Pedí tu presupuesto por videollamada: https://cotizar.videocotizacion.local/c/RYZ4c3qAHifF6Rh4XEo3fG"
+      }
+    }
+  },
+  {
+    "id": "V322",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "rotarEnlace con credencial panel",
+    "operacion": "rotarEnlace",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "id_publico": "WxoyJSebjQ2qgzlPxgXnjq",
+        "url": "https://cotizar.videocotizacion.local/c/WxoyJSebjQ2qgzlPxgXnjq",
+        "texto_compartir": "Pedí tu presupuesto por videollamada: https://cotizar.videocotizacion.local/c/WxoyJSebjQ2qgzlPxgXnjq",
+        "rotado_en": "2026-10-08T12:30:00Z"
+      }
+    }
+  },
+  {
+    "id": "V330",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "listarClavesWidget con credencial panel",
+    "operacion": "listarClavesWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "rol": "administrador"
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "items": []
+      }
+    }
+  },
+  {
+    "id": "V336",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "crearClaveWidget con credencial panel",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "clave": {
+          "clave_id": "cpw_F47FE4NAE2YBQ039R346YGWPPB",
+          "nombre": "Sitio principal",
+          "prefijo": "vc_pub_NlwcBG",
+          "origins": [
+            "https://cotizar.videocotizacion.local"
+          ],
+          "estado": "activa",
+          "creada_en": "2026-10-05T01:40:00Z"
+        },
+        "valor": "vc_pub_NlwcBGzvreOVir5L_PAP9tzo0DeWwXpwIKaHN-Md",
+        "se_muestra_una_sola_vez": true
+      }
+    }
+  },
+  {
+    "id": "V355",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "revocarClaveWidget con credencial panel",
+    "operacion": "revocarClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 204
+    }
+  },
+  {
+    "id": "V367",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "exportarMiCuenta con credencial panel",
+    "operacion": "exportarMiCuenta",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "formato_version": "1",
+        "generada_en": "2026-10-08T13:03:00Z",
+        "perfil": {
+          "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+          "rol": "asesor",
+          "nombre_visible": "Juan P.",
+          "email": "juan@asesores.local",
+          "whatsapp": "+5492235550101",
+          "oficios": [
+            "pintura"
+          ],
+          "zonas": [
+            "mar_chiquita"
+          ],
+          "totp_activo": true,
+          "consentimiento_asesor": {
+            "version": "2026-10-08.1",
+            "aceptado_en": "2026-10-01T14:20:00Z"
+          },
+          "creado_en": "2026-10-01T14:20:00Z"
+        },
+        "lecturas": [
+          {
+            "registro_id": "reg_MQR6KABWWFZXSKRH3NTB1ZW122",
+            "ocurrido_en": "2026-10-08T13:00:00Z",
+            "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+            "accion": "ver_detalle",
+            "recurso_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38"
+          },
+          {
+            "registro_id": "reg_4C5GRPHASN3K3ETR76NMDDTFP6",
+            "ocurrido_en": "2026-10-08T12:53:00Z",
+            "asesor_id": "ase_3JQ9QRPYDHR9HN9R6SQDKPSSW5",
+            "accion": "ver_contacto",
+            "recurso_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H"
+          }
+        ],
+        "consumo": {
+          "ambito": "asesor",
+          "periodo": "2026-10",
+          "segundos_usados": 0,
+          "segundos_tope": 30000,
+          "simultaneas_en_curso": 0,
+          "simultaneas_tope": 5,
+          "alerta": "ninguna",
+          "diario": [],
+          "actualizado_en": "2026-10-08T13:05:00Z"
+        }
+      }
+    }
+  }
+]

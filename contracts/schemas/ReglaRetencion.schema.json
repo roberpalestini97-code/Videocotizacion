@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReglaRetencion",
+  "description": "Regla de retención por tipo de dato (R21, R43). plazo_dias 0 y persistido false = nunca se guarda.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tipo_dato",
+    "finalidad",
+    "persistido",
+    "plazo_dias",
+    "configurable"
+  ],
+  "properties": {
+    "tipo_dato": {
+      "type": "string",
+      "enum": [
+        "consulta_y_presupuesto",
+        "contacto_cliente",
+        "registro_lecturas",
+        "consentimientos",
+        "solicitudes_arco",
+        "fotogramas",
+        "audio",
+        "transcripcion_completa",
+        "perfil_asesor"
+      ]
+    },
+    "finalidad": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "persistido": {
+      "type": "boolean"
+    },
+    "plazo_dias": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3650
+    },
+    "configurable": {
+      "type": "boolean"
+    }
+  },
+  "examples": [
+    {
+      "tipo_dato": "fotogramas",
+      "finalidad": "Extraer datos del trabajo en memoria",
+      "persistido": false,
+      "plazo_dias": 0,
+      "configurable": false
+    }
+  ]
+}

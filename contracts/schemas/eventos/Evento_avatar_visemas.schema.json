@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evento_avatar_visemas",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Servidor → cliente: visemas del audio del turno.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "tipo",
+    "seq",
+    "ts",
+    "datos"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "const": "avatar.visemas"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts": {
+      "$ref": "../FechaHora.schema.json"
+    },
+    "datos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "turno",
+        "items"
+      ],
+      "properties": {
+        "turno": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "v",
+              "t_ms",
+              "d_ms"
+            ],
+            "properties": {
+              "v": {
+                "type": "string",
+                "enum": [
+                  "sil",
+                  "PP",
+                  "FF",
+                  "TH",
+                  "DD",
+                  "kk",
+                  "CH",
+                  "SS",
+                  "nn",
+                  "RR",
+                  "aa",
+                  "E",
+                  "I",
+                  "O",
+                  "U"
+                ]
+              },
+              "t_ms": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 600000
+              },
+              "d_ms": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5000
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 2000
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "avatar.visemas",
+      "seq": 4,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 1,
+        "items": [
+          {
+            "v": "sil",
+            "t_ms": 0,
+            "d_ms": 80
+          },
+          {
+            "v": "PP",
+            "t_ms": 80,
+            "d_ms": 60
+          },
+          {
+            "v": "aa",
+            "t_ms": 140,
+            "d_ms": 120
+          },
+          {
+            "v": "E",
+            "t_ms": 260,
+            "d_ms": 90
+          }
+        ]
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "avatar.visemas",
+      "seq": 5,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 2,
+        "items": [
+          {
+            "v": "sil",
+            "t_ms": 0,
+            "d_ms": 80
+          },
+          {
+            "v": "PP",
+            "t_ms": 80,
+            "d_ms": 60
+          },
+          {
+            "v": "aa",
+            "t_ms": 140,
+            "d_ms": 120
+          },
+          {
+            "v": "E",
+            "t_ms": 260,
+            "d_ms": 90
+          }
+        ]
+      }
+    }
+  ]
+}

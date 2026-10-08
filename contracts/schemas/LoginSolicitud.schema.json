@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LoginSolicitud",
+  "description": "Primer paso del login del panel. Mensaje de error uniforme (R37).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "email",
+    "contrasena"
+  ],
+  "properties": {
+    "email": {
+      "$ref": "Email.schema.json"
+    },
+    "contrasena": {
+      "type": "string",
+      "minLength": 12,
+      "maxLength": 256,
+      "writeOnly": true
+    }
+  },
+  "examples": [
+    {
+      "email": "juan@asesores.local",
+      "contrasena": "una-frase-larga-de-prueba-0"
+    }
+  ]
+}

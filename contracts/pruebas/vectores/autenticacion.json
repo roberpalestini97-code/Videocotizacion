@@ -1,0 +1,3350 @@
+[
+  {
+    "id": "V002",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerEnlacePublico sin credencial",
+    "operacion": "leerEnlacePublico",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V003",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "leerEnlacePublico con credencial revocada",
+    "operacion": "leerEnlacePublico",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A",
+        "estado": "revocada"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V004",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R5"
+    ],
+    "descripcion": "leerEnlacePublico con token de sesión",
+    "operacion": "leerEnlacePublico",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V014",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "emitirDesafio sin credencial",
+    "operacion": "emitirDesafio",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V015",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "emitirDesafio con credencial revocada",
+    "operacion": "emitirDesafio",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A",
+        "estado": "revocada"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V016",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R5"
+    ],
+    "descripcion": "emitirDesafio con token de sesión",
+    "operacion": "emitirDesafio",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V023",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerAvisoPrivacidad sin credencial",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V024",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "leerAvisoPrivacidad con credencial revocada",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A",
+        "estado": "revocada"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V025",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R5"
+    ],
+    "descripcion": "leerAvisoPrivacidad con token de sesión",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V026",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R2"
+    ],
+    "descripcion": "leerAvisoPrivacidad con clave secreta desde navegador (Origin presente)",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "clave_secreta_desde_navegador"
+    }
+  },
+  {
+    "id": "V033",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "crearSesion sin credencial",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V034",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "crearSesion con credencial revocada",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A",
+        "estado": "revocada"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V035",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R5"
+    ],
+    "descripcion": "crearSesion con token de sesión",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V036",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R2"
+    ],
+    "descripcion": "crearSesion con clave secreta desde navegador (Origin presente)",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "clave_secreta_desde_navegador",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V066",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerSesion sin credencial",
+    "operacion": "leerSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V067",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "leerSesion con credencial revocada",
+    "operacion": "leerSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A",
+        "estado": "revocada"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V068",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerSesion con clave pública (solo crea sesión)",
+    "operacion": "leerSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V069",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R2"
+    ],
+    "descripcion": "leerSesion con clave secreta desde navegador (Origin presente)",
+    "operacion": "leerSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "clave_secreta_desde_navegador"
+    }
+  },
+  {
+    "id": "V079",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "registrarConsentimiento sin credencial",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V080",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "registrarConsentimiento con credencial revocada",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1",
+        "estado": "revocada"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V081",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "registrarConsentimiento con clave pública (solo crea sesión)",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V098",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "emitirTokenMedios sin credencial",
+    "operacion": "emitirTokenMedios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "consentida",
+        "cotizacion_emitida": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V099",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "emitirTokenMedios con credencial revocada",
+    "operacion": "emitirTokenMedios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1",
+        "estado": "revocada"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "consentida",
+        "cotizacion_emitida": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V100",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "emitirTokenMedios con clave pública (solo crea sesión)",
+    "operacion": "emitirTokenMedios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "consentida",
+        "cotizacion_emitida": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V108",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "cerrarSesion sin credencial",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V109",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "cerrarSesion con credencial revocada",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1",
+        "estado": "revocada"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V110",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "cerrarSesion con clave pública (solo crea sesión)",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V111",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R2"
+    ],
+    "descripcion": "cerrarSesion con clave secreta desde navegador (Origin presente)",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "clave_secreta_desde_navegador"
+    }
+  },
+  {
+    "id": "V127",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerCotizacion sin credencial",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V128",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "leerCotizacion con credencial revocada",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1",
+        "estado": "revocada"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V129",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerCotizacion con clave pública (solo crea sesión)",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V130",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R2"
+    ],
+    "descripcion": "leerCotizacion con clave secreta desde navegador (Origin presente)",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "clave_secreta_desde_navegador"
+    }
+  },
+  {
+    "id": "V141",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerDerivacion sin credencial",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V142",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "leerDerivacion con credencial revocada",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1",
+        "estado": "revocada"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V143",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerDerivacion con clave pública (solo crea sesión)",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V144",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R2"
+    ],
+    "descripcion": "leerDerivacion con clave secreta desde navegador (Origin presente)",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "clave_secreta_desde_navegador"
+    }
+  },
+  {
+    "id": "V154",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "registrarContacto sin credencial",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V155",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "registrarContacto con credencial revocada",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1",
+        "estado": "revocada"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V156",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "registrarContacto con clave pública (solo crea sesión)",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V175",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "crearSolicitudArco sin credencial",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V176",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "crearSolicitudArco con credencial revocada",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A",
+        "estado": "revocada"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V177",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "crearSolicitudArco con clave pública (solo crea sesión)",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V178",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R5"
+    ],
+    "descripcion": "crearSolicitudArco con token de sesión",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V179",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R2"
+    ],
+    "descripcion": "crearSolicitudArco con clave secreta desde navegador (Origin presente)",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "clave_secreta_desde_navegador"
+    }
+  },
+  {
+    "id": "V195",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerConsumo sin credencial",
+    "operacion": "leerConsumo",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V196",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R1"
+    ],
+    "descripcion": "leerConsumo con credencial revocada",
+    "operacion": "leerConsumo",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A",
+        "estado": "revocada"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_invalida"
+    }
+  },
+  {
+    "id": "V197",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerConsumo con clave pública (solo crea sesión)",
+    "operacion": "leerConsumo",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V198",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R5"
+    ],
+    "descripcion": "leerConsumo con token de sesión",
+    "operacion": "leerConsumo",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V199",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R2"
+    ],
+    "descripcion": "leerConsumo con clave secreta desde navegador (Origin presente)",
+    "operacion": "leerConsumo",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "clave_secreta_desde_navegador"
+    }
+  },
+  {
+    "id": "V214",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "verificarTotp sin credencial",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V215",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "verificarTotp con sesión del panel vencida",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V216",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "verificarTotp con clave secreta en vez de cookie",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V217",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "verificarTotp sin X-CSRF-Token",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": false,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "csrf_invalido"
+    }
+  },
+  {
+    "id": "V218",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "verificarTotp con Origin ajeno al panel",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "ajeno",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V228",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerSesionPanel sin credencial",
+    "operacion": "leerSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V229",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "leerSesionPanel con sesión del panel vencida",
+    "operacion": "leerSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V230",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerSesionPanel con clave secreta en vez de cookie",
+    "operacion": "leerSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V233",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "cerrarSesionPanel sin credencial",
+    "operacion": "cerrarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V234",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "cerrarSesionPanel con sesión del panel vencida",
+    "operacion": "cerrarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "csrf": true
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V235",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "cerrarSesionPanel con clave secreta en vez de cookie",
+    "operacion": "cerrarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V236",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "cerrarSesionPanel sin X-CSRF-Token",
+    "operacion": "cerrarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": false
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "csrf_invalido"
+    }
+  },
+  {
+    "id": "V237",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "cerrarSesionPanel con Origin ajeno al panel",
+    "operacion": "cerrarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "ajeno",
+      "csrf": true
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V240",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "reautenticar sin credencial",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V241",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "reautenticar con sesión del panel vencida",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V242",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "reautenticar con clave secreta en vez de cookie",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V243",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "reautenticar sin X-CSRF-Token",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": false,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "csrf_invalido"
+    }
+  },
+  {
+    "id": "V244",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "reautenticar con Origin ajeno al panel",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "ajeno",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V253",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerPerfil sin credencial",
+    "operacion": "leerPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V254",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "leerPerfil con sesión del panel vencida",
+    "operacion": "leerPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V255",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerPerfil con clave secreta en vez de cookie",
+    "operacion": "leerPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V258",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "actualizarPerfil sin credencial",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "nombre_visible": "Juan Pérez"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V259",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "actualizarPerfil con sesión del panel vencida",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "nombre_visible": "Juan Pérez"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V260",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "actualizarPerfil con clave secreta en vez de cookie",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "nombre_visible": "Juan Pérez"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V261",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "actualizarPerfil sin X-CSRF-Token",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": false,
+      "cuerpo": {
+        "nombre_visible": "Juan Pérez"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "csrf_invalido"
+    }
+  },
+  {
+    "id": "V262",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "actualizarPerfil con Origin ajeno al panel",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "ajeno",
+      "csrf": true,
+      "cuerpo": {
+        "nombre_visible": "Juan Pérez"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V273",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "cambiarContrasena sin credencial",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-0"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V274",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "cambiarContrasena con sesión del panel vencida",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-0"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V275",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "cambiarContrasena con clave secreta en vez de cookie",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-0"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V276",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "cambiarContrasena sin X-CSRF-Token",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": false,
+      "reautenticado": true,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-0"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "csrf_invalido"
+    }
+  },
+  {
+    "id": "V277",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "cambiarContrasena con Origin ajeno al panel",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "ajeno",
+      "csrf": true,
+      "reautenticado": true,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-0"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V278",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R39"
+    ],
+    "descripcion": "cambiarContrasena sin reautenticación reciente",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": false,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-0"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "reautenticacion_requerida"
+    }
+  },
+  {
+    "id": "V285",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "listarMisCotizaciones sin credencial",
+    "operacion": "listarMisCotizaciones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V286",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "listarMisCotizaciones con sesión del panel vencida",
+    "operacion": "listarMisCotizaciones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V287",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "listarMisCotizaciones con clave secreta en vez de cookie",
+    "operacion": "listarMisCotizaciones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V290",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerMiCotizacion sin credencial",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V291",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "leerMiCotizacion con sesión del panel vencida",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V292",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerMiCotizacion con clave secreta en vez de cookie",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V299",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerContactoCliente sin credencial",
+    "operacion": "leerContactoCliente",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V300",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "leerContactoCliente con sesión del panel vencida",
+    "operacion": "leerContactoCliente",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V301",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerContactoCliente con clave secreta en vez de cookie",
+    "operacion": "leerContactoCliente",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V308",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "listarRegistros sin credencial",
+    "operacion": "listarRegistros",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V309",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "listarRegistros con sesión del panel vencida",
+    "operacion": "listarRegistros",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V310",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "listarRegistros con clave secreta en vez de cookie",
+    "operacion": "listarRegistros",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V313",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerConsumoPanel sin credencial",
+    "operacion": "leerConsumoPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V314",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "leerConsumoPanel con sesión del panel vencida",
+    "operacion": "leerConsumoPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V315",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerConsumoPanel con clave secreta en vez de cookie",
+    "operacion": "leerConsumoPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V318",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "leerEnlaceCompartir sin credencial",
+    "operacion": "leerEnlaceCompartir",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V319",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "leerEnlaceCompartir con sesión del panel vencida",
+    "operacion": "leerEnlaceCompartir",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V320",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "leerEnlaceCompartir con clave secreta en vez de cookie",
+    "operacion": "leerEnlaceCompartir",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V323",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "rotarEnlace sin credencial",
+    "operacion": "rotarEnlace",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V324",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "rotarEnlace con sesión del panel vencida",
+    "operacion": "rotarEnlace",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V325",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "rotarEnlace con clave secreta en vez de cookie",
+    "operacion": "rotarEnlace",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V326",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "rotarEnlace sin X-CSRF-Token",
+    "operacion": "rotarEnlace",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": false,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "csrf_invalido"
+    }
+  },
+  {
+    "id": "V327",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "rotarEnlace con Origin ajeno al panel",
+    "operacion": "rotarEnlace",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "ajeno",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V328",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R39"
+    ],
+    "descripcion": "rotarEnlace sin reautenticación reciente",
+    "operacion": "rotarEnlace",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": false
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "reautenticacion_requerida"
+    }
+  },
+  {
+    "id": "V331",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "listarClavesWidget sin credencial",
+    "operacion": "listarClavesWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "rol": "administrador"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V332",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "listarClavesWidget con sesión del panel vencida",
+    "operacion": "listarClavesWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "rol": "administrador"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V333",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "listarClavesWidget con clave secreta en vez de cookie",
+    "operacion": "listarClavesWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "rol": "administrador"
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V334",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "listarClavesWidget con rol asesor (no administrador)",
+    "operacion": "listarClavesWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "rol": "asesor"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V337",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "crearClaveWidget sin credencial",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V338",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "crearClaveWidget con sesión del panel vencida",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V339",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "crearClaveWidget con clave secreta en vez de cookie",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V340",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "crearClaveWidget sin X-CSRF-Token",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": false,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "csrf_invalido"
+    }
+  },
+  {
+    "id": "V341",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "crearClaveWidget con Origin ajeno al panel",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "ajeno",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V342",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R39"
+    ],
+    "descripcion": "crearClaveWidget sin reautenticación reciente",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": false,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "reautenticacion_requerida"
+    }
+  },
+  {
+    "id": "V343",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "crearClaveWidget con rol asesor (no administrador)",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "asesor",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V356",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "revocarClaveWidget sin credencial",
+    "operacion": "revocarClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V357",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "revocarClaveWidget con sesión del panel vencida",
+    "operacion": "revocarClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V358",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "revocarClaveWidget con clave secreta en vez de cookie",
+    "operacion": "revocarClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V359",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "revocarClaveWidget sin X-CSRF-Token",
+    "operacion": "revocarClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": false,
+      "reautenticado": true,
+      "rol": "administrador",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "csrf_invalido"
+    }
+  },
+  {
+    "id": "V360",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "revocarClaveWidget con Origin ajeno al panel",
+    "operacion": "revocarClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "ajeno",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V361",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R39"
+    ],
+    "descripcion": "revocarClaveWidget sin reautenticación reciente",
+    "operacion": "revocarClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": false,
+      "rol": "administrador",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "reautenticacion_requerida"
+    }
+  },
+  {
+    "id": "V362",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "revocarClaveWidget con rol asesor (no administrador)",
+    "operacion": "revocarClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "asesor",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "alcance_insuficiente"
+    }
+  },
+  {
+    "id": "V368",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R3"
+    ],
+    "descripcion": "exportarMiCuenta sin credencial",
+    "operacion": "exportarMiCuenta",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V369",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R34"
+    ],
+    "descripcion": "exportarMiCuenta con sesión del panel vencida",
+    "operacion": "exportarMiCuenta",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1",
+        "estado": "vencida"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "sesion_vencida"
+    }
+  },
+  {
+    "id": "V370",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R54"
+    ],
+    "descripcion": "exportarMiCuenta con clave secreta en vez de cookie",
+    "operacion": "exportarMiCuenta",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credencial_ausente"
+    }
+  },
+  {
+    "id": "V371",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "exportarMiCuenta sin X-CSRF-Token",
+    "operacion": "exportarMiCuenta",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": false,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "csrf_invalido"
+    }
+  },
+  {
+    "id": "V372",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "exportarMiCuenta con Origin ajeno al panel",
+    "operacion": "exportarMiCuenta",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "ajeno",
+      "csrf": true,
+      "reautenticado": true
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V373",
+    "categoria": "autenticacion",
+    "requisitos": [
+      "R39"
+    ],
+    "descripcion": "exportarMiCuenta sin reautenticación reciente",
+    "operacion": "exportarMiCuenta",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": false
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "reautenticacion_requerida"
+    }
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CantidadCentesimas",
+  "description": "Cantidad normalizada a centésimas de la unidad (p. ej. 12,5 m² = 1250). Entero: sin float (N1 de T16).",
+  "type": "integer",
+  "format": "int64",
+  "minimum": 1,
+  "maximum": 1000000000,
+  "examples": [
+    1250,
+    100
+  ]
+}

@@ -1,0 +1,297 @@
+[
+  {
+    "esquema": "TablaRetencion",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "version": "2026-10-08.1",
+      "a_validar_con_abogado": true,
+      "reglas": [
+        {
+          "tipo_dato": "consulta_y_presupuesto",
+          "finalidad": "Backoffice y seguimiento del presupuesto",
+          "persistido": true,
+          "plazo_dias": 365,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "contacto_cliente",
+          "finalidad": "Que el profesional te contacte",
+          "persistido": true,
+          "plazo_dias": 90,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "registro_lecturas",
+          "finalidad": "Trazabilidad de accesos",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "consentimientos",
+          "finalidad": "Prueba del consentimiento",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "solicitudes_arco",
+          "finalidad": "Constancia de derechos ARCO (anonimizada)",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "perfil_asesor",
+          "finalidad": "Operar el panel",
+          "persistido": true,
+          "plazo_dias": 365,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "fotogramas",
+          "finalidad": "Extraer datos del trabajo en memoria",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        },
+        {
+          "tipo_dato": "audio",
+          "finalidad": "Transcripción en memoria",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        },
+        {
+          "tipo_dato": "transcripcion_completa",
+          "finalidad": "No se guarda (ADR 0004)",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        }
+      ],
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "TablaRetencion",
+    "caso": "falta \"version\"",
+    "falla_por": "required",
+    "instancia": {
+      "a_validar_con_abogado": true,
+      "reglas": [
+        {
+          "tipo_dato": "consulta_y_presupuesto",
+          "finalidad": "Backoffice y seguimiento del presupuesto",
+          "persistido": true,
+          "plazo_dias": 365,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "contacto_cliente",
+          "finalidad": "Que el profesional te contacte",
+          "persistido": true,
+          "plazo_dias": 90,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "registro_lecturas",
+          "finalidad": "Trazabilidad de accesos",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "consentimientos",
+          "finalidad": "Prueba del consentimiento",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "solicitudes_arco",
+          "finalidad": "Constancia de derechos ARCO (anonimizada)",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "perfil_asesor",
+          "finalidad": "Operar el panel",
+          "persistido": true,
+          "plazo_dias": 365,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "fotogramas",
+          "finalidad": "Extraer datos del trabajo en memoria",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        },
+        {
+          "tipo_dato": "audio",
+          "finalidad": "Transcripción en memoria",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        },
+        {
+          "tipo_dato": "transcripcion_completa",
+          "finalidad": "No se guarda (ADR 0004)",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        }
+      ]
+    }
+  },
+  {
+    "esquema": "TablaRetencion",
+    "caso": "falta \"a_validar_con_abogado\"",
+    "falla_por": "required",
+    "instancia": {
+      "version": "2026-10-08.1",
+      "reglas": [
+        {
+          "tipo_dato": "consulta_y_presupuesto",
+          "finalidad": "Backoffice y seguimiento del presupuesto",
+          "persistido": true,
+          "plazo_dias": 365,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "contacto_cliente",
+          "finalidad": "Que el profesional te contacte",
+          "persistido": true,
+          "plazo_dias": 90,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "registro_lecturas",
+          "finalidad": "Trazabilidad de accesos",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "consentimientos",
+          "finalidad": "Prueba del consentimiento",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "solicitudes_arco",
+          "finalidad": "Constancia de derechos ARCO (anonimizada)",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "perfil_asesor",
+          "finalidad": "Operar el panel",
+          "persistido": true,
+          "plazo_dias": 365,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "fotogramas",
+          "finalidad": "Extraer datos del trabajo en memoria",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        },
+        {
+          "tipo_dato": "audio",
+          "finalidad": "Transcripción en memoria",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        },
+        {
+          "tipo_dato": "transcripcion_completa",
+          "finalidad": "No se guarda (ADR 0004)",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        }
+      ]
+    }
+  },
+  {
+    "esquema": "TablaRetencion",
+    "caso": "sin marca de abogado",
+    "falla_por": "const",
+    "instancia": {
+      "version": "2026-10-08.1",
+      "a_validar_con_abogado": false,
+      "reglas": [
+        {
+          "tipo_dato": "consulta_y_presupuesto",
+          "finalidad": "Backoffice y seguimiento del presupuesto",
+          "persistido": true,
+          "plazo_dias": 365,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "contacto_cliente",
+          "finalidad": "Que el profesional te contacte",
+          "persistido": true,
+          "plazo_dias": 90,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "registro_lecturas",
+          "finalidad": "Trazabilidad de accesos",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "consentimientos",
+          "finalidad": "Prueba del consentimiento",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "solicitudes_arco",
+          "finalidad": "Constancia de derechos ARCO (anonimizada)",
+          "persistido": true,
+          "plazo_dias": 730,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "perfil_asesor",
+          "finalidad": "Operar el panel",
+          "persistido": true,
+          "plazo_dias": 365,
+          "configurable": true
+        },
+        {
+          "tipo_dato": "fotogramas",
+          "finalidad": "Extraer datos del trabajo en memoria",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        },
+        {
+          "tipo_dato": "audio",
+          "finalidad": "Transcripción en memoria",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        },
+        {
+          "tipo_dato": "transcripcion_completa",
+          "finalidad": "No se guarda (ADR 0004)",
+          "persistido": false,
+          "plazo_dias": 0,
+          "configurable": false
+        }
+      ]
+    }
+  }
+]

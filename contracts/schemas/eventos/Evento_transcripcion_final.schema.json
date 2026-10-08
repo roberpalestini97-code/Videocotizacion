@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evento_transcripcion_final",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Servidor → cliente: transcripción final del turno.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "tipo",
+    "seq",
+    "ts",
+    "datos"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "const": "transcripcion.final"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts": {
+      "$ref": "../FechaHora.schema.json"
+    },
+    "datos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "turno",
+        "texto"
+      ],
+      "properties": {
+        "turno": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "texto": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "transcripcion.final",
+      "seq": 2,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 1,
+        "texto": "Quiero pintar el living y el comedor."
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "transcripcion.final",
+      "seq": 3,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 2,
+        "texto": "Quiero pintar el living y el comedor."
+      }
+    }
+  ]
+}

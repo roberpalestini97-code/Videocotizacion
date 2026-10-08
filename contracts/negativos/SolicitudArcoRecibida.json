@@ -1,0 +1,37 @@
+[
+  {
+    "esquema": "SolicitudArcoRecibida",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "solicitud_id": "arc_FYKETHGSSBDVH2B6JPQHGKJG29",
+      "estado": "recibida",
+      "recibida_en": "2026-10-08T13:30:00Z",
+      "plazo_vence_en": "2026-10-18T13:30:00Z",
+      "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal.",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "SolicitudArcoRecibida",
+    "caso": "falta \"solicitud_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "estado": "recibida",
+      "recibida_en": "2026-10-08T13:30:00Z",
+      "plazo_vence_en": "2026-10-18T13:30:00Z",
+      "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal."
+    }
+  },
+  {
+    "esquema": "SolicitudArcoRecibida",
+    "caso": "falta \"estado\"",
+    "falla_por": "required",
+    "instancia": {
+      "solicitud_id": "arc_FYKETHGSSBDVH2B6JPQHGKJG29",
+      "recibida_en": "2026-10-08T13:30:00Z",
+      "plazo_vence_en": "2026-10-18T13:30:00Z",
+      "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal."
+    }
+  }
+]

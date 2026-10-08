@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SolicitudArcoRecibida",
+  "description": "Acuse genérico e idéntico haya o no coincidencia (R24). Sin cargo (art. 19). Plazos a validar con abogado.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "solicitud_id",
+    "estado",
+    "recibida_en",
+    "plazo_vence_en",
+    "mensaje"
+  ],
+  "properties": {
+    "solicitud_id": {
+      "$ref": "IdSolicitudArco.schema.json"
+    },
+    "estado": {
+      "type": "string",
+      "const": "recibida"
+    },
+    "recibida_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "plazo_vence_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "mensaje": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    }
+  },
+  "examples": [
+    {
+      "solicitud_id": "arc_FYKETHGSSBDVH2B6JPQHGKJG29",
+      "estado": "recibida",
+      "recibida_en": "2026-10-08T13:30:00Z",
+      "plazo_vence_en": "2026-10-18T13:30:00Z",
+      "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal."
+    }
+  ]
+}

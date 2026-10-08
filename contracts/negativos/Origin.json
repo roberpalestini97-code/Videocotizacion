@@ -1,0 +1,44 @@
+[
+  {
+    "esquema": "Origin",
+    "caso": "Origin comodín",
+    "falla_por": "pattern",
+    "instancia": "https://*.ejemplo.com"
+  },
+  {
+    "esquema": "Origin",
+    "caso": "Origin http",
+    "falla_por": "pattern",
+    "instancia": "http://ejemplo.com"
+  },
+  {
+    "esquema": "Origin",
+    "caso": "Origin barra final",
+    "falla_por": "pattern",
+    "instancia": "https://ejemplo.com/"
+  },
+  {
+    "esquema": "Origin",
+    "caso": "Origin asterisco",
+    "falla_por": "pattern",
+    "instancia": "*"
+  },
+  {
+    "esquema": "Origin",
+    "caso": "Origin con ruta",
+    "falla_por": "pattern",
+    "instancia": "https://ejemplo.com/widget"
+  },
+  {
+    "esquema": "Origin",
+    "caso": "Origin mayúsculas",
+    "falla_por": "pattern",
+    "instancia": "https://Ejemplo.com"
+  },
+  {
+    "esquema": "Origin",
+    "caso": "Origin null",
+    "falla_por": "pattern",
+    "instancia": "null"
+  }
+]

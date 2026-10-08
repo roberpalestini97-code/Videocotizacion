@@ -1,0 +1,85 @@
+[
+  {
+    "esquema": "ReglaFotograma",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "formato": "image/jpeg",
+      "lado_max_px": 1024,
+      "bytes_max": 131072,
+      "intervalo_min_ms": 3000,
+      "max_por_sesion": 400,
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ReglaFotograma",
+    "caso": "falta \"formato\"",
+    "falla_por": "required",
+    "instancia": {
+      "lado_max_px": 1024,
+      "bytes_max": 131072,
+      "intervalo_min_ms": 3000,
+      "max_por_sesion": 400
+    }
+  },
+  {
+    "esquema": "ReglaFotograma",
+    "caso": "falta \"lado_max_px\"",
+    "falla_por": "required",
+    "instancia": {
+      "formato": "image/jpeg",
+      "bytes_max": 131072,
+      "intervalo_min_ms": 3000,
+      "max_por_sesion": 400
+    }
+  },
+  {
+    "esquema": "ReglaFotograma",
+    "caso": "más de 128 KiB",
+    "falla_por": "maximum",
+    "instancia": {
+      "formato": "image/jpeg",
+      "lado_max_px": 1024,
+      "bytes_max": 200000,
+      "intervalo_min_ms": 3000,
+      "max_por_sesion": 400
+    }
+  },
+  {
+    "esquema": "ReglaFotograma",
+    "caso": "más de 1024 px",
+    "falla_por": "maximum",
+    "instancia": {
+      "formato": "image/jpeg",
+      "lado_max_px": 2048,
+      "bytes_max": 131072,
+      "intervalo_min_ms": 3000,
+      "max_por_sesion": 400
+    }
+  },
+  {
+    "esquema": "ReglaFotograma",
+    "caso": "más de uno cada 3 s",
+    "falla_por": "minimum",
+    "instancia": {
+      "formato": "image/jpeg",
+      "lado_max_px": 1024,
+      "bytes_max": 131072,
+      "intervalo_min_ms": 1000,
+      "max_por_sesion": 400
+    }
+  },
+  {
+    "esquema": "ReglaFotograma",
+    "caso": "PNG",
+    "falla_por": "const",
+    "instancia": {
+      "formato": "image/png",
+      "lado_max_px": 1024,
+      "bytes_max": 131072,
+      "intervalo_min_ms": 3000,
+      "max_por_sesion": 400
+    }
+  }
+]

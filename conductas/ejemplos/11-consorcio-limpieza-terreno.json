@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "oficio": "limpieza",
+  "trabajo": {
+    "tipo": "limpieza_terreno",
+    "descripcion": "Desmalezado y retiro de ramas de lote del consorcio",
+    "complejidad": "simple",
+    "jornadas_estimadas": 2
+  },
+  "medidas": [
+    {
+      "concepto": "lote",
+      "cantidad": 0.25,
+      "unidad": "ha",
+      "origen": "estimado"
+    }
+  ],
+  "altura": {
+    "metros_max": null,
+    "requiere_andamio": "no",
+    "medio": "ninguno"
+  },
+  "estado_superficie": "no_aplica",
+  "zona": {
+    "localidad": "cobo",
+    "fuera_de_zona": false
+  },
+  "urgencia": {
+    "nivel": "media",
+    "senales": [
+      "inspección municipal"
+    ]
+  },
+  "tipo_cliente": "administracion_consorcio",
+  "plazo": {
+    "tipo": "esta_semana"
+  },
+  "faltantes": [],
+  "siguiente_paso": {
+    "accion": "confirmar_datos",
+    "motivo": "Confirmar superficie estimada antes de emitir",
+    "campos": [
+      "medidas"
+    ]
+  },
+  "respuesta_hablada": "Bárbaro. Calculo un cuarto de hectárea, ¿te parece bien? Si me confirmás, te armo el presupuesto para esta semana."
+}

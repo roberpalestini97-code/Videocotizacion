@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RegistroLectura",
+  "description": "Fila del registro solo-anexar (R69, R70): solo ids, sin datos personales.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "registro_id",
+    "ocurrido_en",
+    "asesor_id",
+    "accion"
+  ],
+  "properties": {
+    "registro_id": {
+      "$ref": "IdRegistro.schema.json"
+    },
+    "ocurrido_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "asesor_id": {
+      "$ref": "IdAsesor.schema.json"
+    },
+    "accion": {
+      "type": "string",
+      "enum": [
+        "ver_detalle",
+        "ver_contacto",
+        "exportar_mi_cuenta",
+        "rotar_enlace",
+        "crear_clave_widget",
+        "revocar_clave_widget",
+        "inicio_sesion",
+        "cambio_contrasena"
+      ]
+    },
+    "recurso_id": {
+      "type": "string",
+      "pattern": "^[a-z]{3}_[0-9A-HJKMNP-TV-Z]{26}$"
+    }
+  },
+  "examples": [
+    {
+      "registro_id": "reg_MQR6KABWWFZXSKRH3NTB1ZW122",
+      "ocurrido_en": "2026-10-08T13:00:00Z",
+      "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+      "accion": "ver_detalle",
+      "recurso_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38"
+    },
+    {
+      "registro_id": "reg_4C5GRPHASN3K3ETR76NMDDTFP6",
+      "ocurrido_en": "2026-10-08T12:53:00Z",
+      "asesor_id": "ase_3JQ9QRPYDHR9HN9R6SQDKPSSW5",
+      "accion": "ver_contacto",
+      "recurso_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H"
+    }
+  ]
+}

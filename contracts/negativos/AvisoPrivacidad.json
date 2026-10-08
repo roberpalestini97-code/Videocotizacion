@@ -1,0 +1,67 @@
+[
+  {
+    "esquema": "AvisoPrivacidad",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "version": "2026-10-08.1",
+      "vigente_desde": "2026-10-08",
+      "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1",
+      "resumen": "Usamos tu imagen y tu voz solo durante la llamada para cotizar el trabajo; no guardamos fotogramas ni audio.",
+      "incisos": [
+        "finalidad",
+        "destinatarios",
+        "responsable",
+        "obligatoriedad",
+        "consecuencias",
+        "derechos_arco",
+        "transferencia_internacional",
+        "autoridad_de_control"
+      ],
+      "a_validar_con_abogado": true,
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "AvisoPrivacidad",
+    "caso": "falta \"version\"",
+    "falla_por": "required",
+    "instancia": {
+      "vigente_desde": "2026-10-08",
+      "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1",
+      "resumen": "Usamos tu imagen y tu voz solo durante la llamada para cotizar el trabajo; no guardamos fotogramas ni audio.",
+      "incisos": [
+        "finalidad",
+        "destinatarios",
+        "responsable",
+        "obligatoriedad",
+        "consecuencias",
+        "derechos_arco",
+        "transferencia_internacional",
+        "autoridad_de_control"
+      ],
+      "a_validar_con_abogado": true
+    }
+  },
+  {
+    "esquema": "AvisoPrivacidad",
+    "caso": "falta \"vigente_desde\"",
+    "falla_por": "required",
+    "instancia": {
+      "version": "2026-10-08.1",
+      "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1",
+      "resumen": "Usamos tu imagen y tu voz solo durante la llamada para cotizar el trabajo; no guardamos fotogramas ni audio.",
+      "incisos": [
+        "finalidad",
+        "destinatarios",
+        "responsable",
+        "obligatoriedad",
+        "consecuencias",
+        "derechos_arco",
+        "transferencia_internacional",
+        "autoridad_de_control"
+      ],
+      "a_validar_con_abogado": true
+    }
+  }
+]

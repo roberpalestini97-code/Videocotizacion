@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IdSolicitudArco",
+  "description": "Id opaco de solicitud ARCO: prefijo \"arc_\" + 26 caracteres Crockford aleatorios (≥128 bits). R7.",
+  "type": "string",
+  "pattern": "^arc_[0-9A-HJKMNP-TV-Z]{26}$",
+  "examples": [
+    "arc_BVKHPCMY8G5DGM0YX8ST4K017E"
+  ]
+}

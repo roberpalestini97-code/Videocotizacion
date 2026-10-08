@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContactoCliente",
+  "description": "Contacto del cliente: solo para el asesor de esa consulta y si hubo consentimiento (R68). Cada lectura queda registrada y tiene límite diario (R69).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sesion_id",
+    "nombre",
+    "consentido_en",
+    "aviso_version",
+    "lectura"
+  ],
+  "properties": {
+    "sesion_id": {
+      "$ref": "IdSesion.schema.json"
+    },
+    "nombre": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "telefono": {
+      "$ref": "Telefono.schema.json"
+    },
+    "email": {
+      "$ref": "Email.schema.json"
+    },
+    "preferencia": {
+      "type": "string",
+      "enum": [
+        "whatsapp",
+        "llamada",
+        "email"
+      ]
+    },
+    "consentido_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "aviso_version": {
+      "$ref": "VersionAviso.schema.json"
+    },
+    "lectura": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registro_id",
+        "lecturas_restantes_hoy"
+      ],
+      "properties": {
+        "registro_id": {
+          "$ref": "IdRegistro.schema.json"
+        },
+        "lecturas_restantes_hoy": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "sesion_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+      "nombre": "Carlos",
+      "consentido_en": "2026-10-08T13:16:00Z",
+      "aviso_version": "2026-10-08.1",
+      "lectura": {
+        "registro_id": "reg_916KPKQ91R99GN90D0SN9M59QR",
+        "lecturas_restantes_hoy": 19
+      },
+      "telefono": "+5492235551001",
+      "email": "cliente1@correo.local",
+      "preferencia": "llamada"
+    }
+  ]
+}

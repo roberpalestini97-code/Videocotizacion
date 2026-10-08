@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "oficio": "pintura",
+  "trabajo": {
+    "tipo": "pintura_interior",
+    "descripcion": "Pintar living y dos dormitorios",
+    "complejidad": "simple",
+    "requiere_planos": false,
+    "jornadas_estimadas": null
+  },
+  "medidas": [],
+  "altura": {
+    "metros_max": 2.6,
+    "requiere_andamio": "no",
+    "medio": "escalera"
+  },
+  "estado_superficie": "sin_definir",
+  "zona": {
+    "localidad": "santa_clara_del_mar",
+    "fuera_de_zona": false
+  },
+  "urgencia": {
+    "nivel": "sin_definir",
+    "senales": []
+  },
+  "tipo_cliente": "particular_primera_vez",
+  "plazo": {
+    "tipo": "sin_definir"
+  },
+  "faltantes": [
+    "medidas",
+    "estado_superficie"
+  ],
+  "siguiente_paso": {
+    "accion": "preguntar",
+    "motivo": "Faltan medidas de los ambientes para calcular la superficie",
+    "campos": [
+      "medidas"
+    ]
+  },
+  "respuesta_hablada": "Buenísimo, el living y dos dormitorios. ¿Me decís más o menos cuánto miden de largo y de ancho cada uno? Los muebles los corremos nosotros, quedate tranquilo.",
+  "dudas_cliente": [
+    "Si hay que mover los muebles"
+  ]
+}

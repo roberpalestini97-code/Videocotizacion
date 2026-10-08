@@ -1,0 +1,43 @@
+[
+  {
+    "esquema": "Version",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "api": "0.1.4-borrador",
+      "estado_api": "borrador",
+      "eventos_sesion": {
+        "version": "vc-eventos.borrador.1",
+        "estado": "borrador"
+      },
+      "deprecaciones": [],
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "Version",
+    "caso": "falta \"api\"",
+    "falla_por": "required",
+    "instancia": {
+      "estado_api": "borrador",
+      "eventos_sesion": {
+        "version": "vc-eventos.borrador.1",
+        "estado": "borrador"
+      },
+      "deprecaciones": []
+    }
+  },
+  {
+    "esquema": "Version",
+    "caso": "falta \"estado_api\"",
+    "falla_por": "required",
+    "instancia": {
+      "api": "0.1.4-borrador",
+      "eventos_sesion": {
+        "version": "vc-eventos.borrador.1",
+        "estado": "borrador"
+      },
+      "deprecaciones": []
+    }
+  }
+]

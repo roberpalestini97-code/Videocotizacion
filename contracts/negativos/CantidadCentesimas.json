@@ -1,0 +1,14 @@
+[
+  {
+    "esquema": "CantidadCentesimas",
+    "caso": "cantidad float (N1)",
+    "falla_por": "type",
+    "instancia": 12.5
+  },
+  {
+    "esquema": "CantidadCentesimas",
+    "caso": "cantidad cero",
+    "falla_por": "minimum",
+    "instancia": 0
+  }
+]

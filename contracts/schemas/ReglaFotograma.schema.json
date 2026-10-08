@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReglaFotograma",
+  "description": "Límites de fotogramas (BRIEF 3, R65). El servidor descarta lo que no cumpla. Los fotogramas NO se guardan.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formato",
+    "lado_max_px",
+    "bytes_max",
+    "intervalo_min_ms",
+    "max_por_sesion"
+  ],
+  "properties": {
+    "formato": {
+      "type": "string",
+      "const": "image/jpeg"
+    },
+    "lado_max_px": {
+      "type": "integer",
+      "minimum": 64,
+      "maximum": 1024
+    },
+    "bytes_max": {
+      "type": "integer",
+      "minimum": 1024,
+      "maximum": 131072
+    },
+    "intervalo_min_ms": {
+      "type": "integer",
+      "minimum": 3000,
+      "maximum": 60000
+    },
+    "max_por_sesion": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1200
+    }
+  },
+  "examples": [
+    {
+      "formato": "image/jpeg",
+      "lado_max_px": 1024,
+      "bytes_max": 131072,
+      "intervalo_min_ms": 3000,
+      "max_por_sesion": 400
+    }
+  ]
+}

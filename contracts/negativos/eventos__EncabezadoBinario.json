@@ -1,0 +1,71 @@
+[
+  {
+    "esquema": "eventos/EncabezadoBinario",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "magia": "VC",
+      "version": 1,
+      "tipo": "audio_pcm16_16k",
+      "flags": 0,
+      "seq": 0,
+      "ts_ms": 0,
+      "longitud": 640,
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "eventos/EncabezadoBinario",
+    "caso": "falta \"magia\"",
+    "falla_por": "required",
+    "instancia": {
+      "version": 1,
+      "tipo": "audio_pcm16_16k",
+      "flags": 0,
+      "seq": 0,
+      "ts_ms": 0,
+      "longitud": 640
+    }
+  },
+  {
+    "esquema": "eventos/EncabezadoBinario",
+    "caso": "falta \"version\"",
+    "falla_por": "required",
+    "instancia": {
+      "magia": "VC",
+      "tipo": "audio_pcm16_16k",
+      "flags": 0,
+      "seq": 0,
+      "ts_ms": 0,
+      "longitud": 640
+    }
+  },
+  {
+    "esquema": "eventos/EncabezadoBinario",
+    "caso": "trama de 200000 bytes",
+    "falla_por": "maximum",
+    "instancia": {
+      "magia": "VC",
+      "version": 1,
+      "tipo": "fotograma_jpeg",
+      "flags": 0,
+      "seq": 2,
+      "ts_ms": 2000,
+      "longitud": 200000
+    }
+  },
+  {
+    "esquema": "eventos/EncabezadoBinario",
+    "caso": "magia incorrecta",
+    "falla_por": "const",
+    "instancia": {
+      "magia": "XX",
+      "version": 1,
+      "tipo": "audio_pcm16_16k",
+      "flags": 0,
+      "seq": 0,
+      "ts_ms": 0,
+      "longitud": 640
+    }
+  }
+]

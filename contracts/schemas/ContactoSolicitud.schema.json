@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContactoSolicitud",
+  "description": "Contacto opcional del cliente con aviso y consentimiento específicos (R68). Al menos teléfono o email. Sin publicidad.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "nombre",
+    "consentimiento"
+  ],
+  "properties": {
+    "nombre": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "telefono": {
+      "$ref": "Telefono.schema.json"
+    },
+    "email": {
+      "$ref": "Email.schema.json"
+    },
+    "preferencia": {
+      "type": "string",
+      "enum": [
+        "whatsapp",
+        "llamada",
+        "email"
+      ]
+    },
+    "consentimiento": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aviso_version",
+        "acepta_ser_contactado",
+        "finalidad"
+      ],
+      "properties": {
+        "aviso_version": {
+          "$ref": "VersionAviso.schema.json"
+        },
+        "acepta_ser_contactado": {
+          "type": "boolean",
+          "const": true,
+          "description": "Casilla NO premarcada en el front (R68)."
+        },
+        "finalidad": {
+          "type": "string",
+          "const": "que_el_profesional_te_contacte"
+        }
+      }
+    }
+  },
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "telefono": true
+      },
+      "required": [
+        "telefono"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "email": true
+      },
+      "required": [
+        "email"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "nombre": "Marta",
+      "consentimiento": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_ser_contactado": true,
+        "finalidad": "que_el_profesional_te_contacte"
+      },
+      "telefono": "+5492235551000"
+    },
+    {
+      "nombre": "Ana López",
+      "consentimiento": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_ser_contactado": true,
+        "finalidad": "que_el_profesional_te_contacte"
+      },
+      "email": "cliente2@correo.local"
+    }
+  ]
+}

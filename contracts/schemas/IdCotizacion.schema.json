@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IdCotizacion",
+  "description": "Id opaco de cotización emitida: prefijo \"cot_\" + 26 caracteres Crockford aleatorios (≥128 bits). R7.",
+  "type": "string",
+  "pattern": "^cot_[0-9A-HJKMNP-TV-Z]{26}$",
+  "examples": [
+    "cot_VMWQAPA4T64WSNDTZDQ544FGRK"
+  ]
+}

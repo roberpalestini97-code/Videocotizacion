@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evento_sesion_autenticar",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Cliente → servidor: primer mensaje; sin esto se cierra (R32).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "tipo",
+    "seq",
+    "ts",
+    "datos"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "const": "sesion.autenticar"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts": {
+      "$ref": "../FechaHora.schema.json"
+    },
+    "datos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "token_medios"
+      ],
+      "properties": {
+        "token_medios": {
+          "type": "string",
+          "pattern": "^vc_med_[A-Za-z0-9_-]{43}$"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "sesion.autenticar",
+      "seq": 0,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "token_medios": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6"
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "sesion.autenticar",
+      "seq": 0,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "token_medios": "vc_med_cPjgdBo2t8WarYhHH5SFqXHMYv1FOk-7ug6u8Rj7QxA"
+      }
+    }
+  ]
+}

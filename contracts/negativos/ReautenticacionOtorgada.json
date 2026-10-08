@@ -1,0 +1,37 @@
+[
+  {
+    "esquema": "ReautenticacionOtorgada",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "valida_hasta": "2026-10-08T13:05:00Z",
+      "valida_s": 300,
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ReautenticacionOtorgada",
+    "caso": "falta \"valida_hasta\"",
+    "falla_por": "required",
+    "instancia": {
+      "valida_s": 300
+    }
+  },
+  {
+    "esquema": "ReautenticacionOtorgada",
+    "caso": "falta \"valida_s\"",
+    "falla_por": "required",
+    "instancia": {
+      "valida_hasta": "2026-10-08T13:05:00Z"
+    }
+  },
+  {
+    "esquema": "ReautenticacionOtorgada",
+    "caso": "ventana de 10 min",
+    "falla_por": "maximum",
+    "instancia": {
+      "valida_hasta": "2026-10-08T13:10:00Z",
+      "valida_s": 600
+    }
+  }
+]

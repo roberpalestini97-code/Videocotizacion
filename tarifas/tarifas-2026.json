@@ -1,0 +1,1269 @@
+{
+  "version": "0.1.0",
+  "estado": "referencia_publica_sin_validar",
+  "moneda": "ARS",
+  "unidad_monto": "centavos_int64",
+  "unidad_recargo": "bps_int",
+  "fecha_consulta": "2026-10-08",
+  "vigencia_referencia": "julio a octubre de 2026 (febrero de 2026 en los items de UTN)",
+  "modificable": true,
+  "reemplazo_previsto": "Presupuestos reales de los profesionales de Rober (pintores y jardineros), que sustituyen estos rangos por oficio, tarea y zona.",
+  "validado_por_profesional": {
+    "pintor": false,
+    "jardinero": false
+  },
+  "uso_en_produccion": false,
+  "advertencia": "Rangos orientativos de fuentes publicas, casi todos de portales comerciales sin metodologia y de otras zonas (CABA, Mar del Plata, Venado Tuerto). No hay fuente oficial ni de camara o colegio para la costa. No usar en produccion hasta que lo valide un pintor y un jardinero. Montos en centavos enteros; recargos en puntos basicos (10000 = 100%).",
+  "zonas_de_servicio": [
+    "Mar Chiquita",
+    "Cobo",
+    "Santa Clara",
+    "Parque Lago"
+  ],
+  "notas_generales": [
+    "Los montos de tareas son mano de obra, sin materiales, salvo donde dice lo contrario; no se informa si incluyen IVA salvo UTN (sin IVA).",
+    "Cada tarea con precio guarda los puntos por fuente y zona; min y max son el minimo de minimos y el maximo de maximos de esos puntos.",
+    "Confianza: \"media\" si hay una fuente institucional o 2 publicadores distintos; \"baja\" si hay un solo publicador o si todo es estimacion propia del portal.",
+    "Discrepancia sin resolver en UOCRA: Infobae (2026-07-30) rotula como jornal valores de magnitud horaria y no coincide con iProfesional (2026-07-15). Se usaron Perfil (septiembre) y Servidos citando CAMARCO (octubre).",
+    "La escala UOCRA es salario bruto de convenio sin cargas sociales ni ganancia: sirve de piso de costo laboral, no de precio de venta."
+  ],
+  "fuentes": {
+    "serv_pintor": {
+      "url": "https://servidos.ar/servicios/pintor",
+      "titulo": "Servidos: pintores, precios de referencia (CABA)",
+      "publicador": "Servidos (portal comercial)",
+      "tipo": "portal",
+      "fecha_publicacion": "2026-10",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Rotulado \"Actualizado octubre de 2026\". Valores orientativos de CABA, solo mano de obra. Sin metodologia ni muestra. Las filas con asterisco son estimacion propia \"a falta de una fuente de mercado confiable\"."
+    },
+    "serv_blog_pintar": {
+      "url": "https://servidos.ar/blog/cuanto-cuesta-pintar-departamento-buenos-aires",
+      "titulo": "Servidos: cuanto cuesta pintar un departamento en Buenos Aires",
+      "publicador": "Servidos (portal comercial)",
+      "tipo": "portal",
+      "fecha_publicacion": "2026-07-17",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Publicado 2026-07-17, actualizado 2026-08-27. CABA, \"solo mano de obra\". No describe como obtuvo los precios. Fuente de recargos: altura +20% a 30% sobre 2,60 m; materiales +25% a 40% sobre la mano de obra."
+    },
+    "serv_jard_mdp": {
+      "url": "https://servidos.ar/servicios/jardineria/mar-del-plata",
+      "titulo": "Servidos: jardineros en Mar del Plata, precios de referencia",
+      "publicador": "Servidos (portal comercial)",
+      "tipo": "portal",
+      "fecha_publicacion": "2026-07",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Rotulado \"Actualizado julio de 2026\". Valores estimados por el portal a partir de CABA de julio 2026 y ajustados a Mar del Plata (\"algo por debajo de CABA\", sin porcentaje). Se presentan \"por visita o trabajo\". Filas con asterisco: estimacion propia sin fuente de mercado confiable."
+    },
+    "serv_jard_caba": {
+      "url": "https://servidos.ar/servicios/jardineria/buenos-aires/palermo",
+      "titulo": "Servidos: jardineros en Palermo (CABA), precios de referencia",
+      "publicador": "Servidos (portal comercial)",
+      "tipo": "portal",
+      "fecha_publicacion": "2026-07",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Rotulado \"Actualizado julio de 2026\". CABA. Sin metodologia."
+    },
+    "serv_limpieza": {
+      "url": "https://servidos.ar/servicios/limpieza/buenos-aires/recoleta",
+      "titulo": "Servidos: limpieza en Recoleta (CABA), precios de referencia",
+      "publicador": "Servidos (portal comercial)",
+      "tipo": "portal",
+      "fecha_publicacion": "2026-07",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Rotulado \"Actualizado julio de 2026\". CABA. Sin metodologia. La limpieza de fin de obra suele tener un minimo por trabajo."
+    },
+    "utn_ceccdu_feb26": {
+      "url": "https://frvt.utn.edu.ar/wp-content/uploads/2026/04/Publicacion-CECCDU-UTN-Costos-en-la-construccion-Mes-Febrero-2026.pdf",
+      "titulo": "CECCDU UTN FRVT: Costos en la construccion, febrero 2026",
+      "publicador": "UTN Facultad Regional Venado Tuerto (CECCDU)",
+      "tipo": "universidad",
+      "fecha_publicacion": "2026-04-07",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Precios unitarios de febrero 2026 para Venado Tuerto y region (Santa Fe), componente \"M. de Obra\" por m2, sin IVA, promedio de proveedores locales. No dice si incluye cargas sociales. Es de febrero: hay que actualizarlo por inflacion/indice de mano de obra antes de comparar con precios de octubre."
+    },
+    "iprof_oficios_jul26": {
+      "url": "https://www.iprofesional.com/management/460039-cuanto-cobran-un-albanil-un-electricista-y-un-plomero-por-su-trabajo-en-julio-2026",
+      "titulo": "iProfesional: cuanto cobran un albanil, un electricista y un plomero (julio 2026)",
+      "publicador": "iProfesional (medio) citando plataformas tipo Home Solutions",
+      "tipo": "prensa",
+      "fecha_publicacion": "2026-07-15",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Electricista y plomero: referencias de plataformas de servicios, zona no especificada. Albanil: escala UOCRA Zona A. No menciona pintura."
+    },
+    "perfil_uocra_sep26": {
+      "url": "https://www.perfil.com/noticias/economia/paritaria-de-la-construccion-cuanto-gana-un-obrero-de-la-uocra-en-septiembre-de-2026-tras-el-nuevo-acuerdo-salarial.phtml",
+      "titulo": "Perfil: paritaria de la construccion, UOCRA septiembre 2026",
+      "publicador": "Perfil (medio) sobre CCT 76/75",
+      "tipo": "prensa",
+      "fecha_publicacion": "2026-09",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Valor hora CCT 76/75 desde 2026-09-01, Zona A (acuerdo firmado 2026-09-21). Es salario de convenio, no precio de un servicio."
+    },
+    "serv_escalas_oct26": {
+      "url": "https://servidos.ar/escalas-salariales-gremios",
+      "titulo": "Servidos: escalas salariales de gremios (octubre 2026)",
+      "publicador": "Servidos (portal comercial) citando CAMARCO/UOCRA",
+      "tipo": "portal",
+      "fecha_publicacion": "2026-10",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Escala oct-2026 Zona A, vigente al 2026-10-01 segun el portal, que cita CAMARCO/UOCRA. Aclara que pintores en obra cobran por categoria UOCRA y que no aplica a pintores independientes (monotributistas). No se pudo abrir la fuente primaria."
+    },
+    "perfil_casas_part": {
+      "url": "https://www.perfil.com/noticias/economia/nuevo-sueldo-de-empleadas-domesticas-cuanto-cobran-por-hora-y-mes-desde-septiembre-de-2026.phtml",
+      "titulo": "Perfil: sueldo de empleadas domesticas, Res. 6/2026 CNTCP",
+      "publicador": "Perfil (medio) sobre Resolucion 6/2026 de la Comision Nacional de Trabajo en Casas Particulares",
+      "tipo": "prensa",
+      "fecha_publicacion": "2026-09",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Minimo por hora de tareas generales (incluye limpieza), octubre 2026. Es piso salarial, no precio de un servicio de limpieza."
+    },
+    "iprof_uatre_oct26": {
+      "url": "https://www.iprofesional.com/economia/465826-salarios-rurales-cuanto-cobra-peon-uatre-adicionales-octubre-2026",
+      "titulo": "iProfesional: salario rural UATRE octubre 2026",
+      "publicador": "iProfesional (medio) sobre escala UATRE",
+      "tipo": "prensa",
+      "fecha_publicacion": "2026-10",
+      "fecha_consulta": "2026-10-08",
+      "notas": "Peon general: jornal de octubre. El articulo menciona \"jardineria\" entre tareas especializadas (basico mensual) pero no define un jornal de jardinero. No esta establecido que UATRE aplique a jardineros de la costa."
+    },
+    "infobae_uocra_jul26": {
+      "url": "https://www.infobae.com/economia/2026/07/30/cuanto-cobran-los-trabajadores-de-la-construccion-de-uocra-en-julio-2026/",
+      "titulo": "Infobae: UOCRA julio 2026",
+      "publicador": "Infobae (medio)",
+      "tipo": "prensa",
+      "fecha_publicacion": "2026-07-30",
+      "fecha_consulta": "2026-10-08",
+      "notas": "SOLO CONTRASTE, no se usa en montos. Rotula \"jornales diarios\" a valores de magnitud horaria (oficial $6.348) y no coincide con iProfesional de julio (oficial $5.817/h). Discrepancia sin resolver."
+    }
+  },
+  "factores_ajuste": [
+    {
+      "id": "altura_mas_de_2_60m",
+      "descripcion": "Recargo por trabajar a mas de 2,60 m (andamio o escalera alta); la fuente lo da para paredes y cielorrasos interiores",
+      "aplica_a": [
+        "pintura_interior_latex_2_manos",
+        "pintura_cielorraso"
+      ],
+      "tipo": "recargo_bps",
+      "min_bps": 2000,
+      "max_bps": 3000,
+      "fuente_ids": [
+        "serv_blog_pintar",
+        "serv_pintor"
+      ],
+      "confianza": "baja",
+      "motivo_null": null,
+      "notas": "Las dos fuentes son del mismo portal. No cubre pintura de edificios en altura con balancin o soga: eso queda sin dato."
+    },
+    {
+      "id": "materiales_si_los_pone_el_profesional",
+      "descripcion": "Recargo sobre la mano de obra si el profesional pone los materiales de pintura",
+      "aplica_a": [
+        "pintura_*"
+      ],
+      "tipo": "recargo_bps",
+      "min_bps": 2500,
+      "max_bps": 4000,
+      "fuente_ids": [
+        "serv_blog_pintar"
+      ],
+      "confianza": "baja",
+      "motivo_null": null,
+      "notas": "Los precios de este tarifario son solo mano de obra."
+    },
+    {
+      "id": "estado_paredes_humedad_techos_altos",
+      "descripcion": "Recargo por mucho enduido, humedad o techos altos",
+      "aplica_a": [
+        "pintura_*"
+      ],
+      "tipo": "recargo_bps",
+      "min_bps": null,
+      "max_bps": null,
+      "fuente_ids": [],
+      "confianza": null,
+      "motivo_null": "Las fuentes solo dan rangos absolutos por departamento (de $280.000 a $600.000 o mas), no un porcentaje. Convertirlo seria inventar la cifra."
+    },
+    {
+      "id": "zona_costa_mar_chiquita_cobo_santa_clara_parque_lago",
+      "descripcion": "Ajuste de los precios de CABA y Mar del Plata a Mar Chiquita, Cobo, Santa Clara y Parque Lago",
+      "aplica_a": [
+        "*"
+      ],
+      "tipo": "recargo_bps",
+      "min_bps": null,
+      "max_bps": null,
+      "fuente_ids": [
+        "serv_jard_mdp"
+      ],
+      "confianza": null,
+      "motivo_null": "Sin fuente para las cuatro localidades. Servidos dice que Mar del Plata esta \"algo por debajo de CABA\" pero sin numero. La base de este tarifario es CABA, Mar del Plata (estimado) y Venado Tuerto: ninguna es la costa."
+    },
+    {
+      "id": "urgencia",
+      "descripcion": "Recargo por trabajo urgente o fuera de horario",
+      "aplica_a": [
+        "*"
+      ],
+      "tipo": "recargo_bps",
+      "min_bps": null,
+      "max_bps": null,
+      "fuente_ids": [
+        "iprof_oficios_jul26"
+      ],
+      "confianza": null,
+      "motivo_null": "Solo hay un dato cualitativo (destapaciones urgentes \"pueden superar los $90.000\" contra $30.000 a $52.000 normales) y sin porcentaje."
+    },
+    {
+      "id": "temporada_alta_costa",
+      "descripcion": "Estacionalidad de verano en la costa",
+      "aplica_a": [
+        "*"
+      ],
+      "tipo": "recargo_bps",
+      "min_bps": null,
+      "max_bps": null,
+      "fuente_ids": [],
+      "confianza": null,
+      "motivo_null": "Sin fuente publica."
+    },
+    {
+      "id": "traslado_distancia",
+      "descripcion": "Costo de traslado entre localidades",
+      "aplica_a": [
+        "*"
+      ],
+      "tipo": "recargo_bps",
+      "min_bps": null,
+      "max_bps": null,
+      "fuente_ids": [],
+      "confianza": null,
+      "motivo_null": "Sin fuente publica."
+    }
+  ],
+  "referencias_salariales_convenio": [
+    {
+      "id": "uocra_oficial_especializado",
+      "descripcion": "UOCRA Zona A, categoria oficial especializado, valor hora de convenio (salario bruto, no precio de servicio)",
+      "unidad": "hora",
+      "min_centavos": 756100,
+      "max_centavos": 769700,
+      "puntos": [
+        {
+          "fuente_id": "perfil_uocra_sep26",
+          "zona_ref": "Zona A",
+          "min_centavos": 756100,
+          "max_centavos": 756100,
+          "nota": "septiembre 2026"
+        },
+        {
+          "fuente_id": "serv_escalas_oct26",
+          "zona_ref": "Zona A",
+          "min_centavos": 769700,
+          "max_centavos": 769700,
+          "nota": "octubre 2026 (el portal cita CAMARCO/UOCRA)"
+        }
+      ],
+      "jornal_8h_min_centavos": 6048800,
+      "jornal_8h_max_centavos": 6157600
+    },
+    {
+      "id": "uocra_oficial",
+      "descripcion": "UOCRA Zona A, categoria oficial (categoria en la que cobra un pintor en obra segun el portal; a validar), valor hora de convenio (salario bruto, no precio de servicio)",
+      "unidad": "hora",
+      "min_centavos": 646800,
+      "max_centavos": 658500,
+      "puntos": [
+        {
+          "fuente_id": "perfil_uocra_sep26",
+          "zona_ref": "Zona A",
+          "min_centavos": 646800,
+          "max_centavos": 646800,
+          "nota": "septiembre 2026"
+        },
+        {
+          "fuente_id": "serv_escalas_oct26",
+          "zona_ref": "Zona A",
+          "min_centavos": 658500,
+          "max_centavos": 658500,
+          "nota": "octubre 2026 (el portal cita CAMARCO/UOCRA)"
+        }
+      ],
+      "jornal_8h_min_centavos": 5174400,
+      "jornal_8h_max_centavos": 5268000
+    },
+    {
+      "id": "uocra_medio_oficial",
+      "descripcion": "UOCRA Zona A, categoria medio oficial, valor hora de convenio (salario bruto, no precio de servicio)",
+      "unidad": "hora",
+      "min_centavos": 597700,
+      "max_centavos": 608500,
+      "puntos": [
+        {
+          "fuente_id": "perfil_uocra_sep26",
+          "zona_ref": "Zona A",
+          "min_centavos": 597700,
+          "max_centavos": 597700,
+          "nota": "septiembre 2026"
+        },
+        {
+          "fuente_id": "serv_escalas_oct26",
+          "zona_ref": "Zona A",
+          "min_centavos": 608500,
+          "max_centavos": 608500,
+          "nota": "octubre 2026 (el portal cita CAMARCO/UOCRA)"
+        }
+      ],
+      "jornal_8h_min_centavos": 4781600,
+      "jornal_8h_max_centavos": 4868000
+    },
+    {
+      "id": "uocra_ayudante",
+      "descripcion": "UOCRA Zona A, categoria ayudante, valor hora de convenio (salario bruto, no precio de servicio)",
+      "unidad": "hora",
+      "min_centavos": 550200,
+      "max_centavos": 560100,
+      "puntos": [
+        {
+          "fuente_id": "perfil_uocra_sep26",
+          "zona_ref": "Zona A",
+          "min_centavos": 550200,
+          "max_centavos": 550200,
+          "nota": "septiembre 2026"
+        },
+        {
+          "fuente_id": "serv_escalas_oct26",
+          "zona_ref": "Zona A",
+          "min_centavos": 560100,
+          "max_centavos": 560100,
+          "nota": "octubre 2026 (el portal cita CAMARCO/UOCRA)"
+        }
+      ],
+      "jornal_8h_min_centavos": 4401600,
+      "jornal_8h_max_centavos": 4480800
+    },
+    {
+      "id": "casas_particulares_tareas_generales_hora",
+      "descripcion": "Casas particulares, tareas generales (limpieza), minimo por hora octubre 2026: con retiro y sin retiro",
+      "unidad": "hora",
+      "min_centavos": 406408,
+      "max_centavos": 433753,
+      "puntos": [
+        {
+          "fuente_id": "perfil_casas_part",
+          "zona_ref": "Buenos Aires",
+          "min_centavos": 406408,
+          "max_centavos": 433753,
+          "nota": "octubre 2026: con retiro $4.064,08; sin retiro $4.337,53"
+        }
+      ]
+    },
+    {
+      "id": "uatre_peon_general_jornal",
+      "descripcion": "UATRE peon general, jornal octubre 2026 (aplicabilidad a jardineria de la costa a validar)",
+      "unidad": "jornal",
+      "min_centavos": 5436802,
+      "max_centavos": 5436802,
+      "puntos": [
+        {
+          "fuente_id": "iprof_uatre_oct26",
+          "zona_ref": "pais",
+          "min_centavos": 5436802,
+          "max_centavos": 5436802,
+          "nota": "octubre 2026"
+        }
+      ]
+    },
+    {
+      "id": "uatre_jardineria_basico_mensual",
+      "descripcion": "UATRE tareas especializadas incluyendo jardineria, basico mensual octubre 2026 (aplicabilidad a validar)",
+      "unidad": "mes",
+      "min_centavos": 131559052,
+      "max_centavos": 131559052,
+      "puntos": [
+        {
+          "fuente_id": "iprof_uatre_oct26",
+          "zona_ref": "pais",
+          "min_centavos": 131559052,
+          "max_centavos": 131559052,
+          "nota": "octubre 2026; el articulo no define un jornal de jardinero"
+        }
+      ]
+    }
+  ],
+  "oficios": [
+    {
+      "id": "pintura",
+      "nombre": "Pintura (interior, exterior, altura)",
+      "tareas": [
+        {
+          "id": "pintura_interior_latex_2_manos",
+          "descripcion": "Latex interior sobre pared sana, dos manos, solo mano de obra",
+          "unidad": "m2",
+          "precio": {
+            "min_centavos": 450000,
+            "max_centavos": 850000,
+            "confianza": "media",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 480000,
+                "max_centavos": 850000,
+                "estimacion_propia_del_portal": false
+              },
+              {
+                "fuente_id": "serv_blog_pintar",
+                "zona_ref": "CABA",
+                "min_centavos": 450000,
+                "max_centavos": 800000,
+                "estimacion_propia_del_portal": false
+              },
+              {
+                "fuente_id": "utn_ceccdu_feb26",
+                "zona_ref": "Venado Tuerto y region (Santa Fe)",
+                "min_centavos": 540648,
+                "max_centavos": 540648,
+                "estimacion_propia_del_portal": false,
+                "nota": "Punto unico, febrero 2026, componente mano de obra del item 23.1 (pintura latex en muros); sin IVA"
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_enduido_lijado_sellador",
+          "descripcion": "Enduido, lijado y sellador previo, se suma a la pintura, solo mano de obra",
+          "unidad": "m2",
+          "precio": {
+            "min_centavos": 300000,
+            "max_centavos": 950000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 320000,
+                "max_centavos": 950000,
+                "estimacion_propia_del_portal": true
+              },
+              {
+                "fuente_id": "serv_blog_pintar",
+                "zona_ref": "CABA",
+                "min_centavos": 300000,
+                "max_centavos": 900000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_cielorraso",
+          "descripcion": "Pintura de cielorraso, solo mano de obra",
+          "unidad": "m2",
+          "precio": {
+            "min_centavos": 500000,
+            "max_centavos": 1250000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 530000,
+                "max_centavos": 1250000,
+                "estimacion_propia_del_portal": false,
+                "nota": "El portal aclara recargo de 20% a 30% para cielorrasos de mas de 2,60 m"
+              },
+              {
+                "fuente_id": "serv_blog_pintar",
+                "zona_ref": "CABA",
+                "min_centavos": 500000,
+                "max_centavos": 1200000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_exterior_fachada",
+          "descripcion": "Pintura exterior o fachada con andamio o balancin; el andamio puede cotizarse aparte",
+          "unidad": "m2",
+          "precio": {
+            "min_centavos": 530000,
+            "max_centavos": 1200000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 530000,
+                "max_centavos": 1200000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_puerta_esmalte",
+          "descripcion": "Puerta pintada con esmalte, solo mano de obra",
+          "unidad": "unidad",
+          "precio": {
+            "min_centavos": 1500000,
+            "max_centavos": 3500000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_blog_pintar",
+                "zona_ref": "CABA",
+                "min_centavos": 1500000,
+                "max_centavos": 3500000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_ventana_esmalte",
+          "descripcion": "Ventana pintada con esmalte, solo mano de obra",
+          "unidad": "unidad",
+          "precio": {
+            "min_centavos": 800000,
+            "max_centavos": 2000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_blog_pintar",
+                "zona_ref": "CABA",
+                "min_centavos": 800000,
+                "max_centavos": 2000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_esmalte_carpinteria_madera",
+          "descripcion": "Esmalte sintetico sobre carpinteria (madera), componente mano de obra",
+          "unidad": "m2",
+          "precio": {
+            "min_centavos": 2046759,
+            "max_centavos": 2046759,
+            "confianza": "media",
+            "puntos": [
+              {
+                "fuente_id": "utn_ceccdu_feb26",
+                "zona_ref": "Venado Tuerto y region (Santa Fe)",
+                "min_centavos": 2046759,
+                "max_centavos": 2046759,
+                "estimacion_propia_del_portal": false,
+                "nota": "Punto unico, febrero 2026, item 23.2; sin IVA"
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_esmalte_carpinteria_metalica",
+          "descripcion": "Esmalte sintetico sobre carpinteria metalica, componente mano de obra",
+          "unidad": "m2",
+          "precio": {
+            "min_centavos": 1104111,
+            "max_centavos": 1104111,
+            "confianza": "media",
+            "puntos": [
+              {
+                "fuente_id": "utn_ceccdu_feb26",
+                "zona_ref": "Venado Tuerto y region (Santa Fe)",
+                "min_centavos": 1104111,
+                "max_centavos": 1104111,
+                "estimacion_propia_del_portal": false,
+                "nota": "Punto unico, febrero 2026, item 23.3; sin IVA"
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_rejas_portones",
+          "descripcion": "Lijado y pintura de rejas o portones (antioxido y esmalte); puede cotizarse por metro",
+          "unidad": "unidad",
+          "precio": {
+            "min_centavos": 3200000,
+            "max_centavos": 9500000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 3200000,
+                "max_centavos": 9500000,
+                "estimacion_propia_del_portal": true
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_tratamiento_humedad",
+          "descripcion": "Tratamiento de humedad o sellador",
+          "unidad": "ml",
+          "precio": {
+            "min_centavos": 2100000,
+            "max_centavos": 4200000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 2100000,
+                "max_centavos": 4200000,
+                "estimacion_propia_del_portal": true
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_diagnostico_humedad",
+          "descripcion": "Diagnostico de humedad, a veces descontable del trabajo",
+          "unidad": "visita",
+          "precio": {
+            "min_centavos": 3200000,
+            "max_centavos": 8500000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 3200000,
+                "max_centavos": 8500000,
+                "estimacion_propia_del_portal": true
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_empapelado",
+          "descripcion": "Colocacion de papel; retirar el papel viejo es aparte",
+          "unidad": "m2",
+          "precio": {
+            "min_centavos": 850000,
+            "max_centavos": 1500000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 850000,
+                "max_centavos": 1500000,
+                "estimacion_propia_del_portal": true
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_monoambiente_completo",
+          "descripcion": "Monoambiente o ambiente completo, paredes y cielorraso, solo mano de obra",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 8500000,
+            "max_centavos": 19000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 8500000,
+                "max_centavos": 19000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_depto_2_3_ambientes",
+          "descripcion": "Departamento de 2 a 3 ambientes, solo mano de obra; sube con enduido total, humedad o techos altos",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 28000000,
+            "max_centavos": 82400000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_pintor",
+                "zona_ref": "CABA",
+                "min_centavos": 29600000,
+                "max_centavos": 82400000,
+                "estimacion_propia_del_portal": false
+              },
+              {
+                "fuente_id": "serv_blog_pintar",
+                "zona_ref": "CABA",
+                "min_centavos": 28000000,
+                "max_centavos": 60000000,
+                "estimacion_propia_del_portal": false,
+                "nota": "2 ambientes, vacio y en buen estado: \"alrededor de $280.000\", puede llegar a $600.000 \"o mas\" (el maximo es piso, no tope)"
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "pintura_altura_edificio_balancin_soga",
+          "descripcion": "Pintura en altura de edificios con balancin, andamio multidireccional o acceso por soga",
+          "unidad": "m2",
+          "precio": null,
+          "motivo_null": "Ninguna fuente publica 2026 encontrada separa este servicio. Solo hay el recargo de 20% a 30% por mas de 2,60 m (ver factor altura_mas_de_2_60m) y la fachada con andamio. Lo debe cotizar un pintor que trabaje en altura."
+        },
+        {
+          "id": "pintura_impermeabilizacion_techo_membrana",
+          "descripcion": "Impermeabilizacion de techo o terraza con membrana o pintura",
+          "unidad": "m2",
+          "precio": null,
+          "motivo_null": "Sin fuente publica 2026 de mano de obra para este item. El revoque impermeable de UTN (item 12.6) es otro trabajo y no se asimila."
+        },
+        {
+          "id": "pintura_jornal_pintor_independiente",
+          "descripcion": "Jornal de un pintor independiente (monotributista)",
+          "unidad": "jornal",
+          "precio": null,
+          "motivo_null": "No hay fuente publica 2026 del jornal de un pintor independiente. Servidos aclara que la escala UOCRA no aplica a independientes. Ver referencias_salariales_convenio como piso de costo laboral, que no es precio."
+        }
+      ]
+    },
+    {
+      "id": "jardineria",
+      "nombre": "Jardineria, parques y paisajismo",
+      "tareas": [
+        {
+          "id": "jardin_visita_presupuesto",
+          "descripcion": "Visita y presupuesto a domicilio; muchos jardineros cotizan sin cargo",
+          "unidad": "visita",
+          "precio": {
+            "min_centavos": 900000,
+            "max_centavos": 2000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_jard_mdp",
+                "zona_ref": "Mar del Plata (estimado por el portal)",
+                "min_centavos": 900000,
+                "max_centavos": 1700000,
+                "estimacion_propia_del_portal": false
+              },
+              {
+                "fuente_id": "serv_jard_caba",
+                "zona_ref": "CABA",
+                "min_centavos": 1000000,
+                "max_centavos": 2000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "jardin_corte_cesped_chico_hasta_100m2",
+          "descripcion": "Corte de cesped de jardin chico (hasta 100 m2 aprox.), por visita",
+          "unidad": "visita",
+          "precio": {
+            "min_centavos": 2100000,
+            "max_centavos": 4000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_jard_mdp",
+                "zona_ref": "Mar del Plata (estimado por el portal)",
+                "min_centavos": 2100000,
+                "max_centavos": 3400000,
+                "estimacion_propia_del_portal": false
+              },
+              {
+                "fuente_id": "serv_jard_caba",
+                "zona_ref": "CABA",
+                "min_centavos": 2500000,
+                "max_centavos": 4000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "jardin_mantenimiento_mensual_chico",
+          "descripcion": "Abono mensual de mantenimiento de jardin chico (quincenal o semanal)",
+          "unidad": "mes",
+          "precio": {
+            "min_centavos": 3000000,
+            "max_centavos": 8500000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_jard_mdp",
+                "zona_ref": "Mar del Plata (estimado por el portal)",
+                "min_centavos": 3000000,
+                "max_centavos": 7200000,
+                "estimacion_propia_del_portal": false
+              },
+              {
+                "fuente_id": "serv_jard_caba",
+                "zona_ref": "CABA",
+                "min_centavos": 3500000,
+                "max_centavos": 8500000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "jardin_poda_arbustos_cercos",
+          "descripcion": "Poda de arbustos, cercos y ligustrinas",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 1700000,
+            "max_centavos": 5000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_jard_mdp",
+                "zona_ref": "Mar del Plata (estimado por el portal)",
+                "min_centavos": 1700000,
+                "max_centavos": 4300000,
+                "estimacion_propia_del_portal": false
+              },
+              {
+                "fuente_id": "serv_jard_caba",
+                "zona_ref": "CABA",
+                "min_centavos": 2000000,
+                "max_centavos": 5000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "jardin_poda_arbol_chico_mediano",
+          "descripcion": "Poda de arbol chico o mediano",
+          "unidad": "unidad",
+          "precio": {
+            "min_centavos": 3800000,
+            "max_centavos": 9000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_jard_mdp",
+                "zona_ref": "Mar del Plata (estimado por el portal)",
+                "min_centavos": 3800000,
+                "max_centavos": 7700000,
+                "estimacion_propia_del_portal": false
+              },
+              {
+                "fuente_id": "serv_jard_caba",
+                "zona_ref": "CABA",
+                "min_centavos": 4500000,
+                "max_centavos": 9000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "jardin_tala_extraccion_arbol",
+          "descripcion": "Extraccion o tala de arbol; se cotiza segun tamano, estado y acceso",
+          "unidad": "unidad",
+          "precio": {
+            "min_centavos": 7700000,
+            "max_centavos": 21300000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_jard_mdp",
+                "zona_ref": "Mar del Plata (estimado por el portal)",
+                "min_centavos": 7700000,
+                "max_centavos": 21300000,
+                "estimacion_propia_del_portal": true
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "jardin_limpieza_puesta_a_punto",
+          "descripcion": "Limpieza y puesta a punto de jardin abandonado",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 5100000,
+            "max_centavos": 12800000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_jard_mdp",
+                "zona_ref": "Mar del Plata (estimado por el portal)",
+                "min_centavos": 5100000,
+                "max_centavos": 12800000,
+                "estimacion_propia_del_portal": true
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "jardin_riego_automatico_instalacion",
+          "descripcion": "Instalacion de sistema de riego automatico",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 12800000,
+            "max_centavos": 29800000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_jard_mdp",
+                "zona_ref": "Mar del Plata (estimado por el portal)",
+                "min_centavos": 12800000,
+                "max_centavos": 29800000,
+                "estimacion_propia_del_portal": true
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "jardin_mantenimiento_terraza_macetas",
+          "descripcion": "Mantenimiento de terraza, balcon verde o macetas",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 2600000,
+            "max_centavos": 5100000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_jard_mdp",
+                "zona_ref": "Mar del Plata (estimado por el portal)",
+                "min_centavos": 2600000,
+                "max_centavos": 5100000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "jardin_corte_cesped_por_m2",
+          "descripcion": "Corte de cesped por m2 (parques y lotes grandes)",
+          "unidad": "m2",
+          "precio": null,
+          "motivo_null": "Ninguna fuente publica da precio por m2. Solo hay un precio por visita para jardin chico (hasta 100 m2); dividirlo daria un valor falso para lotes grandes. Pedir a los jardineros precio por m2 con y sin desmalezadora."
+        },
+        {
+          "id": "jardin_colocacion_cesped_panes",
+          "descripcion": "Colocacion de cesped en panes o rollos",
+          "unidad": "m2",
+          "precio": null,
+          "motivo_null": "El portal publica $7.000 a $13.000 (mano de obra mas material, estimacion propia) sin decir la unidad. No se asume m2."
+        },
+        {
+          "id": "jardin_mantenimiento_parque_grande",
+          "descripcion": "Mantenimiento de parque grande (mas de 1.000 m2), mensual o por m2",
+          "unidad": "m2_mes",
+          "precio": null,
+          "motivo_null": "Sin fuente publica 2026. Es el caso tipico de Parque Lago y Cobo y lo debe aportar un jardinero que trabaje parques."
+        },
+        {
+          "id": "jardin_desmalezado_terreno",
+          "descripcion": "Desmalezado y limpieza de terreno baldio o parque con desmalezadora",
+          "unidad": "m2",
+          "precio": null,
+          "motivo_null": "Sin fuente publica 2026 con unidad clara."
+        },
+        {
+          "id": "jardin_parquizacion_diseno",
+          "descripcion": "Parquizacion, diseno paisajistico y plantacion",
+          "unidad": "m2",
+          "precio": null,
+          "motivo_null": "Sin fuente publica 2026 con precios de mano de obra. No se encontraron honorarios publicados por colegio o consejo profesional."
+        },
+        {
+          "id": "jardin_jornal_jardinero",
+          "descripcion": "Jornal de un jardinero independiente",
+          "unidad": "jornal",
+          "precio": null,
+          "motivo_null": "No hay fuente publica del jornal de un jardinero independiente. UATRE menciona jardineria como tarea especializada (basico mensual) pero no es claro que aplique. Ver referencias_salariales_convenio."
+        }
+      ]
+    },
+    {
+      "id": "reparaciones",
+      "nombre": "Reparaciones y mantenimiento",
+      "tareas": [
+        {
+          "id": "rep_electricista_visita_diagnostico",
+          "descripcion": "Electricista: visita tecnica para diagnostico",
+          "unidad": "visita",
+          "precio": {
+            "min_centavos": 2500000,
+            "max_centavos": 4600000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "iprof_oficios_jul26",
+                "zona_ref": "zona no especificada",
+                "min_centavos": 2500000,
+                "max_centavos": 4600000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "rep_electricista_boca_completa",
+          "descripcion": "Electricista: instalacion de boca electrica completa",
+          "unidad": "unidad",
+          "precio": {
+            "min_centavos": 2800000,
+            "max_centavos": 4700000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "iprof_oficios_jul26",
+                "zona_ref": "zona no especificada",
+                "min_centavos": 2800000,
+                "max_centavos": 4700000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "rep_electricista_cortocircuito",
+          "descripcion": "Electricista: busqueda y reparacion de cortocircuito",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 5790000,
+            "max_centavos": 9180000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "iprof_oficios_jul26",
+                "zona_ref": "zona no especificada",
+                "min_centavos": 5790000,
+                "max_centavos": 9180000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "rep_plomero_visita_diagnostico",
+          "descripcion": "Plomero: visita de diagnostico",
+          "unidad": "visita",
+          "precio": {
+            "min_centavos": 1900000,
+            "max_centavos": 8400000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "iprof_oficios_jul26",
+                "zona_ref": "zona no especificada",
+                "min_centavos": 1900000,
+                "max_centavos": 8400000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "rep_plomero_cambio_griferia",
+          "descripcion": "Plomero: reemplazo de griferia",
+          "unidad": "unidad",
+          "precio": {
+            "min_centavos": 3000000,
+            "max_centavos": 5000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "iprof_oficios_jul26",
+                "zona_ref": "zona no especificada",
+                "min_centavos": 3000000,
+                "max_centavos": 5000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "rep_plomero_cambio_sifon",
+          "descripcion": "Plomero: cambio de sifon bajo mesada",
+          "unidad": "unidad",
+          "precio": {
+            "min_centavos": 2000000,
+            "max_centavos": 3000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "iprof_oficios_jul26",
+                "zona_ref": "zona no especificada",
+                "min_centavos": 2000000,
+                "max_centavos": 3000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "rep_plomero_destapacion",
+          "descripcion": "Plomero: destapacion; las urgencias pueden superar $90.000",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 3000000,
+            "max_centavos": 5200000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "iprof_oficios_jul26",
+                "zona_ref": "zona no especificada",
+                "min_centavos": 3000000,
+                "max_centavos": 5200000,
+                "estimacion_propia_del_portal": false,
+                "nota": "Urgencias \"pueden superar los $90.000\" segun la nota (sin tope)"
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "rep_revoque_interior_cal",
+          "descripcion": "Albanileria: revoque interior a la cal, componente mano de obra",
+          "unidad": "m2",
+          "precio": {
+            "min_centavos": 1335402,
+            "max_centavos": 1335402,
+            "confianza": "media",
+            "puntos": [
+              {
+                "fuente_id": "utn_ceccdu_feb26",
+                "zona_ref": "Venado Tuerto y region (Santa Fe)",
+                "min_centavos": 1335402,
+                "max_centavos": 1335402,
+                "estimacion_propia_del_portal": false,
+                "nota": "Punto unico, febrero 2026, item 12.3; sin IVA"
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "rep_albanil_jornal_independiente",
+          "descripcion": "Jornal de albanil independiente",
+          "unidad": "jornal",
+          "precio": null,
+          "motivo_null": "Solo hay la escala UOCRA (salario de convenio, ver referencias_salariales_convenio), que no es el precio que cobra un independiente."
+        },
+        {
+          "id": "rep_gasista",
+          "descripcion": "Gasista matriculado: visita y trabajos tipicos",
+          "unidad": "trabajo",
+          "precio": null,
+          "motivo_null": "Sin fuente publica 2026 encontrada."
+        },
+        {
+          "id": "rep_carpinteria_cerrajeria",
+          "descripcion": "Carpinteria, cerrajeria y arreglos menores del hogar",
+          "unidad": "trabajo",
+          "precio": null,
+          "motivo_null": "Sin fuente publica 2026 encontrada."
+        }
+      ]
+    },
+    {
+      "id": "limpieza",
+      "nombre": "Limpieza",
+      "tareas": [
+        {
+          "id": "limp_profunda_vivienda",
+          "descripcion": "Limpieza profunda de departamento o casa segun superficie y estado",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 6000000,
+            "max_centavos": 13000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_limpieza",
+                "zona_ref": "CABA",
+                "min_centavos": 6000000,
+                "max_centavos": 13000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "limp_fin_de_obra",
+          "descripcion": "Limpieza de fin de obra o posconstruccion; suele tener minimo por trabajo",
+          "unidad": "m2",
+          "precio": {
+            "min_centavos": 450000,
+            "max_centavos": 1000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_limpieza",
+                "zona_ref": "CABA",
+                "min_centavos": 450000,
+                "max_centavos": 1000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "limp_vidrios_ventanales",
+          "descripcion": "Limpieza de vidrios y ventanales segun cantidad, altura y acceso",
+          "unidad": "trabajo",
+          "precio": {
+            "min_centavos": 1500000,
+            "max_centavos": 5000000,
+            "confianza": "baja",
+            "puntos": [
+              {
+                "fuente_id": "serv_limpieza",
+                "zona_ref": "CABA",
+                "min_centavos": 1500000,
+                "max_centavos": 5000000,
+                "estimacion_propia_del_portal": false
+              }
+            ]
+          },
+          "motivo_null": null
+        },
+        {
+          "id": "limp_servicio_por_hora",
+          "descripcion": "Precio por hora de un servicio de limpieza",
+          "unidad": "hora",
+          "precio": null,
+          "motivo_null": "Sin precio publico de servicio por hora. El minimo salarial de tareas generales (ver referencias_salariales_convenio) es piso de sueldo en relacion de dependencia, no el precio de un servicio."
+        }
+      ]
+    }
+  ]
+}

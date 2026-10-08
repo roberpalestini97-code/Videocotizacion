@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ClaveWidget",
+  "description": "Clave pública del widget (vista de gestión, sin el secreto).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "clave_id",
+    "nombre",
+    "prefijo",
+    "origins",
+    "estado",
+    "creada_en"
+  ],
+  "properties": {
+    "clave_id": {
+      "$ref": "IdClaveWidget.schema.json"
+    },
+    "nombre": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "prefijo": {
+      "type": "string",
+      "pattern": "^vc_pub_[A-Za-z0-9_-]{6}$"
+    },
+    "origins": {
+      "type": "array",
+      "items": {
+        "$ref": "Origin.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 10,
+      "uniqueItems": true
+    },
+    "estado": {
+      "type": "string",
+      "enum": [
+        "activa",
+        "revocada"
+      ]
+    },
+    "creada_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "revocada_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "ultimo_uso_en": {
+      "$ref": "FechaHora.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "clave_id": "cpw_F47FE4NAE2YBQ039R346YGWPPB",
+      "nombre": "Sitio principal",
+      "prefijo": "vc_pub_NlwcBG",
+      "origins": [
+        "https://cotizar.videocotizacion.local"
+      ],
+      "estado": "activa",
+      "creada_en": "2026-10-05T01:40:00Z"
+    },
+    {
+      "clave_id": "cpw_ZKWA18CB675A5VQR44CQD0NDXA",
+      "nombre": "Landing jardinería",
+      "prefijo": "vc_pub__Sm50i",
+      "origins": [
+        "https://cotizar.videocotizacion.local",
+        "https://www.videocotizacion.local"
+      ],
+      "estado": "revocada",
+      "creada_en": "2026-10-05T01:39:00Z",
+      "revocada_en": "2026-10-08T12:50:00Z",
+      "ultimo_uso_en": "2026-10-08T12:00:00Z"
+    }
+  ]
+}

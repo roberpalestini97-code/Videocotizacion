@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "oficio": "otro",
+  "trabajo": {
+    "tipo": "otro",
+    "descripcion": "Conexión de gas a cocina",
+    "complejidad": "tecnica"
+  },
+  "medidas": [],
+  "altura": {
+    "metros_max": null,
+    "requiere_andamio": "sin_definir"
+  },
+  "estado_superficie": "no_aplica",
+  "zona": {
+    "localidad": "santa_clara_del_mar",
+    "fuera_de_zona": false
+  },
+  "urgencia": {
+    "nivel": "sin_definir",
+    "senales": []
+  },
+  "tipo_cliente": "sin_definir",
+  "plazo": {
+    "tipo": "sin_definir"
+  },
+  "faltantes": [],
+  "siguiente_paso": {
+    "accion": "fuera_de_alcance",
+    "motivo": "Gas requiere gasista matriculado; no es un servicio que ofrecemos",
+    "campos": []
+  },
+  "respuesta_hablada": "Lo de gas lo tiene que hacer un gasista matriculado, eso no lo hacemos. Si querés, de pintura o jardín te ayudo con gusto."
+}

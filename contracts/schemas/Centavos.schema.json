@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Centavos",
+  "description": "Monto en centavos de la moneda indicada. Entero int64 no negativo; tope práctico 2^53−1 para clientes JavaScript. Nunca decimal (O04, G01).",
+  "type": "integer",
+  "format": "int64",
+  "minimum": 0,
+  "maximum": 9007199254740991,
+  "examples": [
+    0,
+    185000,
+    9007199254740991
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Error",
+  "description": "Problema RFC 9457 (application/problem+json) con código del catálogo. Sin trazas ni detalles internos (R31). Distingue los 401: credencial_invalida, sesion_vencida, reautenticacion_requerida, credenciales_incorrectas, totp_invalido.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "title",
+    "status",
+    "codigo",
+    "id_traza"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "status": {
+      "type": "integer",
+      "minimum": 400,
+      "maximum": 599
+    },
+    "codigo": {
+      "$ref": "CodigoError.schema.json"
+    },
+    "detail": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "id_traza": {
+      "type": "string",
+      "pattern": "^tr_[0-9a-f]{16}$"
+    },
+    "errores": {
+      "type": "array",
+      "items": {
+        "$ref": "ErrorCampo.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 50
+    },
+    "reintentar_en_s": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 86400
+    }
+  },
+  "examples": [
+    {
+      "type": "https://videocotizacion.local/errores/reautenticacion_requerida",
+      "title": "Confirmá tu identidad",
+      "status": 401,
+      "codigo": "reautenticacion_requerida",
+      "detail": "Para esta acción tenés que volver a ingresar tu contraseña y código.",
+      "id_traza": "tr_562881db98122dc8"
+    },
+    {
+      "type": "https://videocotizacion.local/errores/sesion_vencida",
+      "title": "Sesión vencida",
+      "status": 401,
+      "codigo": "sesion_vencida",
+      "detail": "Tu sesión venció. Ingresá de nuevo.",
+      "id_traza": "tr_c16d8a11f4ba1a7d"
+    },
+    {
+      "type": "https://videocotizacion.local/errores/validacion_fallida",
+      "title": "Datos inválidos",
+      "status": 422,
+      "codigo": "validacion_fallida",
+      "detail": "Hay datos que no cumplen el formato esperado.",
+      "id_traza": "tr_53c0a36f10ea3f80",
+      "errores": [
+        {
+          "campo": "/modo_avatar",
+          "problema": "Debe ser uno de: 3d, clips"
+        }
+      ]
+    }
+  ]
+}

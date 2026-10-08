@@ -1,0 +1,25 @@
+[
+  {
+    "esquema": "PerfilActualizacion",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "nombre_visible": "Juan Pérez",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "PerfilActualizacion",
+    "caso": "sin cambios",
+    "falla_por": "minProperties",
+    "instancia": {}
+  },
+  {
+    "esquema": "PerfilActualizacion",
+    "caso": "con DNI",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "dni": "30111222"
+    }
+  }
+]

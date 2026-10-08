@@ -1,0 +1,43 @@
+[
+  {
+    "esquema": "eventos/Evento_sesion_cerrar",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "v": 1,
+      "tipo": "sesion.cerrar",
+      "seq": 10,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "motivo": "cliente_cerro"
+      },
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "eventos/Evento_sesion_cerrar",
+    "caso": "falta \"v\"",
+    "falla_por": "required",
+    "instancia": {
+      "tipo": "sesion.cerrar",
+      "seq": 10,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "motivo": "cliente_cerro"
+      }
+    }
+  },
+  {
+    "esquema": "eventos/Evento_sesion_cerrar",
+    "caso": "falta \"tipo\"",
+    "falla_por": "required",
+    "instancia": {
+      "v": 1,
+      "seq": 10,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "motivo": "cliente_cerro"
+      }
+    }
+  }
+]

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CierreSesion",
+  "description": "Resultado del cierre. Con sin_consentimiento/sin_camara la derivación es la alternativa por WhatsApp (R45).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sesion_id",
+    "estado",
+    "motivo_cierre",
+    "cerrada_en",
+    "duracion_s"
+  ],
+  "properties": {
+    "sesion_id": {
+      "$ref": "IdSesion.schema.json"
+    },
+    "estado": {
+      "type": "string",
+      "const": "cerrada"
+    },
+    "motivo_cierre": {
+      "$ref": "MotivoCierre.schema.json"
+    },
+    "cerrada_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "duracion_s": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 86400
+    },
+    "cotizacion_id": {
+      "$ref": "IdCotizacion.schema.json"
+    },
+    "derivacion": {
+      "$ref": "DerivacionWhatsApp.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "estado": "cerrada",
+      "motivo_cierre": "completada",
+      "cerrada_en": "2026-10-08T13:15:00Z",
+      "duracion_s": 300,
+      "cotizacion_id": "cot_9DQCFQZZ7H1RQ0CKK4EQF7C54A",
+      "derivacion": {
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+        "generada_en": "2026-10-08T13:25:00Z"
+      }
+    },
+    {
+      "sesion_id": "ses_W0JF1HAKEBZYPS0YTDTXMNF5M3",
+      "estado": "cerrada",
+      "motivo_cierre": "sin_camara",
+      "cerrada_en": "2026-10-08T13:15:00Z",
+      "duracion_s": 0,
+      "derivacion": {
+        "codigo_referencia": "VC-RP7C-E5RAF5",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-RP7C-E5RAF5",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-RP7C-E5RAF5",
+        "generada_en": "2026-10-08T13:28:00Z"
+      }
+    }
+  ]
+}

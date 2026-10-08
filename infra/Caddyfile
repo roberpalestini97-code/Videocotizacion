@@ -1,0 +1,157 @@
+# Caddyfile de VideoCotización (T11). TLS automático con Let's Encrypt (o CA interna con CADDY_OPCION_GLOBAL=local_certs).
+# Variables de entorno (las pasa docker-compose.yml): DOMINIO, ACME_EMAIL, ORIGEN_FRONT, CADDY_OPCION_GLOBAL.
+# Sitios: api.<DOMINIO> (proxy a la API), panel.<DOMINIO> (SPA del asesor + /v1 hacia la API) y
+# assets.<DOMINIO> (archivos del avatar). El front de Lovable (cotizar.<DOMINIO>) NO pasa por acá.
+# El Origin por tenant lo valida la API (HTTP y WebSocket): Caddy NO agrega CORS a la API.
+# NO PROBADO en un Caddy corriendo con certificados reales (ver README).
+{
+	email {$ACME_EMAIL}
+	# API de administración solo en el loopback del contenedor (la usa el healthcheck).
+	admin localhost:2019
+	# Una línea opcional: local_certs | acme_ca <url> | vacío.
+	{$CADDY_OPCION_GLOBAL:}
+	servers {
+		protocols h1 h2 h3
+		timeouts {
+			read_header 10s
+			idle 2m
+		}
+	}
+}
+
+# --- Fragmentos reutilizables ---
+
+(cabeceras_seguras) {
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Cross-Origin-Opener-Policy "same-origin"
+		-Server
+	}
+}
+
+# Registro de accesos sin secretos ni datos personales (R28): sin cookies, tokens ni query strings,
+# y con la IP truncada. La API aplica sus propios límites con la IP real; esto es solo el log.
+(registro) {
+	log {
+		output stdout
+		format filter {
+			wrap json
+			fields {
+				request>headers>Authorization delete
+				request>headers>Cookie delete
+				request>headers>X-Csrf-Token delete
+				request>headers>X-Desafio delete
+				request>headers>Sec-Websocket-Protocol delete
+				resp_headers>Set-Cookie delete
+				request>uri regexp \?.* ""
+				request>remote_ip ip_mask {
+					ipv4 24
+					ipv6 56
+				}
+				request>client_ip ip_mask {
+					ipv4 24
+					ipv6 56
+				}
+				request>remote_addr delete
+			}
+		}
+	}
+}
+
+(proxy_api) {
+	reverse_proxy api:8080 {
+		health_uri /v1/version
+		health_interval 15s
+		health_timeout 3s
+		transport http {
+			dial_timeout 3s
+			response_header_timeout 30s
+		}
+	}
+}
+
+# --- API pública (clave de widget, claves de tenant, WebSocket de sesión) ---
+api.{$DOMINIO} {
+	import cabeceras_seguras
+	import registro
+	header Content-Security-Policy "default-src 'none'; frame-ancestors 'none'"
+	# Cuerpos HTTP chicos (los fotogramas van por WebSocket y los limita la API, R9).
+	request_body {
+		max_size 1MB
+	}
+	import proxy_api
+}
+
+# --- Panel del asesor: SPA estática + la API bajo el mismo origen (/v1) ---
+# Mismo origen = sin CORS con credenciales y la cookie __Host-vc_panel nunca viaja entre hosts.
+# Supuesto a confirmar con arq/fe: el panel llama a "/v1/..." relativo (ver README).
+panel.{$DOMINIO} {
+	import cabeceras_seguras
+	import registro
+	# CSP estricta sin inline (R51). Si el build de Vite usa estilos en línea, hay que corregir el build, no aflojar esto.
+	header Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+	header Cross-Origin-Resource-Policy "same-origin"
+
+	handle /v1/* {
+		request_body {
+			max_size 1MB
+		}
+		import proxy_api
+	}
+
+	handle {
+		root * /srv/panel
+		encode zstd gzip
+		@con_hash path /assets/*
+		header @con_hash Cache-Control "public, max-age=31536000, immutable"
+		@sin_hash not path /assets/*
+		header @sin_hash Cache-Control "no-cache"
+		# SPA: cualquier ruta que no sea un archivo cae en index.html.
+		try_files {path} /index.html
+		file_server {
+			hide .* *.map
+		}
+	}
+}
+
+# --- Archivos estáticos del avatar (modelo 3D, clips, texturas) para el front de Lovable ---
+assets.{$DOMINIO} {
+	import cabeceras_seguras
+	import registro
+
+	@metodo_no_permitido not method GET HEAD OPTIONS
+	handle @metodo_no_permitido {
+		respond 405
+	}
+
+	@preflight method OPTIONS
+	handle @preflight {
+		header Access-Control-Allow-Origin "{$ORIGEN_FRONT}"
+		header Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+		header Access-Control-Allow-Headers "Range"
+		header Access-Control-Max-Age "86400"
+		header Vary "Origin"
+		respond 204
+	}
+
+	handle {
+		root * /srv/avatar
+		encode zstd gzip
+		# Un solo Origin permitido (el del front), sin comodín y sin credenciales.
+		header Access-Control-Allow-Origin "{$ORIGEN_FRONT}"
+		header Access-Control-Expose-Headers "Content-Length, Content-Range, Accept-Ranges"
+		header Vary "Origin"
+		header Cross-Origin-Resource-Policy "cross-origin"
+		header Content-Security-Policy "default-src 'none'; sandbox"
+		# Los nombres de archivo llevan versión; si no, bajar este plazo.
+		header Cache-Control "public, max-age=86400"
+		@glb path *.glb
+		header @glb Content-Type "model/gltf-binary"
+		file_server {
+			hide .*
+		}
+	}
+}

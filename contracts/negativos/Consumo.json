@@ -1,0 +1,153 @@
+[
+  {
+    "esquema": "Consumo",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "ambito": "tenant",
+      "periodo": "2026-10",
+      "segundos_usados": 30000,
+      "segundos_tope": 30000,
+      "simultaneas_en_curso": 3,
+      "simultaneas_tope": 5,
+      "alerta": "p100",
+      "diario": [
+        {
+          "fecha": "2026-10-08",
+          "segundos": 1800,
+          "sesiones": 3,
+          "cotizaciones_emitidas": 2
+        },
+        {
+          "fecha": "2026-10-07",
+          "segundos": 1837,
+          "sesiones": 4,
+          "cotizaciones_emitidas": 3
+        },
+        {
+          "fecha": "2026-10-06",
+          "segundos": 1874,
+          "sesiones": 5,
+          "cotizaciones_emitidas": 4
+        }
+      ],
+      "actualizado_en": "2026-10-08T13:05:00Z",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "Consumo",
+    "caso": "falta \"ambito\"",
+    "falla_por": "required",
+    "instancia": {
+      "periodo": "2026-10",
+      "segundos_usados": 30000,
+      "segundos_tope": 30000,
+      "simultaneas_en_curso": 3,
+      "simultaneas_tope": 5,
+      "alerta": "p100",
+      "diario": [
+        {
+          "fecha": "2026-10-08",
+          "segundos": 1800,
+          "sesiones": 3,
+          "cotizaciones_emitidas": 2
+        },
+        {
+          "fecha": "2026-10-07",
+          "segundos": 1837,
+          "sesiones": 4,
+          "cotizaciones_emitidas": 3
+        },
+        {
+          "fecha": "2026-10-06",
+          "segundos": 1874,
+          "sesiones": 5,
+          "cotizaciones_emitidas": 4
+        }
+      ],
+      "actualizado_en": "2026-10-08T13:05:00Z"
+    }
+  },
+  {
+    "esquema": "Consumo",
+    "caso": "falta \"periodo\"",
+    "falla_por": "required",
+    "instancia": {
+      "ambito": "tenant",
+      "segundos_usados": 30000,
+      "segundos_tope": 30000,
+      "simultaneas_en_curso": 3,
+      "simultaneas_tope": 5,
+      "alerta": "p100",
+      "diario": [
+        {
+          "fecha": "2026-10-08",
+          "segundos": 1800,
+          "sesiones": 3,
+          "cotizaciones_emitidas": 2
+        },
+        {
+          "fecha": "2026-10-07",
+          "segundos": 1837,
+          "sesiones": 4,
+          "cotizaciones_emitidas": 3
+        },
+        {
+          "fecha": "2026-10-06",
+          "segundos": 1874,
+          "sesiones": 5,
+          "cotizaciones_emitidas": 4
+        }
+      ],
+      "actualizado_en": "2026-10-08T13:05:00Z"
+    }
+  },
+  {
+    "esquema": "Consumo",
+    "caso": "mes 13",
+    "falla_por": "pattern",
+    "instancia": {
+      "ambito": "tenant",
+      "periodo": "2026-13",
+      "segundos_usados": 15000,
+      "segundos_tope": 30000,
+      "simultaneas_en_curso": 1,
+      "simultaneas_tope": 5,
+      "alerta": "p50",
+      "diario": [
+        {
+          "fecha": "2026-10-08",
+          "segundos": 1800,
+          "sesiones": 3,
+          "cotizaciones_emitidas": 2
+        }
+      ],
+      "actualizado_en": "2026-10-08T13:05:00Z"
+    }
+  },
+  {
+    "esquema": "Consumo",
+    "caso": "expone costo en dinero",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "ambito": "tenant",
+      "periodo": "2026-10",
+      "segundos_usados": 15000,
+      "segundos_tope": 30000,
+      "simultaneas_en_curso": 1,
+      "simultaneas_tope": 5,
+      "alerta": "p50",
+      "diario": [
+        {
+          "fecha": "2026-10-08",
+          "segundos": 1800,
+          "sesiones": 3,
+          "cotizaciones_emitidas": 2
+        }
+      ],
+      "actualizado_en": "2026-10-08T13:05:00Z",
+      "costo_centavos": 120000
+    }
+  }
+]

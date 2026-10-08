@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ZonaAtendida",
+  "description": "Zonas donde trabajan los profesionales (BRIEF).",
+  "type": "string",
+  "enum": [
+    "mar_chiquita",
+    "cobo",
+    "santa_clara",
+    "parque_lago"
+  ],
+  "examples": [
+    "mar_chiquita",
+    "cobo",
+    "santa_clara",
+    "parque_lago"
+  ]
+}

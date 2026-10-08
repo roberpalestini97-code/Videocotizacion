@@ -1,0 +1,55 @@
+[
+  {
+    "esquema": "ContactoCliente",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sesion_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+      "nombre": "Carlos",
+      "consentido_en": "2026-10-08T13:16:00Z",
+      "aviso_version": "2026-10-08.1",
+      "lectura": {
+        "registro_id": "reg_916KPKQ91R99GN90D0SN9M59QR",
+        "lecturas_restantes_hoy": 19
+      },
+      "telefono": "+5492235551001",
+      "email": "cliente1@correo.local",
+      "preferencia": "llamada",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ContactoCliente",
+    "caso": "falta \"sesion_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "nombre": "Carlos",
+      "consentido_en": "2026-10-08T13:16:00Z",
+      "aviso_version": "2026-10-08.1",
+      "lectura": {
+        "registro_id": "reg_916KPKQ91R99GN90D0SN9M59QR",
+        "lecturas_restantes_hoy": 19
+      },
+      "telefono": "+5492235551001",
+      "email": "cliente1@correo.local",
+      "preferencia": "llamada"
+    }
+  },
+  {
+    "esquema": "ContactoCliente",
+    "caso": "falta \"nombre\"",
+    "falla_por": "required",
+    "instancia": {
+      "sesion_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+      "consentido_en": "2026-10-08T13:16:00Z",
+      "aviso_version": "2026-10-08.1",
+      "lectura": {
+        "registro_id": "reg_916KPKQ91R99GN90D0SN9M59QR",
+        "lecturas_restantes_hoy": 19
+      },
+      "telefono": "+5492235551001",
+      "email": "cliente1@correo.local",
+      "preferencia": "llamada"
+    }
+  }
+]

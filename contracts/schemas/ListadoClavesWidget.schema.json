@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ListadoClavesWidget",
+  "description": "Claves públicas del tenant.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "ClaveWidget.schema.json"
+      },
+      "minItems": 0,
+      "maxItems": 50
+    }
+  },
+  "examples": [
+    {
+      "items": [
+        {
+          "clave_id": "cpw_F47FE4NAE2YBQ039R346YGWPPB",
+          "nombre": "Sitio principal",
+          "prefijo": "vc_pub_NlwcBG",
+          "origins": [
+            "https://cotizar.videocotizacion.local"
+          ],
+          "estado": "activa",
+          "creada_en": "2026-10-05T01:40:00Z"
+        }
+      ]
+    }
+  ]
+}

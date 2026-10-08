@@ -1,0 +1,8 @@
+[
+  {
+    "esquema": "IdPublicoEnlace",
+    "caso": "id corto adivinable",
+    "falla_por": "pattern",
+    "instancia": "juanperez"
+  }
+]

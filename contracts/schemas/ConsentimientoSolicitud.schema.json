@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConsentimientoSolicitud",
+  "description": "Consentimiento previo a cámara y micrófono (R10, R46, R61). Todos los campos deben ser true; rechazar = cerrar con sin_consentimiento o sin_camara (R45).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "aviso_version",
+    "acepta_camara_y_microfono",
+    "acepta_tratamiento",
+    "declara_mayor_de_18",
+    "informado_asistente_automatico"
+  ],
+  "properties": {
+    "aviso_version": {
+      "$ref": "VersionAviso.schema.json"
+    },
+    "acepta_camara_y_microfono": {
+      "type": "boolean",
+      "const": true
+    },
+    "acepta_tratamiento": {
+      "type": "boolean",
+      "const": true
+    },
+    "declara_mayor_de_18": {
+      "type": "boolean",
+      "const": true
+    },
+    "informado_asistente_automatico": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "examples": [
+    {
+      "aviso_version": "2026-10-08.1",
+      "acepta_camara_y_microfono": true,
+      "acepta_tratamiento": true,
+      "declara_mayor_de_18": true,
+      "informado_asistente_automatico": true
+    }
+  ]
+}

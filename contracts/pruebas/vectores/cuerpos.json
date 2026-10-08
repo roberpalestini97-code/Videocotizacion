@@ -1,0 +1,3082 @@
+[
+  {
+    "id": "V049",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSesion: pedido válido 2",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "WxoyJSebjQ2qgzlPxgXnjq",
+        "modo_avatar": "clips",
+        "idioma": "es-AR"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_kotBw802yu6pOjIOPrzYOyczOE6N4q0kHxVkJ9A7kOz",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 30,
+          "duracion_maxima_s": 1200,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V050",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSesion: pedido válido 3",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "TGV1TOOc-4bD0HVKCPfk07",
+        "modo_avatar": "3d",
+        "referencia_externa": "campania-2026.2"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_8DFD38WHB3W4XHDJXCHA44FHWQ",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_t2pks9WoMr3NWMAJbxea2l7Wz5DvKRnEbGfcPu1ggfm",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 45,
+          "duracion_maxima_s": 1800,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V051",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSesion: pedido válido 4",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "0Sh0B0HL1ny3rDsHIR3N7-",
+        "modo_avatar": "clips",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_W0JF1HAKEBZYPS0YTDTXMNF5M3",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_CPsYBKxJQpi1KyKEj_vq-IIKTn8DEbDY1QOs12lXc5C",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 20,
+          "duracion_maxima_s": 900,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V052",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSesion: pedido válido 5",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "xJujPIMdrgyX7S55b4gkbo",
+        "modo_avatar": "3d"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_2XE46W7BTQXY4CMYYPNRVS8Q86",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_siDOOAp5t_bBqLRGSeCZJSqBaPL7qBBws82D3atvFSl",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 30,
+          "duracion_maxima_s": 1200,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V053",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSesion: pedido válido 6",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "K6XEYlESSiCEToG8kQ_yvW",
+        "modo_avatar": "clips",
+        "idioma": "es-AR"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_7MSWT4FRSRC3EBN9AJ92ZCB308",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_BnL1MotqpXRnz2Glmwq6kmM7c2MFS7wDGUicDDskhBM",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 45,
+          "duracion_maxima_s": 1800,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V054",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSesion: pedido válido 7",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "cui6UoQicdijNXF7z4T3IN",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_zqH_QeT8gzh36yFkxFok1WZ00X8bLivXDJYsocQursD",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 20,
+          "duracion_maxima_s": 900,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V055",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSesion: pedido válido 8",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "EjknKtIJjQ9Mx3E60n--I6",
+        "modo_avatar": "clips",
+        "referencia_externa": "campania-2026.7"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_kotBw802yu6pOjIOPrzYOyczOE6N4q0kHxVkJ9A7kOz",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 30,
+          "duracion_maxima_s": 1200,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V056",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSesion: pedido válido 9",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "EpIYojgj6d1aAhkmE4_Txk",
+        "modo_avatar": "3d"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_8DFD38WHB3W4XHDJXCHA44FHWQ",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_t2pks9WoMr3NWMAJbxea2l7Wz5DvKRnEbGfcPu1ggfm",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 45,
+          "duracion_maxima_s": 1800,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V057",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSesion: pedido válido 10",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "CmphnrEiJtHvgHZtBCoU7V",
+        "modo_avatar": "clips",
+        "avatar_id": "av_obrero_casco",
+        "idioma": "es-AR"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_W0JF1HAKEBZYPS0YTDTXMNF5M3",
+        "estado": "creada",
+        "token_sesion": {
+          "valor": "vc_ses_CPsYBKxJQpi1KyKEj_vq-IIKTn8DEbDY1QOs12lXc5C",
+          "vence_en": "2026-10-08T14:00:00Z"
+        },
+        "consentimiento": {
+          "requerido": true,
+          "aviso_version": "2026-10-08.1",
+          "aviso_url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+        },
+        "limites": {
+          "sin_voz_s": 20,
+          "duracion_maxima_s": 900,
+          "caracteres_max_por_turno": 500,
+          "turnos_llm_max": 60,
+          "fotograma": {
+            "formato": "image/jpeg",
+            "lado_max_px": 1024,
+            "bytes_max": 131072,
+            "intervalo_min_ms": 3000,
+            "max_por_sesion": 400
+          }
+        },
+        "creada_en": "2026-10-08T13:00:00Z"
+      },
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V058",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSesion: campo extra tenant_id (R3)",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco",
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V059",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSesion: falta \"enlace\"",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V060",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSesion: falta \"modo_avatar\"",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V061",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSesion: modo de avatar inventado",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "video",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V062",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSesion: idioma distinto",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco",
+        "idioma": "en-US"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V063",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSesion: referencia externa con email",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco",
+        "referencia_externa": "juan@correo.com"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V088",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "registrarConsentimiento: pedido válido 2",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-01.2",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "consentimiento_id": "cns_VZ0RPKKMGFKXQVXDC2EP0WAFF3",
+        "sesion_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+        "aviso_version": "2026-10-08.1",
+        "registrado_en": "2026-10-08T13:01:00Z",
+        "estado_sesion": "consentida"
+      }
+    }
+  },
+  {
+    "id": "V089",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "registrarConsentimiento: pedido válido 3",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "consentimiento_id": "cns_H58X716KS66EH3PKQX57261A1Z",
+        "sesion_id": "ses_8DFD38WHB3W4XHDJXCHA44FHWQ",
+        "aviso_version": "2026-10-08.1",
+        "registrado_en": "2026-10-08T13:01:00Z",
+        "estado_sesion": "consentida"
+      }
+    }
+  },
+  {
+    "id": "V090",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "registrarConsentimiento: pedido válido 4",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-01.2",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "consentimiento_id": "cns_M4D399VWAKXGCWFXMS45D8EN72",
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "aviso_version": "2026-10-08.1",
+        "registrado_en": "2026-10-08T13:01:00Z",
+        "estado_sesion": "consentida"
+      }
+    }
+  },
+  {
+    "id": "V091",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarConsentimiento: campo extra tenant_id (R3)",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true,
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V092",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarConsentimiento: falta \"aviso_version\"",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V093",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarConsentimiento: falta \"acepta_camara_y_microfono\"",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V094",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarConsentimiento: acepta_camara_y_microfono = false",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": false,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V095",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarConsentimiento: acepta_tratamiento = false",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": false,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V096",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarConsentimiento: declara_mayor_de_18 = false",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": false,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V121",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "cerrarSesion: pedido válido 2",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "sin_consentimiento"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+        "estado": "cerrada",
+        "motivo_cierre": "cliente_cerro",
+        "cerrada_en": "2026-10-08T13:15:00Z",
+        "duracion_s": 301
+      }
+    }
+  },
+  {
+    "id": "V122",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "cerrarSesion: pedido válido 3",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "sin_camara"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_8DFD38WHB3W4XHDJXCHA44FHWQ",
+        "estado": "cerrada",
+        "motivo_cierre": "sin_voz",
+        "cerrada_en": "2026-10-08T13:15:00Z",
+        "duracion_s": 302
+      }
+    }
+  },
+  {
+    "id": "V123",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "cerrarSesion: campo extra tenant_id (R3)",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro",
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V124",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "cerrarSesion: falta \"motivo\"",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {}
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V163",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "registrarContacto: pedido válido 2",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Carlos",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551001",
+        "email": "cliente1@correo.local",
+        "preferencia": "llamada"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+        "registrado_en": "2026-10-08T13:16:00Z",
+        "aviso_version": "2026-10-08.1",
+        "retencion_dias": 90
+      }
+    }
+  },
+  {
+    "id": "V164",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "registrarContacto: pedido válido 3",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Ana López",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "email": "cliente2@correo.local"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_8DFD38WHB3W4XHDJXCHA44FHWQ",
+        "registrado_en": "2026-10-08T13:16:00Z",
+        "aviso_version": "2026-10-08.1",
+        "retencion_dias": 90
+      }
+    }
+  },
+  {
+    "id": "V165",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "registrarContacto: pedido válido 4",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551003",
+        "preferencia": "whatsapp"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "registrado_en": "2026-10-08T13:16:00Z",
+        "aviso_version": "2026-10-08.1",
+        "retencion_dias": 90
+      }
+    }
+  },
+  {
+    "id": "V166",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "registrarContacto: pedido válido 5",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Carlos",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551004",
+        "email": "cliente4@correo.local"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+        "registrado_en": "2026-10-08T13:16:00Z",
+        "aviso_version": "2026-10-08.1",
+        "retencion_dias": 90
+      }
+    }
+  },
+  {
+    "id": "V167",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "registrarContacto: pedido válido 6",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Ana López",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "email": "cliente5@correo.local",
+        "preferencia": "email"
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "sesion_id": "ses_8DFD38WHB3W4XHDJXCHA44FHWQ",
+        "registrado_en": "2026-10-08T13:16:00Z",
+        "aviso_version": "2026-10-08.1",
+        "retencion_dias": 90
+      }
+    }
+  },
+  {
+    "id": "V168",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarContacto: campo extra tenant_id (R3)",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000",
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V169",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarContacto: falta \"nombre\"",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V170",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarContacto: falta \"consentimiento\"",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V171",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarContacto: sin teléfono ni email",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        }
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V172",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarContacto: consentimiento premarcado falso",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": false,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V173",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "registrarContacto: finalidad de publicidad",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "publicidad"
+        },
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V182",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSolicitudArco: pedido válido 2",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "rectificacion",
+        "codigo_referencia": "VC-JFGD-X4DDYV",
+        "verificacion": {
+          "email": "cliente1@correo.local"
+        },
+        "detalle": "El metraje anotado era 40 m², no 60 m²."
+      }
+    },
+    "esperado": {
+      "status": 202,
+      "cuerpo": {
+        "solicitud_id": "arc_BVKHPCMY8G5DGM0YX8ST4K017E",
+        "estado": "recibida",
+        "recibida_en": "2026-10-08T13:30:00Z",
+        "plazo_vence_en": "2026-10-18T13:30:00Z",
+        "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal."
+      }
+    }
+  },
+  {
+    "id": "V183",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSolicitudArco: pedido válido 3",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "supresion",
+        "codigo_referencia": "VC-ABTP-61NNQ8",
+        "verificacion": {
+          "telefono": "+5492235552002"
+        }
+      }
+    },
+    "esperado": {
+      "status": 202,
+      "cuerpo": {
+        "solicitud_id": "arc_41NSX9JAPFG7MRCGCF46PDDR5R",
+        "estado": "recibida",
+        "recibida_en": "2026-10-08T13:30:00Z",
+        "plazo_vence_en": "2026-10-18T13:30:00Z",
+        "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal."
+      }
+    }
+  },
+  {
+    "id": "V184",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSolicitudArco: pedido válido 4",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-RP7C-E5RAF5",
+        "verificacion": {
+          "email": "cliente3@correo.local"
+        }
+      }
+    },
+    "esperado": {
+      "status": 202,
+      "cuerpo": {
+        "solicitud_id": "arc_FYKETHGSSBDVH2B6JPQHGKJG29",
+        "estado": "recibida",
+        "recibida_en": "2026-10-08T13:30:00Z",
+        "plazo_vence_en": "2026-10-18T13:30:00Z",
+        "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal."
+      }
+    }
+  },
+  {
+    "id": "V185",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSolicitudArco: pedido válido 5",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "rectificacion",
+        "codigo_referencia": "VC-JY95-3RHGKB",
+        "verificacion": {
+          "telefono": "+5492235552004"
+        },
+        "detalle": "El metraje anotado era 40 m², no 60 m²."
+      }
+    },
+    "esperado": {
+      "status": 202,
+      "cuerpo": {
+        "solicitud_id": "arc_BVKHPCMY8G5DGM0YX8ST4K017E",
+        "estado": "recibida",
+        "recibida_en": "2026-10-08T13:30:00Z",
+        "plazo_vence_en": "2026-10-18T13:30:00Z",
+        "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal."
+      }
+    }
+  },
+  {
+    "id": "V186",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearSolicitudArco: pedido válido 6",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "supresion",
+        "codigo_referencia": "VC-ZCD4-A16H8Q",
+        "verificacion": {
+          "email": "cliente5@correo.local"
+        }
+      }
+    },
+    "esperado": {
+      "status": 202,
+      "cuerpo": {
+        "solicitud_id": "arc_41NSX9JAPFG7MRCGCF46PDDR5R",
+        "estado": "recibida",
+        "recibida_en": "2026-10-08T13:30:00Z",
+        "plazo_vence_en": "2026-10-18T13:30:00Z",
+        "mensaje": "Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal."
+      }
+    }
+  },
+  {
+    "id": "V187",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSolicitudArco: campo extra tenant_id (R3)",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        },
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V188",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSolicitudArco: falta \"tipo\"",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V189",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSolicitudArco: falta \"codigo_referencia\"",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "acceso",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V190",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSolicitudArco: verificación vacía",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {}
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V191",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearSolicitudArco: tipo inventado",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "portabilidad",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V208",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "iniciarSesionPanel: pedido válido 2",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "email": "laura@asesores.local",
+        "contrasena": "una-frase-larga-de-prueba-1"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "paso": "totp",
+        "csrf_token": "D2hi1VQ9CMcGzRmkrloBaARinFM-1QKRfVqS0a_-sEh",
+        "vence_en": "2026-10-08T13:05:00Z"
+      }
+    }
+  },
+  {
+    "id": "V209",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "iniciarSesionPanel: campo extra tenant_id (R3)",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "email": "juan@asesores.local",
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V210",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "iniciarSesionPanel: falta \"email\"",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V211",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "iniciarSesionPanel: falta \"contrasena\"",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "email": "juan@asesores.local"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V212",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "iniciarSesionPanel: contraseña corta",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "email": "juan@asesores.local",
+        "contrasena": "corta"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V221",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "verificarTotp: pedido válido 2",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123567"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor": {
+          "asesor_id": "ase_3JQ9QRPYDHR9HN9R6SQDKPSSW5",
+          "nombre_visible": "Laura G.",
+          "rol": "administrador"
+        },
+        "csrf_token": "bKtuHGrVCsM7pkbotz2n4eij2YcU5XcwSxqQBolvVR6",
+        "vence_inactividad_en": "2026-10-08T13:30:00Z",
+        "vence_absoluto_en": "2026-10-09T01:00:00Z",
+        "reautenticado_hasta": "2026-10-08T13:05:00Z"
+      }
+    }
+  },
+  {
+    "id": "V222",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "verificarTotp: pedido válido 3",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo_recuperacion": "AB12-CD34-EF56"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor": {
+          "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+          "nombre_visible": "Juan P.",
+          "rol": "asesor"
+        },
+        "csrf_token": "rCcAVgku2ce_lHlEGHVjb0BzZaWS3a3Bgz4Crace5rv",
+        "vence_inactividad_en": "2026-10-08T13:30:00Z",
+        "vence_absoluto_en": "2026-10-09T01:00:00Z"
+      }
+    }
+  },
+  {
+    "id": "V223",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "verificarTotp: campo extra tenant_id (R3)",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456",
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V224",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "verificarTotp: código y recuperación a la vez",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456",
+        "codigo_recuperacion": "AB12-CD34-EF56"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V225",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "verificarTotp: vacío",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {}
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V226",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "verificarTotp: código de 5 dígitos",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "12345"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V247",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "reautenticar: pedido válido 2",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-1",
+        "codigo_totp": "654314"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "valida_hasta": "2026-10-08T13:05:00Z",
+        "valida_s": 300
+      }
+    }
+  },
+  {
+    "id": "V248",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "reautenticar: pedido válido 3",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-2",
+        "codigo_totp": "654307"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "valida_hasta": "2026-10-08T13:05:00Z",
+        "valida_s": 300
+      }
+    }
+  },
+  {
+    "id": "V249",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "reautenticar: campo extra tenant_id (R3)",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321",
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V250",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "reautenticar: falta \"contrasena\"",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo_totp": "654321"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V251",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "reautenticar: falta \"codigo_totp\"",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V265",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "actualizarPerfil: pedido válido 2",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "whatsapp": "+5492235550199"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor_id": "ase_3JQ9QRPYDHR9HN9R6SQDKPSSW5",
+        "rol": "administrador",
+        "nombre_visible": "Laura G.",
+        "email": "laura@asesores.local",
+        "whatsapp": "+5492235550102",
+        "oficios": [
+          "jardineria"
+        ],
+        "zonas": [
+          "mar_chiquita",
+          "cobo"
+        ],
+        "totp_activo": true,
+        "consentimiento_asesor": {
+          "version": "2026-10-08.1",
+          "aceptado_en": "2026-10-01T14:20:00Z"
+        },
+        "creado_en": "2026-10-01T14:20:00Z"
+      }
+    }
+  },
+  {
+    "id": "V266",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "actualizarPerfil: pedido válido 3",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "oficios": [
+          "pintura",
+          "jardineria"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+        "rol": "asesor",
+        "nombre_visible": "Juan P.",
+        "email": "juan@asesores.local",
+        "whatsapp": "+5492235550101",
+        "oficios": [
+          "pintura"
+        ],
+        "zonas": [
+          "mar_chiquita"
+        ],
+        "totp_activo": true,
+        "consentimiento_asesor": {
+          "version": "2026-10-08.1",
+          "aceptado_en": "2026-10-01T14:20:00Z"
+        },
+        "creado_en": "2026-10-01T14:20:00Z"
+      }
+    }
+  },
+  {
+    "id": "V267",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "actualizarPerfil: pedido válido 4",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "zonas": [
+          "cobo",
+          "parque_lago"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor_id": "ase_3JQ9QRPYDHR9HN9R6SQDKPSSW5",
+        "rol": "administrador",
+        "nombre_visible": "Laura G.",
+        "email": "laura@asesores.local",
+        "whatsapp": "+5492235550102",
+        "oficios": [
+          "jardineria"
+        ],
+        "zonas": [
+          "mar_chiquita",
+          "cobo"
+        ],
+        "totp_activo": true,
+        "consentimiento_asesor": {
+          "version": "2026-10-08.1",
+          "aceptado_en": "2026-10-01T14:20:00Z"
+        },
+        "creado_en": "2026-10-01T14:20:00Z"
+      }
+    }
+  },
+  {
+    "id": "V268",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "actualizarPerfil: pedido válido 5",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "nombre_visible": "Laura",
+        "zonas": [
+          "mar_chiquita"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+        "rol": "asesor",
+        "nombre_visible": "Juan P.",
+        "email": "juan@asesores.local",
+        "whatsapp": "+5492235550101",
+        "oficios": [
+          "pintura"
+        ],
+        "zonas": [
+          "mar_chiquita"
+        ],
+        "totp_activo": true,
+        "consentimiento_asesor": {
+          "version": "2026-10-08.1",
+          "aceptado_en": "2026-10-01T14:20:00Z"
+        },
+        "creado_en": "2026-10-01T14:20:00Z"
+      }
+    }
+  },
+  {
+    "id": "V269",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "actualizarPerfil: campo extra tenant_id (R3)",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "nombre_visible": "Juan Pérez",
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V270",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "actualizarPerfil: sin cambios",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {}
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V271",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "actualizarPerfil: con DNI",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "dni": "30111222"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V281",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "cambiarContrasena: pedido válido 2",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-1"
+      }
+    },
+    "esperado": {
+      "status": 204
+    }
+  },
+  {
+    "id": "V282",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "cambiarContrasena: campo extra tenant_id (R3)",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-0",
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V283",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "cambiarContrasena: falta \"contrasena_nueva\"",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "cuerpo": {}
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V346",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearClaveWidget: pedido válido 2",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Landing jardinería",
+        "origins": [
+          "https://cotizar.videocotizacion.local",
+          "https://socio.ejemplo.local:8443"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "clave": {
+          "clave_id": "cpw_ZKWA18CB675A5VQR44CQD0NDXA",
+          "nombre": "Landing jardinería",
+          "prefijo": "vc_pub__Sm50i",
+          "origins": [
+            "https://cotizar.videocotizacion.local",
+            "https://www.videocotizacion.local"
+          ],
+          "estado": "activa",
+          "creada_en": "2026-10-05T01:39:00Z",
+          "ultimo_uso_en": "2026-10-08T12:00:00Z"
+        },
+        "valor": "vc_pub__Sm50iJKpqtsHGnrzcKhHhlHwgeETjXnU-s7Zcfe",
+        "se_muestra_una_sola_vez": true
+      }
+    }
+  },
+  {
+    "id": "V347",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearClaveWidget: pedido válido 3",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Pruebas",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "clave": {
+          "clave_id": "cpw_8CCNT94RY20PGRT13HFQSJTQ68",
+          "nombre": "Pruebas",
+          "prefijo": "vc_pub_LM1Gi9",
+          "origins": [
+            "https://cotizar.videocotizacion.local"
+          ],
+          "estado": "activa",
+          "creada_en": "2026-10-05T01:38:00Z"
+        },
+        "valor": "vc_pub_LM1Gi9J9VBGEaSCbugLC4RvxovC7hFX9cIUHbKzP",
+        "se_muestra_una_sola_vez": true
+      }
+    }
+  },
+  {
+    "id": "V348",
+    "categoria": "cuerpos",
+    "requisitos": [],
+    "descripcion": "crearClaveWidget: pedido válido 4",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local",
+          "https://socio.ejemplo.local:8443"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 201,
+      "cuerpo": {
+        "clave": {
+          "clave_id": "cpw_F47FE4NAE2YBQ039R346YGWPPB",
+          "nombre": "Sitio principal",
+          "prefijo": "vc_pub_NlwcBG",
+          "origins": [
+            "https://cotizar.videocotizacion.local"
+          ],
+          "estado": "activa",
+          "creada_en": "2026-10-05T01:40:00Z"
+        },
+        "valor": "vc_pub_NlwcBGzvreOVir5L_PAP9tzo0DeWwXpwIKaHN-Md",
+        "se_muestra_una_sola_vez": true
+      }
+    }
+  },
+  {
+    "id": "V349",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearClaveWidget: campo extra tenant_id (R3)",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Landing jardinería",
+        "origins": [
+          "https://cotizar.videocotizacion.local",
+          "https://socio.ejemplo.local:8443"
+        ],
+        "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V350",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearClaveWidget: falta \"nombre\"",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "origins": [
+          "https://cotizar.videocotizacion.local",
+          "https://socio.ejemplo.local:8443"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V351",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearClaveWidget: falta \"origins\"",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Landing jardinería"
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V352",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearClaveWidget: sin origins",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio",
+        "origins": []
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V353",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearClaveWidget: origins repetidos",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio",
+        "origins": [
+          "https://a.local",
+          "https://a.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  },
+  {
+    "id": "V354",
+    "categoria": "cuerpos",
+    "requisitos": [
+      "R9",
+      "O02"
+    ],
+    "descripcion": "crearClaveWidget: origin con comodín",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio",
+        "origins": [
+          "https://*.a.local"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 422,
+      "codigo": "validacion_fallida"
+    }
+  }
+]

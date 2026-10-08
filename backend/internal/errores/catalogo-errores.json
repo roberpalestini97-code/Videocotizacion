@@ -1,0 +1,155 @@
+{
+  "version": "0.1.4-borrador",
+  "errores": {
+    "solicitud_invalida": {
+      "http": 400,
+      "titulo": "Solicitud inválida",
+      "mensaje": "No pudimos leer el pedido. Revisá los datos e intentá de nuevo."
+    },
+    "validacion_fallida": {
+      "http": 422,
+      "titulo": "Datos inválidos",
+      "mensaje": "Hay datos que no cumplen el formato esperado."
+    },
+    "cuerpo_demasiado_grande": {
+      "http": 413,
+      "titulo": "Pedido demasiado grande",
+      "mensaje": "El pedido supera el tamaño máximo permitido."
+    },
+    "tipo_de_contenido_no_soportado": {
+      "http": 415,
+      "titulo": "Tipo de contenido no soportado",
+      "mensaje": "El formato enviado no está soportado."
+    },
+    "credencial_ausente": {
+      "http": 401,
+      "titulo": "Falta la credencial",
+      "mensaje": "Falta la credencial de acceso."
+    },
+    "credencial_invalida": {
+      "http": 401,
+      "titulo": "Credencial inválida",
+      "mensaje": "La credencial no es válida o fue revocada."
+    },
+    "credenciales_incorrectas": {
+      "http": 401,
+      "titulo": "Datos de ingreso incorrectos",
+      "mensaje": "El email o la contraseña no son correctos."
+    },
+    "totp_invalido": {
+      "http": 401,
+      "titulo": "Código incorrecto",
+      "mensaje": "El código de verificación no es correcto o ya se usó."
+    },
+    "sesion_vencida": {
+      "http": 401,
+      "titulo": "Sesión vencida",
+      "mensaje": "Tu sesión venció. Ingresá de nuevo."
+    },
+    "reautenticacion_requerida": {
+      "http": 401,
+      "titulo": "Confirmá tu identidad",
+      "mensaje": "Para esta acción tenés que volver a ingresar tu contraseña y código."
+    },
+    "origen_no_permitido": {
+      "http": 403,
+      "titulo": "Origen no permitido",
+      "mensaje": "Este sitio no está autorizado para usar la clave."
+    },
+    "desafio_invalido": {
+      "http": 403,
+      "titulo": "Verificación fallida",
+      "mensaje": "No pudimos verificar el navegador. Recargá la página e intentá de nuevo."
+    },
+    "clave_secreta_desde_navegador": {
+      "http": 403,
+      "titulo": "Credencial usada desde un navegador",
+      "mensaje": "La clave secreta no se puede usar desde un navegador."
+    },
+    "alcance_insuficiente": {
+      "http": 403,
+      "titulo": "Sin permiso",
+      "mensaje": "La credencial no permite esta operación."
+    },
+    "csrf_invalido": {
+      "http": 403,
+      "titulo": "Pedido no verificado",
+      "mensaje": "No pudimos verificar el pedido. Recargá el panel."
+    },
+    "no_encontrado": {
+      "http": 404,
+      "titulo": "No encontrado",
+      "mensaje": "No encontramos lo que buscás."
+    },
+    "version_retirada": {
+      "http": 410,
+      "titulo": "Versión retirada",
+      "mensaje": "Esta versión de la API ya no está disponible."
+    },
+    "estado_invalido": {
+      "http": 409,
+      "titulo": "Estado inválido",
+      "mensaje": "La operación no corresponde en el estado actual."
+    },
+    "consentimiento_requerido": {
+      "http": 409,
+      "titulo": "Falta el consentimiento",
+      "mensaje": "Antes de empezar tenés que aceptar el aviso de privacidad."
+    },
+    "sesion_cerrada": {
+      "http": 409,
+      "titulo": "Sesión cerrada",
+      "mensaje": "La videocotización ya terminó."
+    },
+    "cotizacion_no_emitida": {
+      "http": 409,
+      "titulo": "Presupuesto pendiente",
+      "mensaje": "El presupuesto todavía no se emitió."
+    },
+    "contacto_ya_registrado": {
+      "http": 409,
+      "titulo": "Contacto ya registrado",
+      "mensaje": "Ya dejaste tus datos de contacto para esta consulta."
+    },
+    "limite_de_tasa": {
+      "http": 429,
+      "titulo": "Demasiados pedidos",
+      "mensaje": "Hiciste muchos pedidos seguidos. Esperá un momento."
+    },
+    "cuota_agotada": {
+      "http": 429,
+      "titulo": "Cupo agotado",
+      "mensaje": "Por ahora no hay cupo para videocotizaciones. Escribinos por WhatsApp."
+    },
+    "simultaneas_agotadas": {
+      "http": 429,
+      "titulo": "Todos los asesores ocupados",
+      "mensaje": "En este momento hay muchas videocotizaciones en curso. Probá en unos minutos."
+    },
+    "intentos_excedidos": {
+      "http": 429,
+      "titulo": "Demasiados intentos",
+      "mensaje": "Hubo demasiados intentos. Esperá antes de volver a probar."
+    },
+    "limite_lecturas_contacto": {
+      "http": 429,
+      "titulo": "Límite de lecturas",
+      "mensaje": "Llegaste al límite diario de lecturas de contactos."
+    },
+    "error_interno": {
+      "http": 500,
+      "titulo": "Error interno",
+      "mensaje": "Tuvimos un problema. Intentá de nuevo más tarde."
+    },
+    "proveedor_no_disponible": {
+      "http": 503,
+      "titulo": "Servicio no disponible",
+      "mensaje": "Un servicio que usamos no responde. Intentá de nuevo en unos minutos."
+    },
+    "servicio_no_disponible": {
+      "http": 503,
+      "titulo": "Servicio no disponible",
+      "mensaje": "El servicio no está disponible en este momento."
+    }
+  }
+}

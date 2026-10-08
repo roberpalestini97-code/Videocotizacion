@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Moneda",
+  "description": "Código ISO 4217. Hoy solo ARS; USD reservado para tenants externos.",
+  "type": "string",
+  "enum": [
+    "ARS",
+    "USD"
+  ],
+  "examples": [
+    "ARS"
+  ]
+}

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spike avatar — VideoCotización</title>
+    <style>
+      :root {
+        --fondo: #f4f1ea;
+        --panel: #ffffff;
+        --texto: #1f2a33;
+        --suave: #5b6670;
+        --acento: #f2b705;
+        --naranja: #ff6a13;
+        --borde: #d9d3c7;
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --fondo: #14191d;
+          --panel: #1f262c;
+          --texto: #e8e6e1;
+          --suave: #9aa4ad;
+          --borde: #33404a;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        background: var(--fondo);
+        color: var(--texto);
+      }
+      header { padding: 12px 16px; border-bottom: 3px solid var(--acento); }
+      header h1 { margin: 0; font-size: 18px; }
+      header p { margin: 2px 0 0; color: var(--suave); font-size: 13px; }
+      main {
+        display: grid;
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+        gap: 12px;
+        padding: 12px 16px;
+      }
+      @media (max-width: 760px) { main { grid-template-columns: 1fr; } }
+      .tarjeta { background: var(--panel); border: 1px solid var(--borde); border-radius: 10px; padding: 10px; }
+      #escena-3d, #escena-clips { width: 100%; aspect-ratio: 4 / 3; position: relative; }
+      #escena-3d canvas, #escena-clips canvas { width: 100%; height: 100%; display: block; border-radius: 8px; }
+      .vc-clips { width: 100%; height: 100%; display: flex; flex-direction: column; }
+      .vc-clips-subtitulo { min-height: 1.5em; margin: 6px 0 0; text-align: center; }
+      #hud { font: 12px/1.3 ui-monospace, Menlo, Consolas, monospace; color: var(--suave); margin-top: 6px; }
+      .controles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+      button, input[type='text'] {
+        font: inherit; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--borde);
+        background: var(--panel); color: var(--texto);
+      }
+      button.principal { background: var(--acento); color: #1f2a33; border-color: transparent; font-weight: 600; }
+      button:focus-visible, input:focus-visible { outline: 3px solid var(--naranja); outline-offset: 2px; }
+      .vc-pizarron h2 { font-size: 15px; margin: 0 0 8px; }
+      .vc-pizarron dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; }
+      .vc-pizarron dt { color: var(--suave); }
+      .vc-pizarron dd { margin: 0; font-weight: 600; transition: background-color 0.6s; border-radius: 4px; padding: 0 4px; }
+      .vc-pizarron dd[data-estado='faltante'] { color: var(--naranja); font-weight: 500; }
+      .vc-pizarron dd[data-pendiente='si'] { font-style: italic; }
+      .vc-pizarron dd.vc-cambio { background: color-mix(in srgb, var(--acento) 35%, transparent); }
+      #camara { width: 160px; border-radius: 6px; background: #000; }
+      #estado-camara { font-size: 13px; color: var(--suave); }
+      .aviso { font-size: 12px; color: var(--suave); margin-top: 10px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Spike T07 — Avatar de VideoCotización</h1>
+      <p>Audio y visemas sintéticos. Descartable. No representa la calidad final del avatar (T30).</p>
+    </header>
+    <main>
+      <section class="tarjeta" aria-label="Avatar">
+        <div id="escena-3d"></div>
+        <div id="escena-clips" hidden></div>
+        <div id="hud" aria-live="off">cargando…</div>
+        <div class="controles">
+          <button id="btn-reproducir" class="principal" type="button">Reproducir audio de prueba</button>
+          <button id="btn-modo" type="button">Pasar a modo clips</button>
+          <button id="btn-cortar" type="button">Cortar (cliente habla)</button>
+        </div>
+      </section>
+      <section class="tarjeta">
+        <div id="pizarron"></div>
+        <form id="form-corregir" class="controles">
+          <label for="corregir-valor">Corregir superficie</label>
+          <input id="corregir-valor" type="text" maxlength="200" value="41 m²" />
+          <button type="submit">Corregir</button>
+        </form>
+        <div class="controles">
+          <button id="btn-camara" type="button">Probar cámara (muestreo cada 3 s)</button>
+          <video id="camara" muted playsinline></video>
+        </div>
+        <p id="estado-camara" aria-live="polite"></p>
+        <p class="aviso">La cámara solo se abre al tocar el botón. Los fotogramas no se guardan ni se envían a ningún servidor en este demo.</p>
+      </section>
+    </main>
+    <script type="module" src="./src/demo/main.ts"></script>
+  </body>
+</html>

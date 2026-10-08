@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UnidadMedida",
+  "description": "Unidad de cada ítem.",
+  "type": "string",
+  "enum": [
+    "m2",
+    "ml",
+    "unidad",
+    "hora",
+    "jornada",
+    "visita",
+    "global"
+  ],
+  "examples": [
+    "m2",
+    "hora"
+  ]
+}

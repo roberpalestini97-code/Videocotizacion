@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "oficio": "jardineria",
+  "trabajo": {
+    "tipo": "poda",
+    "descripcion": "Poda de tres pinos",
+    "complejidad": "media"
+  },
+  "medidas": [
+    {
+      "concepto": "pinos",
+      "cantidad": 3,
+      "unidad": "arbol",
+      "origen": "dicho_por_cliente"
+    }
+  ],
+  "altura": {
+    "metros_max": 12,
+    "requiere_andamio": "no",
+    "medio": "silleta"
+  },
+  "estado_superficie": "no_aplica",
+  "zona": {
+    "localidad": "otra",
+    "fuera_de_zona": true,
+    "referencia": "Balcarce"
+  },
+  "urgencia": {
+    "nivel": "sin_definir",
+    "senales": []
+  },
+  "tipo_cliente": "sin_definir",
+  "plazo": {
+    "tipo": "sin_definir"
+  },
+  "faltantes": [],
+  "siguiente_paso": {
+    "accion": "fuera_de_zona",
+    "motivo": "Localidad lejana; preguntar si igual quiere presupuesto orientativo",
+    "campos": [
+      "zona"
+    ]
+  },
+  "respuesta_hablada": "Balcarce queda fuera de donde trabajamos siempre. Si querés, igual te armo el presupuesto orientativo y lo ve el asesor."
+}

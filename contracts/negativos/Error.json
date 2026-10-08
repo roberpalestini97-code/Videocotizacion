@@ -1,0 +1,80 @@
+[
+  {
+    "esquema": "Error",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "type": "https://videocotizacion.local/errores/reautenticacion_requerida",
+      "title": "Confirmá tu identidad",
+      "status": 401,
+      "codigo": "reautenticacion_requerida",
+      "detail": "Para esta acción tenés que volver a ingresar tu contraseña y código.",
+      "id_traza": "tr_562881db98122dc8",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "Error",
+    "caso": "falta \"type\"",
+    "falla_por": "required",
+    "instancia": {
+      "title": "Confirmá tu identidad",
+      "status": 401,
+      "codigo": "reautenticacion_requerida",
+      "detail": "Para esta acción tenés que volver a ingresar tu contraseña y código.",
+      "id_traza": "tr_562881db98122dc8"
+    }
+  },
+  {
+    "esquema": "Error",
+    "caso": "falta \"title\"",
+    "falla_por": "required",
+    "instancia": {
+      "type": "https://videocotizacion.local/errores/reautenticacion_requerida",
+      "status": 401,
+      "codigo": "reautenticacion_requerida",
+      "detail": "Para esta acción tenés que volver a ingresar tu contraseña y código.",
+      "id_traza": "tr_562881db98122dc8"
+    }
+  },
+  {
+    "esquema": "Error",
+    "caso": "código fuera del catálogo",
+    "falla_por": "enum",
+    "instancia": {
+      "type": "https://videocotizacion.local/errores/no_encontrado",
+      "title": "No encontrado",
+      "status": 404,
+      "codigo": "desconocido",
+      "detail": "No encontramos lo que buscás.",
+      "id_traza": "tr_503e93beae6ba689"
+    }
+  },
+  {
+    "esquema": "Error",
+    "caso": "status 200",
+    "falla_por": "minimum",
+    "instancia": {
+      "type": "https://videocotizacion.local/errores/no_encontrado",
+      "title": "No encontrado",
+      "status": 200,
+      "codigo": "no_encontrado",
+      "detail": "No encontramos lo que buscás.",
+      "id_traza": "tr_503e93beae6ba689"
+    }
+  },
+  {
+    "esquema": "Error",
+    "caso": "con traza interna",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "type": "https://videocotizacion.local/errores/error_interno",
+      "title": "Error interno",
+      "status": 500,
+      "codigo": "error_interno",
+      "detail": "Tuvimos un problema. Intentá de nuevo más tarde.",
+      "id_traza": "tr_48e906cea01dd675",
+      "stack": "panic: runtime error"
+    }
+  }
+]

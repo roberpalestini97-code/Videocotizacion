@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CodigoError",
+  "description": "Código estable del catálogo de errores (catalogo-errores.json define el HTTP y el texto).",
+  "type": "string",
+  "enum": [
+    "solicitud_invalida",
+    "validacion_fallida",
+    "cuerpo_demasiado_grande",
+    "tipo_de_contenido_no_soportado",
+    "credencial_ausente",
+    "credencial_invalida",
+    "credenciales_incorrectas",
+    "totp_invalido",
+    "sesion_vencida",
+    "reautenticacion_requerida",
+    "origen_no_permitido",
+    "desafio_invalido",
+    "clave_secreta_desde_navegador",
+    "alcance_insuficiente",
+    "csrf_invalido",
+    "no_encontrado",
+    "version_retirada",
+    "estado_invalido",
+    "consentimiento_requerido",
+    "sesion_cerrada",
+    "cotizacion_no_emitida",
+    "contacto_ya_registrado",
+    "limite_de_tasa",
+    "cuota_agotada",
+    "simultaneas_agotadas",
+    "intentos_excedidos",
+    "limite_lecturas_contacto",
+    "error_interno",
+    "proveedor_no_disponible",
+    "servicio_no_disponible"
+  ],
+  "examples": [
+    "no_encontrado",
+    "reautenticacion_requerida"
+  ]
+}

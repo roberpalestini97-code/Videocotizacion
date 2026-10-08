@@ -1,0 +1,89 @@
+[
+  {
+    "esquema": "ResumenCotizacion",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "estado": "cerrada",
+      "motivo_cierre": "completada",
+      "oficio": "pintura",
+      "zona": "mar_chiquita",
+      "fuera_de_zona": false,
+      "contacto_disponible": true,
+      "resumen": "pintura en Mar Chiquita",
+      "total": {
+        "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+        "total_centavos": 2312500,
+        "moneda": "ARS"
+      },
+      "codigo_referencia": "VC-6X0B-5RD4NC",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ResumenCotizacion",
+    "caso": "falta \"sesion_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "creada_en": "2026-10-08T13:00:00Z",
+      "estado": "cerrada",
+      "motivo_cierre": "completada",
+      "oficio": "pintura",
+      "zona": "mar_chiquita",
+      "fuera_de_zona": false,
+      "contacto_disponible": true,
+      "resumen": "pintura en Mar Chiquita",
+      "total": {
+        "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+        "total_centavos": 2312500,
+        "moneda": "ARS"
+      },
+      "codigo_referencia": "VC-6X0B-5RD4NC"
+    }
+  },
+  {
+    "esquema": "ResumenCotizacion",
+    "caso": "falta \"creada_en\"",
+    "falla_por": "required",
+    "instancia": {
+      "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+      "estado": "cerrada",
+      "motivo_cierre": "completada",
+      "oficio": "pintura",
+      "zona": "mar_chiquita",
+      "fuera_de_zona": false,
+      "contacto_disponible": true,
+      "resumen": "pintura en Mar Chiquita",
+      "total": {
+        "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+        "total_centavos": 2312500,
+        "moneda": "ARS"
+      },
+      "codigo_referencia": "VC-6X0B-5RD4NC"
+    }
+  },
+  {
+    "esquema": "ResumenCotizacion",
+    "caso": "contacto_disponible como texto",
+    "falla_por": "type",
+    "instancia": {
+      "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "estado": "cerrada",
+      "motivo_cierre": "completada",
+      "oficio": "pintura",
+      "zona": "mar_chiquita",
+      "fuera_de_zona": false,
+      "contacto_disponible": "si",
+      "resumen": "pintura en Mar Chiquita",
+      "total": {
+        "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+        "total_centavos": 2312500,
+        "moneda": "ARS"
+      },
+      "codigo_referencia": "VC-6X0B-5RD4NC"
+    }
+  }
+]

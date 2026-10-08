@@ -1,0 +1,22 @@
+{
+  "name": "videocotizacion-contrato-verificacion",
+  "version": "0.1.4",
+  "private": true,
+  "type": "module",
+  "description": "Verificación del contrato VideoCotización (ajv 2020 strict, Redocly, Spectral)",
+  "scripts": {
+    "generar": "node ../fuente/generar.mjs",
+    "validar": "node validar.mjs ..",
+    "redocly": "redocly lint ../openapi.yaml --config ../redocly.yaml",
+    "spectral": "spectral lint ../openapi.yaml --ruleset ../.spectral.yaml --fail-severity error",
+    "vectores": "node ../pruebas/ejecutar.mjs ..",
+    "todo": "npm run validar && npm run vectores && npm run redocly && npm run spectral"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.6.1",
+    "@redocly/cli": "1.25.11",
+    "@stoplight/spectral-cli": "6.13.1"
+  }
+}

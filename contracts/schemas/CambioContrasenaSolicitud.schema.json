@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CambioContrasenaSolicitud",
+  "description": "Cambio de contraseña (requiere reautenticación previa).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contrasena_nueva"
+  ],
+  "properties": {
+    "contrasena_nueva": {
+      "type": "string",
+      "minLength": 12,
+      "maxLength": 256,
+      "writeOnly": true
+    }
+  },
+  "examples": [
+    {
+      "contrasena_nueva": "otra-frase-bien-larga-0"
+    }
+  ]
+}
