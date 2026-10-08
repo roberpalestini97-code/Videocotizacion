@@ -122,3 +122,18 @@ func TestPanicoEs500SinTraza(t *testing.T) {
 		t.Fatalf("pánico = %d %s", rr.Code, rr.Body)
 	}
 }
+
+func TestCanceladoPorElClienteNoEsError(t *testing.T) {
+	var log bytes.Buffer
+	l := slog.New(slog.NewJSONHandler(&log, nil))
+	rr := httptest.NewRecorder()
+	EscribirError(rr, httptest.NewRequest("GET", "/x", nil), l, errores.Envolver(errores.ServicioNoDisponible, context.Canceled))
+	if strings.Contains(log.String(), `"level":"ERROR"`) || !strings.Contains(log.String(), `"level":"INFO"`) {
+		t.Fatalf("un pedido cancelado no debe loguearse como ERROR: %s", log.String())
+	}
+	log.Reset()
+	EscribirError(httptest.NewRecorder(), httptest.NewRequest("GET", "/x", nil), l, errores.Envolver(errores.ServicioNoDisponible, context.DeadlineExceeded))
+	if !strings.Contains(log.String(), `"level":"ERROR"`) {
+		t.Fatalf("un tiempo agotado sí es ERROR: %s", log.String())
+	}
+}

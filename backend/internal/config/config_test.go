@@ -7,6 +7,8 @@ import (
 	"log/slog"
 	"strings"
 	"testing"
+
+	"videocotizacion/backend/internal/secreto"
 )
 
 const claveAPI = "clave-api-NO-DEBE-VERSE"
@@ -95,15 +97,20 @@ func TestMigrarExigeDueno(t *testing.T) {
 	}
 }
 
-func TestSslmode(t *testing.T) {
-	for dsn, quiero := range map[string]string{
-		"postgres://u:p@h/db?sslmode=verify-full": "verify-full",
-		"host=h user=u sslmode=verify-ca":         "verify-ca",
-		"postgres://u@h/db":                       "",
-		"host=h":                                  "",
+func TestSslmodeEnProduccion(t *testing.T) {
+	for dsn, ok := range map[string]bool{
+		"postgres://u:p@h/db?sslmode=verify-full":               true,
+		"host=h user=u sslmode=verify-full":                     true,
+		"postgres://u:p@h/db?sslmode=verify-ca":                 false, // no valida el nombre del servidor
+		"host=h sslmode=verify-full sslmode=disable":            false, // pgx usaría el último
+		"postgres://u@h/db?sslmode=verify-full&sslmode=disable": false,
+		"postgres://u@h/db":                                     false,
+		"host=h":                                                false,
+		"postgres://u@h/db?sslmode=require":                     false,
 	} {
-		if got := sslmode(dsn); got != quiero {
-			t.Errorf("sslmode(%q) = %q, quería %q", dsn, got, quiero)
+		errs := exigirTLS("DB_URL", secreto.Nuevo(dsn))
+		if (len(errs) == 0) != ok {
+			t.Errorf("%q: aceptado=%v, quería %v (%v)", dsn, len(errs) == 0, ok, errs)
 		}
 	}
 }

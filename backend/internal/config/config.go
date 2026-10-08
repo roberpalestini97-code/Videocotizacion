@@ -183,33 +183,41 @@ func (c Config) validarProveedores(prod bool) []error {
 	return errs
 }
 
-// exigirTLS pide sslmode=verify-full o verify-ca en producción (R27). Solo
-// mira el DSN; la verificación real es la de la conexión (pg_stat_ssl).
+// exigirTLS pide sslmode=verify-full en producción (R27; verify-ca no valida
+// el nombre del servidor). Un sslmode repetido se rechaza: pgx usa el último y
+// se podría colar un "disable" (H6 de T43). Solo mira el DSN; la verificación
+// real es la de la conexión (pg_stat_ssl).
 func exigirTLS(variable string, dsn secreto.Secreto) []error {
 	if dsn.Vacio() {
 		return nil
 	}
-	modo := sslmode(dsn.Revelar())
-	if modo != "verify-full" && modo != "verify-ca" {
-		return []error{fmt.Errorf("%s en producción necesita sslmode=verify-full (o verify-ca)", variable)}
+	modos := sslmodes(dsn.Revelar())
+	switch {
+	case len(modos) > 1:
+		return []error{fmt.Errorf("%s tiene sslmode repetido: dejar uno solo (verify-full)", variable)}
+	case len(modos) == 0 || modos[0] != "verify-full":
+		return []error{fmt.Errorf("%s en producción necesita sslmode=verify-full", variable)}
 	}
 	return nil
 }
 
-func sslmode(dsn string) string {
+// sslmodes devuelve todos los sslmode del DSN (URL o clave=valor). Si la URL
+// no se puede leer devuelve uno inválido, para que falle.
+func sslmodes(dsn string) []string {
 	if strings.HasPrefix(dsn, "postgres://") || strings.HasPrefix(dsn, "postgresql://") {
 		u, err := url.Parse(dsn)
 		if err != nil {
-			return ""
+			return []string{"invalido"}
 		}
-		return u.Query().Get("sslmode")
+		return u.Query()["sslmode"]
 	}
+	var out []string
 	for _, campo := range strings.Fields(dsn) {
 		if v, ok := strings.CutPrefix(campo, "sslmode="); ok {
-			return v
+			out = append(out, v)
 		}
 	}
-	return ""
+	return out
 }
 
 // EsProduccion informa si el entorno es producción.

@@ -117,6 +117,12 @@ func Aplicar(ctx context.Context, conn *pgx.Conn, ms []Migracion) (Resultado, er
 	if err := filas.Err(); err != nil {
 		return res, fmt.Errorf("leer migraciones aplicadas: %w", err)
 	}
+	// Antes de aplicar nada: un binario viejo no toca una base más nueva (H7).
+	for v := range aplicadas {
+		if !contiene(ms, v) {
+			return res, fmt.Errorf("la base tiene la migración %s que este binario no conoce: binario viejo", v)
+		}
+	}
 	for _, m := range ms {
 		if suma, ok := aplicadas[m.Version]; ok {
 			if suma != m.SHA256 {
@@ -129,11 +135,6 @@ func Aplicar(ctx context.Context, conn *pgx.Conn, ms []Migracion) (Resultado, er
 			return res, err
 		}
 		res.Aplicadas = append(res.Aplicadas, m.Version)
-	}
-	for v := range aplicadas {
-		if !contiene(ms, v) {
-			return res, fmt.Errorf("la base tiene la migración %s que este binario no conoce: binario viejo", v)
-		}
 	}
 	return res, nil
 }

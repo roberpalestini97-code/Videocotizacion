@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"testing"
 	"testing/fstest"
 
@@ -109,5 +110,46 @@ func TestAplicarContraPostgres(t *testing.T) {
 	var propietario string
 	if err := dueno.QueryRow(ctx, "SELECT tableowner FROM pg_tables WHERE schemaname = 'vc' AND tablename = 'sesiones'").Scan(&propietario); err != nil || propietario != "vc_dueno" {
 		t.Fatalf("las tablas deben ser de vc_dueno, son de %q (%v)", propietario, err)
+	}
+}
+
+// H7 de T43 (M10): varios `api migrar` a la vez sobre una base vacía terminan
+// bien y la migración se aplica una sola vez (advisory lock).
+func TestMigrarEnParalelo(t *testing.T) {
+	base := pgprueba.PrepararSinMigrar(t)
+	ms, err := migrador.Leer(migrations.Archivos)
+	if err != nil {
+		t.Fatal(err)
+	}
+	const n = 6
+	conns := make([]*pgx.Conn, n)
+	for i := range conns {
+		conns[i] = conectar(t, base.URLDueno.Revelar())
+	}
+	var wg sync.WaitGroup
+	largada := make(chan struct{})
+	res := make([]migrador.Resultado, n)
+	errs := make([]error, n)
+	for i := range n {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			<-largada
+			res[i], errs[i] = migrador.Aplicar(context.Background(), conns[i], ms)
+		}()
+	}
+	close(largada)
+	wg.Wait()
+	aplicaron := 0
+	for i := range n {
+		if errs[i] != nil {
+			t.Fatalf("migración concurrente %d: %v", i, errs[i])
+		}
+		if len(res[i].Aplicadas) > 0 {
+			aplicaron++
+		}
+	}
+	if aplicaron != 1 {
+		t.Fatalf("la migración se aplicó %d veces", aplicaron)
 	}
 }

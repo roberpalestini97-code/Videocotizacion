@@ -127,7 +127,9 @@ func EscribirError(w http.ResponseWriter, r *http.Request, log *slog.Logger, err
 	traza := errores.NuevoIDTraza()
 	p := errores.ProblemaDe(err, traza)
 	nivel := slog.LevelInfo
-	if p.Status >= 500 {
+	if p.Status >= 500 && !errors.Is(err, context.Canceled) {
+		// Un pedido que el cliente cortó (context.Canceled) no es una falla
+		// del servicio: va como INFO para no ensuciar las alertas (H9 de T43).
 		nivel = slog.LevelError
 	}
 	detalle := string(p.Codigo)

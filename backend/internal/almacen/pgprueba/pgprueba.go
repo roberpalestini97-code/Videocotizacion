@@ -47,7 +47,12 @@ type Base struct {
 func URLAdmin() string { return os.Getenv(Variable) }
 
 // Preparar crea y migra una base nueva; la borra al terminar la prueba.
-func Preparar(t testing.TB) *Base {
+func Preparar(t testing.TB) *Base { return preparar(t, true) }
+
+// PrepararSinMigrar crea una base vacía (para probar el migrador).
+func PrepararSinMigrar(t testing.TB) *Base { return preparar(t, false) }
+
+func preparar(t testing.TB, migrar bool) *Base {
 	t.Helper()
 	admin := URLAdmin()
 	if admin == "" {
@@ -55,7 +60,10 @@ func Preparar(t testing.TB) *Base {
 	}
 	ctx, cancelar := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancelar()
-	b, err := Crear(ctx, admin)
+	if err := exigirDescartable(admin); err != nil {
+		t.Fatal(err)
+	}
+	b, err := crear(ctx, admin, migrar)
 	if err != nil {
 		t.Fatalf("preparar PostgreSQL de prueba: %v", err)
 	}
@@ -69,8 +77,32 @@ func Preparar(t testing.TB) *Base {
 	return b
 }
 
-// Crear arma la base (útil en TestMain).
+// exigirDescartable evita crear roles con clave fija en un clúster que no sea
+// local, salvo que se declare descartable a propósito (H8 de T43).
+func exigirDescartable(admin string) error {
+	u, err := url.Parse(admin)
+	if err != nil {
+		return fmt.Errorf("%s inválida", Variable)
+	}
+	switch u.Hostname() {
+	case "127.0.0.1", "localhost", "::1":
+		return nil
+	}
+	if os.Getenv("PG_PRUEBA_DESCARTABLE") == "1" {
+		return nil
+	}
+	return fmt.Errorf("%s apunta a %q: solo se admite un clúster local o PG_PRUEBA_DESCARTABLE=1", Variable, u.Hostname())
+}
+
+// Crear arma y migra la base (útil en TestMain).
 func Crear(ctx context.Context, admin string) (*Base, error) {
+	if err := exigirDescartable(admin); err != nil {
+		return nil, err
+	}
+	return crear(ctx, admin, true)
+}
+
+func crear(ctx context.Context, admin string, migrar bool) (*Base, error) {
 	conn, err := pgx.Connect(ctx, admin)
 	if err != nil {
 		return nil, fmt.Errorf("conectar como administrador: %w", err)
@@ -104,8 +136,10 @@ func Crear(ctx context.Context, admin string) (*Base, error) {
 		}
 		*destino = secreto.Nuevo(u)
 	}
-	if err := b.Migrar(ctx); err != nil {
-		return nil, err
+	if migrar {
+		if err := b.Migrar(ctx); err != nil {
+			return nil, err
+		}
 	}
 	return b, nil
 }

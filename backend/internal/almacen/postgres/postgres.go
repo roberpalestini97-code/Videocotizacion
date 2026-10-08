@@ -135,6 +135,11 @@ func (a *Almacen) VerificarArranque(ctx context.Context, exigirTLS bool, version
 	if tablas == 0 {
 		return inseguro("el esquema vc no existe o no tiene tablas: correr `api migrar`")
 	}
+	for _, verificar := range []func(context.Context) error{a.verificarPrivilegios, a.verificarPoliticas, a.verificarFunciones} {
+		if err := verificar(ctx); err != nil {
+			return err
+		}
+	}
 	if exigirTLS {
 		var tls bool
 		if err := a.pool.QueryRow(ctx, "SELECT coalesce((SELECT ssl FROM pg_stat_ssl WHERE pid = pg_backend_pid()), false)").Scan(&tls); err != nil {
@@ -351,6 +356,16 @@ func (a *Almacen) LeerSesion(ctx context.Context, t dominio.TenantID, id string)
 	return out, err
 }
 
+// Consultas del listado por clave (keyset). Exportadas para la prueba de plan.
+const (
+	ListadoPrimeraPagina = `SELECT ` + columnasSesion + `
+		FROM vc.sesiones WHERE tenant_id = $1 AND asesor_id = $2
+		ORDER BY creada_en DESC, sesion_id DESC LIMIT $3`
+	ListadoSiguientePagina = `SELECT ` + columnasSesion + `
+		FROM vc.sesiones WHERE tenant_id = $1 AND asesor_id = $2 AND (creada_en, sesion_id) < ($3, $4)
+		ORDER BY creada_en DESC, sesion_id DESC LIMIT $5`
+)
+
 // ListarSesionesDeAsesor implementa almacen.Almacen (keyset, sin OFFSET).
 func (a *Almacen) ListarSesionesDeAsesor(ctx context.Context, t dominio.TenantID, asesorID string, p almacen.Pagina) ([]dominio.Sesion, string, error) {
 	if err := dominio.ExigirTenant(t); err != nil {
@@ -364,12 +379,15 @@ func (a *Almacen) ListarSesionesDeAsesor(ctx context.Context, t dominio.TenantID
 	out := []dominio.Sesion{}
 	siguiente := ""
 	err = a.enTenant(ctx, t, func(ctx context.Context, tx pgx.Tx) error {
-		filas, err := tx.Query(ctx, `SELECT `+columnasSesion+`
-			FROM vc.sesiones
-			WHERE tenant_id = $1 AND asesor_id = $2
-			  AND ($3::boolean OR (creada_en, sesion_id) < ($4, $5))
-			ORDER BY creada_en DESC, sesion_id DESC
-			LIMIT $6`, string(t), asesorID, p.Despues == "", desdeT, desdeID, limite+1)
+		// Dos consultas fijas (H5 de T43): con un OR sobre un parámetro, el plan
+		// genérico deja el cursor fuera de la condición de índice.
+		var filas pgx.Rows
+		var err error
+		if p.Despues == "" {
+			filas, err = tx.Query(ctx, ListadoPrimeraPagina, string(t), asesorID, limite+1)
+		} else {
+			filas, err = tx.Query(ctx, ListadoSiguientePagina, string(t), asesorID, desdeT, desdeID, limite+1)
+		}
 		if err != nil {
 			return err
 		}

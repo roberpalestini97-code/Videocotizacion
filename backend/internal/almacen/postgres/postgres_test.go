@@ -13,7 +13,6 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
-	"github.com/jackc/pgx/v5/pgxpool"
 
 	"videocotizacion/backend/internal/almacen/conformidad"
 	"videocotizacion/backend/internal/almacen/pgprueba"
@@ -25,7 +24,19 @@ import (
 	"videocotizacion/backend/migrations"
 )
 
-var tablas = []string{"tenants", "asesores", "sesiones", "consentimientos", "cotizaciones", "items_cotizacion", "registro_borrados"}
+// tablasDeVC sale del catálogo: una tabla nueva entra sola a las pruebas de RLS.
+func tablasDeVC(t *testing.T, conn *pgx.Conn) []string {
+	t.Helper()
+	filas, err := conn.Query(context.Background(), "SELECT relname::text FROM pg_class WHERE relnamespace = 'vc'::regnamespace AND relkind IN ('r', 'p') ORDER BY 1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	l, err := pgx.CollectRows(filas, pgx.RowTo[string])
+	if err != nil || len(l) < 7 {
+		t.Fatalf("tablas de vc: %v %v", l, err)
+	}
+	return l
+}
 
 func version(t *testing.T) string {
 	t.Helper()
@@ -184,6 +195,7 @@ func TestRLSConSQLDirecto(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer func() { _ = conn.Close(ctx) }()
+	tablas := tablasDeVC(t, conn)
 
 	contar := func(q pgx.Tx, tabla string) int {
 		t.Helper()
@@ -383,23 +395,181 @@ func TestPoolNoArrastraTenant(t *testing.T) {
 			t.Fatalf("A no debe ver la sesión de B en la misma conexión: %v", err)
 		}
 	}
-	// Fuera de una transacción del almacén, la misma conexión no tiene tenant.
-	pool, err := pgxpool.New(ctx, base.URLAPI.Revelar())
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer pool.Close()
-	for range 3 {
-		tx, _ := pool.Begin(ctx)
-		_, _ = tx.Exec(ctx, "SELECT set_config('app.tenant_id', $1, true)", string(B))
-		_ = tx.Commit(ctx)
+	// H1 de T43: con el pool REAL del almacén (una sola conexión), después de
+	// una operación la conexión no conserva el tenant. Si alguien cambia el
+	// SET LOCAL por un SET de sesión, esto falla.
+	pool := a.PoolDePrueba()
+	for _, tn := range []dominio.TenantID{A, B, A} {
+		if _, err := a.LeerTenant(ctx, tn); err != nil {
+			t.Fatal(err)
+		}
 		var valor *string
 		var n int
 		if err := pool.QueryRow(ctx, "SELECT current_setting('app.tenant_id', true), (SELECT count(*) FROM vc.sesiones)").Scan(&valor, &n); err != nil {
 			t.Fatal(err)
 		}
 		if (valor != nil && *valor != "") || n != 0 {
-			t.Fatalf("después del commit quedó tenant %v y %d filas visibles", valor, n)
+			t.Fatalf("la conexión del pool quedó con tenant %q y ve %d sesiones fuera de una transacción", *valor, n)
 		}
 	}
+	if st := pool.Stat(); st.TotalConns() != 1 {
+		t.Fatalf("la prueba necesita una sola conexión, hay %d", st.TotalConns())
+	}
+}
+
+// mutarYExigirFalla aplica una sentencia como dueño (o administrador), exige
+// que la API no arranque con un mensaje que contenga quiero y revierte.
+func mutarYExigirFalla(t *testing.T, base *pgprueba.Base, dsn secreto.Secreto, mutar, revertir, quiero string) {
+	t.Helper()
+	exec(t, dsn.Revelar(), mutar)
+	defer exec(t, dsn.Revelar(), revertir)
+	a, err := abrir(t, base.URLAPI, postgres.Opciones{})
+	exigirInseguro(t, a, err, quiero)
+}
+
+// H2 de T43: los privilegios de vc_api son EXACTAMENTE los permitidos.
+func TestPrivilegiosExactosDeLaAPI(t *testing.T) {
+	base := pgprueba.Preparar(t)
+	a, err := abrir(t, base.URLAPI, postgres.Opciones{})
+	if err != nil {
+		t.Fatalf("con los privilegios de la migración la API debía arrancar: %v", err)
+	}
+	a.Cerrar()
+	for _, c := range []struct{ mutar, revertir, quiero string }{
+		{"GRANT TRUNCATE ON vc.items_cotizacion TO vc_api", "REVOKE TRUNCATE ON vc.items_cotizacion FROM vc_api", "tabla vc.items_cotizacion:TRUNCATE"},
+		{"GRANT UPDATE ON vc.cotizaciones TO vc_api", "REVOKE UPDATE ON vc.cotizaciones FROM vc_api", "tabla vc.cotizaciones:UPDATE"},
+		{"GRANT UPDATE (tenant_id) ON vc.sesiones TO vc_api", "REVOKE UPDATE (tenant_id) ON vc.sesiones FROM vc_api", "columna vc.sesiones.tenant_id:UPDATE"},
+		{"GRANT REFERENCES, TRIGGER ON vc.tenants TO vc_api", "REVOKE REFERENCES, TRIGGER ON vc.tenants FROM vc_api", "tabla vc.tenants:REFERENCES"},
+		{"GRANT DELETE ON vc.consentimientos TO vc_api", "REVOKE DELETE ON vc.consentimientos FROM vc_api", "tabla vc.consentimientos:DELETE"},
+		{"GRANT CREATE ON SCHEMA vc TO vc_api", "REVOKE CREATE ON SCHEMA vc FROM vc_api", "esquema vc:CREATE"},
+		{"REVOKE INSERT ON vc.asesores FROM vc_api", "GRANT INSERT ON vc.asesores TO vc_api", "faltan [tabla vc.asesores:INSERT]"},
+	} {
+		mutarYExigirFalla(t, base, base.URLDueno, c.mutar, c.revertir, c.quiero)
+	}
+	// Atributos y membresías (los cambia el administrador).
+	mutarYExigirFalla(t, base, base.URLAdmin, "GRANT pg_read_all_data TO vc_api", "REVOKE pg_read_all_data FROM vc_api", "pg_read_all_data")
+	mutarYExigirFalla(t, base, base.URLAdmin, "ALTER ROLE vc_api CREATEDB", "ALTER ROLE vc_api NOCREATEDB", "CREATEDB")
+	mutarYExigirFalla(t, base, base.URLAdmin, "GRANT TEMPORARY ON DATABASE "+base.Nombre+" TO vc_api",
+		"REVOKE TEMPORARY ON DATABASE "+base.Nombre+" FROM vc_api", "base:TEMPORARY")
+	a, err = abrir(t, base.URLAPI, postgres.Opciones{})
+	if err != nil {
+		t.Fatalf("después de revertir todo la API debía arrancar: %v", err)
+	}
+	a.Cerrar()
+}
+
+// H3 de T43: la única excepción a RLS (SECURITY DEFINER) y la política del
+// dueño están endurecidas, y vc.tenant_actual() no se puede aflojar.
+func TestEndurecimientoDeLaExcepcionARLS(t *testing.T) {
+	base := pgprueba.Preparar(t)
+	conn, err := pgx.Connect(context.Background(), base.URLAPI.Revelar())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() { _ = conn.Close(context.Background()) }()
+	var secdef bool
+	var config []string
+	var dueno string
+	var publico, api bool
+	err = conn.QueryRow(context.Background(), `SELECT prosecdef, proconfig, pg_get_userbyid(proowner),
+		has_function_privilege('public', oid, 'EXECUTE'), has_function_privilege('vc_api', oid, 'EXECUTE')
+		FROM pg_proc WHERE oid = 'vc.tenants_para_retencion()'::regprocedure`).Scan(&secdef, &config, &dueno, &publico, &api)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !secdef || len(config) != 1 || config[0] != "search_path=pg_catalog, pg_temp" || dueno != "vc_dueno" || publico || !api {
+		t.Fatalf("definer: secdef=%v config=%v dueño=%s public=%v api=%v", secdef, config, dueno, publico, api)
+	}
+	d := base.URLDueno
+	for _, c := range []struct{ mutar, revertir, quiero string }{
+		{"ALTER FUNCTION vc.tenants_para_retencion() RESET search_path",
+			"ALTER FUNCTION vc.tenants_para_retencion() SET search_path = pg_catalog, pg_temp", "SECURITY DEFINER"},
+		{"GRANT EXECUTE ON FUNCTION vc.tenants_para_retencion() TO PUBLIC",
+			"REVOKE EXECUTE ON FUNCTION vc.tenants_para_retencion() FROM PUBLIC", "SECURITY DEFINER"},
+		{"CREATE FUNCTION vc.otra() RETURNS int LANGUAGE sql SECURITY DEFINER SET search_path = pg_catalog, pg_temp AS 'SELECT 1'",
+			"DROP FUNCTION vc.otra()", "vc.otra"},
+		{"ALTER POLICY dueno_lista_tenants ON vc.tenants TO PUBLIC",
+			"ALTER POLICY dueno_lista_tenants ON vc.tenants TO vc_dueno", "políticas RLS"},
+		{"ALTER POLICY aislamiento_por_tenant ON vc.sesiones WITH CHECK (true)",
+			"ALTER POLICY aislamiento_por_tenant ON vc.sesiones WITH CHECK (tenant_id = vc.tenant_actual())", "políticas RLS"},
+		{"CREATE POLICY extra ON vc.cotizaciones FOR SELECT USING (true)", "DROP POLICY extra ON vc.cotizaciones", "políticas RLS"},
+		{"CREATE OR REPLACE FUNCTION vc.tenant_actual() RETURNS uuid LANGUAGE sql STABLE AS $$ SELECT current_setting('app.tenant_id', true)::uuid $$",
+			"CREATE OR REPLACE FUNCTION vc.tenant_actual() RETURNS uuid LANGUAGE sql STABLE PARALLEL SAFE AS $$ SELECT NULLIF(current_setting('app.tenant_id', true), '')::uuid $$",
+			"tenant_actual"},
+	} {
+		mutarYExigirFalla(t, base, d, c.mutar, c.revertir, c.quiero)
+	}
+	a, err := abrir(t, base.URLAPI, postgres.Opciones{})
+	if err != nil {
+		t.Fatalf("después de revertir todo la API debía arrancar: %v", err)
+	}
+	a.Cerrar()
+}
+
+// H5 de T43: con plan genérico (pgx prepara y PostgreSQL lo usa tras 5
+// ejecuciones) el cursor del listado sigue siendo condición de índice.
+func TestPlanDelListadoUsaElIndice(t *testing.T) {
+	base := pgprueba.Preparar(t)
+	a, err := abrir(t, base.URLAPI, postgres.Opciones{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer a.Cerrar()
+	tn := conformidad.NuevoTenant(t, a)
+	as := conformidad.NuevoAsesor(t, a, tn.ID)
+	ctx := context.Background()
+	conn, err := pgx.Connect(ctx, base.URLAPI.Revelar())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() { _ = conn.Close(ctx) }()
+	tx, err := conn.Begin(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() { _ = tx.Rollback(ctx) }()
+	if _, err := tx.Exec(ctx, "SELECT set_config('app.tenant_id', $1, true)", string(tn.ID)); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := tx.Exec(ctx, `INSERT INTO vc.sesiones (tenant_id, sesion_id, asesor_id, estado, modo_avatar, creada_en, borrar_despues_de)
+		SELECT $1, 'ses_' || upper(lpad(to_hex(g), 26, '0')), $2, 'creada', '3d',
+		       timestamptz '2026-01-01' + g * interval '1 minute', timestamptz '2027-01-01'
+		FROM generate_series(1, 5000) g`, string(tn.ID), as.ID); err != nil {
+		t.Fatal(err)
+	}
+	if err := tx.Commit(ctx); err != nil {
+		t.Fatal(err)
+	}
+	exec(t, base.URLDueno.Revelar(), "ANALYZE vc.sesiones")
+	tx, _ = conn.Begin(ctx)
+	_, _ = tx.Exec(ctx, "SELECT set_config('app.tenant_id', $1, true)", string(tn.ID))
+	if _, err := tx.Exec(ctx, "SET LOCAL plan_cache_mode = force_generic_plan"); err != nil {
+		t.Fatal(err)
+	}
+	// PREPARE explícito: así EXPLAIN EXECUTE muestra el plan genérico ($n),
+	// que es el que usa pgx después de varias ejecuciones.
+	if _, err := tx.Exec(ctx, "PREPARE listado(uuid, text, timestamptz, text, int) AS "+postgres.ListadoSiguientePagina); err != nil {
+		t.Fatal(err)
+	}
+	// EXECUTE no admite parámetros: valores fijos de la prueba (sin entrada externa).
+	filas, err := tx.Query(ctx, fmt.Sprintf("EXPLAIN EXECUTE listado('%s', '%s', '%s', 'ses_ZZZZZZZZZZZZZZZZZZZZZZZZZZ', 21)",
+		tn.ID, as.ID, conformidad.Base.Format(time.RFC3339Nano)), pgx.QueryExecModeSimpleProtocol)
+	if err != nil {
+		t.Fatal(err)
+	}
+	lineas, err := pgx.CollectRows(filas, pgx.RowTo[string])
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan := strings.Join(lineas, "\n")
+	condicion := ""
+	for _, l := range lineas {
+		if strings.Contains(l, "Index Cond:") {
+			condicion = l
+		}
+	}
+	if !strings.Contains(plan, "sesiones_por_asesor") || !strings.Contains(condicion, "ROW(creada_en, sesion_id) < ROW($3, $4)") {
+		t.Fatalf("el cursor no es condición de índice con plan genérico:\n%s", plan)
+	}
+	_ = tx.Rollback(ctx)
 }
