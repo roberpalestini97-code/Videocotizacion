@@ -11,6 +11,7 @@ import {
   formatearDuracion,
   formatearFechaHora,
   formatearMoneda,
+  plural,
 } from '../../util/formato';
 import { useCarga } from '../../util/useCarga';
 import { ContactoDelCliente } from './ContactoDelCliente';
@@ -145,7 +146,7 @@ function DatosRelevados({ datos }: { datos: DatosExtraidos }) {
         {datos.superficie_centesimas_m2 !== undefined ? (
           <Dato titulo="Superficie">{formatearCantidad(datos.superficie_centesimas_m2)} m²</Dato>
         ) : null}
-        {datos.cantidad_unidades !== undefined ? <Dato titulo="Cantidad">{datos.cantidad_unidades} unidades</Dato> : null}
+        {datos.cantidad_unidades !== undefined ? <Dato titulo="Cantidad">{datos.cantidad_unidades} {plural(datos.cantidad_unidades, 'unidad', 'unidades')}</Dato> : null}
         {datos.interior_exterior ? <Dato titulo="Interior o exterior">{ETIQUETA_DATO.interior_exterior[datos.interior_exterior]}</Dato> : null}
         {datos.altura ? <Dato titulo="Altura">{ETIQUETA_DATO.altura[datos.altura]}</Dato> : null}
         {datos.estado_superficie ? <Dato titulo="Estado de la superficie">{ETIQUETA_DATO.estado_superficie[datos.estado_superficie]}</Dato> : null}
@@ -177,6 +178,7 @@ function Presupuesto({ cotizacion: c }: { cotizacion: Cotizacion }) {
         <Alerta tipo="aviso">{ESTADO_TARIFAS.referencia_publica_sin_validar}</Alerta>
       ) : null}
       {c.fuera_de_zona ? <Alerta tipo="info">El trabajo es fuera de las zonas que atendemos: confirmá si podés ir.</Alerta> : null}
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- región desplazable: debe poder recorrerse con el teclado */}
       <div className="tabla-scroll" tabIndex={0} role="region" aria-label="Ítems del presupuesto">
         <table className="tabla">
           <caption className="solo-lectores">Ítems del presupuesto orientativo</caption>
@@ -225,7 +227,7 @@ function RespuestasDelAsistente({ detalle }: { detalle: SesionDetalle }) {
   const hayInyeccion = turnos.some((t) => t.salida.intento_inyeccion);
   return (
     <details className="tarjeta desplegable">
-      <summary>Qué dijo el asistente ({turnos.length} turnos)</summary>
+      <summary>Qué dijo el asistente ({turnos.length} {plural(turnos.length, 'turno', 'turnos')})</summary>
       {hayInyeccion ? (
         <Alerta tipo="aviso">En algún momento el cliente intentó darle instrucciones raras al asistente. No cambió el presupuesto.</Alerta>
       ) : null}

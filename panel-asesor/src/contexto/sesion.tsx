@@ -4,7 +4,6 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type ReactNode,
 } from 'react';
@@ -57,6 +56,23 @@ function desdeSesionPanel(s: SesionPanel): EstadoSesion {
   };
 }
 
+/**
+ * El CSRF vive solo en memoria (R03). Es un objeto aparte (no un ref) porque el cliente HTTP lo lee desde sus
+ * callbacks y se crea durante el render.
+ */
+class AlmacenCsrf {
+  private valor: string | null = null;
+  leer(): string | null {
+    return this.valor;
+  }
+  guardar(valor: string): void {
+    this.valor = valor;
+  }
+  borrar(): void {
+    this.valor = null;
+  }
+}
+
 export interface PropiedadesProveedorSesion {
   children: ReactNode;
   baseUrl?: string;
@@ -68,15 +84,15 @@ export function ProveedorSesion({ children, baseUrl, fetchImpl }: PropiedadesPro
   const [estado, setEstado] = useState<EstadoSesion>({ tipo: 'cargando' });
   const [intento, setIntento] = useState(0);
   const [avisoPara, setAvisoPara] = useState<string | null>(null);
-  const csrf = useRef<string | null>(null);
+  const [csrf] = useState(() => new AlmacenCsrf());
 
   const [cliente] = useState(() =>
     crearCliente({
       ...(baseUrl !== undefined ? { baseUrl } : {}),
       ...(fetchImpl ? { fetchImpl } : {}),
-      obtenerCsrf: () => csrf.current,
+      obtenerCsrf: () => csrf.leer(),
       alSesionVencida: () => {
-        csrf.current = null;
+        csrf.borrar();
         setEstado((previo) =>
           previo.tipo === 'autenticada' || previo.tipo === 'totp' ? { tipo: 'anonimo', aviso: 'vencida' } : previo,
         );
@@ -90,7 +106,7 @@ export function ProveedorSesion({ children, baseUrl, fetchImpl }: PropiedadesPro
     cliente.leerSesion(ac.signal).then(
       (s) => {
         if (ac.signal.aborted) return;
-        csrf.current = s.csrf_token;
+        csrf.guardar(s.csrf_token);
         setEstado(desdeSesionPanel(s));
       },
       (e: unknown) => {
@@ -103,7 +119,7 @@ export function ProveedorSesion({ children, baseUrl, fetchImpl }: PropiedadesPro
     return () => {
       ac.abort();
     };
-  }, [cliente, intento]);
+  }, [cliente, csrf, intento]);
 
   // Aviso y cierre al llegar el vencimiento absoluto de la sesión.
   const venceAbsolutoEn = estado.tipo === 'autenticada' ? estado.venceAbsolutoEn : null;
@@ -114,37 +130,37 @@ export function ProveedorSesion({ children, baseUrl, fetchImpl }: PropiedadesPro
       setAvisoPara(venceAbsolutoEn);
     }, Math.max(0, faltan - AVISO_VENCIMIENTO_MS));
     const alVencer = setTimeout(() => {
-      csrf.current = null;
+      csrf.borrar();
       setEstado({ tipo: 'anonimo', aviso: 'vencida' });
     }, Math.max(0, faltan));
     return () => {
       clearTimeout(alAviso);
       clearTimeout(alVencer);
     };
-  }, [venceAbsolutoEn]);
+  }, [venceAbsolutoEn, csrf]);
 
   const ingresar = useCallback(
     async (email: string, contrasena: string) => {
       const paso = await cliente.iniciarSesion({ email, contrasena });
-      csrf.current = paso.csrf_token;
+      csrf.guardar(paso.csrf_token);
       setEstado({ tipo: 'totp', venceEn: paso.vence_en });
     },
-    [cliente],
+    [cliente, csrf],
   );
 
   const confirmarTotp = useCallback(
     async (solicitud: TotpSolicitud) => {
       const s = await cliente.verificarTotp(solicitud);
-      csrf.current = s.csrf_token;
+      csrf.guardar(s.csrf_token);
       setEstado(desdeSesionPanel(s));
     },
-    [cliente],
+    [cliente, csrf],
   );
 
   const volverAlInicio = useCallback(() => {
-    csrf.current = null;
+    csrf.borrar();
     setEstado({ tipo: 'anonimo' });
-  }, []);
+  }, [csrf]);
 
   const salir = useCallback(async () => {
     try {
@@ -154,9 +170,9 @@ export function ProveedorSesion({ children, baseUrl, fetchImpl }: PropiedadesPro
       // adentro, porque la cookie HttpOnly sigue viva y mostrar "saliste" sería mentira.
       if (comoErrorApi(e).status !== 401) throw e;
     }
-    csrf.current = null;
+    csrf.borrar();
     setEstado({ tipo: 'anonimo', aviso: 'cerrada' });
-  }, [cliente]);
+  }, [cliente, csrf]);
 
   const reintentarInicio = useCallback(() => {
     setEstado({ tipo: 'cargando' });

@@ -22,36 +22,36 @@ type Codigo string
 // Códigos del catálogo 0.1.4-borrador. La prueba TestCodigosIgualAlCatalogo
 // falla si esta lista y el JSON del contrato divergen.
 const (
-	SolicitudInvalida           Codigo = "solicitud_invalida"
-	ValidacionFallida           Codigo = "validacion_fallida"
-	CuerpoDemasiadoGrande       Codigo = "cuerpo_demasiado_grande"
-	TipoDeContenidoNoSoportado  Codigo = "tipo_de_contenido_no_soportado"
-	CredencialAusente           Codigo = "credencial_ausente"
-	CredencialInvalida          Codigo = "credencial_invalida"
-	CredencialesIncorrectas     Codigo = "credenciales_incorrectas"
-	TotpInvalido                Codigo = "totp_invalido"
-	SesionVencida               Codigo = "sesion_vencida"
-	ReautenticacionRequerida    Codigo = "reautenticacion_requerida"
-	OrigenNoPermitido           Codigo = "origen_no_permitido"
-	DesafioInvalido             Codigo = "desafio_invalido"
-	ClaveSecretaDesdeNavegador  Codigo = "clave_secreta_desde_navegador"
-	AlcanceInsuficiente         Codigo = "alcance_insuficiente"
-	CsrfInvalido                Codigo = "csrf_invalido"
-	NoEncontrado                Codigo = "no_encontrado"
-	VersionRetirada             Codigo = "version_retirada"
-	EstadoInvalido              Codigo = "estado_invalido"
-	ConsentimientoRequerido     Codigo = "consentimiento_requerido"
-	SesionCerrada               Codigo = "sesion_cerrada"
-	CotizacionNoEmitida         Codigo = "cotizacion_no_emitida"
-	ContactoYaRegistrado        Codigo = "contacto_ya_registrado"
-	LimiteDeTasa                Codigo = "limite_de_tasa"
-	CuotaAgotada                Codigo = "cuota_agotada"
-	SimultaneasAgotadas         Codigo = "simultaneas_agotadas"
-	IntentosExcedidos           Codigo = "intentos_excedidos"
-	LimiteLecturasContacto      Codigo = "limite_lecturas_contacto"
-	ErrorInterno                Codigo = "error_interno"
-	ProveedorNoDisponible       Codigo = "proveedor_no_disponible"
-	ServicioNoDisponible        Codigo = "servicio_no_disponible"
+	SolicitudInvalida          Codigo = "solicitud_invalida"
+	ValidacionFallida          Codigo = "validacion_fallida"
+	CuerpoDemasiadoGrande      Codigo = "cuerpo_demasiado_grande"
+	TipoDeContenidoNoSoportado Codigo = "tipo_de_contenido_no_soportado"
+	CredencialAusente          Codigo = "credencial_ausente"
+	CredencialInvalida         Codigo = "credencial_invalida"
+	CredencialesIncorrectas    Codigo = "credenciales_incorrectas"
+	TotpInvalido               Codigo = "totp_invalido"
+	SesionVencida              Codigo = "sesion_vencida"
+	ReautenticacionRequerida   Codigo = "reautenticacion_requerida"
+	OrigenNoPermitido          Codigo = "origen_no_permitido"
+	DesafioInvalido            Codigo = "desafio_invalido"
+	ClaveSecretaDesdeNavegador Codigo = "clave_secreta_desde_navegador"
+	AlcanceInsuficiente        Codigo = "alcance_insuficiente"
+	CsrfInvalido               Codigo = "csrf_invalido"
+	NoEncontrado               Codigo = "no_encontrado"
+	VersionRetirada            Codigo = "version_retirada"
+	EstadoInvalido             Codigo = "estado_invalido"
+	ConsentimientoRequerido    Codigo = "consentimiento_requerido"
+	SesionCerrada              Codigo = "sesion_cerrada"
+	CotizacionNoEmitida        Codigo = "cotizacion_no_emitida"
+	ContactoYaRegistrado       Codigo = "contacto_ya_registrado"
+	LimiteDeTasa               Codigo = "limite_de_tasa"
+	CuotaAgotada               Codigo = "cuota_agotada"
+	SimultaneasAgotadas        Codigo = "simultaneas_agotadas"
+	IntentosExcedidos          Codigo = "intentos_excedidos"
+	LimiteLecturasContacto     Codigo = "limite_lecturas_contacto"
+	ErrorInterno               Codigo = "error_interno"
+	ProveedorNoDisponible      Codigo = "proveedor_no_disponible"
+	ServicioNoDisponible       Codigo = "servicio_no_disponible"
 )
 
 // Todos devuelve los códigos declarados en Go, ordenados.
@@ -80,7 +80,7 @@ type Entrada struct {
 }
 
 type catalogo struct {
-	Version string            `json:"version"`
+	Version string             `json:"version"`
 	Errores map[Codigo]Entrada `json:"errores"`
 }
 

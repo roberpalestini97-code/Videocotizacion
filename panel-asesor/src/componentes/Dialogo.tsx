@@ -76,6 +76,7 @@ export function Dialogo({ titulo, descripcion, children, alCerrar }: PropsDialog
 
   return createPortal(
     <div className="dialogo-fondo">
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- diálogo modal: atrapa Tab y se cierra con Escape */}
       <div
         ref={caja}
         className="dialogo"

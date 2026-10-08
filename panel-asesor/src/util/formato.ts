@@ -117,3 +117,15 @@ export function etiquetaPeriodo(periodo: string): string {
   const nombre = m ? MESES[Number(m[2]) - 1] : undefined;
   return m && nombre ? `${nombre} de ${m[1]}` : periodo;
 }
+
+/** `45` → `45 s`; `600` → `10 min`; `3600` → `1 h`. Redondea hacia arriba: nunca promete menos espera de la real. */
+export function formatearEspera(segundos: number): string {
+  const s = Math.max(1, Math.ceil(segundos));
+  if (s < 120) return `${String(s)} s`;
+  if (s < 3600) return `${String(Math.ceil(s / 60))} min`;
+  return `${String(Math.ceil(s / 3600))} h`;
+}
+
+export function plural(n: number, uno: string, otros: string): string {
+  return n === 1 ? uno : otros;
+}

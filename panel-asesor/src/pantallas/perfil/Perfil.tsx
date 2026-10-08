@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useRef, useState, type SubmitEvent } from 'react';
 import { Alerta, Boton, Cargando, CampoTexto, ErrorDeCarga, GrupoCasillas, TituloPagina } from '../../componentes/basicos';
 import { esErrorApi, comoErrorApi } from '../../api/errores';
 import type { Oficio, PerfilActualizacion, PerfilAsesor, ZonaAtendida } from '../../api/tipos';
@@ -54,7 +54,7 @@ function FormularioPerfil({ inicial }: { inicial: PerfilAsesor }) {
   const refWhatsapp = useRef<HTMLInputElement>(null);
   const refForm = useRef<HTMLFormElement>(null);
 
-  const enviar = async (e: FormEvent) => {
+  const enviar = async (e: SubmitEvent) => {
     e.preventDefault();
     if (enviando) return;
     const nuevos: ErroresPerfil = {};
@@ -70,8 +70,14 @@ function FormularioPerfil({ inicial }: { inicial: PerfilAsesor }) {
     if (zonas.length < 1) nuevos.zonas = 'Elegí al menos una zona.';
     setErrores(nuevos);
     setResultado(null);
-    if (nuevos.nombre_visible) return void refNombre.current?.focus();
-    if (nuevos.whatsapp) return void refWhatsapp.current?.focus();
+    if (nuevos.nombre_visible) {
+      refNombre.current?.focus();
+      return;
+    }
+    if (nuevos.whatsapp) {
+      refWhatsapp.current?.focus();
+      return;
+    }
     if (nuevos.oficios ?? nuevos.zonas) {
       // Los fieldset recién marcados con aria-invalid se pintan en el próximo render: se enfoca después.
       setTimeout(() => refForm.current?.querySelector<HTMLElement>('fieldset[aria-invalid="true"] input')?.focus(), 0);
@@ -180,7 +186,7 @@ function FormularioPerfil({ inicial }: { inicial: PerfilAsesor }) {
           </div>
           <div>
             <dt>Verificación en dos pasos</dt>
-            <dd>{guardado.totp_activo ? 'Activa' : 'Inactiva'}</dd>
+            <dd>Activa</dd>
           </div>
           <div>
             <dt>Aviso de privacidad aceptado</dt>

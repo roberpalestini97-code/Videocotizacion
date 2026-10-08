@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type SubmitEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Alerta, Boton, CampoSelect, CampoTexto, Cargando, ErrorDeCarga, EstadoVacio, TituloPagina } from '../../componentes/basicos';
 import type { FiltrosCotizaciones, Oficio, ResumenCotizacion } from '../../api/tipos';
 import { useCatalogo, useMensajeDeError } from '../../contexto/catalogo';
 import { useCliente } from '../../contexto/sesion';
 import { ESTADO_SESION } from '../../textos/panel';
-import { formatearFechaHora, formatearMoneda } from '../../util/formato';
+import { formatearFechaHora, formatearMoneda, plural } from '../../util/formato';
 import { useListadoPaginado } from '../../util/useCarga';
 
 const OFICIOS: readonly Oficio[] = ['pintura', 'jardineria', 'reparaciones', 'mantenimiento', 'limpieza'];
@@ -60,7 +60,7 @@ export function MisCotizaciones() {
             ))}
           </ul>
           <p className="solo-lectores" role="status">
-            {lista.agregados > 0 ? `Se cargaron ${String(lista.agregados)} cotizaciones más.` : ''}
+            {lista.agregados > 0 ? `Se ${plural(lista.agregados, 'cargó 1 cotización más', `cargaron ${String(lista.agregados)} cotizaciones más`)}.` : ''}
           </p>
           {lista.errorMas ? <Alerta tipo="error">{mensaje(lista.errorMas)}</Alerta> : null}
           {lista.hayMas ? (
@@ -91,7 +91,7 @@ function Filtros({ aplicados, alAplicar }: { aplicados: FiltrosCotizaciones; alA
   const [hasta, setHasta] = useState(aplicados.hasta ?? '');
   const [error, setError] = useState<string | undefined>();
 
-  const enviar = (e: FormEvent) => {
+  const enviar = (e: SubmitEvent) => {
     e.preventDefault();
     if (desde !== '' && hasta !== '' && desde > hasta) {
       setError('La fecha "desde" no puede ser posterior a "hasta".');

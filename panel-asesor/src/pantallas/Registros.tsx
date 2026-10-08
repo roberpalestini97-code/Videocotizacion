@@ -45,6 +45,7 @@ export function Registros() {
       ) : null}
       {lista.fase === 'ok' && lista.items.length > 0 ? (
         <>
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- región desplazable: debe poder recorrerse con el teclado */}
           <div className="tabla-scroll" tabIndex={0} role="region" aria-label="Registros de actividad">
             <table className="tabla">
               <caption className="solo-lectores">Registros de actividad, del más nuevo al más viejo</caption>

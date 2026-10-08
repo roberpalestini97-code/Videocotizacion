@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type SubmitEvent, type ReactNode } from 'react';
 import { Alerta, Boton, CampoTexto } from '../componentes/basicos';
 import { Dialogo } from '../componentes/Dialogo';
 import { ErrorApi, esErrorApi } from '../api/errores';
@@ -111,7 +111,7 @@ function DialogoReautenticacion({ alCerrar }: { alCerrar: (r: 'ok' | 'cancelado'
   const refContrasena = useRef<HTMLInputElement>(null);
   const refCodigo = useRef<HTMLInputElement>(null);
 
-  const enviar = async (e: FormEvent) => {
+  const enviar = async (e: SubmitEvent) => {
     e.preventDefault();
     if (enviando) return;
     const nuevos: { contrasena?: string; codigo?: string } = {};
@@ -119,8 +119,14 @@ function DialogoReautenticacion({ alCerrar }: { alCerrar: (r: 'ok' | 'cancelado'
     if (!PATRON_TOTP.test(codigo)) nuevos.codigo = 'El código tiene 6 números.';
     setErrores(nuevos);
     setErrorEnvio(null);
-    if (nuevos.contrasena) return void refContrasena.current?.focus();
-    if (nuevos.codigo) return void refCodigo.current?.focus();
+    if (nuevos.contrasena) {
+      refContrasena.current?.focus();
+      return;
+    }
+    if (nuevos.codigo) {
+      refCodigo.current?.focus();
+      return;
+    }
     setEnviando(true);
     try {
       await cliente.reautenticar({ contrasena, codigo_totp: codigo });
@@ -128,7 +134,7 @@ function DialogoReautenticacion({ alCerrar }: { alCerrar: (r: 'ok' | 'cancelado'
       alCerrar('ok');
     } catch (err) {
       setEnviando(false);
-      if (esErrorApi(err, 'sesion_vencida') || esErrorApi(err, 'credencial_ausente')) {
+      if (esErrorApi(err, 'sesion_vencida') || esErrorApi(err, 'credencial_ausente') || esErrorApi(err, 'credencial_invalida')) {
         // El callback global ya mandó a la pantalla de ingreso; acá solo se libera la acción pendiente.
         alCerrar({ error: err });
         return;

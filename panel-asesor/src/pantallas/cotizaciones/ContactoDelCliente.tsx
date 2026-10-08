@@ -7,6 +7,11 @@ import { useCliente } from '../../contexto/sesion';
 import { PREFERENCIA_CONTACTO } from '../../textos/panel';
 import { enlaceWhatsApp, formatearFechaHora } from '../../util/formato';
 
+export function textoLecturasRestantes(n: number): string {
+  if (n <= 0) return 'Ya no te quedan lecturas de contactos por hoy.';
+  return n === 1 ? 'Hoy te queda 1 lectura de contactos.' : `Hoy te quedan ${String(n)} lecturas de contactos.`;
+}
+
 const PATRON_TELEFONO = /^\+[1-9][0-9]{7,14}$/;
 const PATRON_EMAIL_ENLACE = /^[^\s<>"'@]+@[^\s<>"'@]+$/;
 
@@ -122,7 +127,7 @@ export function ContactoDelCliente({ sesionId, contactoDisponible }: { sesionId:
             </div>
           </dl>
           <p className="texto-chico">
-            Esta lectura quedó registrada. Hoy te quedan {estado.contacto.lectura.lecturas_restantes_hoy} lecturas de contactos.
+            Esta lectura quedó registrada. {textoLecturasRestantes(estado.contacto.lectura.lecturas_restantes_hoy)}
           </p>
           <Boton
             onClick={() => {

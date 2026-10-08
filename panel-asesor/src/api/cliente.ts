@@ -32,8 +32,10 @@ export interface OpcionesCliente {
   /** El CSRF vive solo en memoria (R03): lo pide el cliente en cada mutación. */
   obtenerCsrf: () => string | null;
   /**
-   * Se llama ante un 401 `sesion_vencida` o `credencial_ausente`. NO se llama para `reautenticacion_requerida`
-   * (eso no es sesión vencida: la sesión sigue viva y hay que confirmar identidad) ni para
+   * Se llama ante un 401 que significa "ya no tenés sesión": `sesion_vencida` (venció), `credencial_ausente` (no hay
+   * cookie) o `credencial_invalida` (la sesión fue revocada, p. ej. cambiaron la contraseña desde otro dispositivo;
+   * tabla de decisión de contracts/estado-de-congelamiento.md, punto 2). NO se llama para
+   * `reautenticacion_requerida` (la sesión sigue viva y hay que confirmar identidad) ni para
    * `credenciales_incorrectas` / `totp_invalido` (errores de formulario).
    */
   alSesionVencida: (codigo: CodigoError) => void;
@@ -50,7 +52,7 @@ interface Pedido {
   signal?: AbortSignal | undefined;
 }
 
-const CODIGOS_DE_SESION: ReadonlySet<CodigoError> = new Set<CodigoError>(['sesion_vencida', 'credencial_ausente']);
+const CODIGOS_DE_SESION: ReadonlySet<CodigoError> = new Set<CodigoError>(['sesion_vencida', 'credencial_ausente', 'credencial_invalida']);
 
 export interface Pagina {
   cursor?: string | undefined;

@@ -5,10 +5,18 @@ export function useSegundosRestantes(hasta: number | null): number {
   const [ahora, setAhora] = useState(() => Date.now());
   useEffect(() => {
     if (hasta === null) return;
-    const id = setInterval(() => {
+    // `ahora` quedó de cuando se montó el componente: se refresca enseguida, no recién al primer segundo, para que
+    // la cuenta regresiva no arranque mostrando un número viejo (y de más).
+    const arranque = setTimeout(() => {
       setAhora(Date.now());
+    }, 0);
+    const id = setInterval(() => {
+      const t = Date.now();
+      setAhora(t);
+      if (t >= hasta) clearInterval(id);
     }, 1000);
     return () => {
+      clearTimeout(arranque);
       clearInterval(id);
     };
   }, [hasta]);

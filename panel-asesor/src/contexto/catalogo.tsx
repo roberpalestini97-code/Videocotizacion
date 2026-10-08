@@ -3,6 +3,7 @@ import { MENSAJES_ERROR } from '../api/generado/errores';
 import { esCodigoDelContrato, esErrorApi, type CodigoAny } from '../api/errores';
 import { useCliente } from './sesion';
 import type { MotivoCierre, Oficio, Zona } from '../api/tipos';
+import { formatearEspera } from '../util/formato';
 import { MENSAJE_LOCAL, RESPALDO_MOTIVO, RESPALDO_OFICIO, RESPALDO_ZONA } from '../textos/panel';
 
 export interface Catalogo {
@@ -68,7 +69,7 @@ export function useMensajeDeError(): (e: unknown) => string {
   return (e: unknown) => {
     if (!esErrorApi(e)) return mensajeError('error_interno');
     const base = mensajeError(e.codigo);
-    if (e.status === 429 && e.reintentarEnS !== undefined) return `${base} Podés reintentar en ${e.reintentarEnS} s.`;
+    if (e.status === 429 && e.reintentarEnS !== undefined) return `${base} Podés reintentar en ${formatearEspera(e.reintentarEnS)}.`;
     return base;
   };
 }

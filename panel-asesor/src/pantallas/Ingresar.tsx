@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useRef, useState, type SubmitEvent } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Alerta, Boton, CampoTexto, TituloPagina } from '../componentes/basicos';
 import { esErrorApi } from '../api/errores';
@@ -60,7 +60,7 @@ function PasoContrasena() {
   const refContrasena = useRef<HTMLInputElement>(null);
   const espera = useSegundosRestantes(esperaHasta);
 
-  const enviar = async (e: FormEvent) => {
+  const enviar = async (e: SubmitEvent) => {
     e.preventDefault();
     if (enviando || espera > 0) return;
     const nuevos: { email?: string; contrasena?: string } = {};
@@ -68,8 +68,14 @@ function PasoContrasena() {
     if (contrasena.length < 12) nuevos.contrasena = 'La contraseña tiene al menos 12 caracteres.';
     setErrores(nuevos);
     setErrorEnvio(null);
-    if (nuevos.email) return void refEmail.current?.focus();
-    if (nuevos.contrasena) return void refContrasena.current?.focus();
+    if (nuevos.email) {
+      refEmail.current?.focus();
+      return;
+    }
+    if (nuevos.contrasena) {
+      refContrasena.current?.focus();
+      return;
+    }
     setEnviando(true);
     try {
       await ingresar(email.trim(), contrasena);
@@ -136,7 +142,7 @@ function PasoCodigo() {
   const refCodigo = useRef<HTMLInputElement>(null);
   const espera = useSegundosRestantes(esperaHasta);
 
-  const enviar = async (e: FormEvent) => {
+  const enviar = async (e: SubmitEvent) => {
     e.preventDefault();
     if (enviando || espera > 0) return;
     const valor = usarRecuperacion ? codigo.trim().toUpperCase() : codigo;

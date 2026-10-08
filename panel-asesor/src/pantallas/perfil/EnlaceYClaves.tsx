@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type SubmitEvent } from 'react';
 import { Alerta, Boton, CampoAreaTexto, CampoTexto, Cargando, ErrorDeCarga, EstadoVacio, TituloPagina } from '../../componentes/basicos';
 import { BotonCopiar } from '../../componentes/BotonCopiar';
 import { ConfirmarDialogo } from '../../componentes/ConfirmarDialogo';
@@ -195,7 +195,8 @@ export function SeccionClaves() {
         <EstadoVacio titulo="Todavía no creaste ninguna clave">Creá la primera con el formulario de abajo.</EstadoVacio>
       ) : null}
       {lista.estado === 'ok' && lista.datos.items.length > 0 ? (
-        <div className="tabla-scroll" tabIndex={0} role="region" aria-label="Claves del widget">
+        /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- región desplazable: debe poder recorrerse con el teclado */
+        <div className="tabla-scroll" tabIndex={0} role="region" aria-label="Listado de claves">
           <table className="tabla">
             <caption className="solo-lectores">Claves del widget</caption>
             <thead>
@@ -278,7 +279,7 @@ function FormularioNuevaClave({ alCrear }: { alCrear: (nombre: string, origins: 
   const [errorEnvio, setErrorEnvio] = useState<{ texto: string; n: number } | null>(null);
   const [enviando, setEnviando] = useState(false);
 
-  const enviar = async (e: FormEvent<HTMLFormElement>) => {
+  const enviar = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (enviando) return;
     const formulario = e.currentTarget;

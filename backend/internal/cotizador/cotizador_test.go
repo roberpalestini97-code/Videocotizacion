@@ -21,7 +21,7 @@ func tarifarioReal(t *testing.T) *Tarifario {
 	if err != nil {
 		t.Fatalf("abriendo tarifas: %v", err)
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 	tf, err := CargarTarifario(f)
 	if err != nil {
 		t.Fatalf("cargando tarifas: %v", err)
@@ -206,10 +206,10 @@ func TestEjemplosDeConductas(t *testing.T) {
 		t.Fatalf("se esperaban 11 ejemplos, hay %d", len(archivos))
 	}
 	esperado := map[string]dominio.Centavos{ // total mínimo esperado, -1 = no emite
-		"02-fachada-altura-emitir.json":       59625000,
-		"04-fuera-de-zona-igual-emite.json":   3200000,
-		"10-accion-fuera-de-zona.json":        11400000,
-		"03-jardin-periodico-propietario-ausente.json": -1,
+		"02-fachada-altura-emitir.json":                 59625000,
+		"04-fuera-de-zona-igual-emite.json":             3200000,
+		"10-accion-fuera-de-zona.json":                  11400000,
+		"03-jardin-periodico-propietario-ausente.json":  -1,
 		"05-paisajismo-tecnico-planos-largo-plazo.json": -1,
 		"11-consorcio-limpieza-terreno.json":            -1,
 	}

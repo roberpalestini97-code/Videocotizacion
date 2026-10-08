@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import { Alerta, Boton, Cargando, CampoSelect, CampoTexto, EstadoVacio, ErrorDeCarga, TituloPagina } from '../../componentes/basicos';
 import type { Consumo } from '../../api/tipos';
 import { useMensajeDeError } from '../../contexto/catalogo';
@@ -86,6 +86,7 @@ function DetalleConsumo({ consumo }: { consumo: Consumo }) {
       {consumo.diario.length === 0 ? (
         <EstadoVacio titulo="Sin actividad en este mes">Todavía no hubo videocotizaciones en este período.</EstadoVacio>
       ) : (
+        /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- región desplazable: debe poder recorrerse con el teclado */
         <div className="tabla-scroll" tabIndex={0} role="region" aria-label="Consumo día por día">
           <table className="tabla">
             <caption className="solo-lectores">Consumo día por día</caption>
@@ -127,7 +128,7 @@ function SeccionContrasena() {
   const [resultado, setResultado] = useState<{ tipo: 'exito' | 'error'; texto: string; n: number } | null>(null);
   const [enviando, setEnviando] = useState(false);
 
-  const enviar = async (e: FormEvent<HTMLFormElement>) => {
+  const enviar = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (enviando) return;
     const formulario = e.currentTarget;

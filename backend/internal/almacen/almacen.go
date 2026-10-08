@@ -62,6 +62,19 @@ type Almacen interface {
 	Cerrar()
 }
 
+// Global es el único camino entre tenants y existe solo para la tarea de
+// retención (ADR 0004, consecuencias): devuelve ids de tenant, sin ningún
+// otro dato, para luego llamar a BorrarVencidos tenant por tenant.
+type Global interface {
+	TenantsParaRetencion(ctx context.Context) ([]dominio.TenantID, error)
+}
+
+// Completo es lo que implementan memoria y postgres.
+type Completo interface {
+	Almacen
+	Global
+}
+
 // LimitePagina normaliza el tamaño de página.
 func LimitePagina(n int) int {
 	switch {

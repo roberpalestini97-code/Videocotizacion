@@ -42,7 +42,7 @@ export function useCarga<T>(clave: string, cargar: (signal: AbortSignal) => Prom
     setVersion((v) => v + 1);
   };
   const vigente = resultado?.clave === clave && resultado.version === version;
-  if (!vigente || !resultado) return { estado: 'cargando', recargar };
+  if (!vigente) return { estado: 'cargando', recargar };
   if (resultado.error) return { estado: 'error', error: resultado.error, recargar };
   return { estado: 'ok', datos: resultado.datos as T, recargar };
 }
@@ -131,7 +131,8 @@ export function useListadoPaginado<I>(
     const ac = new AbortController();
     setControlMas(ac);
     despachar({ tipo: 'pide_mas', clave });
-    pedir(estado.siguiente, ac.signal).then(
+    // No se usa `pedir` (Effect Event): solo puede llamarse desde efectos. Esta función es la de este render.
+    pedirPagina(estado.siguiente, ac.signal).then(
       (pagina) => {
         if (!ac.signal.aborted) despachar({ tipo: 'mas', clave, pagina });
       },
