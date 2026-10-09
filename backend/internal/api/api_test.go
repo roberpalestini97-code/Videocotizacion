@@ -18,6 +18,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/jackc/pgx/v5"
+
 	"videocotizacion/backend/internal/abuso"
 	"videocotizacion/backend/internal/almacen"
 	"videocotizacion/backend/internal/almacen/memoria"
@@ -81,12 +83,10 @@ func nuevoEntorno(t *testing.T, alm almacen.Completo) *entorno {
 	if err != nil {
 		t.Fatal(err)
 	}
-	f, err := os.Open(filepath.Join(raizRepo(t), "tarifas", "tarifas-2026.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer func() { _ = f.Close() }()
-	tar, err := cotizador.CargarTarifario(f)
+	// El tarifario real dice version "0.1.0" y el contrato exige AAAA.N
+	// (hueco B2 de T04b1-huecos-del-contrato.md): la prueba usa "2026.1".
+	crudo := bytes.Replace(leerArchivo(t, "tarifas", "tarifas-2026.json"), []byte(`"version": "0.1.0"`), []byte(`"version": "2026.1"`), 1)
+	tar, err := cotizador.CargarTarifario(bytes.NewReader(crudo))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -132,13 +132,13 @@ func (e *entorno) sinError(err error, que string) {
 
 // tenantFx es un tenant con asesor, enlaces y claves.
 type tenantFx struct {
-	tn                                dominio.Tenant
-	as                                dominio.Asesor
-	enlace, enlaceRevocado            string
-	secreta, publica                  string
-	secretaRevocada, publicaRevocada  string
-	idPublica                         string
-	origin                            string
+	tn                               dominio.Tenant
+	as                               dominio.Asesor
+	enlace, enlaceRevocado           string
+	secreta, publica                 string
+	secretaRevocada, publicaRevocada string
+	idPublica                        string
+	origin                           string
 }
 
 func (e *entorno) clave(tn dominio.TenantID, tipo dominio.TipoClave, revocada bool, origenes ...string) (string, string) {
@@ -313,7 +313,9 @@ func correrVector(t *testing.T, alm almacen.Completo, v vector) (*httptest.Respo
 		e.sesion(fx["A"], "consentida", false) // ocupa el único lugar
 	}
 	if s.Tasa == "excedida" {
-		e.tasas.PorIP = abuso.NewLimitadorAgotado(e.reloj, ipPrueba)
+		agotado := abuso.NuevoLimitador(e.reloj, 1, time.Hour)
+		agotado.Permitir(ipPrueba) // gasta la única ficha de esa IP
+		e.tasas.PorIP = agotado
 	}
 	cred := s.Credencial
 	if cred == nil {
@@ -348,10 +350,10 @@ func correrVector(t *testing.T, alm almacen.Completo, v vector) (*httptest.Respo
 		enlace := fx["A"].enlace
 		if rec != nil {
 			switch {
-			case !rec.Existe:
-				enlace = idPublico(t)
 			case rec.Revocado:
 				enlace = fx[rec.Tenant].enlaceRevocado
+			case !rec.Existe:
+				enlace = idPublico(t)
 			default:
 				enlace = fx[rec.Tenant].enlace
 			}
@@ -649,6 +651,7 @@ func TestFlujoWidgetYDesafio(t *testing.T) {
 // Detalles de la autenticación y del cuerpo que los vectores no cubren.
 func TestAutenticacionYCuerpo(t *testing.T) {
 	e := nuevoEntorno(t, memoria.Nuevo())
+	e.tasas = api.Tasas{} // acá no se prueba la tasa
 	a := e.tenant("A", 30000, 5)
 	h := e.manejador()
 	sec := map[string]string{"Authorization": "Bearer " + a.secreta}
@@ -812,7 +815,11 @@ func TestCredencialesNoSeGuardanEnClaro(t *testing.T) {
 	e := nuevoEntorno(t, alm)
 	a := e.tenant("A", 30000, 5)
 	_, tok := e.sesion(a, "creada", false)
-	pg := pgprueba.Conectar(t, base.URLDueno.Revelar())
+	pg, err := pgx.Connect(context.Background(), base.URLDueno.Revelar())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() { _ = pg.Close(context.Background()) }()
 	var volcado string
 	// El dueño puede leer estas dos tablas (política de solo lectura de las
 	// funciones de autenticación).
@@ -842,5 +849,51 @@ func TestRegistrarExigeOpciones(t *testing.T) {
 	sort.Strings(keys)
 	if len(keys) != 5 {
 		t.Fatal(keys)
+	}
+}
+
+// R56: tope duro mensual en segundos. Con el consumo EN el tope ya no se crea
+// (>=), un segundo antes sí, y al cambiar el mes (hora de Argentina) se repone.
+func TestCuotaMensualConTopeDuro(t *testing.T) {
+	for nombre, alm := range map[string]func() almacen.Completo{
+		"memoria":  func() almacen.Completo { return memoria.Nuevo() },
+		"postgres": func() almacen.Completo { return abrirPostgres(t) },
+	} {
+		t.Run(nombre, func(t *testing.T) {
+			e := nuevoEntorno(t, alm())
+			e.tasas = api.Tasas{}
+			a := e.tenant("A", 600, 100)
+			h := e.manejador()
+			sec := map[string]string{"Authorization": "Bearer " + a.secreta}
+			cuerpo := `{"enlace":"` + a.enlace + `","modo_avatar":"3d"}`
+			id, _ := e.sesion(a, "consentida", false)
+			cerrar := func(seg int) {
+				ses, err := e.alm.LeerSesion(context.Background(), a.tn.ID, id)
+				e.sinError(err, "leer")
+				_, err = e.alm.CerrarSesion(context.Background(), a.tn.ID, id, dominio.MotivoCompletada, ses.ConsentidaEn.Add(time.Duration(seg)*time.Second))
+				e.sinError(err, "cerrar")
+			}
+			cerrar(599)
+			if rr := pedir(t, h, "POST", "/v1/sesiones", cuerpo, sec); rr.Code != 201 {
+				t.Fatalf("599 s de 600: %d %s", rr.Code, rr.Body)
+			}
+			id2, _ := e.sesion(a, "consentida", false)
+			ses2, _ := e.alm.LeerSesion(context.Background(), a.tn.ID, id2)
+			_, err := e.alm.CerrarSesion(context.Background(), a.tn.ID, id2, dominio.MotivoCompletada, ses2.ConsentidaEn.Add(time.Second))
+			e.sinError(err, "cerrar 2")
+			rr := pedir(t, h, "POST", "/v1/sesiones", cuerpo, sec)
+			if rr.Code != 429 || codigoDe(rr) != "cuota_agotada" || rr.Header().Get("Retry-After") == "" {
+				t.Fatalf("600 s de 600: %d %s", rr.Code, rr.Body)
+			}
+			// 1.º de noviembre 00:00 en Argentina (UTC−3) = 03:00 UTC.
+			e.reloj.Fijar(time.Date(2026, 11, 1, 2, 59, 0, 0, time.UTC))
+			if rr := pedir(t, h, "POST", "/v1/sesiones", cuerpo, sec); rr.Code != 429 {
+				t.Fatalf("31 de octubre 23:59 ART sigue en octubre: %d", rr.Code)
+			}
+			e.reloj.Fijar(time.Date(2026, 11, 1, 3, 0, 0, 0, time.UTC))
+			if rr := pedir(t, h, "POST", "/v1/sesiones", cuerpo, sec); rr.Code != 201 {
+				t.Fatalf("1.º de noviembre ART: %d %s", rr.Code, rr.Body)
+			}
+		})
 	}
 }

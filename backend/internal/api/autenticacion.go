@@ -210,7 +210,7 @@ func leerCredencial(r *http.Request) (valor string, viaPublica bool, err error) 
 	}
 	v, ok := strings.CutPrefix(authz[0], "Bearer ")
 	if !ok || v == "" {
-		return "", false, errores.Envolver(errores.CredencialInvalida, errors.New("Authorization sin Bearer"))
+		return "", false, errores.Envolver(errores.CredencialInvalida, errors.New("encabezado Authorization sin Bearer"))
 	}
 	return v, false, nil
 }

@@ -100,7 +100,9 @@ func (c ClaveAPI) Validar() error {
 }
 
 // AdmiteOrigin informa si el Origin está en la lista exacta (R55).
-func (c ClaveAPI) AdmiteOrigin(o string) bool { return OriginValido(o) && slices.Contains(c.Origenes, o) }
+func (c ClaveAPI) AdmiteOrigin(o string) bool {
+	return OriginValido(o) && slices.Contains(c.Origenes, o)
+}
 
 // Enlace es el enlace opaco del profesional (BRIEF 2, R62).
 type Enlace struct {

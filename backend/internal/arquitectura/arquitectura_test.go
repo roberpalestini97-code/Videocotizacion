@@ -22,13 +22,13 @@ const modulo = "videocotizacion/backend/"
 // es de prueba). "pgx" habilita github.com/jackc/pgx/v5/...
 var permitidos = map[string][]string{
 	// Núcleo puro: sin red, sin base, sin adaptadores.
-	"internal/errores":     {},
-	"internal/secreto":     {},
-	"internal/reloj":       {},
-	"internal/dominio":     {"internal/errores"},
-	"internal/cotizador":   {"internal/dominio", "internal/errores"},
-	"internal/almacen":     {"internal/dominio", "internal/errores"},
-	"internal/proveedores": {},
+	"internal/errores":      {},
+	"internal/secreto":      {},
+	"internal/reloj":        {},
+	"internal/dominio":      {"internal/errores"},
+	"internal/cotizador":    {"internal/dominio", "internal/errores"},
+	"internal/almacen":      {"internal/dominio", "internal/errores"},
+	"internal/proveedores":  {},
 	"internal/credenciales": {"internal/secreto"},
 	"internal/abuso":        {"internal/reloj"},
 	// Servicios de aplicación (solo puertos).
@@ -42,9 +42,9 @@ var permitidos = map[string][]string{
 		"internal/abuso", "internal/almacen", "internal/credenciales", "internal/dominio",
 		"internal/errores", "internal/reloj", "internal/servidor", "internal/sesiones",
 	},
-	"internal/salud":     {},
-	"internal/servidor":  {"internal/errores"},
-	"internal/config":    {"internal/secreto"},
+	"internal/salud":    {},
+	"internal/servidor": {"internal/errores"},
+	"internal/config":   {"internal/secreto"},
 	// Adaptadores.
 	"internal/proveedores/falsos": {"internal/errores", "internal/proveedores"},
 	"internal/almacen/memoria":    {"internal/almacen", "internal/dominio", "internal/errores"},

@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"net/http/httptest"
 	"strings"
 	"testing"
 	"time"
@@ -24,6 +25,28 @@ func cfgDesarrollo() config.Config {
 		LecturaEncabezados: time.Second, Lectura: time.Second, Escritura: time.Second, Inactividad: time.Second,
 		Apagado: 2 * time.Second, CuerpoMaxBytes: 1024, EncabezadosMax: 8 << 10, DBTimeout: 5 * time.Second,
 		RetencionIntervalo: 10 * time.Millisecond,
+		AvisoVersion:       "2026-10-08.1", AvisoURL: "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1",
+		DesafioBits: 8, DesafioVida: time.Minute,
+	}
+}
+
+// T04b: las rutas públicas quedan cableadas detrás del servidor real y, en
+// producción, sin clave HMAC de credenciales no se arma la API.
+func TestRutasPublicasCableadas(t *testing.T) {
+	app, err := Construir(context.Background(), cfgDesarrollo(), silencioso())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer app.Almacen.Cerrar()
+	rr := httptest.NewRecorder()
+	app.Servidor.Handler.ServeHTTP(rr, httptest.NewRequest("POST", "/v1/sesiones", strings.NewReader("{}")))
+	if rr.Code != 401 || !strings.Contains(rr.Body.String(), "credencial_ausente") {
+		t.Fatalf("crearSesion sin credencial: %d %s", rr.Code, rr.Body)
+	}
+	c := cfgDesarrollo()
+	c.CredencialesClave = secreto.Nuevo("corta")
+	if _, err := Construir(context.Background(), c, silencioso()); err == nil {
+		t.Fatal("una clave HMAC corta debía rechazarse")
 	}
 }
 

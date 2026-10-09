@@ -1,0 +1,23 @@
+# T04b parte 1 — Huecos del contrato y decisiones provisorias de go (2026-10-09)
+
+Autor: go. No se tocó `contracts/` ni `docs/adr/`. Cada hueco queda para arq (y seg donde se indica).
+
+| # | Hueco | Qué hizo go mientras tanto | Decide |
+|---|---|---|---|
+| B1 | `ItemCotizacion`/`Cotizacion` tienen un solo precio; el tarifario solo tiene rangos (ya era C3 de T04a). | La API publica el **máximo** del rango (`precio_unitario_centavos`, `importe_centavos`, `total_centavos`); la base guarda min y max. Es provisorio y optimista para el profesional, no para el cliente: ojo. | arq + Rober |
+| B2 | `Cotizacion.tarifas.version` exige `AAAA.N`; `tarifas/tarifas-2026.json` dice `"0.1.0"`. Con el archivo real, la respuesta no valida contra el contrato. | Las pruebas usan una copia en memoria con `"2026.1"`. El archivo real no se tocó (fuera de alcance). Hoy `arranque` no carga el tarifario (cotizador nil), así que no se emite nada real. | cot/arq |
+| B3 | R57 pide reserva atómica de simultáneas; el contrato la ubica en `emitirTokenMedios` (parte 2). `crearSesion` solo **verifica** cupo (cuota mensual, luego simultáneas contando sesiones `consentida`/`en_curso` creadas en la última hora = vida del token). | 20 `crearSesion` concurrentes pasan todos; el tope duro se aplica al consentir/emitir token. Ventana de "activas" aproximada (vida del token, no duración real). | arq: ¿ventana exacta? Parte 2 hace la reserva |
+| B4 | Tasa y desafíos en memoria **por instancia**: con varias instancias el límite se multiplica y un desafío emitido en una no lo reconoce otra. IP = `RemoteAddr`; detrás de un proxy/balanceador todo sería una IP y no se lee `X-Forwarded-For`. | Valores provisorios (`TasasPorDefecto`): 120/min por IP, 600/min por credencial, `crearSesion` 10/min por IP, 120/min por clave pública, 10/min por enlace; desafíos 20/min por IP. | arq + seg: almacén compartido de tasas y proxy de confianza antes de abrir al público |
+| B5 | El contrato fija `X-Desafio: <desafio>.<nonce hex 16>` pero no la función de la prueba de trabajo. | `SHA-256("<desafio>.<nonce>")` con `dificultad_bits` ceros iniciales; dificultad por defecto 18, vida 60 s (config `DESAFIO_*`). El desafío se consume en el primer intento aunque falle. | arq/seg (P7) |
+| B6 | No hay CORS: el contrato dice "CORS solo para la lista" (R55) pero no define preflight ni `Access-Control-*`. `OPTIONS` hoy responde 404. Un widget en navegador no podría llamar. | No implementado en la parte 1. | arq define; go lo hace en la parte 2 |
+| B7 | `Idempotency-Key` está declarado en `crearSesion` y no hay semántica (24 h, qué se devuelve). | Se ignora. | arq |
+| B8 | No hay ruta para crear tenants, asesores, enlaces ni claves secretas (S5); `leerEnlacePublico`, `leerAvisoPrivacidad`, `leerRetencion`, `leerVersion`, `leerCatalogoTextos`, `leerConsumo` y ARCO quedan fuera de esta parte. | Los datos de prueba se crean por el puerto `almacen`. No hay forma operativa de dar de alta la primera clave en un despliegue real. | arq: ¿comando `api` de bootstrap? |
+| B9 | Token con `Origin`: el contrato solo ata Origin a claves; con token de sesión no se verifica. | No se verifica. | seg |
+| B10 | `leerSesion` con token: el contrato dice "Otra sesión u otro tenant: 404". Una sesión **vencida** (token vencido) responde `credencial_invalida`, no `sesion_vencida` (ese código es del panel). | Así. | arq: confirmar |
+| B11 | Un JSON no-objeto (`[]`, `5`) → 422; JSON roto → 400; `Content-Type` distinto de `application/json` → 415. El contrato no dice cuál de 400/422 va para cada caso. | Como se escribió. | arq |
+| B12 | La derivación se genera **la primera vez que se lee** (no al cerrar) y el WhatsApp del asesor se lee en ese momento: si el asesor cambia de número, el enlace cambia, el código no. | Así; el código queda guardado (`vc.derivaciones`), la URL se arma al leer. | arq |
+
+## Decisiones técnicas (go)
+- Migración `0002_credenciales_y_enlaces`: `claves_api`, `enlaces`, `tokens_sesion`, `derivaciones` con RLS forzada; credenciales solo como HMAC-SHA256 con clave del servidor (`CREDENCIALES_CLAVE_HMAC`, ≥32 bytes, obligatoria en producción). Búsqueda por hash sin tenant: dos funciones `SECURITY DEFINER` (`buscar_clave`, `buscar_token_sesion`) con `search_path` fijo y política de solo lectura del dueño; el arranque las verifica junto con privilegios, políticas y definers (lista permitida).
+- El tenant sale siempre de la credencial; un `tenant_id` en el cuerpo es 422.
+- Orden de evaluación: tasa → credencial → tipo → Origin/secreta → Origin/pública → desafío → cuerpo → recurso → estado → cupo (el cupo se evalúa en `crearSesion` después de resolver el enlace, como la tabla de decisión).
