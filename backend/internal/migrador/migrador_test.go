@@ -91,13 +91,19 @@ func TestAplicarContraPostgres(t *testing.T) {
 		t.Fatal("un binario sin la migración 0001 debía detectar que la base es más nueva")
 	}
 
-	// Reversión manual y vuelta a aplicar desde cero.
-	rev, err := os.ReadFile(filepath.Join("..", "..", "migrations", "0001_esquema_inicial.revertir.sql"))
-	if err != nil {
-		t.Fatal(err)
+	// Reversión manual (en orden inverso) y vuelta a aplicar desde cero.
+	revs, err := filepath.Glob(filepath.Join("..", "..", "migrations", "*.revertir.sql"))
+	if err != nil || len(revs) != len(ms) {
+		t.Fatalf("cada migración necesita su .revertir.sql: %v %v", revs, err)
 	}
-	if _, err := dueno.Exec(ctx, string(rev)); err != nil {
-		t.Fatalf("reversión: %v", err)
+	for i := len(revs) - 1; i >= 0; i-- {
+		rev, err := os.ReadFile(revs[i])
+		if err != nil {
+			t.Fatal(err)
+		}
+		if _, err := dueno.Exec(ctx, string(rev)); err != nil {
+			t.Fatalf("reversión %s: %v", revs[i], err)
+		}
 	}
 	var existe bool
 	if err := dueno.QueryRow(ctx, "SELECT to_regnamespace('vc') IS NOT NULL").Scan(&existe); err != nil || existe {

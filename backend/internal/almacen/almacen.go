@@ -69,10 +69,44 @@ type Global interface {
 	TenantsParaRetencion(ctx context.Context) ([]dominio.TenantID, error)
 }
 
+// Credenciales guarda claves de API, enlaces opacos, tokens de sesión,
+// derivaciones y el consumo para el cupo (T04b). Todo con tenant explícito.
+type Credenciales interface {
+	CrearClaveAPI(ctx context.Context, tenant dominio.TenantID, c dominio.ClaveAPI) error
+	RevocarClaveAPI(ctx context.Context, tenant dominio.TenantID, claveID string, ahora time.Time) error
+
+	CrearEnlace(ctx context.Context, tenant dominio.TenantID, e dominio.Enlace) error
+	// LeerEnlace devuelve también los revocados (decide quien llama).
+	LeerEnlace(ctx context.Context, tenant dominio.TenantID, idPublico string) (dominio.Enlace, error)
+
+	// CrearSesionConToken guarda la sesión y su token en una sola transacción.
+	CrearSesionConToken(ctx context.Context, tenant dominio.TenantID, s dominio.Sesion, tok dominio.TokenSesion) error
+	RevocarTokensDeSesion(ctx context.Context, tenant dominio.TenantID, sesionID string, ahora time.Time) error
+
+	// Consumo suma la duración de las sesiones creadas desde inicioMes y
+	// cuenta las consentidas o en curso creadas desde inicioActivas.
+	Consumo(ctx context.Context, tenant dominio.TenantID, inicioMes, inicioActivas time.Time) (dominio.Consumo, error)
+
+	// ObtenerDerivacion devuelve la derivación de la sesión; si no existe,
+	// guarda nueva (código repetido en el tenant → errores.EstadoInvalido).
+	ObtenerDerivacion(ctx context.Context, tenant dominio.TenantID, nueva dominio.Derivacion) (dominio.Derivacion, error)
+}
+
+// Autenticacion busca una credencial por su HMAC SIN saber el tenant: es la
+// única otra excepción a RLS (funciones SECURITY DEFINER de 0002). Devuelve
+// solo la fila cuyo hash coincide exactamente; no encontrada →
+// errores.NoEncontrado (quien llama responde credencial_invalida).
+type Autenticacion interface {
+	BuscarClaveAPI(ctx context.Context, hash []byte) (dominio.TenantID, dominio.ClaveAPI, error)
+	BuscarTokenSesion(ctx context.Context, hash []byte) (dominio.TenantID, dominio.TokenSesion, error)
+}
+
 // Completo es lo que implementan memoria y postgres.
 type Completo interface {
 	Almacen
 	Global
+	Credenciales
+	Autenticacion
 }
 
 // LimitePagina normaliza el tamaño de página.

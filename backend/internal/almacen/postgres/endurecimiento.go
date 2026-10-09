@@ -16,10 +16,17 @@ import (
 // cambie privilegios actualiza esta lista en el mismo cambio.
 var PrivilegiosPermitidos = []string{
 	"base:CONNECT",
+	// 0002: búsqueda de credenciales por hash (SECURITY DEFINER).
+	"funcion vc.buscar_clave:EXECUTE", "funcion vc.buscar_token_sesion:EXECUTE",
 	"funcion vc.impedir_modificacion:EXECUTE",
 	"funcion vc.tenant_actual:EXECUTE",
 	"funcion vc.tenants_para_retencion:EXECUTE",
 	"tabla vc.asesores:INSERT", "tabla vc.asesores:SELECT",
+	// 0002: credenciales, enlaces y tokens; solo se revocan (una columna).
+	"tabla vc.claves_api:INSERT", "tabla vc.claves_api:SELECT", "columna vc.claves_api.revocada_en:UPDATE",
+	"tabla vc.derivaciones:INSERT", "tabla vc.derivaciones:SELECT",
+	"tabla vc.enlaces:INSERT", "tabla vc.enlaces:SELECT", "columna vc.enlaces.revocado_en:UPDATE",
+	"tabla vc.tokens_sesion:INSERT", "tabla vc.tokens_sesion:SELECT", "columna vc.tokens_sesion.revocado_en:UPDATE",
 	"tabla vc.consentimientos:INSERT", "tabla vc.consentimientos:SELECT",
 	"tabla vc.cotizaciones:DELETE", "tabla vc.cotizaciones:INSERT", "tabla vc.cotizaciones:SELECT",
 	"tabla vc.items_cotizacion:INSERT", "tabla vc.items_cotizacion:SELECT",
@@ -147,7 +154,13 @@ func (a *Almacen) verificarPoliticas(ctx context.Context) error {
 	if err := a.pool.QueryRow(ctx, "SELECT tableowner::text FROM pg_tables WHERE schemaname = 'vc' AND tablename = 'tenants'").Scan(&dueno); err != nil {
 		return fmt.Errorf("postgres: leer dueño de vc.tenants: %w", err)
 	}
-	esperadas := []string{"tenants|dueno_lista_tenants|PERMISSIVE|{" + dueno + "}|SELECT|true|"}
+	// Políticas de solo lectura del dueño: las usan las funciones SECURITY
+	// DEFINER (retención y búsqueda de credenciales por hash).
+	esperadas := []string{
+		"tenants|dueno_lista_tenants|PERMISSIVE|{" + dueno + "}|SELECT|true|",
+		"claves_api|dueno_autentica|PERMISSIVE|{" + dueno + "}|SELECT|true|",
+		"tokens_sesion|dueno_autentica|PERMISSIVE|{" + dueno + "}|SELECT|true|",
+	}
 	for _, t := range tablas {
 		esperadas = append(esperadas, t+"|aislamiento_por_tenant|PERMISSIVE|{public}|ALL|"+condicion+"|"+condicion)
 	}
@@ -159,8 +172,17 @@ func (a *Almacen) verificarPoliticas(ctx context.Context) error {
 	return nil
 }
 
-// verificarFunciones endurece la excepción a RLS (H3 de T43): una sola función
-// SECURITY DEFINER, del dueño, con search_path fijo y sin EXECUTE para PUBLIC;
+// DefinersPermitidos son las ÚNICAS funciones SECURITY DEFINER admitidas (las
+// excepciones a RLS): del dueño, con search_path fijo y sin EXECUTE para PUBLIC.
+var DefinersPermitidos = []string{
+	"vc.buscar_clave|search_path=pg_catalog, pg_temp|true|false",
+	"vc.buscar_token_sesion|search_path=pg_catalog, pg_temp|true|false",
+	"vc.tenants_para_retencion|search_path=pg_catalog, pg_temp|true|false",
+}
+
+// verificarFunciones endurece la excepción a RLS (H3 de T43): solo las
+// funciones SECURITY DEFINER de la lista, del dueño, con search_path fijo y
+// sin EXECUTE para PUBLIC;
 // y vc.tenant_actual() con la definición esperada (NULLIF y STABLE).
 func (a *Almacen) verificarFunciones(ctx context.Context) error {
 	definers, err := leerLista(ctx, a.pool, `
@@ -172,10 +194,9 @@ func (a *Almacen) verificarFunciones(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("postgres: leer funciones SECURITY DEFINER: %w", err)
 	}
-	esperado := []string{"vc.tenants_para_retencion|search_path=pg_catalog, pg_temp|true|false"}
-	if !slices.Equal(definers, esperado) {
+	if !slices.Equal(definers, DefinersPermitidos) {
 		return fmt.Errorf("%w: funciones SECURITY DEFINER = %v; se espera solo %v (search_path fijo, del dueño, sin PUBLIC)",
-			ErrArranqueInseguro, definers, esperado)
+			ErrArranqueInseguro, definers, DefinersPermitidos)
 	}
 	var fuente, volatilidad string
 	if err := a.pool.QueryRow(ctx, "SELECT prosrc, provolatile::text FROM pg_proc WHERE oid = 'vc.tenant_actual()'::regprocedure").

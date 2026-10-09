@@ -2,6 +2,7 @@
 BEGIN;
 DROP FUNCTION vc.buscar_token_sesion(bytea);
 DROP FUNCTION vc.buscar_clave(bytea);
+DROP TABLE vc.derivaciones;
 DROP TABLE vc.tokens_sesion;
 DROP TABLE vc.enlaces;
 DROP TABLE vc.claves_api;

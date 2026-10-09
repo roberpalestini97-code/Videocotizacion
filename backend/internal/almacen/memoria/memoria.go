@@ -26,6 +26,10 @@ type datosTenant struct {
 	consentimientos map[string]dominio.Consentimiento // por sesion_id
 	cotizaciones    map[string]dominio.Cotizacion     // por sesion_id
 	borrados        []almacen.Borrados
+	claves          map[string]dominio.ClaveAPI    // por clave_id
+	enlaces         map[string]dominio.Enlace      // por id_publico
+	tokens          map[string]dominio.TokenSesion // por hash
+	derivaciones    map[string]dominio.Derivacion  // por sesion_id
 }
 
 // Almacen en memoria, seguro para uso concurrente.
@@ -100,6 +104,8 @@ func (a *Almacen) CrearTenant(ctx context.Context, t dominio.Tenant) error {
 	a.tenants[t.ID] = &datosTenant{
 		tenant: t, asesores: map[string]dominio.Asesor{}, sesiones: map[string]dominio.Sesion{},
 		consentimientos: map[string]dominio.Consentimiento{}, cotizaciones: map[string]dominio.Cotizacion{},
+		claves: map[string]dominio.ClaveAPI{}, enlaces: map[string]dominio.Enlace{},
+		tokens: map[string]dominio.TokenSesion{}, derivaciones: map[string]dominio.Derivacion{},
 	}
 	return nil
 }
@@ -384,6 +390,13 @@ func (a *Almacen) BorrarVencidos(ctx context.Context, t dominio.TenantID, ahora 
 		if _, ok := d.consentimientos[id]; ok {
 			b.Consentimientos++
 			delete(d.consentimientos, id)
+		}
+		// Cascada como en la base (no se cuentan en la constancia).
+		delete(d.derivaciones, id)
+		for h, tok := range d.tokens {
+			if tok.SesionID == id {
+				delete(d.tokens, h)
+			}
 		}
 		b.Sesiones++
 		delete(d.sesiones, id)

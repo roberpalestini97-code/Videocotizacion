@@ -71,6 +71,15 @@ type Config struct {
 	EncabezadosMax     int
 
 	RetencionIntervalo time.Duration // cada cuánto corre el borrado programado (0 = no corre en `servir`)
+
+	// T04b: HMAC de credenciales (R1; ≥32 bytes, obligatorio en producción;
+	// en desarrollo/prueba, vacío = una clave aleatoria por proceso), aviso
+	// de privacidad vigente y desafío anti-bots (R53, provisorio P7).
+	CredencialesClave secreto.Secreto
+	AvisoVersion      string
+	AvisoURL          string
+	DesafioBits       int
+	DesafioVida       time.Duration
 }
 
 // Getenv permite inyectar el entorno en pruebas (os.Getenv en producción).
@@ -95,6 +104,11 @@ func Cargar(getenv Getenv, cmd Comando) (Config, error) {
 		CuerpoMaxBytes:     int64(l.entero("HTTP_CUERPO_MAX_BYTES", 64<<10, 1<<10, 8<<20)),
 		EncabezadosMax:     l.entero("HTTP_ENCABEZADOS_MAX_BYTES", 16<<10, 4<<10, 1<<20),
 		RetencionIntervalo: l.duracion("RETENCION_INTERVALO", 24*time.Hour),
+		CredencialesClave:  secreto.Nuevo(getenv("CREDENCIALES_CLAVE_HMAC")),
+		AvisoVersion:       l.texto("AVISO_VERSION", "2026-10-08.1"),
+		AvisoURL:           l.texto("AVISO_URL", "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"),
+		DesafioBits:        l.entero("DESAFIO_DIFICULTAD_BITS", 18, 8, 32),
+		DesafioVida:        l.duracion("DESAFIO_VIDA", 60*time.Second),
 		Proveedores: Proveedores{
 			STT:      l.texto("PROVEEDOR_STT", ""),
 			LLM:      l.texto("PROVEEDOR_LLM", ""),
@@ -158,6 +172,15 @@ func (c Config) validar(cmd Comando) []error {
 	}
 	if cmd == Servir {
 		errs = append(errs, c.validarProveedores(prod)...)
+		switch n := len(c.CredencialesClave.Revelar()); {
+		case n == 0 && prod:
+			errs = append(errs, errors.New("falta CREDENCIALES_CLAVE_HMAC (≥32 bytes) en producción"))
+		case n > 0 && n < 32:
+			errs = append(errs, errors.New("CREDENCIALES_CLAVE_HMAC necesita al menos 32 bytes"))
+		}
+		if c.DesafioVida < 10*time.Second || c.DesafioVida > 120*time.Second {
+			errs = append(errs, errors.New("DESAFIO_VIDA debe estar entre 10 s y 120 s (R53)"))
+		}
 		if c.CuerpoMaxBytes <= 0 || c.LecturaEncabezados <= 0 || c.Lectura <= 0 || c.Escritura <= 0 || c.Inactividad <= 0 {
 			errs = append(errs, errors.New("los límites y tiempos del servidor HTTP deben ser positivos"))
 		}

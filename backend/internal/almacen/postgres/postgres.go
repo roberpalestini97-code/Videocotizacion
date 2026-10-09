@@ -335,13 +335,17 @@ func (a *Almacen) CrearSesion(ctx context.Context, t dominio.TenantID, s dominio
 		return err
 	}
 	return a.enTenant(ctx, t, func(ctx context.Context, tx pgx.Tx) error {
-		_, err := tx.Exec(ctx, `INSERT INTO vc.sesiones
-			(tenant_id, sesion_id, asesor_id, estado, modo_avatar, creada_en, consentida_en, cerrada_en, motivo_cierre, duracion_s, borrar_despues_de)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NULLIF($9, ''), $10, $11)`,
-			string(t), s.ID, s.AsesorID, string(s.Estado), string(s.ModoAvatar), s.CreadaEn, s.ConsentidaEn,
-			s.CerradaEn, string(s.MotivoCierre), s.DuracionS, s.BorrarDespuesDe)
-		return err
+		return insertarSesion(ctx, tx, t, s)
 	})
+}
+
+func insertarSesion(ctx context.Context, tx pgx.Tx, t dominio.TenantID, s dominio.Sesion) error {
+	_, err := tx.Exec(ctx, `INSERT INTO vc.sesiones
+		(tenant_id, sesion_id, asesor_id, estado, modo_avatar, creada_en, consentida_en, cerrada_en, motivo_cierre, duracion_s, borrar_despues_de)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NULLIF($9, ''), $10, $11)`,
+		string(t), s.ID, s.AsesorID, string(s.Estado), string(s.ModoAvatar), s.CreadaEn, s.ConsentidaEn,
+		s.CerradaEn, string(s.MotivoCierre), s.DuracionS, s.BorrarDespuesDe)
+	return err
 }
 
 // LeerSesion implementa almacen.Almacen.
@@ -356,12 +360,12 @@ func (a *Almacen) LeerSesion(ctx context.Context, t dominio.TenantID, id string)
 	return out, err
 }
 
-// Consultas del listado por clave (keyset). Exportadas para la prueba de plan.
+// Consultas del listado por clave (keyset). La prueba de plan analiza las que prepara pgx.
 const (
-	ListadoPrimeraPagina = `SELECT ` + columnasSesion + `
+	listadoPrimeraPagina = `SELECT ` + columnasSesion + `
 		FROM vc.sesiones WHERE tenant_id = $1 AND asesor_id = $2
 		ORDER BY creada_en DESC, sesion_id DESC LIMIT $3`
-	ListadoSiguientePagina = `SELECT ` + columnasSesion + `
+	listadoSiguientePagina = `SELECT ` + columnasSesion + `
 		FROM vc.sesiones WHERE tenant_id = $1 AND asesor_id = $2 AND (creada_en, sesion_id) < ($3, $4)
 		ORDER BY creada_en DESC, sesion_id DESC LIMIT $5`
 )
@@ -384,9 +388,9 @@ func (a *Almacen) ListarSesionesDeAsesor(ctx context.Context, t dominio.TenantID
 		var filas pgx.Rows
 		var err error
 		if p.Despues == "" {
-			filas, err = tx.Query(ctx, ListadoPrimeraPagina, string(t), asesorID, limite+1)
+			filas, err = tx.Query(ctx, listadoPrimeraPagina, string(t), asesorID, limite+1)
 		} else {
-			filas, err = tx.Query(ctx, ListadoSiguientePagina, string(t), asesorID, desdeT, desdeID, limite+1)
+			filas, err = tx.Query(ctx, listadoSiguientePagina, string(t), asesorID, desdeT, desdeID, limite+1)
 		}
 		if err != nil {
 			return err

@@ -41,6 +41,8 @@ func Correr(t *testing.T, a almacen.Completo) {
 		{"aislamiento_entre_tenants", probarAislamiento},
 		{"consentimiento_concurrente", probarConcurrencia},
 		{"contexto_cancelado", probarContextoCancelado},
+		{"claves_y_enlaces", probarClavesYEnlaces},
+		{"tokens_consumo_y_derivacion", probarTokensConsumoYDerivacion},
 	}
 	for _, c := range casos {
 		t.Run(c.nombre, func(t *testing.T) { c.fn(t, a) })

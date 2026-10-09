@@ -17,17 +17,22 @@ import (
 
 	"github.com/jackc/pgx/v5"
 
+	"videocotizacion/backend/internal/abuso"
 	"videocotizacion/backend/internal/almacen"
 	"videocotizacion/backend/internal/almacen/memoria"
 	"videocotizacion/backend/internal/almacen/postgres"
+	"videocotizacion/backend/internal/api"
 	"videocotizacion/backend/internal/config"
+	"videocotizacion/backend/internal/credenciales"
 	"videocotizacion/backend/internal/migrador"
 	"videocotizacion/backend/internal/proveedores"
 	"videocotizacion/backend/internal/proveedores/falsos"
 	"videocotizacion/backend/internal/reloj"
 	"videocotizacion/backend/internal/retencion"
 	"videocotizacion/backend/internal/salud"
+	"videocotizacion/backend/internal/secreto"
 	"videocotizacion/backend/internal/servidor"
+	"videocotizacion/backend/internal/sesiones"
 	"videocotizacion/backend/migrations"
 )
 
@@ -64,15 +69,60 @@ func Construir(ctx context.Context, cfg config.Config, log *slog.Logger) (*App, 
 		return nil, err
 	}
 	app := &App{Config: cfg, Almacen: alm, Proveedores: prov, Reloj: reloj.Sistema{}, Log: log}
+	rutas, err := construirRutas(cfg, app, log)
+	if err != nil {
+		alm.Cerrar()
+		return nil, err
+	}
 	app.Servidor = servidor.Nuevo(servidor.Opciones{
 		Direccion: cfg.Direccion, LecturaEncabezados: cfg.LecturaEncabezados, Lectura: cfg.Lectura,
 		Escritura: cfg.Escritura, Inactividad: cfg.Inactividad, CuerpoMaxBytes: cfg.CuerpoMaxBytes,
-		EncabezadosMax: cfg.EncabezadosMax, Log: log,
+		EncabezadosMax: cfg.EncabezadosMax, Log: log, Rutas: rutas,
 		Listo: func(ctx context.Context) error {
 			return salud.Listo(ctx, 2*time.Second, salud.Comprobacion{Nombre: "almacen", Probar: alm.Ping})
 		},
 	})
 	return app, nil
+}
+
+// construirRutas arma el servicio de sesiones y la API de T04b parte 1.
+func construirRutas(cfg config.Config, app *App, log *slog.Logger) (func(*http.ServeMux), error) {
+	clave := cfg.CredencialesClave
+	if clave.Vacio() {
+		if cfg.EsProduccion() {
+			return nil, fmt.Errorf("%w: falta CREDENCIALES_CLAVE_HMAC", ErrProduccionInsegura)
+		}
+		// Desarrollo/prueba: clave aleatoria por proceso (las credenciales
+		// emitidas no sobreviven a un reinicio).
+		v, err := credenciales.Aleatorio(32)
+		if err != nil {
+			return nil, err
+		}
+		clave = secreto.Nuevo(v)
+		log.Warn("CREDENCIALES_CLAVE_HMAC vacía: se usa una clave aleatoria de este proceso (solo desarrollo)")
+	}
+	firmador, err := credenciales.NuevoFirmador(clave)
+	if err != nil {
+		return nil, err
+	}
+	srv, err := sesiones.Nuevo(sesiones.Opciones{
+		Almacen: app.Almacen, Firmador: firmador, Reloj: app.Reloj,
+		Mensajeria: app.Proveedores.Mensajeria, Extractor: app.Proveedores.Extractor,
+		AvisoVersion: cfg.AvisoVersion, AvisoURL: cfg.AvisoURL,
+	})
+	if err != nil {
+		return nil, err
+	}
+	o := api.Opciones{
+		Autenticacion: app.Almacen, Sesiones: srv, Firmador: firmador, Reloj: app.Reloj, Log: log,
+		Desafios: abuso.NuevosDesafios(app.Reloj, cfg.DesafioBits, cfg.DesafioVida, credenciales.Aleatorio),
+		Tasas:    api.TasasPorDefecto(app.Reloj),
+	}
+	// Se valida acá para que un cableado incompleto falle al arrancar.
+	if err := api.Registrar(http.NewServeMux(), o); err != nil {
+		return nil, err
+	}
+	return func(mux *http.ServeMux) { _ = api.Registrar(mux, o) }, nil
 }
 
 // AbrirAlmacen abre el almacén configurado. Postgres verifica rol, RLS y

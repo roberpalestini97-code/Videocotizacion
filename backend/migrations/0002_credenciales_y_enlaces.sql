@@ -1,4 +1,4 @@
--- 0002 · Credenciales de API, enlaces opacos y tokens de sesión (T04b parte 1).
+-- 0002 · Credenciales de API, enlaces opacos, tokens de sesión y derivaciones (T04b parte 1).
 --
 -- Mismas reglas que 0001: tenant_id NOT NULL, RLS + FORCE con la política de
 -- aislamiento, privilegios mínimos de vc_api (lista exacta en
@@ -50,6 +50,19 @@ CREATE TABLE vc.tokens_sesion (
 );
 CREATE UNIQUE INDEX tokens_sesion_por_hash ON vc.tokens_sesion (hash);
 
+-- Derivación a WhatsApp (BRIEF 6, R50): solo el código de referencia (50 bits,
+-- sin datos personales) y cuándo se generó. La URL wa.me se arma al leer con
+-- el WhatsApp vigente del asesor. Cae con su sesión (retención).
+CREATE TABLE vc.derivaciones (
+    tenant_id          uuid        NOT NULL,
+    sesion_id          text COLLATE "C" NOT NULL,
+    codigo_referencia  text COLLATE "C" NOT NULL CHECK (codigo_referencia ~ '^VC-[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{6}$'),
+    generada_en        timestamptz NOT NULL,
+    PRIMARY KEY (tenant_id, sesion_id),
+    UNIQUE (tenant_id, codigo_referencia),
+    FOREIGN KEY (tenant_id, sesion_id) REFERENCES vc.sesiones (tenant_id, sesion_id) ON DELETE CASCADE
+);
+
 -- Uso del mes y simultáneas por tenant (cupo, R56/R57).
 CREATE INDEX sesiones_por_creacion ON vc.sesiones (tenant_id, creada_en);
 
@@ -57,7 +70,7 @@ DO $$
 DECLARE
     t text;
 BEGIN
-    FOREACH t IN ARRAY ARRAY['claves_api', 'enlaces', 'tokens_sesion']
+    FOREACH t IN ARRAY ARRAY['claves_api', 'enlaces', 'tokens_sesion', 'derivaciones']
     LOOP
         EXECUTE format('ALTER TABLE vc.%I ENABLE ROW LEVEL SECURITY', t);
         EXECUTE format('ALTER TABLE vc.%I FORCE ROW LEVEL SECURITY', t);
@@ -77,17 +90,19 @@ CREATE POLICY dueno_autentica ON vc.claves_api FOR SELECT TO CURRENT_USER USING 
 CREATE POLICY dueno_autentica ON vc.tokens_sesion FOR SELECT TO CURRENT_USER USING (true);
 
 CREATE FUNCTION vc.buscar_clave(p_hash bytea)
-    RETURNS TABLE (tenant_id uuid, clave_id text, tipo text, origenes text[], revocada boolean)
+    RETURNS TABLE (tenant_id uuid, clave_id text, tipo text, prefijo text, origenes text[],
+                   creada_en timestamptz, revocada_en timestamptz)
     LANGUAGE sql STABLE SECURITY DEFINER
     SET search_path = pg_catalog, pg_temp
-    AS $$ SELECT c.tenant_id, c.clave_id, c.tipo, c.origenes, c.revocada_en IS NOT NULL
+    AS $$ SELECT c.tenant_id, c.clave_id, c.tipo, c.prefijo, c.origenes, c.creada_en, c.revocada_en
           FROM vc.claves_api c WHERE c.hash = p_hash $$;
 
 CREATE FUNCTION vc.buscar_token_sesion(p_hash bytea)
-    RETURNS TABLE (tenant_id uuid, sesion_id text, vence_en timestamptz, revocado boolean)
+    RETURNS TABLE (tenant_id uuid, sesion_id text, emitido_en timestamptz, vence_en timestamptz,
+                   revocado_en timestamptz)
     LANGUAGE sql STABLE SECURITY DEFINER
     SET search_path = pg_catalog, pg_temp
-    AS $$ SELECT t.tenant_id, t.sesion_id, t.vence_en, t.revocado_en IS NOT NULL
+    AS $$ SELECT t.tenant_id, t.sesion_id, t.emitido_en, t.vence_en, t.revocado_en
           FROM vc.tokens_sesion t WHERE t.hash = p_hash $$;
 
 REVOKE ALL ON FUNCTION vc.buscar_clave(bytea) FROM PUBLIC;
@@ -101,3 +116,4 @@ GRANT SELECT, INSERT ON vc.enlaces TO vc_api;
 GRANT UPDATE (revocado_en) ON vc.enlaces TO vc_api;
 GRANT SELECT, INSERT ON vc.tokens_sesion TO vc_api;
 GRANT UPDATE (revocado_en) ON vc.tokens_sesion TO vc_api;
+GRANT SELECT, INSERT ON vc.derivaciones TO vc_api;

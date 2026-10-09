@@ -1,7 +1,7 @@
 // Package servidor arma el http.Server con tiempos límite, tope de cuerpo y
 // encabezados, recuperación de pánicos y errores problem+json del catálogo
-// (H5, R9, R31). Por ahora solo expone /salud y /listo; las rutas de negocio
-// llegan en T04b contra contracts/openapi.yaml.
+// (H5, R9, R31). Expone /salud y /listo; las rutas de negocio (T04b) las
+// registra internal/api a través de Opciones.Rutas.
 package servidor
 
 import (
@@ -28,13 +28,16 @@ type Opciones struct {
 	// Listo verifica dependencias; nil = siempre listo.
 	Listo func(ctx context.Context) error
 	Log   *slog.Logger
+	// Rutas registra las rutas de negocio (T04b) detrás de los mismos
+	// intermediarios.
+	Rutas func(*http.ServeMux)
 }
 
 // Nuevo crea el http.Server listo para ListenAndServe.
 func Nuevo(o Opciones) *http.Server {
 	return &http.Server{
 		Addr:              o.Direccion,
-		Handler:           Manejador(o, nil),
+		Handler:           Manejador(o, o.Rutas),
 		ReadHeaderTimeout: o.LecturaEncabezados,
 		ReadTimeout:       o.Lectura,
 		WriteTimeout:      o.Escritura,
@@ -148,6 +151,9 @@ func EscribirError(w http.ResponseWriter, r *http.Request, log *slog.Logger, err
 	w.WriteHeader(p.Status)
 	_ = json.NewEncoder(w).Encode(p)
 }
+
+// EscribirJSON responde application/json con el estado dado.
+func EscribirJSON(w http.ResponseWriter, estado int, v any) { escribirJSON(w, estado, v) }
 
 func escribirJSON(w http.ResponseWriter, estado int, v any) {
 	w.Header().Set("Content-Type", "application/json")

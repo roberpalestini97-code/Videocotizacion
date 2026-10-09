@@ -49,7 +49,7 @@ func TestDeterministasYCuentan(t *testing.T) {
 		t.Fatalf("voz = %+v, %v", v, err)
 	}
 	enlace, err := c.Mensajeria.EnlaceDerivacion(ctx, "+5492235551234", "Código VC-1")
-	if err != nil || enlace != "https://wa.me/5492235551234?text=C%C3%B3digo+VC-1" || me.Llamadas() != 1 {
+	if err != nil || enlace != "https://wa.me/5492235551234?text=C%C3%B3digo%20VC-1" || me.Llamadas() != 1 {
 		t.Fatalf("enlace = %q, %v", enlace, err)
 	}
 	if _, err := c.Mensajeria.EnlaceDerivacion(ctx, "2235551234", "x"); !errores.Es(err, errores.ValidacionFallida) {

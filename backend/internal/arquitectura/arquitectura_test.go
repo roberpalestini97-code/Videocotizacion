@@ -29,8 +29,19 @@ var permitidos = map[string][]string{
 	"internal/cotizador":   {"internal/dominio", "internal/errores"},
 	"internal/almacen":     {"internal/dominio", "internal/errores"},
 	"internal/proveedores": {},
+	"internal/credenciales": {"internal/secreto"},
+	"internal/abuso":        {"internal/reloj"},
 	// Servicios de aplicación (solo puertos).
 	"internal/retencion": {"internal/almacen", "internal/reloj"},
+	"internal/sesiones": {
+		"internal/almacen", "internal/cotizador", "internal/credenciales", "internal/dominio",
+		"internal/errores", "internal/proveedores", "internal/reloj",
+	},
+	// HTTP de negocio (T04b): solo puertos y servicios, nunca adaptadores.
+	"internal/api": {
+		"internal/abuso", "internal/almacen", "internal/credenciales", "internal/dominio",
+		"internal/errores", "internal/reloj", "internal/servidor", "internal/sesiones",
+	},
 	"internal/salud":     {},
 	"internal/servidor":  {"internal/errores"},
 	"internal/config":    {"internal/secreto"},
@@ -48,6 +59,7 @@ var permitidos = map[string][]string{
 		"internal/almacen", "internal/almacen/memoria", "internal/almacen/postgres", "internal/config",
 		"internal/migrador", "internal/proveedores", "internal/proveedores/falsos", "internal/reloj",
 		"internal/retencion", "internal/salud", "internal/servidor", "migrations", "pgx",
+		"internal/abuso", "internal/api", "internal/credenciales", "internal/secreto", "internal/sesiones",
 	},
 	"cmd/api":               {"internal/arranque", "internal/config"},
 	"internal/arquitectura": {},
@@ -57,6 +69,7 @@ var permitidos = map[string][]string{
 var nucleo = map[string]bool{
 	"internal/errores": true, "internal/secreto": true, "internal/reloj": true, "internal/dominio": true,
 	"internal/cotizador": true, "internal/almacen": true, "internal/proveedores": true,
+	"internal/credenciales": true,
 }
 
 var stdProhibidaEnNucleo = []string{"net", "database/sql", "os/exec", "syscall", "unsafe", "plugin"}

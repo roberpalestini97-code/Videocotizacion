@@ -14,6 +14,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
+	"videocotizacion/backend/internal/almacen"
 	"videocotizacion/backend/internal/almacen/conformidad"
 	"videocotizacion/backend/internal/almacen/pgprueba"
 	"videocotizacion/backend/internal/almacen/postgres"
@@ -467,18 +468,30 @@ func TestEndurecimientoDeLaExcepcionARLS(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer func() { _ = conn.Close(context.Background()) }()
-	var secdef bool
-	var config []string
-	var dueno string
-	var publico, api bool
-	err = conn.QueryRow(context.Background(), `SELECT prosecdef, proconfig, pg_get_userbyid(proowner),
-		has_function_privilege('public', oid, 'EXECUTE'), has_function_privilege('vc_api', oid, 'EXECUTE')
-		FROM pg_proc WHERE oid = 'vc.tenants_para_retencion()'::regprocedure`).Scan(&secdef, &config, &dueno, &publico, &api)
-	if err != nil {
-		t.Fatal(err)
+	for _, f := range []string{"vc.tenants_para_retencion()", "vc.buscar_clave(bytea)", "vc.buscar_token_sesion(bytea)"} {
+		var secdef bool
+		var config []string
+		var dueno string
+		var publico, api bool
+		err = conn.QueryRow(context.Background(), `SELECT prosecdef, proconfig, pg_get_userbyid(proowner),
+			has_function_privilege('public', oid, 'EXECUTE'), has_function_privilege('vc_api', oid, 'EXECUTE')
+			FROM pg_proc WHERE oid = $1::regprocedure`, f).Scan(&secdef, &config, &dueno, &publico, &api)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !secdef || len(config) != 1 || config[0] != "search_path=pg_catalog, pg_temp" || dueno != "vc_dueno" || publico || !api {
+			t.Fatalf("%s: secdef=%v config=%v dueño=%s public=%v api=%v", f, secdef, config, dueno, publico, api)
+		}
 	}
-	if !secdef || len(config) != 1 || config[0] != "search_path=pg_catalog, pg_temp" || dueno != "vc_dueno" || publico || !api {
-		t.Fatalf("definer: secdef=%v config=%v dueño=%s public=%v api=%v", secdef, config, dueno, publico, api)
+	// La lista del arranque coincide con el catálogo: única fuente de excepciones.
+	var definers []string
+	filas, err := conn.Query(context.Background(), `SELECT n.nspname || '.' || p.proname FROM pg_proc p
+		JOIN pg_namespace n ON n.oid = p.pronamespace WHERE p.prosecdef AND n.nspname = 'vc' ORDER BY 1`)
+	if err == nil {
+		definers, err = pgx.CollectRows(filas, pgx.RowTo[string])
+	}
+	if err != nil || len(definers) != len(postgres.DefinersPermitidos) {
+		t.Fatalf("funciones SECURITY DEFINER en vc: %v (%v)", definers, err)
 	}
 	d := base.URLDueno
 	for _, c := range []struct{ mutar, revertir, quiero string }{
@@ -486,6 +499,10 @@ func TestEndurecimientoDeLaExcepcionARLS(t *testing.T) {
 			"ALTER FUNCTION vc.tenants_para_retencion() SET search_path = pg_catalog, pg_temp", "SECURITY DEFINER"},
 		{"GRANT EXECUTE ON FUNCTION vc.tenants_para_retencion() TO PUBLIC",
 			"REVOKE EXECUTE ON FUNCTION vc.tenants_para_retencion() FROM PUBLIC", "SECURITY DEFINER"},
+		{"ALTER FUNCTION vc.buscar_clave(bytea) SET search_path = vc, pg_catalog",
+			"ALTER FUNCTION vc.buscar_clave(bytea) SET search_path = pg_catalog, pg_temp", "SECURITY DEFINER"},
+		{"ALTER POLICY dueno_autentica ON vc.claves_api TO PUBLIC",
+			"ALTER POLICY dueno_autentica ON vc.claves_api TO vc_dueno", "políticas RLS"},
 		{"CREATE FUNCTION vc.otra() RETURNS int LANGUAGE sql SECURITY DEFINER SET search_path = pg_catalog, pg_temp AS 'SELECT 1'",
 			"DROP FUNCTION vc.otra()", "vc.otra"},
 		{"ALTER POLICY dueno_lista_tenants ON vc.tenants TO PUBLIC",
@@ -510,13 +527,18 @@ func TestEndurecimientoDeLaExcepcionARLS(t *testing.T) {
 // ejecuciones) el cursor del listado sigue siendo condición de índice.
 func TestPlanDelListadoUsaElIndice(t *testing.T) {
 	base := pgprueba.Preparar(t)
-	a, err := abrir(t, base.URLAPI, postgres.Opciones{})
+	a, err := abrir(t, base.URLAPI, postgres.Opciones{ConexionesMax: 1})
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer a.Cerrar()
 	tn := conformidad.NuevoTenant(t, a)
-	as := conformidad.NuevoAsesor(t, a, tn.ID)
+	// Varios asesores (como en producción): si todas las sesiones fueran de
+	// uno solo, el índice por asesor no sería más selectivo que el del tenant.
+	var asesores []string
+	for range 20 {
+		asesores = append(asesores, conformidad.NuevoAsesor(t, a, tn.ID).ID)
+	}
 	ctx := context.Background()
 	conn, err := pgx.Connect(ctx, base.URLAPI.Revelar())
 	if err != nil {
@@ -532,28 +554,70 @@ func TestPlanDelListadoUsaElIndice(t *testing.T) {
 		t.Fatal(err)
 	}
 	if _, err := tx.Exec(ctx, `INSERT INTO vc.sesiones (tenant_id, sesion_id, asesor_id, estado, modo_avatar, creada_en, borrar_despues_de)
-		SELECT $1, 'ses_' || upper(lpad(to_hex(g), 26, '0')), $2, 'creada', '3d',
+		SELECT $1, 'ses_' || upper(lpad(to_hex(g), 26, '0')), ($2::text[])[1 + g % 20], 'creada', '3d',
 		       timestamptz '2026-01-01' + g * interval '1 minute', timestamptz '2027-01-01'
-		FROM generate_series(1, 5000) g`, string(tn.ID), as.ID); err != nil {
+		FROM generate_series(1, 20000) g`, string(tn.ID), asesores); err != nil {
 		t.Fatal(err)
 	}
 	if err := tx.Commit(ctx); err != nil {
 		t.Fatal(err)
 	}
 	exec(t, base.URLDueno.Revelar(), "ANALYZE vc.sesiones")
-	tx, _ = conn.Begin(ctx)
-	_, _ = tx.Exec(ctx, "SELECT set_config('app.tenant_id', $1, true)", string(tn.ID))
+	// El almacén lista dos páginas: prepara la consulta inicial y la siguiente.
+	pag, cursor, err := a.ListarSesionesDeAsesor(ctx, tn.ID, asesores[0], almacen.Pagina{Limite: 20})
+	if err != nil || len(pag) != 20 || cursor == "" {
+		t.Fatalf("primera página: %d %q %v", len(pag), cursor, err)
+	}
+	if pag2, _, err := a.ListarSesionesDeAsesor(ctx, tn.ID, asesores[0], almacen.Pagina{Limite: 20, Despues: cursor}); err != nil || len(pag2) != 20 {
+		t.Fatalf("segunda página: %d %v", len(pag2), err)
+	}
+	ultima := pag[len(pag)-1]
+	c, err := a.PoolDePrueba().Acquire(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer c.Release()
+	tx, err = c.Begin(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() { _ = tx.Rollback(ctx) }()
+	if _, err := tx.Exec(ctx, "SELECT set_config('app.tenant_id', $1, true)", string(tn.ID)); err != nil {
+		t.Fatal(err)
+	}
 	if _, err := tx.Exec(ctx, "SET LOCAL plan_cache_mode = force_generic_plan"); err != nil {
 		t.Fatal(err)
 	}
-	// PREPARE explícito: así EXPLAIN EXECUTE muestra el plan genérico ($n),
-	// que es el que usa pgx después de varias ejecuciones.
-	if _, err := tx.Exec(ctx, "PREPARE listado(uuid, text, timestamptz, text, int) AS "+postgres.ListadoSiguientePagina); err != nil {
+	filas, err := tx.Query(ctx, `SELECT name, statement FROM pg_prepared_statements
+		WHERE statement LIKE '%FROM vc.sesiones%' AND statement LIKE '%ORDER BY creada_en DESC%'`, pgx.QueryExecModeSimpleProtocol)
+	if err != nil {
 		t.Fatal(err)
 	}
-	// EXECUTE no admite parámetros: valores fijos de la prueba (sin entrada externa).
-	filas, err := tx.Query(ctx, fmt.Sprintf("EXPLAIN EXECUTE listado('%s', '%s', '%s', 'ses_ZZZZZZZZZZZZZZZZZZZZZZZZZZ', 21)",
-		tn.ID, as.ID, conformidad.Base.Format(time.RFC3339Nano)), pgx.QueryExecModeSimpleProtocol)
+	type preparada struct{ nombre, sql string }
+	preparadas, err := pgx.CollectRows(filas, func(f pgx.CollectableRow) (preparada, error) {
+		var p preparada
+		return p, f.Scan(&p.nombre, &p.sql)
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	var siguiente *preparada
+	for i, p := range preparadas {
+		if strings.Contains(p.sql, "boolean") || strings.Contains(p.sql, " OR ") {
+			t.Fatalf("el listado no debe usar un OR sobre un parámetro (H5):\n%s", p.sql)
+		}
+		if strings.Contains(p.sql, "(creada_en, sesion_id) <") {
+			siguiente = &preparadas[i]
+		}
+	}
+	if len(preparadas) != 2 || siguiente == nil {
+		t.Fatalf("se esperaban dos consultas preparadas (primera y siguiente página): %v", preparadas)
+	}
+	// EXPLAIN EXECUTE no admite parámetros de protocolo: literales fijos de la
+	// prueba (ids generados por el dominio, sin entrada externa).
+	filas, err = tx.Query(ctx, fmt.Sprintf("EXPLAIN EXECUTE %s('%s', '%s', '%s', '%s', 21)",
+		pgx.Identifier{siguiente.nombre}.Sanitize(), tn.ID, asesores[0], ultima.CreadaEn.Format(time.RFC3339Nano), ultima.ID),
+		pgx.QueryExecModeSimpleProtocol)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -571,5 +635,4 @@ func TestPlanDelListadoUsaElIndice(t *testing.T) {
 	if !strings.Contains(plan, "sesiones_por_asesor") || !strings.Contains(condicion, "ROW(creada_en, sesion_id) < ROW($3, $4)") {
 		t.Fatalf("el cursor no es condición de índice con plan genérico:\n%s", plan)
 	}
-	_ = tx.Rollback(ctx)
 }

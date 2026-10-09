@@ -7,7 +7,6 @@ package falsos
 import (
 	"context"
 	"errors"
-	"net/url"
 	"strings"
 	"sync"
 	"time"
@@ -171,7 +170,26 @@ func (m *Mensajeria) EnlaceDerivacion(ctx context.Context, telefonoE164, texto s
 		return "", errores.Envolver(errores.ValidacionFallida, ErrTelefono)
 	}
 	m.sumar(1)
-	return "https://wa.me/" + telefonoE164[1:] + "?text=" + url.QueryEscape(texto), nil
+	return "https://wa.me/" + telefonoE164[1:] + "?text=" + CodificarTexto(texto), nil
+}
+
+// CodificarTexto codifica en porcentaje todo salvo [A-Za-z0-9._~-] (el
+// patrón de DerivacionWhatsApp.url_wa_me no admite "+" ni otros símbolos).
+func CodificarTexto(texto string) string {
+	const hexa = "0123456789ABCDEF"
+	var b strings.Builder
+	for i := 0; i < len(texto); i++ {
+		c := texto[i]
+		switch {
+		case c >= 'A' && c <= 'Z', c >= 'a' && c <= 'z', c >= '0' && c <= '9', c == '.', c == '_', c == '~', c == '-':
+			b.WriteByte(c)
+		default:
+			b.WriteByte('%')
+			b.WriteByte(hexa[c>>4])
+			b.WriteByte(hexa[c&15])
+		}
+	}
+	return b.String()
 }
 
 // Conjunto devuelve los cuatro falsos listos para cablear.
