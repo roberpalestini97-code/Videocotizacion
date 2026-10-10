@@ -12,8 +12,20 @@ const cache = new Map();
 export function referenciaPrompt(oficio) {
   if (!cache.has(oficio)) {
     const cuerpo = readFileSync(join(DIR, `${oficio}.md`), 'utf8');
-    const h = createHash('sha256').update(cuerpo).digest('hex').slice(0, 12);
-    cache.set(oficio, `conducta_${oficio}@${h}`);
+    cache.set(oficio, referenciaDeCuerpo(oficio, cuerpo));
   }
   return cache.get(oficio);
+}
+
+/**
+ * sha256 del markdown con fines de línea normalizados a LF: un checkout en
+ * Windows (CRLF) no puede cambiar la referencia. Misma regla que
+ * backend/internal/prompts.referenciaDeCuerpo.
+ * @param {string} slug
+ * @param {string} cuerpo
+ */
+export function referenciaDeCuerpo(slug, cuerpo) {
+  const normalizado = cuerpo.replace(/\r\n/g, '\n');
+  const h = createHash('sha256').update(normalizado).digest('hex').slice(0, 12);
+  return `conducta_${slug}@${h}`;
 }

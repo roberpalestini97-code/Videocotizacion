@@ -1261,7 +1261,7 @@
         "resumen": "Consulta de pintura en Mar Chiquita.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "prompt": "conducta_pintura@5f2e70a1bb1a",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {

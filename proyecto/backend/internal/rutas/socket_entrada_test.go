@@ -123,7 +123,7 @@ func TestTextoTurnoMaterialPaisajismoEnSegundoTurno(t *testing.T) {
 		leerEvento(t, conn)
 	}
 
-	if cap.ultimo.VersionPrompt != "conducta_paisajismo@5cc33b65b089" {
+	if cap.ultimo.VersionPrompt != "conducta_paisajismo@0e78ce0e816c" {
 		t.Fatalf("segundo turno debía usar prompt paisajismo: %+v", cap.ultimo)
 	}
 	if cap.ultimo.CuerpoPrompt == "" || !strings.Contains(cap.ultimo.CuerpoPrompt, "paisajismo") {

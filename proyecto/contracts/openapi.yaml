@@ -6438,7 +6438,7 @@ paths:
                     resumen: Consulta de pintura en Mar Chiquita.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_pintura@fdee14cbdaf7
+                      prompt: conducta_pintura@5f2e70a1bb1a
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_S5YHKWR4GFN4QEJAEMHWTDH0CE
@@ -6490,7 +6490,7 @@ paths:
                     resumen: Consulta de pintura en Cobo.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_pintura@fdee14cbdaf7
+                      prompt: conducta_pintura@5f2e70a1bb1a
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_0A7AN55ATFNMF80HPTA0X1E39H
@@ -6548,7 +6548,7 @@ paths:
                     resumen: Consulta de pintura en Santa Clara del Mar.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_pintura@fdee14cbdaf7
+                      prompt: conducta_pintura@5f2e70a1bb1a
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_0GG93SPQH5QGDPP64EA8M6FWP9
@@ -6615,7 +6615,7 @@ paths:
                     resumen: Consulta de pintura en Parque Lago.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_pintura@fdee14cbdaf7
+                      prompt: conducta_pintura@5f2e70a1bb1a
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_Q88D1HBYWYA2AB8TRVZRHZ5Z6A
@@ -6666,7 +6666,7 @@ paths:
                     resumen: Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_pintura@fdee14cbdaf7
+                      prompt: conducta_pintura@5f2e70a1bb1a
                       esquema_salida: 1.0.0
                 respuesta_06:
                   summary: respuesta 6
@@ -6692,7 +6692,7 @@ paths:
                     resumen: Consulta de jardineria en Mar Chiquita.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_jardineria@de1c6081d09a
+                      prompt: conducta_jardineria@3f9fbb3beea7
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_FDEWK49G9AMW4SA6MEXFWNAME5
@@ -6754,7 +6754,7 @@ paths:
                     resumen: Consulta de jardineria en Cobo.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_jardineria@de1c6081d09a
+                      prompt: conducta_jardineria@3f9fbb3beea7
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_WYR6HY4N2JT6E32GX3Q3NY07RJ
@@ -6804,7 +6804,7 @@ paths:
                     resumen: Consulta de jardineria en Santa Clara del Mar.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_jardineria@de1c6081d09a
+                      prompt: conducta_jardineria@3f9fbb3beea7
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_CDR394HSA2SXCQ5SDC9CWMB685
@@ -6859,7 +6859,7 @@ paths:
                     resumen: Consulta de jardineria en Parque Lago.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_jardineria@de1c6081d09a
+                      prompt: conducta_jardineria@3f9fbb3beea7
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_ZW3ABBSZT3QCQES46XY8B7Z2RS
@@ -6922,7 +6922,7 @@ paths:
                     resumen: Consulta de jardineria en fuera de zona (fuera de zona, se emitió igual).
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_jardineria@de1c6081d09a
+                      prompt: conducta_jardineria@3f9fbb3beea7
                       esquema_salida: 1.0.0
                 respuesta_11:
                   summary: respuesta 11
@@ -6947,7 +6947,7 @@ paths:
                     resumen: Consulta de reparaciones en Mar Chiquita.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_reparaciones@cdb349e3a2e9
+                      prompt: conducta_reparaciones@741ac13899b3
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_E5TCT2NQ0GGMP4W8GZ3J1NMPFZ
@@ -6997,7 +6997,7 @@ paths:
                     resumen: Consulta de reparaciones en Cobo.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_reparaciones@cdb349e3a2e9
+                      prompt: conducta_reparaciones@741ac13899b3
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_BKDCEPJ06KC6RZGKK9PMY8G9T9
@@ -7045,7 +7045,7 @@ paths:
                     resumen: Consulta de reparaciones en Santa Clara del Mar.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_reparaciones@cdb349e3a2e9
+                      prompt: conducta_reparaciones@741ac13899b3
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_0K95ERKCHHEDBSJ604DHTRSKAJ
@@ -7094,7 +7094,7 @@ paths:
                     resumen: Consulta de reparaciones en Parque Lago.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_reparaciones@cdb349e3a2e9
+                      prompt: conducta_reparaciones@741ac13899b3
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_QBKHEBF88NFKP9P7XZEVEKAYJR
@@ -7142,7 +7142,7 @@ paths:
                     resumen: Consulta de reparaciones en fuera de zona (fuera de zona, se emitió igual).
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_reparaciones@cdb349e3a2e9
+                      prompt: conducta_reparaciones@741ac13899b3
                       esquema_salida: 1.0.0
                 respuesta_16:
                   summary: respuesta 16
@@ -7169,7 +7169,7 @@ paths:
                     resumen: Consulta de mantenimiento en Mar Chiquita.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_mantenimiento@cb79d8745105
+                      prompt: conducta_mantenimiento@79b1b1006e65
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_9M14DD9N7M7WRQH0DP6QHZQEDG
@@ -7217,7 +7217,7 @@ paths:
                     resumen: Consulta de mantenimiento en Cobo.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_mantenimiento@cb79d8745105
+                      prompt: conducta_mantenimiento@79b1b1006e65
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_38CZGM6TYR8ZBKX8X8N1JFKBSB
@@ -7266,7 +7266,7 @@ paths:
                     resumen: Consulta de mantenimiento en Santa Clara del Mar.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_mantenimiento@cb79d8745105
+                      prompt: conducta_mantenimiento@79b1b1006e65
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_8E5J82R7C2Q9RWE1E1XAF67MDM
@@ -7314,7 +7314,7 @@ paths:
                     resumen: Consulta de mantenimiento en Parque Lago.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_mantenimiento@cb79d8745105
+                      prompt: conducta_mantenimiento@79b1b1006e65
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_S4055DKGTX813TQF9ZDZA5YA04
@@ -7364,7 +7364,7 @@ paths:
                     resumen: Consulta de mantenimiento en fuera de zona (fuera de zona, se emitió igual).
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_mantenimiento@cb79d8745105
+                      prompt: conducta_mantenimiento@79b1b1006e65
                       esquema_salida: 1.0.0
                 respuesta_21:
                   summary: respuesta 21
@@ -7389,7 +7389,7 @@ paths:
                     resumen: Consulta de limpieza en Mar Chiquita.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_limpieza@9d7e87923bd4
+                      prompt: conducta_limpieza@36694d88643d
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_14XPH3SN7PQNMVCW4KF6XAR92W
@@ -7445,7 +7445,7 @@ paths:
                     resumen: Consulta de limpieza en Cobo.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_limpieza@9d7e87923bd4
+                      prompt: conducta_limpieza@36694d88643d
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_5HKME4S5EA42V2HVEWFARYZP1B
@@ -7493,7 +7493,7 @@ paths:
                     resumen: Consulta de limpieza en Santa Clara del Mar.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_limpieza@9d7e87923bd4
+                      prompt: conducta_limpieza@36694d88643d
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_P83FR5BKDHJ200R0Z3XQJYKEKB
@@ -7550,7 +7550,7 @@ paths:
                     resumen: Consulta de limpieza en Parque Lago.
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_limpieza@9d7e87923bd4
+                      prompt: conducta_limpieza@36694d88643d
                       esquema_salida: 1.0.0
                     cotizacion:
                       cotizacion_id: cot_VWDX4WWS7AWF7VYBJWSAFY4V4M
@@ -7605,7 +7605,7 @@ paths:
                     resumen: Consulta de limpieza en fuera de zona (fuera de zona, se emitió igual).
                     versiones:
                       tarifas: "2026.1"
-                      prompt: conducta_limpieza@9d7e87923bd4
+                      prompt: conducta_limpieza@36694d88643d
                       esquema_salida: 1.0.0
         "401":
           description: No autenticado (ver `codigo`)

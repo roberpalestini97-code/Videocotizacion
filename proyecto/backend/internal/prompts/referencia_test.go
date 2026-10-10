@@ -13,11 +13,11 @@ func TestReferenciaContratoAnclas(t *testing.T) {
 		oficio dominio.Oficio
 		want   string
 	}{
-		{dominio.OficioPintura, "conducta_pintura@fdee14cbdaf7"},
-		{dominio.OficioJardineria, "conducta_jardineria@de1c6081d09a"},
-		{dominio.OficioLimpieza, "conducta_limpieza@9d7e87923bd4"},
-		{dominio.OficioMantenimiento, "conducta_mantenimiento@cb79d8745105"},
-		{dominio.OficioReparaciones, "conducta_reparaciones@cdb349e3a2e9"},
+		{dominio.OficioPintura, "conducta_pintura@5f2e70a1bb1a"},
+		{dominio.OficioJardineria, "conducta_jardineria@3f9fbb3beea7"},
+		{dominio.OficioLimpieza, "conducta_limpieza@36694d88643d"},
+		{dominio.OficioMantenimiento, "conducta_mantenimiento@79b1b1006e65"},
+		{dominio.OficioReparaciones, "conducta_reparaciones@741ac13899b3"},
 	}
 	for _, c := range casos {
 		ref, err := ReferenciaContrato(c.oficio)
@@ -36,7 +36,7 @@ func TestReferenciaContratoAnclas(t *testing.T) {
 
 func TestReferenciaAnclaPaisajismoT06(t *testing.T) {
 	// Misma regla que contracts/verificacion/referencias-prompts.mjs (6.º slug).
-	const want = "conducta_paisajismo@5cc33b65b089"
+	const want = "conducta_paisajismo@0e78ce0e816c"
 	ref, err := referenciaPorSlug("paisajismo")
 	if err != nil {
 		t.Fatal(err)
@@ -46,3 +46,23 @@ func TestReferenciaAnclaPaisajismoT06(t *testing.T) {
 	}
 }
 
+
+// TestReferenciaNoDependeDelFinDeLinea: un checkout de Windows (CRLF) daba
+// otros hashes que Linux (LF). La referencia debe ser la misma.
+func TestReferenciaNoDependeDelFinDeLinea(t *testing.T) {
+	for _, slug := range []string{"pintura", "jardineria", "limpieza", "mantenimiento", "reparaciones", "paisajismo"} {
+		cuerpo, err := cuerpoMarkdown(slug)
+		if err != nil {
+			t.Fatal(err)
+		}
+		lf := strings.ReplaceAll(cuerpo, "\r\n", "\n")
+		crlf := strings.ReplaceAll(lf, "\n", "\r\n")
+		if lf == crlf {
+			t.Fatalf("%s: el markdown no tiene saltos de línea; la prueba no prueba nada", slug)
+		}
+		refLF, refCRLF := referenciaDeCuerpo(slug, lf), referenciaDeCuerpo(slug, crlf)
+		if refLF != refCRLF {
+			t.Fatalf("%s: el hash depende del fin de línea: LF %q, CRLF %q", slug, refLF, refCRLF)
+		}
+	}
+}

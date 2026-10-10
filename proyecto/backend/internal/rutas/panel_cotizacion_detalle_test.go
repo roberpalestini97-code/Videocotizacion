@@ -158,7 +158,7 @@ func TestDetalleCotizacionPanelPaisajismoS4(t *testing.T) {
 		t.Fatalf("datos_extraidos S4: %+v", det["datos_extraidos"])
 	}
 	vers := det["versiones"].(map[string]any)
-	if vers["prompt"] != "conducta_paisajismo@5cc33b65b089" {
+	if vers["prompt"] != "conducta_paisajismo@0e78ce0e816c" {
 		t.Fatalf("versiones.prompt debe reflejar última salida LLM: %+v", vers)
 	}
 }

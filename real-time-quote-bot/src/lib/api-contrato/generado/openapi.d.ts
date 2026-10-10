@@ -2324,7 +2324,7 @@ export interface components {
          *       "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
          *       "versiones": {
          *         "tarifas": "2026.1",
-         *         "prompt": "conducta_pintura@fdee14cbdaf7",
+         *         "prompt": "conducta_pintura@5f2e70a1bb1a",
          *         "esquema_salida": "1.0.0"
          *       },
          *       "cotizacion": {
@@ -2390,7 +2390,7 @@ export interface components {
          *       "resumen": "Consulta de pintura en Cobo.",
          *       "versiones": {
          *         "tarifas": "2026.1",
-         *         "prompt": "conducta_pintura@fdee14cbdaf7",
+         *         "prompt": "conducta_pintura@5f2e70a1bb1a",
          *         "esquema_salida": "1.0.0"
          *       },
          *       "cotizacion": {

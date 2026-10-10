@@ -83,7 +83,7 @@ func TestDesdeTextoMaterialPaisajismoTrasUltimaSalida(t *testing.T) {
 	if ex.Llamadas() != 1 || si.Llamadas() != 1 {
 		t.Fatalf("llm %d tts %d", ex.Llamadas(), si.Llamadas())
 	}
-	if cap.ultimo.VersionPrompt != "conducta_paisajismo@5cc33b65b089" {
+	if cap.ultimo.VersionPrompt != "conducta_paisajismo@0e78ce0e816c" {
 		t.Fatalf("prompt: %+v", cap.ultimo)
 	}
 }

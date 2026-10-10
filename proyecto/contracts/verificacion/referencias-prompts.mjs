@@ -1,18 +1,18 @@
 // Comprueba que referenciaPrompt() cubre cada markdown T06 y coincide con Go (TestReferenciaContratoAnclas + paisajismo).
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { referenciaPrompt } from '../fuente/prompts.mjs';
+import { referenciaPrompt, referenciaDeCuerpo } from '../fuente/prompts.mjs';
 
 const DIR = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'conductas', 'prompts');
 const OFICIOS_CONTRATO = ['pintura', 'jardineria', 'reparaciones', 'mantenimiento', 'limpieza'];
 const ANCLAS_GO = {
-  pintura: 'conducta_pintura@fdee14cbdaf7',
-  jardineria: 'conducta_jardineria@de1c6081d09a',
-  limpieza: 'conducta_limpieza@9d7e87923bd4',
-  mantenimiento: 'conducta_mantenimiento@cb79d8745105',
-  reparaciones: 'conducta_reparaciones@cdb349e3a2e9',
-  paisajismo: 'conducta_paisajismo@5cc33b65b089',
+  pintura: 'conducta_pintura@5f2e70a1bb1a',
+  jardineria: 'conducta_jardineria@3f9fbb3beea7',
+  limpieza: 'conducta_limpieza@36694d88643d',
+  mantenimiento: 'conducta_mantenimiento@79b1b1006e65',
+  reparaciones: 'conducta_reparaciones@741ac13899b3',
+  paisajismo: 'conducta_paisajismo@0e78ce0e816c',
 };
 
 const slugs = readdirSync(DIR)
@@ -31,6 +31,13 @@ for (const slug of slugs) {
   }
   if (ref !== want) {
     console.error(`${slug}: got ${ref} want ${want}`);
+    fallas++;
+  }
+  // El hash no puede depender del fin de línea del checkout (CRLF en Windows).
+  const lf = readFileSync(join(DIR, `${slug}.md`), 'utf8').replace(/\r\n/g, '\n');
+  const crlf = referenciaDeCuerpo(slug, lf.replace(/\n/g, '\r\n'));
+  if (crlf !== ref) {
+    console.error(`${slug}: con CRLF da ${crlf}, con LF ${ref}`);
     fallas++;
   }
 }

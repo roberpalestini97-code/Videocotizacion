@@ -18,7 +18,7 @@ func TestMaterialTurnoPaisajismoTrasSalidaLLM(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if ref != "conducta_paisajismo@5cc33b65b089" {
+	if ref != "conducta_paisajismo@0e78ce0e816c" {
 		t.Fatalf("ref: %q", ref)
 	}
 	if cuerpo == "" || !strings.Contains(cuerpo, "paisajismo") || !strings.Contains(cuerpo, "prompts.1") {
@@ -31,7 +31,7 @@ func TestMaterialTurnoJardineriaSinUltimaSalida(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if ref != "conducta_jardineria@de1c6081d09a" || cuerpo == "" {
+	if ref != "conducta_jardineria@3f9fbb3beea7" || cuerpo == "" {
 		t.Fatalf("ref=%q cuerpo vacío=%v", ref, cuerpo == "")
 	}
 }

@@ -288,7 +288,7 @@
         "resumen": "Consulta de pintura en Mar Chiquita.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "prompt": "conducta_pintura@5f2e70a1bb1a",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -373,7 +373,7 @@
         "resumen": "Consulta de pintura en Cobo.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "prompt": "conducta_pintura@5f2e70a1bb1a",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -466,7 +466,7 @@
         "resumen": "Consulta de pintura en Santa Clara del Mar.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "prompt": "conducta_pintura@5f2e70a1bb1a",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -571,7 +571,7 @@
         "resumen": "Consulta de pintura en Parque Lago.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "prompt": "conducta_pintura@5f2e70a1bb1a",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -655,7 +655,7 @@
         "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "prompt": "conducta_pintura@5f2e70a1bb1a",
           "esquema_salida": "1.0.0"
         }
       }
@@ -709,7 +709,7 @@
         "resumen": "Consulta de jardineria en Mar Chiquita.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_jardineria@de1c6081d09a",
+          "prompt": "conducta_jardineria@3f9fbb3beea7",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -808,7 +808,7 @@
         "resumen": "Consulta de jardineria en Cobo.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_jardineria@de1c6081d09a",
+          "prompt": "conducta_jardineria@3f9fbb3beea7",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -892,7 +892,7 @@
         "resumen": "Consulta de jardineria en Santa Clara del Mar.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_jardineria@de1c6081d09a",
+          "prompt": "conducta_jardineria@3f9fbb3beea7",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -982,7 +982,7 @@
         "resumen": "Consulta de jardineria en Parque Lago.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_jardineria@de1c6081d09a",
+          "prompt": "conducta_jardineria@3f9fbb3beea7",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1082,7 +1082,7 @@
         "resumen": "Consulta de jardineria en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_jardineria@de1c6081d09a",
+          "prompt": "conducta_jardineria@3f9fbb3beea7",
           "esquema_salida": "1.0.0"
         }
       }
@@ -1135,7 +1135,7 @@
         "resumen": "Consulta de reparaciones en Mar Chiquita.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "prompt": "conducta_reparaciones@741ac13899b3",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1219,7 +1219,7 @@
         "resumen": "Consulta de reparaciones en Cobo.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "prompt": "conducta_reparaciones@741ac13899b3",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1300,7 +1300,7 @@
         "resumen": "Consulta de reparaciones en Santa Clara del Mar.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "prompt": "conducta_reparaciones@741ac13899b3",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1382,7 +1382,7 @@
         "resumen": "Consulta de reparaciones en Parque Lago.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "prompt": "conducta_reparaciones@741ac13899b3",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1463,7 +1463,7 @@
         "resumen": "Consulta de reparaciones en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "prompt": "conducta_reparaciones@741ac13899b3",
           "esquema_salida": "1.0.0"
         }
       }
@@ -1519,7 +1519,7 @@
         "resumen": "Consulta de mantenimiento en Mar Chiquita.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "prompt": "conducta_mantenimiento@79b1b1006e65",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1600,7 +1600,7 @@
         "resumen": "Consulta de mantenimiento en Cobo.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "prompt": "conducta_mantenimiento@79b1b1006e65",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1682,7 +1682,7 @@
         "resumen": "Consulta de mantenimiento en Santa Clara del Mar.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "prompt": "conducta_mantenimiento@79b1b1006e65",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1763,7 +1763,7 @@
         "resumen": "Consulta de mantenimiento en Parque Lago.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "prompt": "conducta_mantenimiento@79b1b1006e65",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1847,7 +1847,7 @@
         "resumen": "Consulta de mantenimiento en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "prompt": "conducta_mantenimiento@79b1b1006e65",
           "esquema_salida": "1.0.0"
         }
       }
@@ -1900,7 +1900,7 @@
         "resumen": "Consulta de limpieza en Mar Chiquita.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "prompt": "conducta_limpieza@36694d88643d",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -1991,7 +1991,7 @@
         "resumen": "Consulta de limpieza en Cobo.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "prompt": "conducta_limpieza@36694d88643d",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -2072,7 +2072,7 @@
         "resumen": "Consulta de limpieza en Santa Clara del Mar.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "prompt": "conducta_limpieza@36694d88643d",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -2165,7 +2165,7 @@
         "resumen": "Consulta de limpieza en Parque Lago.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "prompt": "conducta_limpieza@36694d88643d",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -2255,7 +2255,7 @@
         "resumen": "Consulta de limpieza en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "prompt": "conducta_limpieza@36694d88643d",
           "esquema_salida": "1.0.0"
         }
       }
@@ -2310,7 +2310,7 @@
         "resumen": "Consulta de pintura en Cobo.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "prompt": "conducta_pintura@5f2e70a1bb1a",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
@@ -2395,7 +2395,7 @@
         "resumen": "Consulta de pintura en Cobo.",
         "versiones": {
           "tarifas": "2026.1",
-          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "prompt": "conducta_pintura@5f2e70a1bb1a",
           "esquema_salida": "1.0.0"
         },
         "cotizacion": {
