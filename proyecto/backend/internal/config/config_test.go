@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log/slog"
+	"os"
 	"strings"
 	"testing"
 
@@ -140,5 +141,76 @@ func TestConfigNoRevelaSecretos(t *testing.T) {
 	}
 	if c.DBURL.Revelar() != m["DB_URL"] {
 		t.Fatal("Revelar debe devolver el valor real")
+	}
+}
+
+const claveGemini = "AIzaSy-clave-gemini-NO-DEBE-VERSE"
+
+func TestProveedoresRealesT13(t *testing.T) {
+	m := base()
+	m["PROVEEDOR_STT"], m["PROVEEDOR_TTS"], m["PROVEEDOR_LLM"], m["PROVEEDOR_WHATSAPP"] = "navegador", "navegador", "gemini", "enlace"
+	m["GEMINI_API_KEY"] = claveGemini
+	c, err := Cargar(entorno(m), Servir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if c.Gemini.Clave.Revelar() != claveGemini || c.Gemini.Modelo != "" || c.Gemini.Reintentos != 2 {
+		t.Fatalf("gemini: %+v", c.Gemini)
+	}
+	var log bytes.Buffer
+	slog.New(slog.NewJSONHandler(&log, nil)).Info("arranque", "config", c)
+	if strings.Contains(log.String()+fmt.Sprintf("%+v %#v", c, c), claveGemini) {
+		t.Fatal("la clave de Gemini aparece en el log o en el formato")
+	}
+
+	// Archivo de clave (secreto de Docker).
+	delete(m, "GEMINI_API_KEY")
+	archivo := t.TempDir() + "/gemini"
+	if err := os.WriteFile(archivo, []byte(claveGemini+"\n"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	m["GEMINI_API_KEY_FILE"] = archivo
+	if c, err = Cargar(entorno(m), Servir); err != nil || c.Gemini.Clave.Revelar() != claveGemini {
+		t.Fatalf("archivo: %v", err)
+	}
+
+	casos := map[string]func(map[string]string){
+		"sin clave":         func(m map[string]string) { delete(m, "GEMINI_API_KEY_FILE") },
+		"las dos claves":    func(m map[string]string) { m["GEMINI_API_KEY"] = claveGemini },
+		"archivo ausente":   func(m map[string]string) { m["GEMINI_API_KEY_FILE"] = archivo + ".no" },
+		"llm navegador":     func(m map[string]string) { m["PROVEEDOR_LLM"] = "navegador" },
+		"stt gemini":        func(m map[string]string) { m["PROVEEDOR_STT"] = "gemini" },
+		"whatsapp twilio":   func(m map[string]string) { m["PROVEEDOR_WHATSAPP"] = "twilio" },
+		"reintentos de más": func(m map[string]string) { m["GEMINI_REINTENTOS"] = "9" },
+	}
+	for nombre, cambiar := range casos {
+		mm := map[string]string{}
+		for k, v := range m {
+			mm[k] = v
+		}
+		cambiar(mm)
+		_, err := Cargar(entorno(mm), Servir)
+		if err == nil {
+			t.Errorf("%s: se esperaba error", nombre)
+		} else if strings.Contains(err.Error(), claveGemini) {
+			t.Errorf("%s: el error muestra la clave", nombre)
+		}
+	}
+}
+
+// En producción los reales se aceptan; los falsos no.
+func TestProduccionAceptaReales(t *testing.T) {
+	m := map[string]string{
+		"ENTORNO": "produccion", "ALMACEN": "postgres", "CLAVE_HMAC": "x",
+		"DB_URL":        "postgres://vc_api:x@db/vc?sslmode=verify-full",
+		"PROVEEDOR_STT": "navegador", "PROVEEDOR_TTS": "navegador", "PROVEEDOR_LLM": "gemini", "PROVEEDOR_WHATSAPP": "enlace",
+		"GEMINI_API_KEY": claveGemini,
+	}
+	if _, err := Cargar(entorno(m), Servir); err != nil {
+		t.Fatal(err)
+	}
+	m["GEMINI_URL_BASE"] = "http://127.0.0.1:9/v1beta"
+	if _, err := Cargar(entorno(m), Servir); err == nil {
+		t.Fatal("producción con GEMINI_URL_BASE http")
 	}
 }

@@ -44,7 +44,7 @@ func TestProduccionNoSeCableaConMemoriaNiFalsos(t *testing.T) {
 		t.Fatalf("producción con falsos: %v", err)
 	}
 	c.Proveedores = config.Proveedores{STT: "real-x", LLM: "real-x", TTS: "real-x", WhatsApp: "real-x"}
-	if _, err := Construir(context.Background(), c, silencioso()); err == nil || !strings.Contains(err.Error(), "no implementado") {
+	if _, err := Construir(context.Background(), c, silencioso()); err == nil || !strings.Contains(err.Error(), "no admitido") {
 		t.Fatalf("proveedor real inexistente: %v", err)
 	}
 	if _, err := AbrirAlmacen(context.Background(), c); !errors.Is(err, ErrProduccionInsegura) {
@@ -227,4 +227,26 @@ func llamadasDe(t *testing.T, c proveedores.Conjunto) (stt, llm, tts, wa int64) 
 		t.Fatal("los proveedores de desarrollo no son los falsos")
 	}
 	return tr.Llamadas(), ex.Llamadas(), si.Llamadas(), me.Llamadas()
+}
+
+// T13: los adaptadores reales se cablean también en producción, sin falsos,
+// y Construir no llama a la red (la clave no se usa hasta el primer turno).
+func TestProduccionCableaReales(t *testing.T) {
+	c := cfgDesarrollo()
+	c.Proveedores = config.Proveedores{STT: "navegador", LLM: "gemini", TTS: "navegador", WhatsApp: "enlace"}
+	c.Gemini = config.Gemini{Clave: secreto.Nuevo("AIzaSy-prueba-no-real"), Timeout: time.Second}
+	prov, err := construirProveedores(c)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !prov.Completo() || len(prov.Falsos()) != 0 {
+		t.Fatalf("conjunto: %+v falsos %v", prov, prov.Falsos())
+	}
+	if _, ok := prov.Sintetizador.(proveedores.VozEnCliente); !ok {
+		t.Fatal("TTS navegador no marca voz en el cliente")
+	}
+	c.Gemini.Clave = secreto.Secreto{}
+	if _, err := construirProveedores(c); err == nil {
+		t.Fatal("gemini sin clave")
+	}
 }

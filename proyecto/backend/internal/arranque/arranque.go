@@ -24,8 +24,12 @@ import (
 	"videocotizacion/backend/internal/config"
 	"videocotizacion/backend/internal/meta"
 	"videocotizacion/backend/internal/migrador"
+	"videocotizacion/backend/internal/prompts"
 	"videocotizacion/backend/internal/proveedores"
+	"videocotizacion/backend/internal/proveedores/enlace"
 	"videocotizacion/backend/internal/proveedores/falsos"
+	"videocotizacion/backend/internal/proveedores/gemini"
+	"videocotizacion/backend/internal/proveedores/navegador"
 	"videocotizacion/backend/internal/reloj"
 	"videocotizacion/backend/internal/retencion"
 	"videocotizacion/backend/internal/rutas"
@@ -114,23 +118,50 @@ func construirProveedores(cfg config.Config) (proveedores.Conjunto, error) {
 	for _, p := range []struct {
 		nombre, valor string
 		falso         func()
+		real          map[string]func() error
 	}{
-		{"PROVEEDOR_STT", cfg.Proveedores.STT, func() { c.Transcriptor = &falsos.Transcriptor{Texto: "turno de voz de prueba"} }},
-		{"PROVEEDOR_LLM", cfg.Proveedores.LLM, func() { c.Extractor = &falsos.Extractor{JSON: string(devSalidaLLM)} }},
-		{"PROVEEDOR_TTS", cfg.Proveedores.TTS, func() { c.Sintetizador = &falsos.Sintetizador{} }},
-		{"PROVEEDOR_WHATSAPP", cfg.Proveedores.WhatsApp, func() { c.Mensajeria = &falsos.Mensajeria{} }},
+		{"PROVEEDOR_STT", cfg.Proveedores.STT, func() { c.Transcriptor = &falsos.Transcriptor{Texto: "turno de voz de prueba"} },
+			map[string]func() error{config.ProveedorNavegador: func() error { c.Transcriptor = navegador.Transcriptor{}; return nil }}},
+		{"PROVEEDOR_LLM", cfg.Proveedores.LLM, func() { c.Extractor = &falsos.Extractor{JSON: string(devSalidaLLM)} },
+			map[string]func() error{config.ProveedorGemini: func() (err error) { c.Extractor, err = abrirGemini(cfg.Gemini); return err }}},
+		{"PROVEEDOR_TTS", cfg.Proveedores.TTS, func() { c.Sintetizador = &falsos.Sintetizador{} },
+			map[string]func() error{config.ProveedorNavegador: func() error { c.Sintetizador = navegador.Sintetizador{}; return nil }}},
+		{"PROVEEDOR_WHATSAPP", cfg.Proveedores.WhatsApp, func() { c.Mensajeria = &falsos.Mensajeria{} },
+			map[string]func() error{config.ProveedorEnlace: func() error { c.Mensajeria = enlace.Mensajeria{}; return nil }}},
 	} {
-		switch p.valor {
-		case config.ProveedorFalso:
+		if p.valor == config.ProveedorFalso {
 			if cfg.EsProduccion() {
 				return c, fmt.Errorf("%w: %s=falso", ErrProduccionInsegura, p.nombre)
 			}
 			p.falso()
-		default:
-			return c, fmt.Errorf("%s=%q: adaptador real no implementado todavía (T13)", p.nombre, p.valor)
+			continue
+		}
+		abrir, ok := p.real[p.valor]
+		if !ok {
+			return c, fmt.Errorf("%s=%q: proveedor no admitido", p.nombre, p.valor)
+		}
+		if err := abrir(); err != nil {
+			return c, fmt.Errorf("%s=%s: %w", p.nombre, p.valor, err)
 		}
 	}
 	return c, nil
+}
+
+// abrirGemini deriva el responseSchema del esquema versionado en conductas/
+// (ADR 0003 §4) y arma el adaptador. No llama a la red.
+func abrirGemini(g config.Gemini) (proveedores.Extractor, error) {
+	raw, err := prompts.EsquemaSalidaJSON()
+	if err != nil {
+		return nil, err
+	}
+	esq, err := gemini.EsquemaDesdeJSONSchema(raw)
+	if err != nil {
+		return nil, err
+	}
+	return gemini.Nuevo(gemini.Opciones{
+		Clave: g.Clave, Modelo: g.Modelo, URLBase: g.URLBase, Esquema: esq,
+		Timeout: g.Timeout, Reintentos: max(g.Reintentos, 0),
+	})
 }
 
 // Servir atiende pedidos en ln hasta que se cancele ctx; corre la retención

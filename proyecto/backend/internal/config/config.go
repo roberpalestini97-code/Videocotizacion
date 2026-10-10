@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log/slog"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -42,9 +43,31 @@ const (
 	AlmacenPostgres = "postgres"
 )
 
-// ProveedorFalso es el único valor de proveedor implementado hoy. Los reales
-// se agregan cuando se elijan (T13); cualquier otro valor es un error.
-const ProveedorFalso = "falso"
+// Valores de PROVEEDOR_* (T13). "falso" solo fuera de producción.
+const (
+	ProveedorFalso     = "falso"
+	ProveedorNavegador = "navegador" // STT y TTS en el navegador del cliente
+	ProveedorGemini    = "gemini"    // LLM: Google Gemini por REST (AI Studio)
+	ProveedorEnlace    = "enlace"    // WhatsApp: enlace wa.me, sin envío
+)
+
+// proveedoresAdmitidos por variable; cualquier otro valor es un error.
+var proveedoresAdmitidos = map[string][]string{
+	"PROVEEDOR_STT":      {ProveedorFalso, ProveedorNavegador},
+	"PROVEEDOR_TTS":      {ProveedorFalso, ProveedorNavegador},
+	"PROVEEDOR_LLM":      {ProveedorFalso, ProveedorGemini},
+	"PROVEEDOR_WHATSAPP": {ProveedorFalso, ProveedorEnlace},
+}
+
+// Gemini configura el adaptador del LLM (docs/ia/gemini.md). La clave sale de
+// GEMINI_API_KEY o del archivo GEMINI_API_KEY_FILE (uno solo de los dos).
+type Gemini struct {
+	Clave      secreto.Secreto
+	Modelo     string        // "" = gemini.ModeloPorDefecto
+	URLBase    string        // "" = API pública; solo para pruebas locales
+	Timeout    time.Duration // por intento
+	Reintentos int           // solo 429 y 5xx
+}
 
 // Proveedores elegidos por puerto (ADR 0003: PROVEEDOR_STT=..., etc.).
 type Proveedores struct {
@@ -62,6 +85,7 @@ type Config struct {
 	DBConexMax  int32
 	DBTimeout   time.Duration // tiempo límite por operación contra la base (G03)
 	Proveedores Proveedores
+	Gemini      Gemini
 
 	LecturaEncabezados time.Duration
 	Lectura            time.Duration
@@ -103,6 +127,15 @@ func Cargar(getenv Getenv, cmd Comando) (Config, error) {
 			TTS:      l.texto("PROVEEDOR_TTS", ""),
 			WhatsApp: l.texto("PROVEEDOR_WHATSAPP", ""),
 		},
+	}
+	if cmd == Servir && c.Proveedores.LLM == ProveedorGemini {
+		c.Gemini = Gemini{
+			Clave:      l.claveGemini(getenv),
+			Modelo:     l.texto("GEMINI_MODEL", ""),
+			URLBase:    l.texto("GEMINI_URL_BASE", ""),
+			Timeout:    l.duracion("GEMINI_TIMEOUT", 20*time.Second),
+			Reintentos: l.entero("GEMINI_REINTENTOS", 2, 0, 5),
+		}
 	}
 	errs := l.errs
 	errs = append(errs, c.validar(cmd)...)
@@ -179,13 +212,54 @@ func (c Config) validarProveedores(prod bool) []error {
 		switch {
 		case p.valor == "":
 			errs = append(errs, fmt.Errorf("falta %s", p.variable))
+		case !admitido(p.variable, p.valor):
+			errs = append(errs, fmt.Errorf("%s=%q no admitido (valores: %s)", p.variable, p.valor, strings.Join(proveedoresAdmitidos[p.variable], ", ")))
 		case p.valor == ProveedorFalso && prod:
 			errs = append(errs, fmt.Errorf("producción no puede usar %s=falso", p.variable))
-		case p.valor != ProveedorFalso:
-			errs = append(errs, fmt.Errorf("%s=%q: adaptador real no implementado todavía (T13)", p.variable, p.valor))
+		}
+	}
+	if c.Proveedores.LLM == ProveedorGemini {
+		if c.Gemini.Clave.Vacio() {
+			errs = append(errs, errors.New("PROVEEDOR_LLM=gemini necesita GEMINI_API_KEY o GEMINI_API_KEY_FILE"))
+		}
+		if prod && c.Gemini.URLBase != "" && !strings.HasPrefix(c.Gemini.URLBase, "https://") {
+			errs = append(errs, errors.New("GEMINI_URL_BASE en producción tiene que ser https"))
 		}
 	}
 	return errs
+}
+
+func admitido(variable, valor string) bool {
+	for _, v := range proveedoresAdmitidos[variable] {
+		if v == valor {
+			return true
+		}
+	}
+	return false
+}
+
+// claveGemini lee GEMINI_API_KEY o GEMINI_API_KEY_FILE. Los errores no
+// incluyen la clave ni el contenido del archivo.
+func (l *lector) claveGemini(getenv Getenv) secreto.Secreto {
+	directa := strings.TrimSpace(getenv("GEMINI_API_KEY"))
+	archivo := strings.TrimSpace(getenv("GEMINI_API_KEY_FILE"))
+	switch {
+	case directa != "" && archivo != "":
+		l.errs = append(l.errs, errors.New("usar GEMINI_API_KEY o GEMINI_API_KEY_FILE, no las dos"))
+	case directa != "":
+		return secreto.Nuevo(directa)
+	case archivo != "":
+		b, err := os.ReadFile(archivo)
+		if err != nil {
+			l.errs = append(l.errs, errors.New("GEMINI_API_KEY_FILE: no se pudo leer el archivo"))
+			return secreto.Secreto{}
+		}
+		if v := strings.TrimSpace(string(b)); v != "" {
+			return secreto.Nuevo(v)
+		}
+		l.errs = append(l.errs, errors.New("GEMINI_API_KEY_FILE: archivo vacío"))
+	}
+	return secreto.Secreto{}
 }
 
 // exigirTLS pide sslmode=verify-full en producción (R27; verify-ca no valida
@@ -239,6 +313,8 @@ func (c Config) LogValue() slog.Value {
 		slog.Any("clave_hmac", c.ClaveHMAC),
 		slog.String("proveedores", fmt.Sprintf("stt=%s llm=%s tts=%s whatsapp=%s",
 			c.Proveedores.STT, c.Proveedores.LLM, c.Proveedores.TTS, c.Proveedores.WhatsApp)),
+		slog.String("gemini_modelo", c.Gemini.Modelo),
+		slog.Any("gemini_clave", c.Gemini.Clave),
 		slog.Int64("cuerpo_max_bytes", c.CuerpoMaxBytes),
 		slog.Duration("retencion_intervalo", c.RetencionIntervalo),
 	)
