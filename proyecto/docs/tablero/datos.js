@@ -125,7 +125,7 @@ window.TABLERO = {
       "consultor": "Opus 5.5",
       "rol": "Frontend",
       "estado": "trabajando",
-      "actual": "T09 · en revisión"
+      "actual": "T10 · en revisión"
     },
     {
       "id": "ops",
@@ -246,9 +246,9 @@ window.TABLERO = {
       "id": "T10",
       "titulo": "Integrar sesión, consentimiento y avatar en el front, con reconexión",
       "agente": "fe",
-      "status": "pendiente",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": "av es coautor y el consultor es Opus 5.5."
+      "nota": "2026-10-10 (fe, rama feat/T10-front-contrato, SIN revisar: quien escribe no revisa). El botón «Iniciar VideoCotización» habla con el contrato: enlace /c/<id_publico> → desafío (prueba de trabajo SHA-256) + crearSesion → consentimiento ANTES de cámara/micrófono → token de medios → WebSocket → texto del cliente (reconocimiento de voz del navegador es-AR) y fotogramas JPEG ≤1024 px/≤128 KiB cada 3 s (sin guardar) → avatar (Voz + AvatarPuerto, placeholder 2D) + pizarrón en vivo → precio solo al final (cotizacion.emitida) → wa.me con código de referencia. Reconexión con backoff, cerrarSesion y errores del catálogo en español. Reemplaza src/lib/asesor-api. PROBADO: npm ci; contrato:verificar ok; typecheck; lint (0 errores); build; vitest 145 pruebas (cliente, máquina de estados, reconexión, muestreo con límites, pizarrón, errores, controlador, conformidad con los JSON Schema del contrato contra el servidor falso); E2E Playwright en Chromium con cámara/mic FALSOS contra servidor mock HTTP+WS (scripts/e2e-videocotizacion.mjs, 47 verificaciones, 21 capturas en docs/fe/capturas/): flujo completo, consentimiento previo (getUserMedia=0 hasta aceptar), rechazo → sin_consentimiento, cámara denegada → sin_camara sin seguir, cuota agotada, desafío inválido, enlace inexistente, simultáneas agotadas, reconexión del socket (token nuevo, pizarrón conservado), sin_voz, cortar + derivación, fotogramas medidos en el servidor falso. NO PROBADO: backend real (Go) ni CORS real; LLM real; voz real (SpeechRecognition/speechSynthesis: en headless no hay voces ni reconocimiento, se probó la entrada por texto); cámara y micrófono reales; Firefox/Safari/Edge; móvil real (solo viewport 390x844 emulado en Chromium); lector de pantalla; desafío con la dificultad real (el mock usa 8 bits, el backend 16); wss:// con TLS (el mock usa ws://localhost). Huecos del contrato en docs/fe/huecos-T10.md (sin rango min–max, sin contacto del profesional en 429, sin «fuera de alcance», CORS, qué cuenta como voz para sin_voz, etc.). Pendiente: avatar de la tarea 5 detrás de AvatarPuerto, UI para corregir el pizarrón, contacto opcional, revisión cruzada. av es coautor y el consultor es Opus 5.5."
     },
     {
       "id": "T11",
@@ -568,6 +568,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-10T16:40:00-03:00",
+      "texto": "T10 (fe): front conectado al contrato (enlace → desafío → sesión → consentimiento → medios por WebSocket → pizarrón → presupuesto final → WhatsApp) con reconexión y errores del catálogo; reemplaza asesor-api. vitest 145 ok, typecheck/lint/build ok, E2E Chromium con cámara falsa 47/47 contra servidor mock (capturas en docs/fe/capturas). NO probado: backend real, voz y cámara reales, otros navegadores, móvil real. Huecos en docs/fe/huecos-T10.md. Rama feat/T10-front-contrato, sin revisar."
+    },
     {
       "ts": "2026-10-10T15:10:00-03:00",
       "texto": "Repo GitHub Videocotizacion: raíz Documents/videocotizacion; AGENTS.md (2 harness, rama+PR); rama chore/repo-inicial pusheada."
