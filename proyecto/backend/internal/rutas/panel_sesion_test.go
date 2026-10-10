@@ -23,7 +23,7 @@ func TestLeerYCerrarSesionPanel(t *testing.T) {
 		t.Fatal(err)
 	}
 	reloj := time.Date(2026, 10, 8, 15, 0, 0, 0, time.UTC)
-	if err := f.a.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
+	if err := f.alm.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
 		AsesorID: f.asesor, Cifrado: cif, CreadaEn: reloj,
 	}); err != nil {
 		t.Fatal(err)

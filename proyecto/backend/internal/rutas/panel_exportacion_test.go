@@ -16,7 +16,7 @@ func TestExportarMiCuenta(t *testing.T) {
 	sembrarClavePanel(t, f, f.asesor, "juan@ejemplo.local", clavePanelOK)
 	laura := debeAsesor(t)
 	reloj := time.Date(2026, 10, 8, 21, 0, 0, 0, time.UTC)
-	if err := f.a.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
+	if err := f.alm.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
 		ID: laura, Rol: dominio.RolAsesorBase, NombreVisible: "Laura G.",
 		Email: "laura@ejemplo.local", WhatsApp: "+5492235550102",
 		Oficios:  []dominio.Oficio{dominio.OficioJardineria},
@@ -43,7 +43,7 @@ func TestExportarMiCuenta(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if err := f.a.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
+		if err := f.alm.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
 			AsesorID: par.id, Cifrado: cif, CreadaEn: reloj,
 		}); err != nil {
 			t.Fatal(err)
@@ -104,13 +104,13 @@ func TestExportarMiCuenta(t *testing.T) {
 	}
 
 	aceptado := time.Date(2026, 10, 1, 14, 20, 0, 0, time.UTC)
-	if err := f.a.GuardarConsentimientoAsesor(t.Context(), f.tenant, dominio.ConsentimientoAsesor{
+	if err := f.alm.GuardarConsentimientoAsesor(t.Context(), f.tenant, dominio.ConsentimientoAsesor{
 		AsesorID: f.asesor, Version: "2026-10-08.1", AceptadoEn: aceptado,
 	}); err != nil {
 		t.Fatal(err)
 	}
 	pedro := debeAsesor(t)
-	if err := f.a.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
+	if err := f.alm.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
 		ID: pedro, Rol: dominio.RolAsesorBase, NombreVisible: "Pedro A.",
 		Email: "pedro@ejemplo.local", WhatsApp: "+5492235550198",
 		Oficios: []dominio.Oficio{dominio.OficioPintura}, Zonas: []dominio.Zona{dominio.ZonaCobo},
@@ -122,10 +122,10 @@ func TestExportarMiCuenta(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.CrearSesion(t.Context(), f.tenant, suya); err != nil {
+	if err := f.alm.CrearSesion(t.Context(), f.tenant, suya); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := f.a.RegistrarContacto(t.Context(), f.tenant, dominio.Contacto{
+	if _, err := f.alm.RegistrarContacto(t.Context(), f.tenant, dominio.Contacto{
 		SesionID: suya.ID, Nombre: nombreAjeno, Telefono: telAjeno, Email: "ajeno@cliente.local",
 		AvisoVersion: "2026-10-08.1",
 	}, reloj); err != nil {
@@ -206,7 +206,7 @@ func TestExportarMiCuenta(t *testing.T) {
 	if reLaura.Code != http.StatusOK {
 		t.Fatalf("reautenticar laura: %d %s", reLaura.Code, reLaura.Body.String())
 	}
-	if err := f.a.GuardarConsentimientoAsesor(t.Context(), f.tenant, dominio.ConsentimientoAsesor{
+	if err := f.alm.GuardarConsentimientoAsesor(t.Context(), f.tenant, dominio.ConsentimientoAsesor{
 		AsesorID: laura, Version: "2026-10-08.1", AceptadoEn: aceptado,
 	}); err != nil {
 		t.Fatal(err)
@@ -233,7 +233,7 @@ func (f *fixSesion) pedirExportacion(ip, cookie, csrf string) *httptest.Response
 
 func (f *fixSesion) cantidadLecturas(t *testing.T, asesor string) int {
 	t.Helper()
-	lista, err := f.a.ListarLecturasDelAsesor(t.Context(), f.tenant, asesor)
+	lista, err := f.alm.ListarLecturasDelAsesor(t.Context(), f.tenant, asesor)
 	if err != nil {
 		t.Fatal(err)
 	}

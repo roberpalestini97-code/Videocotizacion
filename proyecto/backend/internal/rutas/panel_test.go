@@ -57,7 +57,7 @@ func TestIniciarSesionPanel(t *testing.T) {
 			t.Fatalf("vence_en a %s", d)
 		}
 		valor := strings.SplitN(strings.TrimPrefix(cookie, "__Host-vc_panel="), ";", 2)[0]
-		ing, err := f.a.LeerIngresoPanel(t.Context(), f.tenant, claves.HMAC(f.claveSrv, valor))
+		ing, err := f.alm.LeerIngresoPanel(t.Context(), f.tenant, claves.HMAC(f.claveSrv, valor))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -93,7 +93,7 @@ func TestIniciarSesionPanel(t *testing.T) {
 			WhatsApp: "+5492235550001", Oficios: []dominio.Oficio{dominio.OficioPintura},
 			Zonas: []dominio.Zona{dominio.ZonaMarChiquita}, CreadoEn: time.Now().UTC(),
 		}
-		if err := f.a.CrearAsesor(t.Context(), f.tenant, as); err != nil {
+		if err := f.alm.CrearAsesor(t.Context(), f.tenant, as); err != nil {
 			t.Fatal(err)
 		}
 		const claveLaura = "otra-frase-larga-de-panel"
@@ -142,7 +142,7 @@ func sembrarClavePanel(t *testing.T, f *fixSesion, asesor, email, clara string) 
 		t.Fatal(err)
 	}
 	c.CreadaEn = time.Now().UTC()
-	if err := f.a.GuardarContrasena(t.Context(), f.tenant, c); err != nil {
+	if err := f.alm.GuardarContrasena(t.Context(), f.tenant, c); err != nil {
 		t.Fatal(err)
 	}
 }

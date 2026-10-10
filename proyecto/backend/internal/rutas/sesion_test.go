@@ -121,7 +121,8 @@ func TestCrearSesion(t *testing.T) {
 }
 
 type fixSesion struct {
-	a                                          *memoria.Almacen
+	a                                          *memoria.Almacen // nil si la fixture es sobre PostgreSQL
+	alm                                        almacen.Completo
 	h                                          http.Handler
 	hdl                                        *enlace
 	claveSrv, pub, sec, origen, enlace, asesor string
@@ -151,6 +152,15 @@ func nuevaFixtureSesionTopeProv(t *testing.T, tope int, prov proveedores.Conjunt
 	t.Helper()
 	a := memoria.Nuevo()
 	t.Cleanup(a.Cerrar)
+	f := armarFixtureSesion(t, a, tope, prov, cot, slog.New(slog.NewTextHandler(io.Discard, nil)))
+	f.a = a
+	return f
+}
+
+// armarFixtureSesion siembra tenant, asesor, claves y enlace en cualquier
+// almacén (memoria o PostgreSQL) y registra las rutas.
+func armarFixtureSesion(t *testing.T, a almacen.Completo, tope int, prov proveedores.Conjunto, cot *cotizador.Cotizador, log *slog.Logger) *fixSesion {
+	t.Helper()
 	claveSrv := "clave-de-prueba-de-32-bytes-minimo"
 	ahora := time.Date(2026, 10, 8, 13, 0, 0, 0, time.UTC)
 	tn := dominio.Tenant{
@@ -191,8 +201,7 @@ func nuevaFixtureSesionTopeProv(t *testing.T, tope int, prov proveedores.Conjunt
 	if err := a.GuardarEnlace(t.Context(), tn.ID, dominio.Enlace{IDPublico: enlaceID, AsesorID: asID, CreadoEn: ahora}); err != nil {
 		t.Fatal(err)
 	}
-	log := slog.New(slog.NewTextHandler(io.Discard, nil))
-	f := &fixSesion{a: a, claveSrv: claveSrv, pub: pub, sec: sec, origen: origen, enlace: enlaceID, asesor: asID, tenant: tn.ID}
+	f := &fixSesion{alm: a, claveSrv: claveSrv, pub: pub, sec: sec, origen: origen, enlace: enlaceID, asesor: asID, tenant: tn.ID}
 	f.h = servidor.Manejador(servidor.Opciones{CuerpoMaxBytes: 2048, Log: log}, func(mux *http.ServeMux) {
 		f.hdl = Registrar(mux, a, secreto.Nuevo(claveSrv), log, prov, cot)
 	})
@@ -233,7 +242,7 @@ func (f *fixSesion) pedir(clave, origin, desafioHdr, idem, body string, secreta 
 
 func (f *fixSesion) cantidad(t *testing.T) int {
 	t.Helper()
-	lista, _, err := f.a.ListarSesionesDeAsesor(t.Context(), f.tenant, f.asesor, almacen.Pagina{Limite: 100})
+	lista, _, err := f.alm.ListarSesionesDeAsesor(t.Context(), f.tenant, f.asesor, almacen.Pagina{Limite: 100})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -331,15 +340,15 @@ func exigirCreada(t *testing.T, f *fixSesion, rr *httptest.ResponseRecorder) res
 		c.Limites.Fotograma.Bytes != 131072 || c.Limites.Fotograma.Intervalo != 3000 || c.Limites.Fotograma.Max != 400 {
 		t.Fatalf("límites: %+v", c.Limites)
 	}
-	hall, err := f.a.BuscarTokenPorHash(t.Context(), claves.HMAC(f.claveSrv, c.Token.Valor))
+	hall, err := f.alm.BuscarTokenPorHash(t.Context(), claves.HMAC(f.claveSrv, c.Token.Valor))
 	if err != nil || hall.SesionID != c.SesionID || hall.Revocado {
 		t.Fatalf("hmac guardado: %v %+v", err, hall)
 	}
 	sum := sha256.Sum256([]byte(c.Token.Valor))
-	if _, err := f.a.BuscarTokenPorHash(t.Context(), sum[:]); !errores.Es(err, errores.NoEncontrado) {
+	if _, err := f.alm.BuscarTokenPorHash(t.Context(), sum[:]); !errores.Es(err, errores.NoEncontrado) {
 		t.Fatalf("el valor del token no tiene que persistirse: %v", err)
 	}
-	leida, err := f.a.LeerSesion(t.Context(), f.tenant, c.SesionID)
+	leida, err := f.alm.LeerSesion(t.Context(), f.tenant, c.SesionID)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -403,7 +412,7 @@ func TestLeerSesionYConsentimiento(t *testing.T) {
 		t.Fatalf("GET tras consentir: %d %s", rr.Code, rr.Body)
 	}
 	exigirLectura(t, rr.Body.Bytes(), a.SesionID, "consentida", true)
-	guardado, err := g.a.LeerConsentimiento(t.Context(), g.tenant, a.SesionID)
+	guardado, err := g.alm.LeerConsentimiento(t.Context(), g.tenant, a.SesionID)
 	if err != nil || guardado.ID != reg.ID {
 		t.Fatalf("consentimiento guardado: %v %+v", err, guardado)
 	}
@@ -412,7 +421,7 @@ func TestLeerSesionYConsentimiento(t *testing.T) {
 	if rr.Code != http.StatusConflict || codigoDe(t, rr) != "estado_invalido" {
 		t.Fatalf("repetir consentimiento: %d %s", rr.Code, rr.Body)
 	}
-	otraVez, err := g.a.LeerConsentimiento(t.Context(), g.tenant, a.SesionID)
+	otraVez, err := g.alm.LeerConsentimiento(t.Context(), g.tenant, a.SesionID)
 	if err != nil || otraVez.ID != guardado.ID || !otraVez.RegistradoEn.Equal(guardado.RegistradoEn) {
 		t.Fatalf("el segundo consentimiento pisó el primero: %+v", otraVez)
 	}

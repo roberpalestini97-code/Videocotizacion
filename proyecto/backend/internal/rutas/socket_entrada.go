@@ -8,6 +8,7 @@ import (
 	"image/jpeg"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 	"unicode/utf8"
 
@@ -20,8 +21,10 @@ import (
 	"videocotizacion/backend/internal/turno"
 )
 
-// usoMedios es el conteo de la sesión en este proceso. No persiste el texto
-// ni el JPEG: un exceso se descarta y no llama a proveedores.
+// usoMedios es el conteo de la sesión en este proceso. Guarda en memoria, y
+// solo hasta el próximo turno o el corte del socket, los últimos fotogramas
+// aceptados (nunca en base, disco ni logs). El número de turno se deriva de
+// la base (respuestas_modelo); turnos cuenta además los intentos fallidos.
 type usoMedios struct {
 	turnos          int
 	descartesTexto  int
@@ -30,118 +33,318 @@ type usoMedios struct {
 	ultimoFotograma time.Time
 	audioTipo       byte
 	audioParcial    []byte
+	fotos           [][]byte
 }
 
-const maxCargaAudioTurno = 128 << 10 // eventos-sesion.md: carga útil ≤ 128 KiB por trama; tope por turno
+const (
+	maxCargaAudioTurno = 128 << 10 // eventos-sesion.md: carga útil ≤ 128 KiB por trama; tope por turno
+	fotosPorTurno      = 2         // fotogramas más recientes que van al Extractor
+)
 
 // atenderMedios lee lo que sigue a sesion.lista. El texto no puede pasar de
-// 16 KiB ni la trama de 20 B + 128 KiB: el exceso cierra con 1009.
+// 16 KiB ni la trama de 20 B + 128 KiB: el exceso cierra con 1009. Un turno
+// que termina la sesión (cotización o derivación) manda sesion.cerrada y
+// cierra con 1000. Sin mensajes del cliente durante sin_voz_s se avisa y se
+// cierra con motivo sin_voz.
 func (h *enlace) atenderMedios(conn *websocket.Conn, r *http.Request, tenant dominio.TenantID, sesionID string) {
 	conn.SetReadLimit(topeTramaMedios)
-	seq := 1
+	defer h.liberarMedios(sesionID)
+	c := &canalMedios{conn: conn, seq: 1, actividad: time.Now()}
+	if h.prov.Completo() {
+		v := h.vigilarSilencio(r.Context(), c, tenant, sesionID)
+		defer v.parar()
+		c.vig = v
+	}
 	for {
 		tipo, payload, err := conn.Read(r.Context())
 		if err != nil {
 			return
 		}
+		c.vig.pausar()
+		c.mu.Lock()
+		c.actividad = time.Now()
+		if c.terminado {
+			c.mu.Unlock()
+			return
+		}
 		if tipo == websocket.MessageText && len(payload) > topeTextoMedios {
+			c.terminado = true
+			c.mu.Unlock()
 			cerrarMedios(conn, websocket.StatusMessageTooBig, "tamano")
 			return
 		}
-		var msgs [][]byte
+		var res respuestaMedios
 		switch tipo {
 		case websocket.MessageText:
-			msgs = h.responderTexto(r.Context(), tenant, sesionID, payload, &seq)
+			res = h.responderTexto(r.Context(), tenant, sesionID, payload, &c.seq)
 		case websocket.MessageBinary:
-			msgs = h.responderTrama(r.Context(), tenant, sesionID, payload, &seq)
+			res = h.responderTrama(r.Context(), tenant, sesionID, payload, &c.seq)
 		}
-		for _, msg := range msgs {
-			if len(msg) == 0 {
-				continue
-			}
-			if err := conn.Write(r.Context(), websocket.MessageText, msg); err != nil {
-				return
-			}
+		if !c.escribir(r.Context(), res.msgs) {
+			c.terminado = true
+			c.mu.Unlock()
+			return
 		}
+		if res.cerrar {
+			c.terminado = true
+			c.mu.Unlock()
+			_ = conn.Close(websocket.StatusNormalClosure, "fin")
+			return
+		}
+		c.actividad = time.Now()
+		c.mu.Unlock()
+		c.vig.reanudar()
 	}
 }
 
-// responderTexto aplica R66. Un texto válido no es error de tope, pero tampoco
-// llama al LLM. MotivoCierre no tiene un corte por turnos: el que pasa de 60
-// recibe error y la sesión sigue.
-func (h *enlace) responderTexto(ctx context.Context, tenant dominio.TenantID, sesionID string, payload []byte, seq *int) [][]byte {
+// canalMedios serializa las escrituras del bucle y del vigilante de silencio.
+type canalMedios struct {
+	mu        sync.Mutex
+	conn      *websocket.Conn
+	seq       int
+	terminado bool
+	actividad time.Time // último mensaje del cliente procesado (reloj real)
+	vig       *vigilante
+}
+
+func (c *canalMedios) escribir(ctx context.Context, msgs [][]byte) bool {
+	for _, msg := range msgs {
+		if len(msg) == 0 {
+			continue
+		}
+		if err := c.conn.Write(ctx, websocket.MessageText, msg); err != nil {
+			return false
+		}
+	}
+	return true
+}
+
+// respuestaMedios son los mensajes a mandar y si la sesión terminó.
+type respuestaMedios struct {
+	msgs   [][]byte
+	cerrar bool
+}
+
+func soloMensajes(msgs ...[]byte) respuestaMedios { return respuestaMedios{msgs: msgs} }
+
+// responderTexto aplica R66: un texto largo o con < > se descarta sin llamar
+// al LLM. El tope de turnos LLM cierra la sesión con derivación.
+func (h *enlace) responderTexto(ctx context.Context, tenant dominio.TenantID, sesionID string, payload []byte, seq *int) respuestaMedios {
 	texto, es := textoDeEnviar(payload)
 	if !es {
-		return nil
+		return respuestaMedios{}
 	}
-	if utf8.RuneCountInString(texto) > caracteresMaxPorTurno || strings.ContainsAny(texto, "<>") {
+	if utf8.RuneCountInString(texto) > caracteresMaxPorTurno || strings.ContainsAny(texto, "<>") || strings.TrimSpace(texto) == "" {
 		h.contarDescarteTexto(sesionID)
-		return [][]byte{eventoError(siguienteSeq(seq))}
-	}
-	if h.turnoDeMas(sesionID) {
-		return [][]byte{eventoError(siguienteSeq(seq))}
+		return soloMensajes(eventoError(siguienteSeq(seq)))
 	}
 	if !h.prov.Completo() {
-		return nil
+		return respuestaMedios{}
 	}
 	return h.ejecutarTurnoConTexto(ctx, tenant, sesionID, texto, seq)
 }
 
-func (h *enlace) ejecutarTurnoConTexto(ctx context.Context, tenant dominio.TenantID, sesionID, texto string, seq *int) [][]byte {
-	n := h.numeroTurno(sesionID)
-	var ses *dominio.Sesion
-	var oficio dominio.Oficio
+// ejecutarTurnoConTexto corre un turno de punta a punta (T25): lee la sesión
+// y sus datos (última salida validada), numera el turno desde la base (P3),
+// llama al orquestador, persiste respuestas_modelo y la cotización ANTES de
+// mandar nada, y si el turno cierra, cierra la sesión y manda la derivación.
+func (h *enlace) ejecutarTurnoConTexto(ctx context.Context, tenant dominio.TenantID, sesionID, texto string, seq *int) respuestaMedios {
+	ses, err := h.almacen.LeerSesion(ctx, tenant, sesionID)
+	if err != nil {
+		return soloMensajes(eventoCodigo(siguienteSeq(seq), errores.ErrorInterno))
+	}
+	if ses.Estado == dominio.EstadoCerrada {
+		return respuestaMedios{msgs: [][]byte{eventoCodigo(siguienteSeq(seq), errores.SesionCerrada)}, cerrar: true}
+	}
+	resps, err := h.almacen.ListarRespuestasModeloDeSesion(ctx, tenant, sesionID)
+	if err != nil {
+		return soloMensajes(eventoCodigo(siguienteSeq(seq), errores.ErrorInterno))
+	}
 	var ultimaSalida []byte
-	if s, err := h.almacen.LeerSesion(ctx, tenant, sesionID); err == nil {
-		ses = &s
-		if as, err := h.almacen.LeerAsesor(ctx, tenant, s.AsesorID); err == nil {
-			oficio = prompts.OficioDelTurno(s.AvatarID, as.Oficios)
-		}
-		if resps, err := h.almacen.ListarRespuestasModeloDeSesion(ctx, tenant, sesionID); err == nil && len(resps) > 0 {
-			ultimaSalida = resps[len(resps)-1].SalidaJSON
-		}
+	ultimoTurno := 0
+	if len(resps) > 0 {
+		ultimaSalida = resps[len(resps)-1].SalidaJSON
+		ultimoTurno = resps[len(resps)-1].Turno
+	}
+	n, tope := h.reservarTurno(sesionID, ultimoTurno)
+	if tope {
+		return h.cerrarConPlantilla(ctx, tenant, ses, n, turno.FraseTopeTurnos, turno.CierreTurno{Motivo: dominio.MotivoCuotaAgotada, Causa: turno.CausaTopeTurnos}, seq)
+	}
+	var oficio dominio.Oficio
+	if as, err := h.almacen.LeerAsesor(ctx, tenant, ses.AsesorID); err == nil {
+		oficio = prompts.OficioDelTurno(ses.AvatarID, as.Oficios)
 	}
 	sal, err := turno.DesdeTexto(ctx, turno.TextoEntrada{
-		Numero: n, Texto: texto, Oficio: oficio, UltimaSalidaLLM: ultimaSalida,
-		Prov: h.prov, Sesion: ses, Cot: h.cot, Ahora: h.ahoraDePanel(),
+		Numero: n, Texto: texto, Fotogramas: h.tomarFotogramas(sesionID), Oficio: oficio, UltimaSalidaLLM: ultimaSalida,
+		Prov: h.prov, Sesion: &ses, Cot: h.cot, Ahora: h.ahoraDePanel(),
 	})
 	if err != nil {
-		return [][]byte{eventoErrorProveedor(siguienteSeq(seq), err)}
+		h.log.Warn("turno sin respuesta del proveedor", "sesion", sesionID, "turno", n, "codigo", string(errores.CodigoDe(err)))
+		return soloMensajes(eventoErrorProveedor(siguienteSeq(seq), err))
 	}
+	h.log.Info("turno", "sesion", sesionID, "turno", n, "marcas", sal.Marcas,
+		"tokens_entrada", sal.TokensEntrada, "tokens_salida", sal.TokensSalida, "cotizacion", sal.Cotizacion != nil)
 	if len(sal.SalidaLLM) > 0 {
-		if err := h.almacen.AnexarRespuestaModelo(ctx, tenant, dominio.RespuestaModelo{
-			SesionID: sesionID, Turno: n, RegistradaEn: h.ahoraDePanel(), SalidaJSON: sal.SalidaLLM,
-		}); err != nil && !errores.Es(err, errores.EstadoInvalido) {
-			h.log.Warn("guardar respuesta del modelo", "err", err, "sesion", sesionID)
+		if n, err = h.guardarRespuesta(ctx, tenant, sesionID, n, sal.SalidaLLM); err != nil {
+			h.log.Error("guardar respuesta del modelo", "sesion", sesionID, "codigo", string(errores.CodigoDe(err)))
+			return soloMensajes(eventoCodigo(siguienteSeq(seq), errores.ErrorInterno))
 		}
+		renumerar(sal.Eventos, n)
 	}
 	if sal.Cotizacion != nil {
-		if err := h.almacen.GuardarCotizacion(ctx, tenant, *sal.Cotizacion); err != nil && !errores.Es(err, errores.EstadoInvalido) {
-			h.log.Warn("guardar cotización del turno", "err", err, "sesion", sesionID)
+		if err := h.almacen.GuardarCotizacion(ctx, tenant, *sal.Cotizacion); err != nil {
+			// Sin cotización guardada no se muestra precio (P4).
+			h.log.Error("guardar cotización del turno", "sesion", sesionID, "codigo", string(errores.CodigoDe(err)))
+			return soloMensajes(eventoCodigo(siguienteSeq(seq), errores.ErrorInterno))
 		}
 	}
-	out := make([][]byte, 0, len(sal.Eventos)+1)
+	out := respuestaMedios{msgs: make([][]byte, 0, len(sal.Eventos)+2)}
 	for _, ev := range sal.Eventos {
-		out = append(out, eventoServidor(ev.Tipo, siguienteSeq(seq), ev.Datos))
+		out.msgs = append(out.msgs, eventoServidor(ev.Tipo, siguienteSeq(seq), ev.Datos))
 	}
-	if sal.Cotizacion != nil && ses != nil {
+	if sal.Cierre != nil {
+		out.msgs = append(out.msgs, h.mensajesCierre(ctx, tenant, ses, sal.Cotizacion, *sal.Cierre, seq)...)
+		out.cerrar = true
+	}
+	return out
+}
+
+// guardarRespuesta anexa la salida con el número n. Si otro socket de la
+// misma sesión ya usó ese número (PK repetida), toma el siguiente de la base
+// y reintenta una vez.
+func (h *enlace) guardarRespuesta(ctx context.Context, tenant dominio.TenantID, sesionID string, n int, salida []byte) (int, error) {
+	for intento := 0; ; intento++ {
+		err := h.almacen.AnexarRespuestaModelo(ctx, tenant, dominio.RespuestaModelo{
+			SesionID: sesionID, Turno: n, RegistradaEn: h.ahoraDePanel(), SalidaJSON: salida,
+		})
+		if err == nil || !errores.Es(err, errores.EstadoInvalido) || intento > 0 {
+			return n, err
+		}
+		resps, errL := h.almacen.ListarRespuestasModeloDeSesion(ctx, tenant, sesionID)
+		if errL != nil || len(resps) == 0 {
+			return n, err
+		}
+		n, _ = h.reservarTurno(sesionID, resps[len(resps)-1].Turno)
+	}
+}
+
+func renumerar(evs []turno.Evento, n int) {
+	for _, ev := range evs {
+		if _, ok := ev.Datos["turno"]; ok {
+			ev.Datos["turno"] = n
+		}
+		if _, ok := ev.Datos["version"]; ok {
+			ev.Datos["version"] = n
+		}
+	}
+}
+
+// cerrarConPlantilla cierra la sesión por una decisión de Go (tope de turnos,
+// silencio): frase de plantilla del avatar + sesion.cerrada.
+func (h *enlace) cerrarConPlantilla(ctx context.Context, tenant dominio.TenantID, ses dominio.Sesion, n int, frase string, c turno.CierreTurno, seq *int) respuestaMedios {
+	sal, err := turno.Cierre(ctx, min(n, 500), h.prov, frase, c)
+	out := respuestaMedios{cerrar: true}
+	if err == nil {
+		for _, ev := range sal.Eventos {
+			out.msgs = append(out.msgs, eventoServidor(ev.Tipo, siguienteSeq(seq), ev.Datos))
+		}
+	}
+	out.msgs = append(out.msgs, h.mensajesCierre(ctx, tenant, ses, nil, c, seq)...)
+	return out
+}
+
+// mensajesCierre cierra la sesión en la base y arma cotizacion.emitida (si
+// hubo precio, con la derivación) y sesion.cerrada. Sin cotización, la
+// derivación se lee con GET /v1/sesiones/{id}/derivacion (ya cerrada): el
+// contrato no tiene un evento de derivación sin precio (ver huecos T13).
+func (h *enlace) mensajesCierre(ctx context.Context, tenant dominio.TenantID, ses dominio.Sesion, cot *dominio.Cotizacion, c turno.CierreTurno, seq *int) [][]byte {
+	cerrada, err := h.almacen.CerrarSesion(ctx, tenant, ses.ID, c.Motivo, h.ahoraDePanel())
+	if err != nil {
+		if !errores.Es(err, errores.SesionCerrada) {
+			h.log.Error("cerrar sesión al final del turno", "sesion", ses.ID, "codigo", string(errores.CodigoDe(err)))
+			return [][]byte{eventoCodigo(siguienteSeq(seq), errores.ErrorInterno)}
+		}
+		if cerrada, err = h.almacen.LeerSesion(ctx, tenant, ses.ID); err != nil {
+			return [][]byte{eventoCodigo(siguienteSeq(seq), errores.ErrorInterno)}
+		}
+	}
+	h.log.Info("sesión cerrada por el orquestador", "sesion", ses.ID, "motivo", string(cerrada.MotivoCierre), "causa", c.Causa)
+	var out [][]byte
+	if cot != nil {
+		generada := h.ahoraDePanel()
+		if cerrada.CerradaEn != nil {
+			generada = *cerrada.CerradaEn
+		}
 		if as, err := h.almacen.LeerAsesor(ctx, tenant, ses.AsesorID); err == nil {
-			if der, err := mapaDerivacionWhatsApp(ses.ID, as.WhatsApp, h.ahoraDePanel()); err == nil {
+			if der, err := mapaDerivacionWhatsApp(ses.ID, as.WhatsApp, generada); err == nil {
 				out = append(out, eventoServidor("cotizacion.emitida", siguienteSeq(seq), map[string]any{
-					"cotizacion": mapaCotizacionContrato(*sal.Cotizacion),
+					"cotizacion": mapaCotizacionContrato(*cot),
 					"derivacion": der,
 				}))
 			}
 		}
 	}
-	return out
+	return append(out, eventoServidor("sesion.cerrada", siguienteSeq(seq), map[string]any{
+		"motivo_cierre": string(cerrada.MotivoCierre),
+		"duracion_s":    cerrada.DuracionS,
+	}))
 }
 
-func (h *enlace) numeroTurno(sesionID string) int {
+// reservarTurno numera el turno como max(último de la base, intentos en el
+// proceso) + 1. Con un reinicio o con otra instancia el número sigue al de la
+// base (P3). Devuelve true si pasa de turnosLLMMax.
+func (h *enlace) reservarTurno(sesionID string, ultimoDB int) (int, bool) {
 	h.mediosMu.Lock()
 	defer h.mediosMu.Unlock()
 	h.asegurarUso(sesionID)
-	return h.usoMedios[sesionID].turnos
+	u := h.usoMedios[sesionID]
+	u.turnos = max(u.turnos, ultimoDB) + 1
+	h.usoMedios[sesionID] = u
+	return u.turnos, u.turnos > turnosLLMMax
+}
+
+// turnosAgotados mira el tope sin reservar (antes de pagar STT de servidor).
+func (h *enlace) turnosAgotados(sesionID string) bool {
+	h.mediosMu.Lock()
+	defer h.mediosMu.Unlock()
+	return h.usoMedios[sesionID].turnos >= turnosLLMMax
+}
+
+func (h *enlace) guardarFotograma(sesionID string, jpg []byte) {
+	h.mediosMu.Lock()
+	defer h.mediosMu.Unlock()
+	h.asegurarUso(sesionID)
+	u := h.usoMedios[sesionID]
+	u.fotos = append(u.fotos, append([]byte(nil), jpg...))
+	if len(u.fotos) > fotosPorTurno {
+		u.fotos = u.fotos[len(u.fotos)-fotosPorTurno:]
+	}
+	h.usoMedios[sesionID] = u
+}
+
+// tomarFotogramas entrega los fotogramas recibidos desde el turno anterior y
+// los suelta: cada imagen va al modelo una sola vez.
+func (h *enlace) tomarFotogramas(sesionID string) [][]byte {
+	h.mediosMu.Lock()
+	defer h.mediosMu.Unlock()
+	u := h.usoMedios[sesionID]
+	fotos := u.fotos
+	u.fotos = nil
+	if _, ok := h.usoMedios[sesionID]; ok {
+		h.usoMedios[sesionID] = u
+	}
+	return fotos
+}
+
+// liberarMedios suelta audio y fotogramas al cortarse el socket. Los
+// contadores quedan (topes por sesión, R65 y R66).
+func (h *enlace) liberarMedios(sesionID string) {
+	h.mediosMu.Lock()
+	defer h.mediosMu.Unlock()
+	if u, ok := h.usoMedios[sesionID]; ok {
+		u.fotos, u.audioParcial, u.audioTipo = nil, nil, 0
+		h.usoMedios[sesionID] = u
+	}
 }
 
 func textoDeEnviar(payload []byte) (string, bool) {
@@ -164,23 +367,6 @@ func (h *enlace) contarDescarteTexto(sesionID string) {
 	u := h.usoMedios[sesionID]
 	u.descartesTexto++
 	h.usoMedios[sesionID] = u
-}
-
-// turnoDeMas cuenta el texto aceptado como descarte (no hay proveedor).
-// Devuelve true si ya se habían aceptado turnosLLMMax y este no entra.
-func (h *enlace) turnoDeMas(sesionID string) bool {
-	h.mediosMu.Lock()
-	defer h.mediosMu.Unlock()
-	h.asegurarUso(sesionID)
-	u := h.usoMedios[sesionID]
-	u.descartesTexto++
-	if u.turnos >= turnosLLMMax {
-		h.usoMedios[sesionID] = u
-		return true
-	}
-	u.turnos++
-	h.usoMedios[sesionID] = u
-	return false
 }
 
 func (h *enlace) asegurarUso(sesionID string) {
@@ -264,31 +450,33 @@ func leerTrama(b []byte) trama {
 	}
 }
 
-// responderTrama aplica R65. Con proveedores, PCM16 u Opus con fin de turno
-// pasan por STT (en dev el falso no decodifica Opus; T13 decodifica en prod).
-func (h *enlace) responderTrama(ctx context.Context, tenant dominio.TenantID, sesionID string, payload []byte, seq *int) [][]byte {
+// responderTrama aplica R65. Con un STT de servidor, PCM16 u Opus con fin de
+// turno pasan por STT; con voz en el navegador el audio no debería llegar y
+// el adaptador nulo devuelve error. Un fotograma aceptado queda en memoria
+// para el próximo turno.
+func (h *enlace) responderTrama(ctx context.Context, tenant dominio.TenantID, sesionID string, payload []byte, seq *int) respuestaMedios {
 	t := leerTrama(payload)
 	if t.ok && tramaEsAudioSubida(t.tipo) {
 		if !h.prov.Completo() {
 			h.contarDescarteTrama(sesionID)
-			return nil
+			return respuestaMedios{}
 		}
 		tipoAudio, carga, listo := h.acumularAudioTrama(sesionID, t)
 		if !listo {
-			return nil
+			return respuestaMedios{}
 		}
-		if h.turnoDeMas(sesionID) {
-			return [][]byte{eventoError(siguienteSeq(seq))}
+		if h.turnosAgotados(sesionID) {
+			return h.ejecutarTurnoConTexto(ctx, tenant, sesionID, " ", seq)
 		}
 		frecuencia := 16000
 		if tipoAudio == 0x02 {
-			frecuencia = 0 // Opus: consumo STT real lo mide el adaptador (T13).
+			frecuencia = 0 // Opus: el consumo lo mide el adaptador de STT.
 		}
 		tr, err := h.prov.Transcriptor.Transcribir(ctx, proveedores.Audio{
 			PCM: carga, FrecuenciaHz: frecuencia, Final: true,
 		})
 		if err != nil {
-			return [][]byte{eventoErrorProveedor(siguienteSeq(seq), err)}
+			return soloMensajes(eventoErrorProveedor(siguienteSeq(seq), err))
 		}
 		texto := tr.Texto
 		if texto == "" {
@@ -303,10 +491,13 @@ func (h *enlace) responderTrama(ctx context.Context, tenant dominio.TenantID, se
 	motivo := motivoFotograma(t)
 	if motivo == "" {
 		motivo = h.cupoFotograma(sesionID, h.ahoraDePanel())
+		if motivo == "" && h.prov.Completo() {
+			h.guardarFotograma(sesionID, t.carga)
+		}
 	} else {
 		h.contarDescarteTrama(sesionID)
 	}
-	return [][]byte{eventoFotograma(siguienteSeq(seq), seqFoto, motivo)}
+	return soloMensajes(eventoFotograma(siguienteSeq(seq), seqFoto, motivo))
 }
 
 func motivoFotograma(t trama) string {
@@ -372,6 +563,13 @@ func eventoError(seq int) []byte {
 	return eventoServidor("error", seq, map[string]any{
 		"codigo":  string(errores.ValidacionFallida),
 		"mensaje": entrada.Mensaje,
+	})
+}
+
+func eventoCodigo(seq int, cod errores.Codigo) []byte {
+	return eventoServidor("error", seq, map[string]any{
+		"codigo":  string(cod),
+		"mensaje": errores.Buscar(cod).Mensaje,
 	})
 }
 

@@ -16,7 +16,7 @@ func TestPerfilYCotizacionesPanel(t *testing.T) {
 	sembrarClavePanel(t, f, f.asesor, "juan@ejemplo.local", clavePanelOK)
 	laura := debeAsesor(t)
 	reloj := time.Date(2026, 10, 8, 16, 0, 0, 0, time.UTC)
-	if err := f.a.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
+	if err := f.alm.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
 		ID: laura, Rol: dominio.RolAsesorBase, NombreVisible: "Laura G.",
 		Email: "laura@ejemplo.local", WhatsApp: "+5492235550102",
 		Oficios:  []dominio.Oficio{dominio.OficioJardineria},
@@ -43,7 +43,7 @@ func TestPerfilYCotizacionesPanel(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if err := f.a.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
+		if err := f.alm.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
 			AsesorID: par.id, Cifrado: cif, CreadaEn: reloj,
 		}); err != nil {
 			t.Fatal(err)
@@ -113,7 +113,7 @@ func TestPerfilYCotizacionesPanel(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.CrearSesion(t.Context(), f.tenant, suya); err != nil {
+	if err := f.alm.CrearSesion(t.Context(), f.tenant, suya); err != nil {
 		t.Fatal(err)
 	}
 	codigo, err := codigoReferencia(mia.SesionID)

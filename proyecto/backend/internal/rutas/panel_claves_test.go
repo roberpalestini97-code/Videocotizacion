@@ -17,7 +17,7 @@ func TestClavesWidgetPanel(t *testing.T) {
 	sembrarClavePanel(t, f, f.asesor, "juan@ejemplo.local", clavePanelOK)
 	laura := debeAsesor(t)
 	reloj := time.Date(2026, 10, 8, 20, 0, 0, 0, time.UTC)
-	if err := f.a.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
+	if err := f.alm.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
 		ID: laura, Rol: dominio.RolAsesorBase, NombreVisible: "Laura G.",
 		Email: "laura@ejemplo.local", WhatsApp: "+5492235550102",
 		Oficios:  []dominio.Oficio{dominio.OficioJardineria},
@@ -44,7 +44,7 @@ func TestClavesWidgetPanel(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if err := f.a.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
+		if err := f.alm.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
 			AsesorID: par.id, Cifrado: cif, CreadaEn: reloj,
 		}); err != nil {
 			t.Fatal(err)
@@ -161,11 +161,11 @@ func TestClavesWidgetPanel(t *testing.T) {
 		ID: debeTenant(t), Nombre: "Otro", SimultaneasTope: 5, SegundosMesTope: 30000,
 		RetencionDias: 45, CreadoEn: reloj,
 	}
-	if err := f.a.CrearTenant(t.Context(), otro); err != nil {
+	if err := f.alm.CrearTenant(t.Context(), otro); err != nil {
 		t.Fatal(err)
 	}
 	asesorOtro := debeAsesor(t)
-	if err := f.a.CrearAsesor(t.Context(), otro.ID, dominio.Asesor{
+	if err := f.alm.CrearAsesor(t.Context(), otro.ID, dominio.Asesor{
 		ID: asesorOtro, Rol: dominio.RolAdministrar, NombreVisible: "Otro A.",
 		Email: "otro@ejemplo.local", WhatsApp: "+5492235550199",
 		Oficios: []dominio.Oficio{dominio.OficioPintura}, Zonas: []dominio.Zona{dominio.ZonaCobo},
@@ -173,14 +173,14 @@ func TestClavesWidgetPanel(t *testing.T) {
 	}); err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.GuardarClave(t.Context(), otro.ID, ajena); err != nil {
+	if err := f.alm.GuardarClave(t.Context(), otro.ID, ajena); err != nil {
 		t.Fatal(err)
 	}
 	no := f.revocarClave(ipAdmin, cookie, csrf, ajena.ID)
 	if no.Code != http.StatusNotFound || problemaSinTraza(t, no)["codigo"] != "no_encontrado" {
 		t.Fatalf("clave ajena: %d %s", no.Code, no.Body.String())
 	}
-	hall, err := f.a.BuscarClavePorHash(t.Context(), ajena.Hash)
+	hall, err := f.alm.BuscarClavePorHash(t.Context(), ajena.Hash)
 	if err != nil || hall.Revocada {
 		t.Fatalf("la clave ajena quedó revocada: %+v %v", hall, err)
 	}

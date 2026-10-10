@@ -84,6 +84,9 @@ type enlace struct {
 	// Lo usan las pruebas para no esperar el plazo real.
 	plazoAutenticar time.Duration
 
+	// sinVoz, si no es cero, reemplaza sin_voz_s (pruebas del corte por silencio).
+	sinVoz time.Duration
+
 	// ahoraPanel, si no es nil, fija el reloj del login, del TOTP y de la sesión.
 	// Las pruebas lo usan para que el código no dependa del reloj real.
 	ahoraPanel func() time.Time

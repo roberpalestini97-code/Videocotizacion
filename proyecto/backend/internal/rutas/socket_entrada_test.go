@@ -96,7 +96,9 @@ func TestTextoTurnoMaterialPaisajismoEnSegundoTurno(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	ex.JSON = string(paisajismo)
+	// El ejemplo 05 deriva a WhatsApp (cierra la sesión desde T25): acá se
+	// pide un dato más para que haya segundo turno.
+	ex.JSON = strings.Replace(string(paisajismo), `"accion": "derivar_whatsapp"`, `"accion": "preguntar"`, 1)
 	cap := &pedidoCaptor{Extractor: c.Extractor}
 	c.Extractor = cap
 	t.Cleanup(func() {
@@ -160,7 +162,7 @@ func TestTextoTurnoPersisteRespuestaModelo(t *testing.T) {
 		leerEvento(t, conn)
 	}
 
-	resps, err := g.a.ListarRespuestasModeloDeSesion(t.Context(), g.tenant, id)
+	resps, err := g.alm.ListarRespuestasModeloDeSesion(t.Context(), g.tenant, id)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -230,7 +232,7 @@ func TestDescarteDeTextoYFotograma(t *testing.T) {
 	if strings.Contains(ev.crudo, largo) {
 		t.Fatal("el error ecoa el texto")
 	}
-	leida, err := g.a.LeerSesion(t.Context(), g.tenant, id)
+	leida, err := g.alm.LeerSesion(t.Context(), g.tenant, id)
 	if err != nil || leida.Estado != dominio.EstadoEnCurso {
 		t.Fatalf("la sesión no sigue en curso: %v %+v", err, leida)
 	}
@@ -367,7 +369,7 @@ func TestPCMVariasTramasPersisteRespuestaModelo(t *testing.T) {
 		leerEvento(t, conn)
 	}
 
-	resps, err := g.a.ListarRespuestasModeloDeSesion(t.Context(), g.tenant, id)
+	resps, err := g.alm.ListarRespuestasModeloDeSesion(t.Context(), g.tenant, id)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -396,7 +398,7 @@ func TestOpusVariasTramasPersisteRespuestaModelo(t *testing.T) {
 		leerEvento(t, conn)
 	}
 
-	resps, err := g.a.ListarRespuestasModeloDeSesion(t.Context(), g.tenant, id)
+	resps, err := g.alm.ListarRespuestasModeloDeSesion(t.Context(), g.tenant, id)
 	if err != nil || len(resps) != 1 || resps[0].Turno != 1 {
 		t.Fatalf("respuestas: %+v %v", resps, err)
 	}

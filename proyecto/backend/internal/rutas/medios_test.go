@@ -36,7 +36,7 @@ func TestTokenMediosYCierre(t *testing.T) {
 	if strings.Contains(rr.Body.String(), "vc_med_") || g.a.CantidadTokens(g.tenant) != antes {
 		t.Fatalf("se emitió un token: %d %s", g.a.CantidadTokens(g.tenant), rr.Body)
 	}
-	leida, err := g.a.LeerSesion(t.Context(), g.tenant, a.SesionID)
+	leida, err := g.alm.LeerSesion(t.Context(), g.tenant, a.SesionID)
 	if err != nil || leida.Estado != dominio.EstadoCreada {
 		t.Fatalf("la sesión cambió: %v %+v", err, leida)
 	}
@@ -53,7 +53,7 @@ func TestTokenMediosYCierre(t *testing.T) {
 		t.Fatalf("clave pública: %d %s", rr.Code, rr.Body)
 	}
 	revocada := time.Now().UTC()
-	if err := g.a.GuardarClave(t.Context(), g.tenant, dominio.ClaveAPI{
+	if err := g.alm.GuardarClave(t.Context(), g.tenant, dominio.ClaveAPI{
 		ID: debeClave(t, false), Tipo: dominio.ClaveSecreta, Hash: claves.HMAC(g.claveSrv, "vc_sec_revocadamedios"),
 		Prefijo: "vc_sec_revo", CreadaEn: revocada, RevocadaEn: &revocada,
 	}); err != nil {
@@ -73,16 +73,16 @@ func TestTokenMediosYCierre(t *testing.T) {
 	}
 	rr = g.medios(a.Token.Valor, a.SesionID)
 	tok := exigirTokenMedios(t, rr, a.SesionID)
-	leida, err = g.a.LeerSesion(t.Context(), g.tenant, a.SesionID)
+	leida, err = g.alm.LeerSesion(t.Context(), g.tenant, a.SesionID)
 	if err != nil || leida.Estado != dominio.EstadoEnCurso {
 		t.Fatalf("estado tras el token: %v %+v", err, leida)
 	}
-	hall, err := g.a.BuscarTokenPorHash(t.Context(), claves.HMAC(g.claveSrv, tok.Token))
+	hall, err := g.alm.BuscarTokenPorHash(t.Context(), claves.HMAC(g.claveSrv, tok.Token))
 	if err != nil || hall.SesionID != a.SesionID || hall.Revocado {
 		t.Fatalf("hmac de medios: %v %+v", err, hall)
 	}
 	sum := sha256.Sum256([]byte(tok.Token))
-	if _, err := g.a.BuscarTokenPorHash(t.Context(), sum[:]); !errores.Es(err, errores.NoEncontrado) {
+	if _, err := g.alm.BuscarTokenPorHash(t.Context(), sum[:]); !errores.Es(err, errores.NoEncontrado) {
 		t.Fatalf("el valor en claro no tiene que persistirse: %v", err)
 	}
 
@@ -91,7 +91,7 @@ func TestTokenMediosYCierre(t *testing.T) {
 	if rr.Code != http.StatusUnprocessableEntity || codigoDe(t, rr) != "validacion_fallida" {
 		t.Fatalf("motivo completada: %d %s", rr.Code, rr.Body)
 	}
-	leida, err = g.a.LeerSesion(t.Context(), g.tenant, b.SesionID)
+	leida, err = g.alm.LeerSesion(t.Context(), g.tenant, b.SesionID)
 	if err != nil || leida.Estado != dominio.EstadoCreada {
 		t.Fatalf("completada cambió la sesión: %v %+v", err, leida)
 	}
@@ -134,8 +134,8 @@ func TestCupoSimultaneas(t *testing.T) {
 	if rr.Header().Get("Retry-After") != "3600" {
 		t.Fatalf("Retry-After: %s", rr.Header().Get("Retry-After"))
 	}
-	la, err1 := g.a.LeerSesion(t.Context(), g.tenant, a.SesionID)
-	lb, err2 := g.a.LeerSesion(t.Context(), g.tenant, b.SesionID)
+	la, err1 := g.alm.LeerSesion(t.Context(), g.tenant, a.SesionID)
+	lb, err2 := g.alm.LeerSesion(t.Context(), g.tenant, b.SesionID)
 	if err1 != nil || err2 != nil || la.Estado != dominio.EstadoEnCurso || lb.Estado != dominio.EstadoConsentida {
 		t.Fatalf("estados tras el 429: %v %v %s %s", err1, err2, la.Estado, lb.Estado)
 	}
@@ -145,7 +145,7 @@ func TestCupoSimultaneas(t *testing.T) {
 	if reconexion.Token == primero.Token {
 		t.Fatal("la reconexión repitió el token")
 	}
-	viejo, err := g.a.BuscarTokenPorHash(t.Context(), claves.HMAC(g.claveSrv, primero.Token))
+	viejo, err := g.alm.BuscarTokenPorHash(t.Context(), claves.HMAC(g.claveSrv, primero.Token))
 	if err != nil || !viejo.Revocado {
 		t.Fatalf("el token anterior sigue vigente: %v %+v", err, viejo)
 	}
@@ -162,7 +162,7 @@ func TestCupoSimultaneas(t *testing.T) {
 	}
 	rr = g.medios(b.Token.Valor, b.SesionID)
 	exigirTokenMedios(t, rr, b.SesionID)
-	lb, err = g.a.LeerSesion(t.Context(), g.tenant, b.SesionID)
+	lb, err = g.alm.LeerSesion(t.Context(), g.tenant, b.SesionID)
 	if err != nil || lb.Estado != dominio.EstadoEnCurso {
 		t.Fatalf("la segunda no entró: %v %+v", err, lb)
 	}

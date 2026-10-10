@@ -62,7 +62,7 @@ func TestCortePorSilencioYDuracion(t *testing.T) {
 	vozBase := base.Add(silencio)
 	f.relojPanel(vozBase)
 	cID, _ := f.ponerEnCurso(t)
-	if err := f.a.MarcarVoz(t.Context(), f.tenant, cID, vozBase.Add(silencio-time.Second)); err != nil {
+	if err := f.alm.MarcarVoz(t.Context(), f.tenant, cID, vozBase.Add(silencio-time.Second)); err != nil {
 		t.Fatal(err)
 	}
 	f.relojPanel(vozBase.Add(silencio))
@@ -85,7 +85,7 @@ func TestCortePorSilencioYDuracion(t *testing.T) {
 	durBase := vozBase.Add(silencio - time.Second).Add(silencio)
 	f.relojPanel(durBase)
 	dID, _ := f.ponerEnCurso(t)
-	if err := f.a.MarcarVoz(t.Context(), f.tenant, dID, durBase.Add(time.Second)); err != nil {
+	if err := f.alm.MarcarVoz(t.Context(), f.tenant, dID, durBase.Add(time.Second)); err != nil {
 		t.Fatal(err)
 	}
 	f.relojPanel(durBase.Add(maxima))
@@ -120,7 +120,7 @@ func (f *fixSesion) ponerEnCurso(t *testing.T) (string, string) {
 
 func (f *fixSesion) barrer(t *testing.T) int {
 	t.Helper()
-	n, err := f.a.BarrerLimites(t.Context(), f.tenant, f.hdl.ahoraDePanel(), sinVozProvisorioS, duracionMaximaProvisoriaS)
+	n, err := f.alm.BarrerLimites(t.Context(), f.tenant, f.hdl.ahoraDePanel(), sinVozProvisorioS, duracionMaximaProvisoriaS)
 	if err != nil {
 		t.Fatal(err)
 	}

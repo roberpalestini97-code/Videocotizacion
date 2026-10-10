@@ -30,7 +30,7 @@ func TestHandshakeMedios(t *testing.T) {
 
 	idA, _, tokA := sesionConMedios(t, g, true)
 	idB, sesB, tokB := sesionConMedios(t, g, true)
-	leida, err := g.a.LeerSesion(t.Context(), g.tenant, idA)
+	leida, err := g.alm.LeerSesion(t.Context(), g.tenant, idA)
 	if err != nil || !strings.HasPrefix(leida.ClaveID, "cpw_") || len(leida.Origenes) != 1 || leida.Origenes[0] != g.origen {
 		t.Fatalf("la sesión no guardó la clave pública: %+v %v", leida, err)
 	}
@@ -68,7 +68,7 @@ func TestHandshakeMedios(t *testing.T) {
 	exigirCierreMedios(t, dialMedios(t, srv, idB, g.origen, ""), cierreCerrada)
 
 	idS, _, tokS := sesionConMedios(t, g, false)
-	leida, err = g.a.LeerSesion(t.Context(), g.tenant, idS)
+	leida, err = g.alm.LeerSesion(t.Context(), g.tenant, idS)
 	if err != nil || !strings.HasPrefix(leida.ClaveID, "cse_") || leida.Origenes != nil {
 		t.Fatalf("la secreta no debía guardar Origin: %+v %v", leida, err)
 	}
@@ -212,7 +212,7 @@ func exigirLista(t *testing.T, conn *websocket.Conn, sesionID, token string) {
 
 func revocado(t *testing.T, g *fixSesion, token string) bool {
 	t.Helper()
-	hall, err := g.a.BuscarTokenPorHash(t.Context(), claves.HMAC(g.claveSrv, token))
+	hall, err := g.alm.BuscarTokenPorHash(t.Context(), claves.HMAC(g.claveSrv, token))
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -22,7 +22,7 @@ func TestRotarEnlacePanel(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
+	if err := f.alm.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
 		AsesorID: f.asesor, Cifrado: cif, CreadaEn: reloj,
 	}); err != nil {
 		t.Fatal(err)

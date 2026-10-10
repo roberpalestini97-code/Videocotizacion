@@ -30,9 +30,9 @@ var reTokenMedios = regexp.MustCompile(`^vc_med_[A-Za-z0-9_-]{43}$`)
 
 // conectarMedios es el handshake de GET .../medios. El token no se lee de la
 // URL. Después de sesion.lista se descartan el texto y los fotogramas que se
-// pasan de los topes (R65, R66). No hay transcripción, visemas, pizarrón ni
-// cotización, y no se llama a ningún proveedor. No se guarda audio ni JPEG,
-// ni se loguea el token.
+// pasan de los topes (R65, R66) y cada texto.enviar válido es un turno del
+// orquestador (T25, socket_entrada.go). No se guarda audio ni JPEG, ni se
+// loguea el token.
 func (h *enlace) conectarMedios(w http.ResponseWriter, r *http.Request) {
 	conn, err := websocket.Accept(w, r, &websocket.AcceptOptions{InsecureSkipVerify: true})
 	if err != nil {
@@ -81,7 +81,7 @@ func (h *enlace) conectarMedios(w http.ResponseWriter, r *http.Request) {
 	if err := conn.Write(r.Context(), websocket.MessageText, eventoLista(r.PathValue("sesion_id"))); err != nil {
 		return
 	}
-	// El contrato permitiría proveedores recién acá. No se llaman.
+	// Recién acá se pueden llamar proveedores (eventos-sesion.md §1.4).
 	h.atenderMedios(conn, r, datos.TenantID, r.PathValue("sesion_id"))
 }
 

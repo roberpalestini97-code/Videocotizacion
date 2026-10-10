@@ -40,7 +40,7 @@ func TestRegistrarContacto(t *testing.T) {
 		t.Fatalf("clave pública: %d %s", rr.Code, rr.Body)
 	}
 	revocada := time.Now().UTC()
-	if err := g.a.GuardarClave(t.Context(), g.tenant, dominio.ClaveAPI{
+	if err := g.alm.GuardarClave(t.Context(), g.tenant, dominio.ClaveAPI{
 		ID: debeClave(t, false), Tipo: dominio.ClaveSecreta, Hash: claves.HMAC(g.claveSrv, "vc_sec_revocadacontac"),
 		Prefijo: "vc_sec_rcon", CreadaEn: revocada, RevocadaEn: &revocada,
 	}); err != nil {
@@ -55,7 +55,7 @@ func TestRegistrarContacto(t *testing.T) {
 	if rr.Code != http.StatusUnprocessableEntity || codigoDe(t, rr) != "validacion_fallida" {
 		t.Fatalf("sin aceptar: %d %s", rr.Code, rr.Body)
 	}
-	if _, err := g.a.LeerContacto(t.Context(), g.tenant, a.SesionID); !errores.Es(err, errores.NoEncontrado) {
+	if _, err := g.alm.LeerContacto(t.Context(), g.tenant, a.SesionID); !errores.Es(err, errores.NoEncontrado) {
 		t.Fatal("se guardó un contacto sin consentimiento")
 	}
 	rr = g.contacto(a.Token.Valor, a.SesionID, contactoAvisoViejo())
@@ -70,7 +70,7 @@ func TestRegistrarContacto(t *testing.T) {
 	if rr.Code != http.StatusUnprocessableEntity || codigoDe(t, rr) != "validacion_fallida" {
 		t.Fatalf("sin teléfono ni email: %d %s", rr.Code, rr.Body)
 	}
-	if _, err := g.a.LeerContacto(t.Context(), g.tenant, a.SesionID); !errores.Es(err, errores.NoEncontrado) {
+	if _, err := g.alm.LeerContacto(t.Context(), g.tenant, a.SesionID); !errores.Es(err, errores.NoEncontrado) {
 		t.Fatal("un 422 guardó el contacto")
 	}
 
@@ -92,7 +92,7 @@ func TestRegistrarContacto(t *testing.T) {
 	if _, ok := m["telefono"]; ok {
 		t.Fatal("el JSON trae teléfono")
 	}
-	guardado, err := g.a.LeerContacto(t.Context(), g.tenant, a.SesionID)
+	guardado, err := g.alm.LeerContacto(t.Context(), g.tenant, a.SesionID)
 	if err != nil || guardado.Telefono != "+5492235551000" || guardado.Nombre != "Marta" {
 		t.Fatalf("guardado: %v %+v", err, guardado)
 	}
@@ -101,7 +101,7 @@ func TestRegistrarContacto(t *testing.T) {
 	if rr.Code != http.StatusConflict || codigoDe(t, rr) != "contacto_ya_registrado" {
 		t.Fatalf("repetir: %d %s", rr.Code, rr.Body)
 	}
-	otraVez, err := g.a.LeerContacto(t.Context(), g.tenant, a.SesionID)
+	otraVez, err := g.alm.LeerContacto(t.Context(), g.tenant, a.SesionID)
 	if err != nil || otraVez.Telefono != guardado.Telefono || !otraVez.RegistradoEn.Equal(guardado.RegistradoEn) {
 		t.Fatalf("el segundo pisó el primero: %+v", otraVez)
 	}

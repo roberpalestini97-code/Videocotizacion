@@ -24,7 +24,7 @@ func TestFiltrosCotizacionesPanel(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
+	if err := f.alm.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
 		AsesorID: f.asesor, Cifrado: cif, CreadaEn: reloj,
 	}); err != nil {
 		t.Fatal(err)
@@ -49,7 +49,7 @@ func TestFiltrosCotizacionesPanel(t *testing.T) {
 		t.Fatal(err)
 	}
 	laura := debeAsesor(t)
-	if err := f.a.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
+	if err := f.alm.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
 		ID: laura, Rol: dominio.RolAsesorBase, NombreVisible: "Laura G.",
 		Email: "laura-lista@ejemplo.local", WhatsApp: "+5492235550102",
 		Oficios: []dominio.Oficio{dominio.OficioJardineria}, Zonas: []dominio.Zona{dominio.ZonaCobo},
@@ -62,11 +62,11 @@ func TestFiltrosCotizacionesPanel(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, s := range []dominio.Sesion{pintura, antigua, ajena} {
-		if err := f.a.CrearSesion(t.Context(), f.tenant, s); err != nil {
+		if err := f.alm.CrearSesion(t.Context(), f.tenant, s); err != nil {
 			t.Fatal(err)
 		}
 	}
-	if err := f.a.GuardarCotizacion(t.Context(), f.tenant, cotizacionDePrueba(t, pintura.ID)); err != nil {
+	if err := f.alm.GuardarCotizacion(t.Context(), f.tenant, cotizacionDePrueba(t, pintura.ID)); err != nil {
 		t.Fatal(err)
 	}
 

@@ -38,7 +38,7 @@ func TestLeerCotizacionYDerivacion(t *testing.T) {
 	}
 
 	revocada := time.Now().UTC()
-	if err := g.a.GuardarClave(t.Context(), g.tenant, dominio.ClaveAPI{
+	if err := g.alm.GuardarClave(t.Context(), g.tenant, dominio.ClaveAPI{
 		ID: debeClave(t, false), Tipo: dominio.ClaveSecreta, Hash: claves.HMAC(g.claveSrv, "vc_sec_revocadacotiz"),
 		Prefijo: "vc_sec_rcot", CreadaEn: revocada, RevocadaEn: &revocada,
 	}); err != nil {
@@ -55,7 +55,7 @@ func TestLeerCotizacionYDerivacion(t *testing.T) {
 	}
 
 	cot := cotizacionDePrueba(t, a.SesionID)
-	if err := g.a.GuardarCotizacion(t.Context(), g.tenant, cot); err != nil {
+	if err := g.alm.GuardarCotizacion(t.Context(), g.tenant, cot); err != nil {
 		t.Fatal(err)
 	}
 	rr = g.cotizacion(a.Token.Valor, a.SesionID)

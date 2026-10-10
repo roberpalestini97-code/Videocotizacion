@@ -24,7 +24,7 @@ func TestDetalleCotizacionPanel(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
+	if err := f.alm.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
 		AsesorID: f.asesor, Cifrado: cif, CreadaEn: reloj,
 	}); err != nil {
 		t.Fatal(err)
@@ -38,18 +38,18 @@ func TestDetalleCotizacionPanel(t *testing.T) {
 		t.Fatal(err)
 	}
 	ses.AvatarID = "av_pintora"
-	if err := f.a.CrearSesion(t.Context(), f.tenant, ses); err != nil {
+	if err := f.alm.CrearSesion(t.Context(), f.tenant, ses); err != nil {
 		t.Fatal(err)
 	}
 	cot := cotizacionDePrueba(t, ses.ID)
-	if err := f.a.GuardarCotizacion(t.Context(), f.tenant, cot); err != nil {
+	if err := f.alm.GuardarCotizacion(t.Context(), f.tenant, cot); err != nil {
 		t.Fatal(err)
 	}
 	salidaLLM, err := os.ReadFile(filepath.Join("..", "..", "..", "conductas", "ejemplos", "01-pintura-interior-pide-medidas.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.AnexarRespuestaModelo(t.Context(), f.tenant, dominio.RespuestaModelo{
+	if err := f.alm.AnexarRespuestaModelo(t.Context(), f.tenant, dominio.RespuestaModelo{
 		SesionID: ses.ID, Turno: 1, RegistradaEn: cot.EmitidaEn, SalidaJSON: salidaLLM,
 	}); err != nil {
 		t.Fatal(err)
@@ -87,7 +87,7 @@ func TestDetalleCotizacionPanel(t *testing.T) {
 	}
 
 	laura := debeAsesor(t)
-	if err := f.a.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
+	if err := f.alm.CrearAsesor(t.Context(), f.tenant, dominio.Asesor{
 		ID: laura, Rol: dominio.RolAsesorBase, NombreVisible: "Laura",
 		Email: "laura-det@ej.local", WhatsApp: "+5492235550103",
 		Oficios: []dominio.Oficio{dominio.OficioPintura}, Zonas: []dominio.Zona{dominio.ZonaCobo},
@@ -99,7 +99,7 @@ func TestDetalleCotizacionPanel(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.CrearSesion(t.Context(), f.tenant, ajena); err != nil {
+	if err := f.alm.CrearSesion(t.Context(), f.tenant, ajena); err != nil {
 		t.Fatal(err)
 	}
 	forbidden := f.pedirRuta(http.MethodGet, "/v1/panel/cotizaciones/"+ajena.ID, ip, cookie)
@@ -120,7 +120,7 @@ func TestDetalleCotizacionPanelPaisajismoS4(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
+	if err := f.alm.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
 		AsesorID: f.asesor, Cifrado: cif, CreadaEn: reloj,
 	}); err != nil {
 		t.Fatal(err)
@@ -132,14 +132,14 @@ func TestDetalleCotizacionPanelPaisajismoS4(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.CrearSesion(t.Context(), f.tenant, ses); err != nil {
+	if err := f.alm.CrearSesion(t.Context(), f.tenant, ses); err != nil {
 		t.Fatal(err)
 	}
 	salidaLLM, err := os.ReadFile(filepath.Join("..", "..", "..", "conductas", "ejemplos", "05-paisajismo-tecnico-planos-largo-plazo.json"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.AnexarRespuestaModelo(t.Context(), f.tenant, dominio.RespuestaModelo{
+	if err := f.alm.AnexarRespuestaModelo(t.Context(), f.tenant, dominio.RespuestaModelo{
 		SesionID: ses.ID, Turno: 1, RegistradaEn: reloj, SalidaJSON: salidaLLM,
 	}); err != nil {
 		t.Fatal(err)

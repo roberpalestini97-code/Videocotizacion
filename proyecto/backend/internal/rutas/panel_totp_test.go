@@ -26,12 +26,12 @@ func TestVerificarTotp(t *testing.T) {
 		t.Fatal(err)
 	}
 	reloj := time.Date(2026, 10, 8, 13, 0, 0, 0, time.UTC)
-	if err := f.a.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
+	if err := f.alm.GuardarSecretoTOTP(t.Context(), f.tenant, dominio.SecretoTOTP{
 		AsesorID: f.asesor, Cifrado: cif, CreadaEn: reloj,
 	}); err != nil {
 		t.Fatal(err)
 	}
-	if err := f.a.GuardarCodigoRecuperacion(t.Context(), f.tenant, dominio.CodigoRecuperacion{
+	if err := f.alm.GuardarCodigoRecuperacion(t.Context(), f.tenant, dominio.CodigoRecuperacion{
 		AsesorID: f.asesor, Hash: claves.HMAC(f.claveSrv, codigoRecuperacionPanel), Metodo: dominio.MetodoHMACRecuperacion,
 	}); err != nil {
 		t.Fatal(err)

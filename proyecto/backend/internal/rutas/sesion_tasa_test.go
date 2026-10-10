@@ -77,7 +77,7 @@ func (f *fixSesion) sembrarEnlaces(t *testing.T, n int) []string {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if err := f.a.GuardarEnlace(t.Context(), f.tenant, dominio.Enlace{
+		if err := f.alm.GuardarEnlace(t.Context(), f.tenant, dominio.Enlace{
 			IDPublico: id, AsesorID: f.asesor, CreadoEn: ahora,
 		}); err != nil {
 			t.Fatal(err)
