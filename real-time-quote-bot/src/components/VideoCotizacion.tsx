@@ -1,313 +1,158 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  asesores,
-  asesorPorDefecto,
-  clipAvatarPath,
-  type Asesor,
-  type Turno,
-} from "@/data/asesores";
-import { dispararEventoAsesor, hablarTextoAsesor } from "@/lib/asesor-api";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import martaImg from "@/assets/avatar-marta.jpg";
+import diegoImg from "@/assets/avatar-diego.jpg";
+import luciaImg from "@/assets/avatar-lucia.jpg";
+import { Consentimiento } from "@/components/vc/Consentimiento";
+import { PizarronVivo } from "@/components/vc/Pizarron";
+import { CierreSinPresupuesto, Resultado } from "@/components/vc/Resultado";
+import { leerConfig } from "@/lib/videocotizacion/config";
+import type { ControladorVC } from "@/lib/videocotizacion/controlador";
+import { crearControlador } from "@/lib/videocotizacion/crear";
+import { etiquetaCatalogo, reloj } from "@/lib/videocotizacion/formato";
+import type { AvatarPuerto } from "@/lib/videocotizacion/avatar";
 
-type Fase = "seleccion" | "permisos" | "conectando" | "llamada" | "cierre";
-
-function nuevaSesionId() {
-  return `vc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+const FOTOS = [diegoImg, martaImg, luciaImg];
+/** Hasta que el avatar de la tarea 5 traiga sus imágenes: foto estable por avatar_id. */
+function fotoDeAvatar(id: string, indice: number): string {
+  let h = 0;
+  for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return FOTOS[(indice >= 0 ? indice : h) % FOTOS.length] ?? diegoImg;
 }
+
+const ETIQUETA_OFICIO: Record<string, string> = {
+  pintura: "Pintura",
+  jardineria: "Jardinería",
+  reparaciones: "Reparaciones",
+  mantenimiento: "Mantenimiento",
+  limpieza: "Limpieza",
+};
+const ETIQUETA_ZONA: Record<string, string> = {
+  mar_chiquita: "Mar Chiquita",
+  cobo: "Cobo",
+  santa_clara: "Santa Clara del Mar",
+  parque_lago: "Parque Lago",
+  otra: "fuera de zona",
+};
 
 export function VideoCotizacion({
   abierto,
   onCerrar,
-  asesorInicial,
+  idPublico,
+  avatar,
 }: {
   abierto: boolean;
   onCerrar: () => void;
-  asesorInicial?: string | undefined;
+  /** Enlace opaco del profesional (/c/<id_publico>). */
+  idPublico?: string | undefined;
+  /** Para enchufar el avatar de la tarea 5; por defecto, placeholder 2D. */
+  avatar?: AvatarPuerto;
 }) {
-  const [fase, setFase] = useState<Fase>("seleccion");
-  const [asesor, setAsesor] = useState<Asesor>(asesorPorDefecto);
-  const [turnos, setTurnos] = useState<Turno[]>([]);
-  const [permisoError, setPermisoError] = useState<string | null>(null);
-  const [segundos, setSegundos] = useState(0);
-  /** Mientras el clip talking-head del asesor está en reproducción, no avanza el guion. */
-  const [hablandoAvatar, setHablandoAvatar] = useState(false);
-  const [clipSrc, setClipSrc] = useState<string | null>(null);
-  const [sesionId, setSesionId] = useState(nuevaSesionId);
-  const [consultandoApi, setConsultandoApi] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const avatarVideoRef = useRef<HTMLVideoElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
+  const avatarRef = useRef<HTMLDivElement>(null);
   const finRef = useRef<HTMLDivElement>(null);
-  const inicioEmitidoRef = useRef(false);
-  const camaraEmitidaRef = useRef(false);
-  const avanceLockRef = useRef(false);
-  const pendingSpeechRef = useRef<string | null>(null);
-  const stopSpeechRef = useRef<(() => void) | null>(null);
-
-  // Estado inicial cada vez que se abre
-  useEffect(() => {
-    if (!abierto) return;
-    const elegido = asesores.find((a) => a.id === asesorInicial) ?? asesorPorDefecto;
-    setAsesor(elegido);
-    setFase("seleccion");
-    setTurnos([]);
-    setPermisoError(null);
-    setSegundos(0);
-    setHablandoAvatar(false);
-    setClipSrc(null);
-    setSesionId(nuevaSesionId());
-    setConsultandoApi(false);
-    inicioEmitidoRef.current = false;
-    camaraEmitidaRef.current = false;
-    avanceLockRef.current = false;
-    pendingSpeechRef.current = null;
-    stopSpeechRef.current?.();
-    stopSpeechRef.current = null;
-  }, [abierto, asesorInicial]);
-
-  // Cortar cámara y micrófono al cerrar
-  useEffect(() => {
-    if (abierto) return;
-    streamRef.current?.getTracks().forEach((t) => t.stop());
-    streamRef.current = null;
-    stopSpeechRef.current?.();
-    stopSpeechRef.current = null;
-  }, [abierto]);
-
-  useEffect(() => {
-    return () => {
-      streamRef.current?.getTracks().forEach((t) => t.stop());
-      stopSpeechRef.current?.();
-    };
-  }, []);
-
-  // Reloj de llamada
-  useEffect(() => {
-    if (fase !== "llamada" && fase !== "cierre") return;
-    const id = setInterval(() => setSegundos((s) => s + 1), 1000);
-    return () => clearInterval(id);
-  }, [fase]);
-
-  function liberarAvatar() {
-    stopSpeechRef.current?.();
-    stopSpeechRef.current = null;
-    pendingSpeechRef.current = null;
-    setHablandoAvatar(false);
-    setClipSrc(null);
-  }
-
-  function hablarSinClip(texto: string) {
-    setClipSrc(null);
-    setHablandoAvatar(true);
-    stopSpeechRef.current?.();
-    stopSpeechRef.current = hablarTextoAsesor(texto, {
-      onEnd: liberarAvatar,
-      onError: liberarAvatar,
+  const ctlRef = useRef<ControladorVC | null>(null);
+  const [ctl] = useState<ControladorVC>(() => {
+    const c = crearControlador({
+      obtenerVideo: () => videoRef.current,
+      ...(avatar ? { avatar } : {}),
     });
-  }
+    ctlRef.current = c;
+    return c;
+  });
+  const s = useSyncExternalStore(ctl.suscribir, ctl.getState, ctl.getState);
+  const [texto, setTexto] = useState("");
+  const [ocupado, setOcupado] = useState(false);
+  const fase = s.flujo.fase;
 
-  function publicarTurno(siguiente: Turno, indice: number) {
-    setTurnos((t) => [...t, siguiente]);
-
-    if (siguiente.dato) {
-      void dispararEventoAsesor({
-        sesionId,
-        asesorId: asesor.id,
-        evento: {
-          tipo: "observacion.dato",
-          etiqueta: siguiente.dato.etiqueta,
-          valor: siguiente.dato.valor,
-        },
-        historial: [...turnos, siguiente],
-        observaciones: [...turnos.flatMap((t) => (t.dato ? [t.dato] : [])), siguiente.dato],
-        parametros: { rubro: asesor.rubro, tono: asesor.tono },
-      }).catch(() => undefined);
-    }
-
-    if (siguiente.de === "asesor") {
-      pendingSpeechRef.current = siguiente.texto;
-      setClipSrc(clipAvatarPath(asesor.id, indice));
-      setHablandoAvatar(true);
-    } else {
-      liberarAvatar();
-    }
-  }
-
-  function onClipError() {
-    const texto = pendingSpeechRef.current;
-    if (texto) hablarSinClip(texto);
-    else liberarAvatar();
-  }
-
-  // Tope de seguridad si el mp4/TTS no termina
+  // abrir / cerrar
   useEffect(() => {
-    if (!hablandoAvatar) return;
-    const id = setTimeout(liberarAvatar, 40_000);
-    return () => clearTimeout(id);
-  }, [hablandoAvatar, clipSrc]);
+    if (abierto) void ctl.abrir(idPublico ?? leerConfig().enlaceDemo);
+    else void ctl.cerrarVentana();
+  }, [abierto, idPublico, ctl]);
+  useEffect(() => () => ctl.destruir(), [ctl]);
 
-  const observaciones = turnos.flatMap((t) => (t.dato ? [t.dato] : []));
-
-  // Evento: inicio de llamada → API del asesor
+  // avatar (puerto) montado mientras dura la llamada
+  const avatarElegido = s.enlace?.avatares.find((a) => a.avatar_id === s.avatarId);
+  const enPantallaLlamada = fase === "llamada" || fase === "reconectando";
   useEffect(() => {
-    if (fase !== "llamada" || inicioEmitidoRef.current) return;
-    inicioEmitidoRef.current = true;
-    void dispararEventoAsesor({
-      sesionId,
-      asesorId: asesor.id,
-      evento: { tipo: "llamada.inicio" },
-      historial: [],
-      observaciones: [],
-      parametros: { rubro: asesor.rubro, tono: asesor.tono },
-    }).catch(() => undefined);
-  }, [fase, sesionId, asesor]);
+    const cont = avatarRef.current;
+    if (!enPantallaLlamada || !cont || !avatarElegido) return;
+    const puerto = ctl.avatarPuerto;
+    const indice = s.enlace?.avatares.indexOf(avatarElegido) ?? 0;
+    puerto.montar(cont, {
+      avatarId: avatarElegido.avatar_id,
+      nombre: avatarElegido.nombre,
+      foto: fotoDeAvatar(avatarElegido.avatar_id, indice),
+      descripcion: avatarElegido.descripcion_accesible,
+    });
+    return () => puerto.desmontar();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enPantallaLlamada, avatarElegido?.avatar_id]);
 
-  // Evento: cámara del usuario disponible
+  // la cámara propia en el <video>
   useEffect(() => {
-    if (fase !== "llamada" || camaraEmitidaRef.current) return;
-    const stream = streamRef.current;
-    if (!stream) return;
-    camaraEmitidaRef.current = true;
-    const track = stream.getVideoTracks()[0];
-    void dispararEventoAsesor({
-      sesionId,
-      asesorId: asesor.id,
-      evento: {
-        tipo: "observacion.camara",
-        activa: track?.readyState === "live",
-        ...(track?.label ? { etiquetaDispositivo: track.label } : {}),
-      },
-      historial: [],
-      observaciones: [],
-      parametros: { facingMode: "environment|user" },
-    }).catch(() => undefined);
-  }, [fase, sesionId, asesor.id]);
-
-  // Ciclo de turnos vía API (fallback guion en server / catch local)
-  useEffect(() => {
-    if (fase !== "llamada") return;
-    if (hablandoAvatar || consultandoApi) return;
-    if (avanceLockRef.current) return;
-
-    const ultimo = turnos[turnos.length - 1];
-    const porLargo = Math.min(3500, Math.max(0, (ultimo?.texto.length ?? 0) * 20));
-    const delay =
-      turnos.length === 0
-        ? 1600
-        : ultimo?.de === "asesor"
-          ? 700
-          : 2800 + Math.min(porLargo, 1200);
-
-    const id = setTimeout(() => {
-      avanceLockRef.current = true;
-      setConsultandoApi(true);
-      const indice = turnos.length;
-      const obs = turnos.flatMap((t) => (t.dato ? [t.dato] : []));
-      void dispararEventoAsesor({
-        sesionId,
-        asesorId: asesor.id,
-        evento: { tipo: "turno.solicitar", indice },
-        historial: turnos,
-        observaciones: obs,
-        parametros: {
-          rubro: asesor.rubro,
-          tono: asesor.tono,
-          camaraActiva: Boolean(streamRef.current?.getVideoTracks().some((t) => t.readyState === "live")),
-        },
-      })
-        .then((res) => {
-          if (res.fin || !res.turno) {
-            setFase("cierre");
-            void dispararEventoAsesor({
-              sesionId,
-              asesorId: asesor.id,
-              evento: { tipo: "llamada.cierre" },
-              historial: turnos,
-              observaciones: obs,
-            }).catch(() => undefined);
-            return;
-          }
-          publicarTurno(res.turno, indice);
-        })
-        .catch(() => {
-          const fallback = asesor.guion[indice];
-          if (!fallback) {
-            setFase("cierre");
-            return;
-          }
-          publicarTurno(fallback, indice);
-        })
-        .finally(() => {
-          setConsultandoApi(false);
-          avanceLockRef.current = false;
-        });
-    }, delay);
-
-    return () => clearTimeout(id);
-  }, [fase, turnos, asesor, hablandoAvatar, consultandoApi, sesionId]);
+    if (!enPantallaLlamada) return;
+    const v = videoRef.current;
+    const stream = ctl.streamActual;
+    if (!v || !stream) return;
+    if (v.srcObject !== stream) v.srcObject = stream;
+    void v.play().catch(() => undefined);
+  }, [enPantallaLlamada, fase, ctl]);
 
   useEffect(() => {
     finRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [turnos, fase]);
-
-  // Reasignar stream al <video> al entrar en llamada (el nodo no existe en permisos/conectando)
-  useEffect(() => {
-    if (fase !== "llamada" && fase !== "cierre") return;
-    const video = videoRef.current;
-    const stream = streamRef.current;
-    if (!video || !stream) return;
-    if (video.srcObject !== stream) video.srcObject = stream;
-    void video.play().catch(() => undefined);
-  }, [fase]);
-
-  async function pedirPermisos() {
-    setFase("permisos");
-    setPermisoError(null);
-    try {
-      let stream: MediaStream;
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: { ideal: "environment" } },
-          audio: true,
-        });
-      } catch {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: true,
-        });
-      }
-      streamRef.current = stream;
-      setFase("conectando");
-      setTimeout(() => setFase("llamada"), 2600);
-    } catch {
-      setPermisoError(
-        "No pudimos acceder a la cámara o al micrófono. Podés habilitarlos desde los permisos del navegador y volver a intentar.",
-      );
-      setFase("seleccion");
-    }
-  }
+  }, [s.mensajes.length, fase]);
 
   if (!abierto) return null;
 
-  const datos = observaciones;
-  const presupuesto = turnos.find((t) => t.presupuesto)?.presupuesto;
-  const reloj = `${String(Math.floor(segundos / 60)).padStart(2, "0")}:${String(segundos % 60).padStart(2, "0")}`;
+  async function cerrar() {
+    await ctl.cerrarVentana();
+    onCerrar();
+  }
+
+  const cfg = leerConfig();
+  const enLlamadaUI = fase === "llamada" || fase === "reconectando" || fase === "conectando";
+  const nombreAsesor = avatarElegido?.nombre ?? "tu asesor";
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-ink/95 backdrop-blur-sm">
+    <div
+      className="fixed inset-0 z-50 flex flex-col bg-ink/95 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-label="VideoCotización"
+      data-fase={fase}
+    >
       <div className="flex items-center justify-between px-5 pt-5">
         <div className="flex items-center gap-2 text-white/90">
           <span className="size-1.5 rounded-full bg-online animate-blink" />
-          <span className="text-xs font-medium uppercase tracking-[0.18em]">
-            {fase === "seleccion" && "Antes de llamar"}
-            {fase === "permisos" && "Permisos"}
+          <span
+            data-testid="estado-cabecera"
+            className="text-xs font-medium uppercase tracking-[0.18em]"
+          >
+            {fase === "cargando_enlace" && "Buscando a tu profesional"}
+            {fase === "enlace" && "Antes de llamar"}
+            {fase === "creando_sesion" && "Preparando"}
+            {fase === "consentimiento" && "Tu privacidad"}
+            {fase === "camara" && "Permisos"}
             {fase === "conectando" && "Conectando"}
-            {(fase === "llamada" || fase === "cierre") &&
-              `En vivo · ${reloj}${consultandoApi ? " · API" : ""}${hablandoAvatar ? " · Hablando" : ""}`}
+            {fase === "llamada" &&
+              `En vivo · ${reloj(s.segundos)}${s.asesorHablando ? " · Hablando" : ""}`}
+            {fase === "reconectando" && "Reconectando"}
+            {fase === "finalizando" && "Cerrando"}
+            {fase === "resultado" && "Tu presupuesto"}
+            {(fase === "cerrada" || fase === "error" || fase === "camara_denegada") &&
+              "VideoCotización"}
           </span>
+          {cfg.mock && (
+            <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-accent">
+              Modo simulado
+            </span>
+          )}
         </div>
         <button
-          onClick={onCerrar}
+          onClick={() => void cerrar()}
           aria-label="Cerrar videollamada"
+          data-testid="cerrar"
           className="grid size-9 place-items-center rounded-full bg-white/10 text-white/80"
         >
           <span className="text-lg leading-none">×</span>
@@ -316,32 +161,76 @@ export function VideoCotizacion({
 
       <div
         className={
-          fase === "llamada" || fase === "cierre"
+          fase === "llamada" || fase === "reconectando"
             ? "flex min-h-0 flex-1 flex-col overflow-hidden px-5 pb-6 pt-4"
             : "flex-1 overflow-y-auto px-5 pb-6 pt-6"
         }
       >
-        {fase === "seleccion" && (
-          <div className="animate-rise">
-            <h2 className="font-display text-2xl font-bold text-white">Elegí tu asesor</h2>
-            <p className="mt-2 max-w-[300px] text-sm leading-relaxed text-white/70">
-              Cada asesor está entrenado en su oficio. Al iniciar, el navegador te va a pedir cámara y
-              micrófono.
+        {(fase === "cargando_enlace" ||
+          fase === "creando_sesion" ||
+          fase === "camara" ||
+          fase === "conectando") && (
+          <Espera
+            titulo={
+              fase === "cargando_enlace"
+                ? "Buscando a tu profesional…"
+                : fase === "creando_sesion"
+                  ? "Verificando tu navegador…"
+                  : fase === "camara"
+                    ? "Habilitá cámara y micrófono"
+                    : `Conectando con ${nombreAsesor}`
+            }
+            detalle={
+              fase === "camara"
+                ? "Tu navegador te va a pedir permiso. Necesitamos las dos cosas."
+                : fase === "conectando" && s.reconexion && s.reconexion.intento > 0
+                  ? `Reintentando la conexión (intento ${s.reconexion.intento})…`
+                  : undefined
+            }
+            foto={
+              avatarElegido
+                ? fotoDeAvatar(
+                    avatarElegido.avatar_id,
+                    s.enlace?.avatares.indexOf(avatarElegido) ?? 0,
+                  )
+                : undefined
+            }
+          />
+        )}
+
+        {fase === "enlace" && s.enlace && (
+          <div className="animate-rise" data-testid="pantalla-enlace">
+            <h2 className="font-display text-2xl font-bold text-white">
+              Cotizá con {s.enlace.profesional.nombre_visible}
+            </h2>
+            <p className="mt-2 max-w-[320px] text-sm leading-relaxed text-white/70">
+              {s.enlace.profesional.oficios
+                .map((o) => etiquetaCatalogo(s.textos, `oficio.${o}`, ETIQUETA_OFICIO[o] ?? o))
+                .join(", ")}
+              {" · "}
+              {s.enlace.profesional.zonas
+                .map((z) => etiquetaCatalogo(s.textos, `zona.${z}`, ETIQUETA_ZONA[z] ?? z))
+                .join(", ")}
+            </p>
+            <p className="mt-1 max-w-[320px] text-xs leading-relaxed text-white/55">
+              Te atiende un asistente automático. Al iniciar, primero te pedimos el consentimiento y
+              recién después el navegador te pide cámara y micrófono.
             </p>
             <div className="mt-5 space-y-2.5">
-              {asesores.map((a) => (
+              {s.enlace.avatares.map((a, i) => (
                 <button
-                  key={a.id}
-                  onClick={() => setAsesor(a)}
+                  key={a.avatar_id}
+                  onClick={() => ctl.elegirAvatar(a.avatar_id)}
+                  aria-pressed={a.avatar_id === s.avatarId}
                   className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left ring-1 transition-colors ${
-                    a.id === asesor.id
+                    a.avatar_id === s.avatarId
                       ? "bg-white/15 ring-accent"
                       : "bg-white/5 ring-white/15"
                   }`}
                 >
                   <img
-                    src={a.foto}
-                    alt={a.nombre}
+                    src={fotoDeAvatar(a.avatar_id, i)}
+                    alt={a.descripcion_accesible}
                     loading="lazy"
                     width={816}
                     height={816}
@@ -349,27 +238,20 @@ export function VideoCotizacion({
                   />
                   <span className="min-w-0 flex-1">
                     <span className="block font-display text-sm font-semibold text-white">
-                      {a.nombre} · {a.rubro}
+                      {a.nombre}
                     </span>
-                    <span className="block text-xs text-white/60">{a.especialidad}</span>
-                    <span className="block text-[11px] text-white/40">Tono: {a.tono}</span>
+                    <span className="block text-xs text-white/60">{a.descripcion_accesible}</span>
                   </span>
                 </button>
               ))}
             </div>
-
-            {permisoError && (
-              <p className="mt-4 rounded-2xl bg-destructive/15 p-3 text-xs leading-relaxed text-white/85">
-                {permisoError}
-              </p>
-            )}
-
             <button
-              onClick={pedirPermisos}
+              onClick={() => void ctl.continuar()}
+              data-testid="conectar"
               className="mt-5 flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-accent font-display text-base font-semibold text-brand-dark"
             >
               <span className="size-2.5 rounded-full bg-brand-dark animate-blink" />
-              Conectar con {asesor.nombre}
+              Iniciar VideoCotización
             </button>
             <p className="mt-2 text-center text-[11px] text-white/50">
               Requiere micrófono y cámara · podés cortar cuando quieras
@@ -377,83 +259,127 @@ export function VideoCotizacion({
           </div>
         )}
 
-        {(fase === "permisos" || fase === "conectando") && (
-          <div className="flex h-full flex-col items-center justify-center text-center">
-            <div className="relative grid size-32 place-items-center">
-              <span className="absolute size-28 rounded-full bg-accent/30 animate-pulse-ring" />
-              <span
-                className="absolute size-28 rounded-full bg-accent/30 animate-pulse-ring"
-                style={{ animationDelay: "0.8s" }}
-              />
-              <img
-                src={asesor.foto}
-                alt={asesor.nombre}
-                loading="lazy"
-                width={816}
-                height={816}
-                className="relative size-24 rounded-full object-cover ring-2 ring-white/30"
-              />
-            </div>
-            <p className="mt-6 font-display text-lg font-semibold text-white">
-              {fase === "permisos" ? "Habilitá cámara y micrófono" : `Conectando con ${asesor.nombre}`}
+        {fase === "consentimiento" && (
+          <Consentimiento
+            aviso={s.aviso}
+            textos={s.textos}
+            ocupado={ocupado}
+            onAceptar={(c) => {
+              setOcupado(true);
+              void ctl.aceptarConsentimiento(c).finally(() => setOcupado(false));
+            }}
+            onRechazar={() => void ctl.rechazarConsentimiento()}
+          />
+        )}
+
+        {fase === "camara_denegada" && (
+          <div className="animate-rise" data-testid="camara-denegada">
+            <h2 className="font-display text-2xl font-bold text-white">
+              {s.error?.titulo ?? "Necesitamos tu cámara"}
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-white/75">{s.error?.mensaje}</p>
+            <p className="mt-3 rounded-2xl bg-white/5 p-3 text-xs leading-relaxed text-white/70 ring-1 ring-white/10">
+              Para habilitarlas: tocá el candado o el ícono de cámara al lado de la dirección de la
+              página, permití cámara y micrófono, y empezá de nuevo.
             </p>
-            <p className="mt-1 text-xs text-white/60">{asesor.rubro} · {asesor.tono}</p>
-            <div className="mt-6 flex items-end gap-1">
-              {[0, 0.15, 0.3, 0.45, 0.6].map((d) => (
-                <span
-                  key={d}
-                  className="h-5 w-1 origin-bottom rounded-full bg-accent animate-bar"
-                  style={{ animationDelay: `${d}s` }}
-                />
-              ))}
-            </div>
+            <button
+              onClick={() => ctl.reiniciar()}
+              className="mt-5 h-12 w-full rounded-2xl bg-accent font-display text-sm font-semibold text-brand-dark"
+            >
+              Empezar de nuevo
+            </button>
+            <button
+              onClick={() => void cerrar()}
+              className="mt-2 h-11 w-full rounded-2xl border border-white/25 text-sm font-medium text-white"
+            >
+              Cerrar
+            </button>
           </div>
         )}
 
-        {(fase === "llamada" || fase === "cierre") && (
-          <div className="relative min-h-0 flex-1 overflow-hidden rounded-3xl bg-ink ring-1 ring-white/15">
+        {fase === "error" && s.error && (
+          <div className="animate-rise" data-testid="pantalla-error" role="alert">
+            <h2 className="font-display text-2xl font-bold text-white">{s.error.titulo}</h2>
+            <p data-testid="error-mensaje" className="mt-2 text-sm leading-relaxed text-white/75">
+              {s.error.mensaje}
+            </p>
+            {s.error.idTraza && (
+              <p className="mt-2 text-[10px] text-white/40">Código de soporte: {s.error.idTraza}</p>
+            )}
+            {s.error.reintentable && (
+              <button
+                onClick={() => ctl.reintentar()}
+                data-testid="reintentar"
+                className="mt-5 h-12 w-full rounded-2xl bg-accent font-display text-sm font-semibold text-brand-dark"
+              >
+                Reintentar
+              </button>
+            )}
+            {s.error.accion === "reiniciar" && (
+              <button
+                onClick={() => ctl.reiniciar()}
+                data-testid="reiniciar"
+                className="mt-5 h-12 w-full rounded-2xl bg-accent font-display text-sm font-semibold text-brand-dark"
+              >
+                Empezar de nuevo
+              </button>
+            )}
+            <button
+              onClick={() => void cerrar()}
+              className="mt-2 h-11 w-full rounded-2xl border border-white/25 text-sm font-medium text-white"
+            >
+              Cerrar
+            </button>
+          </div>
+        )}
+
+        {fase === "finalizando" && <Espera titulo="Cerrando la llamada…" />}
+
+        {fase === "resultado" && s.cotizacion && (
+          <Resultado
+            cotizacion={s.cotizacion}
+            derivacion={s.derivacion}
+            onCerrar={() => void cerrar()}
+          />
+        )}
+
+        {fase === "cerrada" && (
+          <CierreSinPresupuesto
+            motivo={s.flujo.motivoCierre}
+            derivacion={s.derivacion}
+            onReiniciar={s.flujo.motivoCierre === "cuota_agotada" ? null : () => ctl.reiniciar()}
+            onCerrar={() => void cerrar()}
+          />
+        )}
+
+        {enLlamadaUI && fase !== "conectando" && (
+          <div
+            className="relative min-h-0 flex-1 overflow-hidden rounded-3xl bg-ink ring-1 ring-white/15"
+            data-testid="llamada"
+          >
             {/* Layout tipo Zoom: asesor izquierda · cámara usuario derecha */}
             <div className="absolute inset-0 flex gap-1.5 p-1.5 landscape:gap-2 landscape:p-2">
               <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl bg-[#1a2e28]">
-                <img
-                  src={asesor.foto}
-                  alt={asesor.nombre}
-                  loading="lazy"
-                  width={816}
-                  height={816}
-                  className={`absolute inset-0 size-full object-cover transition-opacity duration-300 ${
-                    clipSrc && hablandoAvatar ? "opacity-0" : "opacity-100"
-                  }`}
-                />
-                {clipSrc && (
-                  <video
-                    key={clipSrc}
-                    ref={avatarVideoRef}
-                    src={clipSrc}
-                    playsInline
-                    autoPlay
-                    className="absolute inset-0 size-full object-cover"
-                    onEnded={liberarAvatar}
-                    onError={onClipError}
-                  />
-                )}
+                <div ref={avatarRef} className="absolute inset-0" data-testid="avatar" />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/20" />
                 <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-ink/65 px-2.5 py-1 backdrop-blur-sm">
                   <span className="size-1.5 rounded-full bg-online animate-blink" />
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-white">
-                    {asesor.nombre}
+                    {nombreAsesor}
                   </span>
                 </div>
                 <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-end justify-between gap-2">
                   <div className="min-w-0">
                     <p className="truncate font-display text-sm font-semibold text-white drop-shadow">
-                      {asesor.nombre}
+                      {nombreAsesor}
                     </p>
-                    <p className="truncate text-[10px] text-white/70">{asesor.rubro}</p>
+                    <p className="truncate text-[10px] text-white/70">
+                      Asistente automático · {s.enlace?.profesional.nombre_visible}
+                    </p>
                   </div>
                   <span
                     className={`flex shrink-0 items-end gap-0.5 rounded-full bg-ink/55 px-2 py-1.5 ${
-                      hablandoAvatar ? "opacity-100" : "opacity-50"
+                      s.asesorHablando ? "opacity-100" : "opacity-50"
                     }`}
                   >
                     {[0, 0.15, 0.3].map((d) => (
@@ -462,7 +388,7 @@ export function VideoCotizacion({
                         className="h-3.5 w-0.5 origin-bottom rounded-full bg-accent animate-bar"
                         style={{
                           animationDelay: `${d}s`,
-                          animationPlayState: hablandoAvatar ? "running" : "paused",
+                          animationPlayState: s.asesorHablando ? "running" : "paused",
                         }}
                       />
                     ))}
@@ -476,6 +402,7 @@ export function VideoCotizacion({
                   muted
                   playsInline
                   autoPlay
+                  data-testid="mi-camara"
                   className="absolute inset-0 size-full object-cover"
                 />
                 <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-ink/65 px-2.5 py-1 backdrop-blur-sm">
@@ -487,88 +414,150 @@ export function VideoCotizacion({
               </div>
             </div>
 
-            {(datos.length > 0 || presupuesto) && (
-              <div className="absolute left-3 top-12 z-[5] max-w-[min(48%,18rem)] rounded-2xl bg-ink/75 p-2.5 ring-1 ring-white/15 backdrop-blur-md landscape:left-4 landscape:top-14 landscape:max-w-[36%]">
-                {datos.length > 0 && (
-                  <>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-accent">
-                      Datos en vivo
-                    </p>
-                    <div className="mt-1.5 flex flex-wrap gap-1">
-                      {datos.map((d) => (
-                        <span
-                          key={d.etiqueta}
-                          className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/85"
-                        >
-                          {d.etiqueta}: <span className="font-semibold">{d.valor}</span>
-                        </span>
-                      ))}
-                    </div>
-                  </>
-                )}
-                {presupuesto && (
-                  <div className={datos.length > 0 ? "mt-2" : undefined}>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-accent">
-                      Presupuesto estimado
-                    </p>
-                    <div className="mt-1.5 flex flex-wrap gap-1">
-                      <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[10px] font-semibold text-accent">
-                        Total: {presupuesto.total}
-                      </span>
-                      <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/85">
-                        {presupuesto.detalle}
-                      </span>
-                      <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/85">
-                        Plazo: {presupuesto.plazo}
-                      </span>
-                    </div>
-                  </div>
-                )}
+            <PizarronVivo pizarron={s.pizarron} />
+
+            {fase === "reconectando" && (
+              <div
+                role="status"
+                data-testid="reconectando"
+                className="absolute inset-x-3 top-3 z-20 rounded-2xl bg-destructive/85 p-2.5 text-center text-xs font-medium text-white backdrop-blur-md"
+              >
+                Se cortó la conexión. Reintentando
+                {s.reconexion?.intento ? ` (intento ${s.reconexion.intento})` : ""}…
+              </div>
+            )}
+            {s.avisoSesion && (
+              <div
+                role="status"
+                className="absolute inset-x-3 top-3 z-20 rounded-2xl bg-accent p-2 text-center text-[11px] font-semibold text-brand-dark"
+              >
+                {s.avisoSesion.aviso === "sin_voz_proximo" &&
+                  `No te escuchamos. Si seguís en silencio, cortamos en ${s.avisoSesion.segundosRestantes} s.`}
+                {s.avisoSesion.aviso === "duracion_proxima" &&
+                  `La llamada llega al máximo en ${s.avisoSesion.segundosRestantes} s.`}
+                {s.avisoSesion.aviso === "cuota_proxima" &&
+                  `Se está acabando el cupo: quedan ${s.avisoSesion.segundosRestantes} s.`}
+              </div>
+            )}
+            {s.avisoError && !s.avisoSesion && (
+              <div
+                role="status"
+                data-testid="aviso-error"
+                className="absolute inset-x-3 top-3 z-20 rounded-2xl bg-ink/90 p-2 text-center text-[11px] text-white ring-1 ring-white/20"
+              >
+                {s.avisoError}
               </div>
             )}
 
-            {/* Guion flotante: no resta espacio al video; en landscape ≤20% altura */}
-            <div className="absolute bottom-3 right-3 z-10 flex w-[min(17.5rem,46%)] max-h-[38%] flex-col overflow-hidden rounded-2xl bg-ink/80 shadow-lg ring-1 ring-white/20 backdrop-blur-md landscape:bottom-4 landscape:right-4 landscape:max-h-[20%]">
-              <div className="min-h-0 flex-1 space-y-1.5 overflow-y-auto overscroll-contain p-2.5">
-                {turnos.map((t, i) => (
-                  <div key={i} className="animate-rise">
+            {/* Conversación flotante: no resta espacio al video */}
+            <div className="absolute bottom-3 right-3 z-10 flex w-[min(17.5rem,46%)] max-h-[46%] flex-col overflow-hidden rounded-2xl bg-ink/80 shadow-lg ring-1 ring-white/20 backdrop-blur-md landscape:bottom-4 landscape:right-4 landscape:max-h-[34%]">
+              <div
+                data-testid="conversacion"
+                className="min-h-0 flex-1 space-y-1.5 overflow-y-auto overscroll-contain p-2.5"
+              >
+                {s.mensajes.map((m) => (
+                  <div key={m.id} className="animate-rise">
                     <div
                       className={
-                        t.de === "asesor"
+                        m.de === "asesor"
                           ? "max-w-[95%] rounded-xl rounded-tl-sm bg-white/12 px-2.5 py-1.5 text-[11px] leading-snug text-white landscape:text-[10px] landscape:leading-tight landscape:py-1"
                           : "ml-auto max-w-[95%] rounded-xl rounded-tr-sm bg-brand px-2.5 py-1.5 text-[11px] leading-snug text-white landscape:text-[10px] landscape:leading-tight landscape:py-1"
                       }
                     >
-                      {t.texto}
+                      {m.texto}
                     </div>
                   </div>
                 ))}
-                {fase === "cierre" && presupuesto && (
-                  <div className="animate-rise rounded-xl bg-accent p-2.5 text-brand-dark landscape:p-2">
-                    <p className="font-display text-xs font-semibold landscape:text-[11px]">
-                      ¿Arrancamos con este trabajo?
-                    </p>
-                    <p className="mt-0.5 text-[10px] leading-snug text-brand-dark/75 landscape:text-[9px]">
-                      Si confirmás, te llamamos para coordinar la visita.
-                    </p>
-                    <div className="mt-2 flex gap-1.5 landscape:mt-1.5">
-                      <button className="h-8 flex-1 rounded-lg bg-brand-dark text-[11px] font-semibold text-white landscape:h-7 landscape:text-[10px]">
-                        Quiero que me llamen
-                      </button>
-                      <button
-                        onClick={onCerrar}
-                        className="h-8 rounded-lg bg-brand-dark/10 px-2.5 text-[11px] font-medium landscape:h-7 landscape:text-[10px]"
-                      >
-                        Lo pienso
-                      </button>
-                    </div>
+                {s.parcial && (
+                  <div className="ml-auto max-w-[95%] rounded-xl rounded-tr-sm bg-brand/50 px-2.5 py-1.5 text-[11px] italic text-white/80">
+                    {s.parcial}
                   </div>
                 )}
                 <div ref={finRef} />
               </div>
+              <form
+                className="flex gap-1.5 border-t border-white/10 p-1.5"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (ctl.enviarTexto(texto)) setTexto("");
+                }}
+              >
+                <input
+                  value={texto}
+                  onChange={(e) => setTexto(e.target.value)}
+                  maxLength={500}
+                  disabled={fase !== "llamada"}
+                  placeholder={s.escuchando ? "Hablá o escribí…" : "Escribile al asesor…"}
+                  aria-label="Escribile al asesor"
+                  data-testid="texto-cliente"
+                  className="min-w-0 flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-[11px] text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-accent"
+                />
+                <button
+                  type="submit"
+                  disabled={fase !== "llamada" || !texto.trim()}
+                  data-testid="enviar-texto"
+                  className="rounded-lg bg-accent px-2.5 text-[11px] font-semibold text-brand-dark disabled:opacity-40"
+                >
+                  Enviar
+                </button>
+              </form>
             </div>
+
+            <button
+              onClick={() => void ctl.cortar()}
+              data-testid="cortar"
+              className="absolute left-3 bottom-3 z-10 rounded-full bg-destructive px-4 py-2 text-[11px] font-semibold text-white shadow-lg"
+            >
+              Cortar
+            </button>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+function Espera({
+  titulo,
+  detalle,
+  foto,
+}: {
+  titulo: string;
+  detalle?: string | undefined;
+  foto?: string | undefined;
+}) {
+  return (
+    <div className="flex h-full flex-col items-center justify-center text-center" role="status">
+      <div className="relative grid size-32 place-items-center">
+        <span className="absolute size-28 rounded-full bg-accent/30 animate-pulse-ring" />
+        <span
+          className="absolute size-28 rounded-full bg-accent/30 animate-pulse-ring"
+          style={{ animationDelay: "0.8s" }}
+        />
+        {foto ? (
+          <img
+            src={foto}
+            alt=""
+            width={816}
+            height={816}
+            className="relative size-24 rounded-full object-cover ring-2 ring-white/30"
+          />
+        ) : (
+          <span className="relative grid size-24 place-items-center rounded-full bg-white/10 font-display text-2xl font-bold text-accent ring-2 ring-white/30">
+            V©
+          </span>
+        )}
+      </div>
+      <p className="mt-6 font-display text-lg font-semibold text-white">{titulo}</p>
+      {detalle && <p className="mt-1 max-w-[280px] text-xs text-white/60">{detalle}</p>}
+      <div className="mt-6 flex items-end gap-1">
+        {[0, 0.15, 0.3, 0.45, 0.6].map((d) => (
+          <span
+            key={d}
+            className="h-5 w-1 origin-bottom rounded-full bg-accent animate-bar"
+            style={{ animationDelay: `${d}s` }}
+          />
+        ))}
       </div>
     </div>
   );

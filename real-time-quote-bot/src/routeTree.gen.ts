@@ -14,6 +14,7 @@ import { Route as ComoFuncionaRouteImport } from './routes/como-funciona'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as LegalesRouteImport } from './routes/legales'
+import { Route as CIdPublicoRouteImport } from './routes/c.$idPublico'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const LegalesRoute = LegalesRouteImport.update({
   path: '/legales',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CIdPublicoRoute = CIdPublicoRouteImport.update({
+  id: '/c/$idPublico',
+  path: '/c/$idPublico',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/faq': typeof FaqRoute
   '/legales': typeof LegalesRoute
+  '/c/$idPublico': typeof CIdPublicoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/faq': typeof FaqRoute
   '/legales': typeof LegalesRoute
+  '/c/$idPublico': typeof CIdPublicoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,23 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/faq': typeof FaqRoute
   '/legales': typeof LegalesRoute
+  '/c/$idPublico': typeof CIdPublicoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/como-funciona' | '/contacto' | '/faq' | '/legales'
+  fullPaths:
+    '/' | '/como-funciona' | '/contacto' | '/faq' | '/legales' | '/c/$idPublico'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/como-funciona' | '/contacto' | '/faq' | '/legales'
-  id: '__root__' | '/' | '/como-funciona' | '/contacto' | '/faq' | '/legales'
+  to:
+    '/' | '/como-funciona' | '/contacto' | '/faq' | '/legales' | '/c/$idPublico'
+  id:
+    | '__root__'
+    | '/'
+    | '/como-funciona'
+    | '/contacto'
+    | '/faq'
+    | '/legales'
+    | '/c/$idPublico'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +95,7 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   FaqRoute: typeof FaqRoute
   LegalesRoute: typeof LegalesRoute
+  CIdPublicoRoute: typeof CIdPublicoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +135,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LegalesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/c/$idPublico': {
+      id: '/c/$idPublico'
+      path: '/c/$idPublico'
+      fullPath: '/c/$idPublico'
+      preLoaderRoute: typeof CIdPublicoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +151,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   FaqRoute: FaqRoute,
   LegalesRoute: LegalesRoute,
+  CIdPublicoRoute: CIdPublicoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

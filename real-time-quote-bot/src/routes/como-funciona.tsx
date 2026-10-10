@@ -122,7 +122,7 @@ function ComoFunciona() {
           onClick={() => setEnLlamada(true)}
           className="mt-5 h-14 w-full rounded-2xl bg-accent font-display text-base font-semibold text-brand-dark"
         >
-          Iniciar videollamada
+          Iniciar VideoCotización
         </button>
       </div>
 
