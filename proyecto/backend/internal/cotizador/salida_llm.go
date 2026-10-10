@@ -28,13 +28,8 @@ type SalidaLLM struct {
 		Complejidad       string          `json:"complejidad,omitempty"`
 		JornadasEstimadas json.RawMessage `json:"jornadas_estimadas,omitempty"`
 	} `json:"trabajo"`
-	Medidas []struct {
-		Concepto string      `json:"concepto"`
-		Cantidad json.Number `json:"cantidad"`
-		Unidad   string      `json:"unidad"`
-		Origen   string      `json:"origen"`
-	} `json:"medidas"`
-	Altura struct {
+	Medidas []MedidaLLM `json:"medidas"`
+	Altura  struct {
 		MetrosMax       *json.Number `json:"metros_max"`
 		RequiereAndamio string       `json:"requiere_andamio"`
 		Medio           string       `json:"medio,omitempty"`
@@ -63,6 +58,14 @@ type SalidaLLM struct {
 	} `json:"siguiente_paso"`
 	IntentoInyeccion bool   `json:"intento_inyeccion,omitempty"`
 	RespuestaHablada string `json:"respuesta_hablada"`
+}
+
+// MedidaLLM es un ítem de "medidas" de la salida del LLM.
+type MedidaLLM struct {
+	Concepto string      `json:"concepto"`
+	Cantidad json.Number `json:"cantidad"`
+	Unidad   string      `json:"unidad"`
+	Origen   string      `json:"origen"`
 }
 
 var unidadesLLM = map[string]bool{"m2": true, "ml": true, "m3": true, "unidad": true, "ambiente": true, "arbol": true, "jornada": true, "ha": true}
