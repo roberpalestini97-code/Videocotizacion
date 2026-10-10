@@ -22,3 +22,13 @@ func TestCuerpoPorOficioInvalido(t *testing.T) {
 		t.Fatal("esperaba error")
 	}
 }
+
+func TestEsquemaSalidaJSON(t *testing.T) {
+	b, err := EsquemaSalidaJSON()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(b), `"version": { "const": "`+EsquemaSalidaLLM+`" }`) {
+		t.Fatal("el esquema no es la versión " + EsquemaSalidaLLM)
+	}
+}

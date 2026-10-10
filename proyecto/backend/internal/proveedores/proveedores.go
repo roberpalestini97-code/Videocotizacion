@@ -1,14 +1,33 @@
 // Package proveedores define los puertos hacia servicios externos (ADR 0003):
 // transcripción (STT), extracción con LLM, síntesis de voz (TTS) y mensajería
 // (WhatsApp). Las firmas usan tipos propios, nunca tipos del SDK de un
-// proveedor. Los adaptadores reales se eligen en T13; hoy solo hay falsos
-// (paquete falsos), que producción rechaza (corrección H4 de T20).
+// proveedor. Adaptadores (T13): falsos (pruebas; producción los rechaza, H4
+// de T20), navegador (STT y TTS los hace el navegador del cliente), gemini
+// (Extractor) y enlace (Mensajeria: wa.me sin envío).
 //
 // Las firmas son provisorias: el streaming de audio y los eventos de voz se
 // fijan en T25 junto con eventos-sesion.md (que todavía no está congelado).
 package proveedores
 
-import "context"
+import (
+	"context"
+	"errors"
+)
+
+// ErrCuotaProveedor es la causa de un proveedor_no_disponible por cuota o
+// límite de tasa del proveedor (HTTP 429): el orquestador cierra la sesión con
+// cuota_agotada y deriva, en lugar de reintentar sin fin.
+var ErrCuotaProveedor = errors.New("cuota del proveedor agotada")
+
+// ErrVozEnCliente es la causa del error de un adaptador "navegador": la voz
+// (STT y TTS) la hace el navegador del cliente y el servidor no debe pedirla.
+var ErrVozEnCliente = errors.New("la voz la procesa el navegador del cliente")
+
+// VozEnCliente lo implementan los adaptadores cuya voz corre en el navegador.
+// El orquestador no llama a Sintetizar y deriva los visemas del texto.
+type VozEnCliente interface {
+	VozEnCliente() bool
+}
 
 // Audio es un tramo de audio del cliente (PCM 16 bits mono). Nunca se
 // persiste (R43).
@@ -39,6 +58,12 @@ type PedidoExtraccion struct {
 	CuerpoPrompt   string   // instrucción por oficio (conductas/prompts); sin ids de tenant
 	VersionPrompt  string
 	VersionEsquema string
+	// DatosPrevios es la última salida ya validada de la sesión (JSON del
+	// esquema 1.0, sin ids ni datos de contacto): el modelo la actualiza.
+	DatosPrevios []byte
+	// Correccion la arma Go (nunca el cliente) cuando el intento anterior del
+	// mismo turno no validó; el adaptador la agrega como instrucción (ADR 0002 §5).
+	Correccion string
 }
 
 // RespuestaExtraccion es el JSON crudo del modelo; se valida contra el

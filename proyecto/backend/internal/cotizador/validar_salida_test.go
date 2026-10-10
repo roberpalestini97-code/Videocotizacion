@@ -44,11 +44,11 @@ func TestValidarSalidaLLMMontoSoloEnHablada(t *testing.T) {
 func TestValidarSalidaLLMRequeridosYTipos(t *testing.T) {
 	base := string(leerConducta(t, "ejemplos", "01-pintura-interior-pide-medidas.json"))
 	casos := map[string]string{
-		"sin respuesta":        strings.Replace(base, `"respuesta_hablada"`, `"x_respuesta"`, 1),
-		"faltantes ausentes":   strings.Replace(base, `"faltantes"`, `"faltantesX"`, 1),
-		"zona null":            strings.Replace(base, `"zona": {`, `"zona": null, "z": {`, 1),
-		"accion inventada":     strings.Replace(base, `"accion": "preguntar"`, `"accion": "regalar"`, 1),
-		"faltante repetido":    strings.Replace(base, `"estado_superficie"
+		"sin respuesta":      strings.Replace(base, `"respuesta_hablada"`, `"x_respuesta"`, 1),
+		"faltantes ausentes": strings.Replace(base, `"faltantes"`, `"faltantesX"`, 1),
+		"zona null":          strings.Replace(base, `"zona": {`, `"zona": null, "z": {`, 1),
+		"accion inventada":   strings.Replace(base, `"accion": "preguntar"`, `"accion": "regalar"`, 1),
+		"faltante repetido": strings.Replace(base, `"estado_superficie"
   ],`, `"medidas"
   ],`, 1),
 		"cantidad como string": strings.Replace(base, `"medidas": []`, `"medidas": [{"concepto":"living","cantidad":"12","unidad":"m2","origen":"estimado"}]`, 1),
