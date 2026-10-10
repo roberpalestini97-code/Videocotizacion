@@ -93,16 +93,16 @@ func mapaSesionDetalle(s dominio.Sesion, oficio dominio.Oficio, cot *dominio.Cot
 		resumen = fmt.Sprintf("Consulta de %s.", oficio)
 	}
 	out := map[string]any{
-		"sesion_id":    s.ID,
-		"estado":       string(s.Estado),
-		"modo_avatar":  string(s.ModoAvatar),
-		"creada_en":    s.CreadaEn.Format(time.RFC3339),
-		"duracion_s":   s.DuracionS,
-		"resumen":      resumen,
+		"sesion_id":   s.ID,
+		"estado":      string(s.Estado),
+		"modo_avatar": string(s.ModoAvatar),
+		"creada_en":   s.CreadaEn.Format(time.RFC3339),
+		"duracion_s":  s.DuracionS,
+		"resumen":     resumen,
 		"versiones": map[string]any{
-			"tarifas":         tarifas,
-			"prompt":          refPrompt,
-			"esquema_salida":  prompts.EsquemaReferenciaPanel,
+			"tarifas":        tarifas,
+			"prompt":         refPrompt,
+			"esquema_salida": prompts.EsquemaReferenciaPanel,
 		},
 	}
 	if s.ConsentidaEn != nil {
@@ -175,11 +175,11 @@ func datosExtraidosParaDetalle(resps []dominio.RespuestaModelo, cot *dominio.Cot
 
 func mapaDatosExtraidosDesdeCotizacion(cot dominio.Cotizacion) map[string]any {
 	d := map[string]any{
-		"oficio":                  string(cot.Oficio),
-		"zona":                    string(cot.Zona),
-		"fuera_de_zona":           cot.FueraDeZona,
-		"faltantes":               []any{},
-		"corregido_por_cliente":   false,
+		"oficio":                string(cot.Oficio),
+		"zona":                  string(cot.Zona),
+		"fuera_de_zona":         cot.FueraDeZona,
+		"faltantes":             []any{},
+		"corregido_por_cliente": false,
 	}
 	if len(cot.Items) > 0 {
 		d["tarea"] = cot.Items[0].CodigoTarea

@@ -46,7 +46,6 @@ func TestReferenciaAnclaPaisajismoT06(t *testing.T) {
 	}
 }
 
-
 // TestReferenciaNoDependeDelFinDeLinea: un checkout de Windows (CRLF) daba
 // otros hashes que Linux (LF). La referencia debe ser la misma.
 func TestReferenciaNoDependeDelFinDeLinea(t *testing.T) {
