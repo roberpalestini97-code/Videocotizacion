@@ -73,7 +73,13 @@ export function PruebaEquipo({
         </p>
 
         <div className="relative mt-4 aspect-[4/3] overflow-hidden rounded-2xl bg-ink">
-          <video ref={videoRef} autoPlay playsInline muted className="size-full -scale-x-100 object-cover" />
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="size-full -scale-x-100 object-cover"
+          />
           {estado === "pidiendo" && (
             <div className="absolute inset-0 grid place-items-center text-sm text-white/70">
               Pidiendo permiso de cámara y micrófono…
@@ -81,18 +87,29 @@ export function PruebaEquipo({
           )}
           {estado === "error" && (
             <div className="absolute inset-0 grid place-items-center px-6 text-center text-sm text-white/80">
-              No pudimos acceder a la cámara o al micrófono. Revisá los permisos del navegador y volvé a intentar.
+              No pudimos acceder a la cámara o al micrófono. Revisá los permisos del navegador y
+              volvé a intentar.
             </div>
           )}
         </div>
 
         <div className="mt-4 space-y-2">
-          <Fila etiqueta="Cámara" ok={estado === "ok"} texto={estado === "ok" ? "Funciona" : estado === "error" ? "Sin acceso" : "Esperando…"} />
+          <Fila
+            etiqueta="Cámara"
+            ok={estado === "ok"}
+            texto={estado === "ok" ? "Funciona" : estado === "error" ? "Sin acceso" : "Esperando…"}
+          />
           <div className="rounded-xl bg-cream px-3 py-2.5">
             <Fila
               etiqueta="Micrófono"
               ok={micDetectado}
-              texto={estado === "error" ? "Sin acceso" : micDetectado ? "Te escuchamos" : "Decí algo en voz alta"}
+              texto={
+                estado === "error"
+                  ? "Sin acceso"
+                  : micDetectado
+                    ? "Te escuchamos"
+                    : "Decí algo en voz alta"
+              }
               sinFondo
             />
             <div className="mt-2 flex h-5 items-end gap-1">
@@ -119,11 +136,25 @@ export function PruebaEquipo({
   );
 }
 
-function Fila({ etiqueta, ok, texto, sinFondo }: { etiqueta: string; ok: boolean; texto: string; sinFondo?: boolean }) {
+function Fila({
+  etiqueta,
+  ok,
+  texto,
+  sinFondo,
+}: {
+  etiqueta: string;
+  ok: boolean;
+  texto: string;
+  sinFondo?: boolean;
+}) {
   return (
-    <div className={`flex items-center justify-between text-xs ${sinFondo ? "" : "rounded-xl bg-cream px-3 py-2.5"}`}>
+    <div
+      className={`flex items-center justify-between text-xs ${sinFondo ? "" : "rounded-xl bg-cream px-3 py-2.5"}`}
+    >
       <span className="font-medium">{etiqueta}</span>
-      <span className={`flex items-center gap-1.5 ${ok ? "text-brand font-semibold" : "text-ink/50"}`}>
+      <span
+        className={`flex items-center gap-1.5 ${ok ? "text-brand font-semibold" : "text-ink/50"}`}
+      >
         <span className={`size-2 rounded-full ${ok ? "bg-online" : "bg-ink/20"}`} />
         {texto}
       </span>

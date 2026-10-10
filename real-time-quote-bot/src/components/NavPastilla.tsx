@@ -11,13 +11,17 @@ const links = [
 export function NavPastilla({ oscuro = false }: { oscuro?: boolean }) {
   return (
     <div className={oscuro ? "bg-ink px-5 pb-8 pt-2" : "px-5 pb-8"}>
-      <nav className={`flex items-center justify-between rounded-2xl px-4 py-3 ${oscuro ? "border border-white/10 bg-white/5" : "border border-black/5 bg-card"}`}>
+      <nav
+        className={`flex items-center justify-between rounded-2xl px-4 py-3 ${oscuro ? "border border-white/10 bg-white/5" : "border border-black/5 bg-card"}`}
+      >
         {links.map((l) => (
           <Link
             key={l.to}
             to={l.to}
             className={oscuro ? "text-xs text-white/60" : "text-xs text-ink/50"}
-            activeProps={{ className: "text-xs font-semibold " + (oscuro ? "text-accent" : "text-brand") }}
+            activeProps={{
+              className: "text-xs font-semibold " + (oscuro ? "text-accent" : "text-brand"),
+            }}
             activeOptions={{ exact: l.to === "/" }}
           >
             {l.label}
