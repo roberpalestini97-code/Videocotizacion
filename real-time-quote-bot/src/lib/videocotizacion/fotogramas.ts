@@ -117,7 +117,8 @@ export class MuestreadorFotogramas {
     const ahora = this.deps.ahoraMs ?? (() => Date.now());
     this.inicioMs = ahora();
     const si = this.deps.setInterval ?? ((fn, ms) => setInterval(fn, ms));
-    this.id = si(() => void this.tick(), this.regla.intervalo_min_ms);
+    // +150 ms de margen: el reloj del navegador no es exacto y el servidor descarta lo que llegue antes de tiempo.
+    this.id = si(() => void this.tick(), this.regla.intervalo_min_ms + 150);
   }
 
   detener(): void {

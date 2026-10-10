@@ -40,6 +40,7 @@ if (!(await servidorArriba(BASE))) {
   vite = spawn("npx", ["vite", "dev", "--port", "5173", "--host", "localhost"], {
     env: { ...process.env, VITE_VC_MOCK: "1" },
     stdio: "ignore",
+    detached: true, // grupo propio: así se cierra también el proceso hijo de npx
   });
   for (let i = 0; i < 60 && !(await servidorArriba(BASE)); i++)
     await new Promise((r) => setTimeout(r, 500));
@@ -233,7 +234,7 @@ try {
     );
     const gaps = fr.slice(1).map((f, i) => f.t - fr[i].t);
     ok(
-      gaps.every((g) => g >= 2800),
+      gaps.every((g) => g >= 2950),
       `separados ≥ 3 s (intervalos: ${gaps.map((g) => (g / 1000).toFixed(1)).join(", ")} s)`,
     );
     ok(
@@ -478,7 +479,7 @@ try {
 } finally {
   await browser.close();
   await mock.cerrar();
-  vite?.kill();
+  if (vite?.pid) process.kill(-vite.pid);
 }
 
 const fallas = resultados.filter((r) => !r.ok).length;
