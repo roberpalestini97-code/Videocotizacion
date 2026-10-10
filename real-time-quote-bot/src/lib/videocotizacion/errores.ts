@@ -31,12 +31,14 @@ export const MENSAJES_ERROR: Record<string, string> = {
   contacto_ya_registrado: "Ya dejaste tus datos de contacto para esta consulta.",
   limite_de_tasa: "Hiciste muchos pedidos seguidos. Esperá un momento.",
   cuota_agotada: "Por ahora no hay cupo para videocotizaciones. Escribinos por WhatsApp.",
-  simultaneas_agotadas: "En este momento hay muchas videocotizaciones en curso. Probá en unos minutos.",
+  simultaneas_agotadas:
+    "En este momento hay muchas videocotizaciones en curso. Probá en unos minutos.",
   intentos_excedidos: "Hubo demasiados intentos. Esperá antes de volver a probar.",
   limite_lecturas_contacto: "Llegaste al límite diario de lecturas de contactos.",
   error_interno: "Tuvimos un problema. Intentá de nuevo más tarde.",
   proveedor_no_disponible: "Un servicio que usamos no responde. Intentá de nuevo en unos minutos.",
-  servicio_no_disponible: "El servicio no está disponible en este momento.",};
+  servicio_no_disponible: "El servicio no está disponible en este momento.",
+};
 
 /** Errores propios del cliente (no vienen del servidor). */
 export type CodigoLocal =
@@ -71,7 +73,11 @@ export class ErrorVC extends Error {
   }
 }
 
-export function desdeProblema(p: Partial<ProblemaError>, status: number, reintentarHeader?: number): ErrorVC {
+export function desdeProblema(
+  p: Partial<ProblemaError>,
+  status: number,
+  reintentarHeader?: number,
+): ErrorVC {
   const codigo = (p.codigo ?? (status >= 500 ? "error_interno" : "solicitud_invalida")) as CodigoVC;
   const opc: ConstructorParameters<typeof ErrorVC>[1] = { status };
   if (p.id_traza) opc.idTraza = p.id_traza;
@@ -97,7 +103,8 @@ export type ErrorParaUsuario = {
 const LOCALES: Record<CodigoLocal, { titulo: string; mensaje: string; accion: AccionError }> = {
   red: {
     titulo: "Sin conexión",
-    mensaje: "No pudimos comunicarnos con el servicio. Revisá tu conexión a internet e intentá de nuevo.",
+    mensaje:
+      "No pudimos comunicarnos con el servicio. Revisá tu conexión a internet e intentá de nuevo.",
     accion: "reintentar",
   },
   tiempo_agotado: {
@@ -190,13 +197,11 @@ const MENSAJE_PROPIO: Partial<Record<string, string>> = {
   cuota_agotada:
     "Por ahora no hay cupo para videocotizaciones. Escribile directamente a tu profesional por WhatsApp.",
   sesion_vencida: "Tu sesión venció. Empecemos de nuevo.",
-  desafio_invalido: "No pudimos verificar el navegador. Reintentá y, si sigue pasando, recargá la página.",
+  desafio_invalido:
+    "No pudimos verificar el navegador. Reintentá y, si sigue pasando, recargá la página.",
 };
 
-export function mensajeError(
-  err: unknown,
-  textos?: Record<string, string>,
-): ErrorParaUsuario {
+export function mensajeError(err: unknown, textos?: Record<string, string>): ErrorParaUsuario {
   const e = err instanceof ErrorVC ? err : new ErrorVC("red");
   const local = (LOCALES as Record<string, (typeof LOCALES)[CodigoLocal] | undefined>)[e.codigo];
   let res: ErrorParaUsuario;

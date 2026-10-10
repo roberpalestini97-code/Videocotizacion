@@ -23,7 +23,8 @@ export type SocketLike = {
   onerror: ((ev: unknown) => void) | null;
 };
 
-export type EstadoMedios = "inactivo" | "conectando" | "lista" | "reconectando" | "cerrada" | "fallida";
+export type EstadoMedios =
+  "inactivo" | "conectando" | "lista" | "reconectando" | "cerrada" | "fallida";
 
 export type DetalleEstado = { intento: number; proximoEnMs?: number; error?: ErrorVC };
 
@@ -106,7 +107,9 @@ export class SesionMedios {
     }
     if (this.cerrandoYo) return;
     if (tok.protocolo_eventos !== PROTOCOLO || !urlSocketPermitida(tok.ws_url)) {
-      return this.fallar(new ErrorVC("ws_fallido", { mensaje: "protocolo o URL de socket no permitidos" }));
+      return this.fallar(
+        new ErrorVC("ws_fallido", { mensaje: "protocolo o URL de socket no permitidos" }),
+      );
     }
     let s: SocketLike;
     try {
@@ -121,7 +124,9 @@ export class SesionMedios {
 
     s.onopen = () => {
       if (this.socket !== s) return;
-      s.send(crearEventoCliente("sesion.autenticar", { token_medios: tok.token }, this.seq.siguiente()));
+      s.send(
+        crearEventoCliente("sesion.autenticar", { token_medios: tok.token }, this.seq.siguiente()),
+      );
       this.timerAuth = setTimeout(() => {
         if (this.socket === s && this.estado !== "lista") s.close(4408, "sin sesion.lista");
       }, this.tiempoAuth);
@@ -200,7 +205,10 @@ export class SesionMedios {
 
   // ---------- envío ----------
 
-  private enviarJson(tipo: Parameters<typeof crearEventoCliente>[0], datos: Record<string, unknown>): boolean {
+  private enviarJson(
+    tipo: Parameters<typeof crearEventoCliente>[0],
+    datos: Record<string, unknown>,
+  ): boolean {
     if (!this.lista || !this.socket) return false;
     this.socket.send(crearEventoCliente(tipo, datos, this.seq.siguiente()));
     return true;
@@ -228,7 +236,9 @@ export class SesionMedios {
     const s = this.socket;
     if (s && s.readyState === ABIERTO) {
       try {
-        s.send(crearEventoCliente("sesion.cerrar", { motivo: "cliente_cerro" }, this.seq.siguiente()));
+        s.send(
+          crearEventoCliente("sesion.cerrar", { motivo: "cliente_cerro" }, this.seq.siguiente()),
+        );
         s.close(1000, "cliente_cerro");
       } catch {
         /* ignorar */

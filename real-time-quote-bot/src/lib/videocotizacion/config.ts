@@ -35,7 +35,8 @@ export function leerConfig(env: EntornoVite = import.meta.env as EntornoVite): C
 /** Devuelve el motivo por el que la configuración no sirve, o null si está completa. */
 export function validarConfig(c: ConfigVC): string | null {
   if (!c.apiBase) return "Falta VITE_VC_API_BASE (URL del backend).";
-  if (!/^https?:\/\//.test(c.apiBase)) return "VITE_VC_API_BASE tiene que empezar con http:// o https://.";
+  if (!/^https?:\/\//.test(c.apiBase))
+    return "VITE_VC_API_BASE tiene que empezar con http:// o https://.";
   if (!c.clavePublica) return "Falta VITE_VC_CLAVE_PUBLICA (clave pública del widget).";
   if (c.clavePublica.startsWith("vc_sec_")) {
     return "VITE_VC_CLAVE_PUBLICA es una clave SECRETA: no puede ir en el navegador.";

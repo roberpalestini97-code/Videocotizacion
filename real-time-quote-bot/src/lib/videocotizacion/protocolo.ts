@@ -9,8 +9,13 @@ export const PROTOCOLO = "vc-eventos.borrador.1";
 
 /** Sin `<`, `>` ni control (mismo patrón de los esquemas). Reemplaza por espacio. */
 export function limpiarTexto(t: string): string {
-  // eslint-disable-next-line no-control-regex
-  return t.replace(/[<>\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, " ").replace(/\s+/g, " ").trim();
+  return (
+    t
+      // eslint-disable-next-line no-control-regex
+      .replace(/[<>\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+  );
 }
 
 export class Secuenciador {
@@ -32,7 +37,21 @@ export function crearEventoCliente(
 }
 
 const VISEMAS: ReadonlySet<string> = new Set([
-  "sil", "PP", "FF", "TH", "DD", "kk", "CH", "SS", "nn", "RR", "aa", "E", "I", "O", "U",
+  "sil",
+  "PP",
+  "FF",
+  "TH",
+  "DD",
+  "kk",
+  "CH",
+  "SS",
+  "nn",
+  "RR",
+  "aa",
+  "E",
+  "I",
+  "O",
+  "U",
 ]);
 
 function esObjeto(x: unknown): x is Record<string, unknown> {
@@ -57,7 +76,14 @@ export function parsearEventoServidor(crudo: string): EventoServidor | null {
   } catch {
     return null;
   }
-  if (!esObjeto(o) || o["v"] !== 1 || !esTexto(o["tipo"]) || !esEntero(o["seq"]) || !esTexto(o["ts"])) return null;
+  if (
+    !esObjeto(o) ||
+    o["v"] !== 1 ||
+    !esTexto(o["tipo"]) ||
+    !esEntero(o["seq"]) ||
+    !esTexto(o["ts"])
+  )
+    return null;
   const d = o["datos"];
   if (!esObjeto(d)) return null;
   const base = { v: 1 as const, seq: o["seq"], ts: o["ts"] };
@@ -69,21 +95,32 @@ export function parsearEventoServidor(crudo: string): EventoServidor | null {
     case "transcripcion.parcial":
     case "transcripcion.final":
       if (!esEntero(d["turno"]) || !esTexto(d["texto"])) return null;
-      return { ...base, tipo: o["tipo"], datos: { turno: d["turno"], texto: limpiarTexto(d["texto"]) } };
+      return {
+        ...base,
+        tipo: o["tipo"],
+        datos: { turno: d["turno"], texto: limpiarTexto(d["texto"]) },
+      };
     case "avatar.respuesta": {
       if (!esEntero(d["turno"]) || !esTexto(d["texto"])) return null;
       const datos: { turno: number; texto: string; clip_id?: string } = {
         turno: d["turno"],
         texto: limpiarTexto(d["texto"]),
       };
-      if (esTexto(d["clip_id"]) && /^clip_[a-z0-9_]{2,40}$/.test(d["clip_id"])) datos.clip_id = d["clip_id"];
+      if (esTexto(d["clip_id"]) && /^clip_[a-z0-9_]{2,40}$/.test(d["clip_id"]))
+        datos.clip_id = d["clip_id"];
       return { ...base, tipo: "avatar.respuesta", datos };
     }
     case "avatar.visemas": {
       if (!esEntero(d["turno"]) || !Array.isArray(d["items"])) return null;
       const items: ItemVisema[] = [];
       for (const it of d["items"].slice(0, 2000)) {
-        if (!esObjeto(it) || !esTexto(it["v"]) || !VISEMAS.has(it["v"]) || !esEntero(it["t_ms"]) || !esEntero(it["d_ms"]))
+        if (
+          !esObjeto(it) ||
+          !esTexto(it["v"]) ||
+          !VISEMAS.has(it["v"]) ||
+          !esEntero(it["t_ms"]) ||
+          !esEntero(it["d_ms"])
+        )
           continue;
         items.push({ v: it["v"] as Visema, t_ms: it["t_ms"], d_ms: it["d_ms"] });
       }
@@ -93,9 +130,11 @@ export function parsearEventoServidor(crudo: string): EventoServidor | null {
       if (!esEntero(d["version"]) || !Array.isArray(d["campos"])) return null;
       const campos: CampoPizarron[] = [];
       for (const c of d["campos"].slice(0, 40)) {
-        if (!esObjeto(c) || !esTexto(c["clave"]) || !esTexto(c["etiqueta"]) || !esTexto(c["valor"])) continue;
+        if (!esObjeto(c) || !esTexto(c["clave"]) || !esTexto(c["etiqueta"]) || !esTexto(c["valor"]))
+          continue;
         const estado = c["estado"];
-        if (estado !== "anotado" && estado !== "corregido_por_cliente" && estado !== "faltante") continue;
+        if (estado !== "anotado" && estado !== "corregido_por_cliente" && estado !== "faltante")
+          continue;
         campos.push({
           clave: c["clave"],
           etiqueta: limpiarTexto(c["etiqueta"]),
@@ -106,22 +145,32 @@ export function parsearEventoServidor(crudo: string): EventoServidor | null {
       return { ...base, tipo: "pizarron.actualizado", datos: { version: d["version"], campos } };
     }
     case "camara.fotograma":
-      if (!esEntero(d["seq_fotograma"]) || (d["resultado"] !== "aceptado" && d["resultado"] !== "descartado")) return null;
+      if (
+        !esEntero(d["seq_fotograma"]) ||
+        (d["resultado"] !== "aceptado" && d["resultado"] !== "descartado")
+      )
+        return null;
       return { ...base, tipo: "camara.fotograma", datos: d as never };
     case "sesion.aviso":
       if (!esTexto(d["aviso"]) || !esEntero(d["segundos_restantes"])) return null;
       return { ...base, tipo: "sesion.aviso", datos: d as never };
     case "cotizacion.emitida":
       if (!esObjeto(d["cotizacion"]) || !esObjeto(d["derivacion"])) return null;
-      if (!esEntero(d["cotizacion"]["total_centavos"]) || !Array.isArray(d["cotizacion"]["items"])) return null;
-      if (!esTexto(d["derivacion"]["url_wa_me"]) || !esTexto(d["derivacion"]["codigo_referencia"])) return null;
+      if (!esEntero(d["cotizacion"]["total_centavos"]) || !Array.isArray(d["cotizacion"]["items"]))
+        return null;
+      if (!esTexto(d["derivacion"]["url_wa_me"]) || !esTexto(d["derivacion"]["codigo_referencia"]))
+        return null;
       return { ...base, tipo: "cotizacion.emitida", datos: d as never };
     case "sesion.cerrada":
       if (!esTexto(d["motivo_cierre"]) || !esEntero(d["duracion_s"])) return null;
       return { ...base, tipo: "sesion.cerrada", datos: d as never };
     case "error":
       if (!esTexto(d["codigo"]) || !esTexto(d["mensaje"])) return null;
-      return { ...base, tipo: "error", datos: { codigo: d["codigo"], mensaje: limpiarTexto(d["mensaje"]) } };
+      return {
+        ...base,
+        tipo: "error",
+        datos: { codigo: d["codigo"], mensaje: limpiarTexto(d["mensaje"]) },
+      };
     default:
       return null;
   }

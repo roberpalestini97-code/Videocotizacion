@@ -31,7 +31,9 @@ class SocketFalso implements SocketLike {
     this.onopen?.({});
   }
   recibir(tipo: string, datos: unknown = {}) {
-    this.onmessage?.({ data: JSON.stringify({ v: 1, tipo, seq: 0, ts: "2026-10-10T12:00:00Z", datos }) });
+    this.onmessage?.({
+      data: JSON.stringify({ v: 1, tipo, seq: 0, ts: "2026-10-10T12:00:00Z", datos }),
+    });
   }
   lista() {
     this.recibir("sesion.lista", { sesion_id: ID_SESION, limites: {} });
@@ -54,7 +56,12 @@ const token = (): TokenMedios =>
   }) as TokenMedios;
 
 function armar(over: Partial<ConstructorParameters<typeof SesionMedios>[0]> = {}) {
-  const estados: { e: EstadoMedios; intento: number; proximoEnMs?: number | undefined; error?: ErrorVC | undefined }[] = [];
+  const estados: {
+    e: EstadoMedios;
+    intento: number;
+    proximoEnMs?: number | undefined;
+    error?: ErrorVC | undefined;
+  }[] = [];
   const eventos: EventoServidor[] = [];
   const obtenerToken = vi.fn(async () => token());
   const s = new SesionMedios({
@@ -65,7 +72,13 @@ function armar(over: Partial<ConstructorParameters<typeof SesionMedios>[0]> = {}
     random: () => 0.5, // jitter 0
     ...over,
   });
-  return { s, estados, eventos, obtenerToken, ultimo: () => SocketFalso.todos[SocketFalso.todos.length - 1]! };
+  return {
+    s,
+    estados,
+    eventos,
+    obtenerToken,
+    ultimo: () => SocketFalso.todos[SocketFalso.todos.length - 1]!,
+  };
 }
 const nombres = (a: { e: EstadoMedios }[]) => a.map((x) => x.e);
 
@@ -253,13 +266,18 @@ describe("SesionMedios", () => {
   });
 
   it("no abre un socket ws:// remoto ni con otro protocolo", async () => {
-    const mal = { ...token(), ws_url: `ws://evil.test/v1/sesiones/${ID_SESION}/medios` } as TokenMedios;
+    const mal = {
+      ...token(),
+      ws_url: `ws://evil.test/v1/sesiones/${ID_SESION}/medios`,
+    } as TokenMedios;
     const a = armar({ obtenerToken: async () => mal });
     a.s.conectar();
     await vi.advanceTimersByTimeAsync(0);
     expect(a.estados.at(-1)?.e).toBe("fallida");
     expect(SocketFalso.todos).toHaveLength(0);
-    const b = armar({ obtenerToken: async () => ({ ...token(), protocolo_eventos: "otro" }) as never });
+    const b = armar({
+      obtenerToken: async () => ({ ...token(), protocolo_eventos: "otro" }) as never,
+    });
     b.s.conectar();
     await vi.advanceTimersByTimeAsync(0);
     expect(b.estados.at(-1)?.e).toBe("fallida");
@@ -273,7 +291,10 @@ describe("SesionMedios", () => {
     ws.abrir();
     ws.lista();
     s.cerrar();
-    expect(JSON.parse(ws.enviados.at(-1) as string)).toMatchObject({ tipo: "sesion.cerrar", datos: { motivo: "cliente_cerro" } });
+    expect(JSON.parse(ws.enviados.at(-1) as string)).toMatchObject({
+      tipo: "sesion.cerrar",
+      datos: { motivo: "cliente_cerro" },
+    });
     expect(ws.cierres[0]?.codigo).toBe(1000);
     ws.caer(1000);
     expect(estados.at(-1)?.e).toBe("cerrada");

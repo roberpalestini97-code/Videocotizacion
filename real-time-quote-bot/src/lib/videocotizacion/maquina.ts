@@ -71,7 +71,10 @@ export function transicion(s: EstadoFlujo, e: EventoFlujo): EstadoFlujo {
   const { fase } = s;
   if (e.t === "CERRAR") return ESTADO_INICIAL;
   if (e.t === "REINICIAR") {
-    return fase === "error" || fase === "camara_denegada" || fase === "cerrada" || fase === "resultado"
+    return fase === "error" ||
+      fase === "camara_denegada" ||
+      fase === "cerrada" ||
+      fase === "resultado"
       ? { fase: "cargando_enlace" }
       : s;
   }
@@ -87,13 +90,16 @@ export function transicion(s: EstadoFlujo, e: EventoFlujo): EstadoFlujo {
     case "ACEPTA":
       return fase === "consentimiento" ? { fase: "camara" } : s;
     case "RECHAZA":
-      return fase === "consentimiento" ? { fase: "cerrada", motivoCierre: "sin_consentimiento" } : s;
+      return fase === "consentimiento"
+        ? { fase: "cerrada", motivoCierre: "sin_consentimiento" }
+        : s;
     case "CAMARA_OK":
       return fase === "camara" ? { fase: "conectando" } : s;
     case "CAMARA_DENEGADA":
       return fase === "camara" ? { fase: "camara_denegada", motivoCierre: "sin_camara" } : s;
     case "FALLO":
-      if (fase === "error" || fase === "inactiva" || fase === "resultado" || fase === "cerrada") return s;
+      if (fase === "error" || fase === "inactiva" || fase === "resultado" || fase === "cerrada")
+        return s;
       return { fase: "error", falloEn: fase };
     case "MEDIOS_LISTOS":
       return fase === "conectando" ? { fase: "llamada" } : s;
@@ -107,7 +113,9 @@ export function transicion(s: EstadoFlujo, e: EventoFlujo): EstadoFlujo {
       if (fase === "resultado") return { ...s, motivoCierre: e.motivo };
       return FASES_EN_LLAMADA.has(fase) ? { fase: "finalizando", motivoCierre: e.motivo } : s;
     case "CLIENTE_CORTA":
-      return FASES_EN_LLAMADA.has(fase) ? { fase: "finalizando", motivoCierre: "cliente_cerro" } : s;
+      return FASES_EN_LLAMADA.has(fase)
+        ? { fase: "finalizando", motivoCierre: "cliente_cerro" }
+        : s;
     case "FIN_CIERRE": {
       if (fase !== "finalizando") return s;
       return { fase: "cerrada", ...(s.motivoCierre ? { motivoCierre: s.motivoCierre } : {}) };

@@ -87,7 +87,9 @@ export type Dependencias = {
   >;
   /** Pide cámara + micrófono. Rechaza con DOMException (NotAllowedError, NotFoundError…). */
   pedirMedios: () => Promise<MediaStream>;
-  crearMedios: (o: OpcionesMedios) => Pick<
+  crearMedios: (
+    o: OpcionesMedios,
+  ) => Pick<
     SesionMedios,
     "conectar" | "cerrar" | "enviarTexto" | "enviarTrama" | "corregirPizarron"
   >;
@@ -265,7 +267,12 @@ export class ControladorVC {
   async aceptarConsentimiento(c: ConsentimientoUI): Promise<void> {
     const { sesion, flujo } = this.estado;
     if (flujo.fase !== "consentimiento" || !sesion) return;
-    if (!(c.acepta_camara_y_microfono && c.acepta_tratamiento && c.declara_mayor_de_18 && c.informado_asistente_automatico)) {
+    if (!(
+      c.acepta_camara_y_microfono &&
+      c.acepta_tratamiento &&
+      c.declara_mayor_de_18 &&
+      c.informado_asistente_automatico
+    )) {
       return; // el contrato exige los cuatro en true
     }
     const g = this.generacion;
@@ -302,12 +309,17 @@ export class ControladorVC {
         stream.getTracks().forEach((t) => t.stop());
         return;
       }
-      if (stream.getVideoTracks().length === 0) throw new DOMException("sin video", "NotFoundError");
+      if (stream.getVideoTracks().length === 0)
+        throw new DOMException("sin video", "NotFoundError");
       this.stream = stream;
       stream.getVideoTracks().forEach((t) => {
         t.onended = () => {
           // Si la cámara se corta en plena llamada, no se sigue sin cámara.
-          if (this.stream === stream && !this.cierreSolicitado && this.estado.flujo.fase !== "resultado") {
+          if (
+            this.stream === stream &&
+            !this.cierreSolicitado &&
+            this.estado.flujo.fase !== "resultado"
+          ) {
             void this.cortarPorCamara();
           }
         };
@@ -318,7 +330,11 @@ export class ControladorVC {
     } catch (e) {
       if (!this.vigente(g)) return;
       const nombre = e instanceof DOMException || e instanceof Error ? e.name : "";
-      if (nombre === "NotFoundError" || nombre === "OverconstrainedError" || nombre === "NotReadableError") {
+      if (
+        nombre === "NotFoundError" ||
+        nombre === "OverconstrainedError" ||
+        nombre === "NotReadableError"
+      ) {
         this.fallar(new ErrorVC("camara_no_disponible"));
         await this.cerrarEnServidor("sin_camara");
       } else {
@@ -336,6 +352,11 @@ export class ControladorVC {
     await this.finalizar("sin_camara");
   }
 
+  /** El avatar enchufado (placeholder 2D o el de la tarea 5): la UI lo monta en su contenedor. */
+  get avatarPuerto(): AvatarPuerto {
+    return this.d.avatar;
+  }
+
   get streamActual(): MediaStream | null {
     return this.stream;
   }
@@ -347,7 +368,8 @@ export class ControladorVC {
     if (!sesion) return;
     const regla = limites?.fotograma ?? REGLA_POR_DEFECTO;
     const medios = this.d.crearMedios({
-      obtenerToken: () => this.d.cliente.emitirTokenMedios(sesion.sesion_id, sesion.token_sesion.valor),
+      obtenerToken: () =>
+        this.d.cliente.emitirTokenMedios(sesion.sesion_id, sesion.token_sesion.valor),
       onEvento: (e) => {
         if (this.vigente(g)) this.alEvento(e);
       },
@@ -366,7 +388,10 @@ export class ControladorVC {
         } else if (est === "reconectando") {
           this.pararMuestreo();
           this.set({
-            reconexion: { intento: det.intento, ...(det.proximoEnMs !== undefined ? { proximoEnMs: det.proximoEnMs } : {}) },
+            reconexion: {
+              intento: det.intento,
+              ...(det.proximoEnMs !== undefined ? { proximoEnMs: det.proximoEnMs } : {}),
+            },
           });
           this.ir({ t: "MEDIOS_PERDIDOS" });
         } else if (est === "fallida") {
@@ -398,7 +423,8 @@ export class ControladorVC {
         break;
       case "transcripcion.final":
         // Si ya mostramos ese texto (lo mandamos nosotros), no se duplica.
-        if (limpiarTexto(e.datos.texto) !== this.ultimoTextoCliente) this.agregarMensaje("cliente", e.datos.texto);
+        if (limpiarTexto(e.datos.texto) !== this.ultimoTextoCliente)
+          this.agregarMensaje("cliente", e.datos.texto);
         this.set({ parcial: "" });
         break;
       case "avatar.respuesta":
@@ -409,7 +435,9 @@ export class ControladorVC {
         this.d.avatar.aplicarVisemas(e.datos.turno, e.datos.items);
         break;
       case "pizarron.actualizado":
-        this.set({ pizarron: aplicarPizarron(this.estado.pizarron, e.datos.version, e.datos.campos) });
+        this.set({
+          pizarron: aplicarPizarron(this.estado.pizarron, e.datos.version, e.datos.campos),
+        });
         break;
       case "camara.fotograma": {
         const f = this.estado.fotogramas;
@@ -423,7 +451,9 @@ export class ControladorVC {
         break;
       }
       case "sesion.aviso":
-        this.set({ avisoSesion: { aviso: e.datos.aviso, segundosRestantes: e.datos.segundos_restantes } });
+        this.set({
+          avisoSesion: { aviso: e.datos.aviso, segundosRestantes: e.datos.segundos_restantes },
+        });
         break;
       case "cotizacion.emitida":
         // El precio aparece solo acá, al final.
@@ -434,7 +464,10 @@ export class ControladorVC {
         void this.finalizar(e.datos.motivo_cierre);
         break;
       case "error":
-        this.set({ avisoError: mensajeError(new ErrorVC(e.datos.codigo as never), this.estado.textos).mensaje });
+        this.set({
+          avisoError: mensajeError(new ErrorVC(e.datos.codigo as never), this.estado.textos)
+            .mensaje,
+        });
         break;
     }
   }
@@ -444,7 +477,9 @@ export class ControladorVC {
   private agregarMensaje(de: Mensaje["de"], texto: string) {
     const t = limpiarTexto(texto);
     if (!t) return;
-    this.set({ mensajes: [...this.estado.mensajes, { id: ++this.idMensaje, de, texto: t }].slice(-60) });
+    this.set({
+      mensajes: [...this.estado.mensajes, { id: ++this.idMensaje, de, texto: t }].slice(-60),
+    });
   }
 
   private hablar(turno: number, texto: string, clipId?: string) {
@@ -525,7 +560,9 @@ export class ControladorVC {
 
   private pararReloj() {
     if (this.reloj === null) return;
-    (this.d.clearInterval ?? ((i) => clearInterval(i as ReturnType<typeof setInterval>)))(this.reloj);
+    (this.d.clearInterval ?? ((i) => clearInterval(i as ReturnType<typeof setInterval>)))(
+      this.reloj,
+    );
     this.reloj = null;
   }
 
@@ -552,7 +589,8 @@ export class ControladorVC {
   async cerrarVentana(): Promise<void> {
     const fase = this.estado.flujo.fase;
     const abierta =
-      ["consentimiento", "camara", "conectando", "llamada", "reconectando"].includes(fase) && !this.cierreSolicitado;
+      ["consentimiento", "camara", "conectando", "llamada", "reconectando"].includes(fase) &&
+      !this.cierreSolicitado;
     this.cierreSolicitado = true;
     this.medios?.cerrar();
     if (abierta) await this.cerrarEnServidor("cliente_cerro");
@@ -592,7 +630,10 @@ export class ControladorVC {
     this.generacion++;
     const g = this.generacion;
     const id = this.idPublico;
-    this.estado = { ...ESTADO_NUEVO(this.d.reconocedor.disponible()), textos: this.estado.textos ?? {} };
+    this.estado = {
+      ...ESTADO_NUEVO(this.d.reconocedor.disponible()),
+      textos: this.estado.textos ?? {},
+    };
     this.cierreSolicitado = false;
     this.yaFueLista = false;
     this.set({ flujo: { fase: "cargando_enlace" } });

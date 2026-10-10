@@ -61,7 +61,9 @@ export class ClienteVC {
   }
 
   private async pedir<T>(p: Pedido): Promise<T> {
-    const encabezados: Record<string, string> = { Accept: "application/json, application/problem+json" };
+    const encabezados: Record<string, string> = {
+      Accept: "application/json, application/problem+json",
+    };
     if (p.cuerpo !== undefined) encabezados["Content-Type"] = "application/json";
     if (p.token) encabezados["Authorization"] = `Bearer ${p.token}`;
     else encabezados["X-VC-Clave-Publica"] = this.clavePublica;
@@ -99,7 +101,11 @@ export class ClienteVC {
     if (!resp.ok) {
       const espera = Number(resp.headers.get("Retry-After"));
       const problema = (json && typeof json === "object" ? json : {}) as Record<string, unknown>;
-      throw desdeProblema(problema, resp.status, Number.isFinite(espera) && espera > 0 ? espera : undefined);
+      throw desdeProblema(
+        problema,
+        resp.status,
+        Number.isFinite(espera) && espera > 0 ? espera : undefined,
+      );
     }
     if (json === undefined || json === null || typeof json !== "object") {
       throw new ErrorVC("respuesta_invalida", { status: resp.status });
@@ -108,7 +114,8 @@ export class ClienteVC {
   }
 
   leerEnlace(idPublico: string): Promise<EnlacePublico> {
-    if (!ID_PUBLICO.test(idPublico)) return Promise.reject(new ErrorVC("no_encontrado", { status: 404 }));
+    if (!ID_PUBLICO.test(idPublico))
+      return Promise.reject(new ErrorVC("no_encontrado", { status: 404 }));
     return this.pedir<EnlacePublico>({ metodo: "GET", ruta: `/v1/widget/enlaces/${idPublico}` });
   }
 
@@ -147,7 +154,12 @@ export class ClienteVC {
     token: string,
     c: ConsentimientoSolicitud,
   ): Promise<ConsentimientoRegistrado> {
-    return this.pedir({ metodo: "POST", ruta: this.rutaSesion(sesionId, "/consentimiento"), cuerpo: c, token });
+    return this.pedir({
+      metodo: "POST",
+      ruta: this.rutaSesion(sesionId, "/consentimiento"),
+      cuerpo: c,
+      token,
+    });
   }
 
   emitirTokenMedios(sesionId: string, token: string): Promise<TokenMedios> {
@@ -155,7 +167,12 @@ export class ClienteVC {
   }
 
   cerrarSesion(sesionId: string, token: string, c: CierreSolicitud): Promise<CierreSesion> {
-    return this.pedir({ metodo: "POST", ruta: this.rutaSesion(sesionId, "/cierre"), cuerpo: c, token });
+    return this.pedir({
+      metodo: "POST",
+      ruta: this.rutaSesion(sesionId, "/cierre"),
+      cuerpo: c,
+      token,
+    });
   }
 
   leerCotizacion(sesionId: string, token: string): Promise<Cotizacion> {

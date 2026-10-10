@@ -26,7 +26,11 @@ export class VozNavegador implements Voz {
   constructor(private readonly lang = "es-AR") {}
 
   disponible(): boolean {
-    return typeof window !== "undefined" && "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+    return (
+      typeof window !== "undefined" &&
+      "speechSynthesis" in window &&
+      "SpeechSynthesisUtterance" in window
+    );
   }
 
   private elegirVoz(): SpeechSynthesisVoice | undefined {
@@ -117,8 +121,7 @@ function constructorReconocimiento(): (new () => SpeechRecognitionLike) | null {
   if (typeof window === "undefined") return null;
   const w = window as unknown as Record<string, unknown>;
   return (w["SpeechRecognition"] ?? w["webkitSpeechRecognition"] ?? null) as
-    | (new () => SpeechRecognitionLike)
-    | null;
+    (new () => SpeechRecognitionLike) | null;
 }
 
 export class ReconocedorNavegador implements Reconocedor {

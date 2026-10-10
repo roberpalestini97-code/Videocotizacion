@@ -46,10 +46,14 @@ describe("codificación dentro de límites (≤1024 px, ≤128 KiB)", () => {
     expect(r!.ancho).toBeLessThanOrEqual(700);
   });
   it("si nunca entra, devuelve null (jamás se manda un cuadro fuera de límite)", async () => {
-    expect(await codificarDentroDeLimites(1920, 1080, REGLA_POR_DEFECTO, async () => jpeg(500_000))).toBeNull();
+    expect(
+      await codificarDentroDeLimites(1920, 1080, REGLA_POR_DEFECTO, async () => jpeg(500_000)),
+    ).toBeNull();
   });
   it("descarta lo que no es JPEG real", async () => {
-    expect(await codificarDentroDeLimites(640, 480, REGLA_POR_DEFECTO, async () => new Uint8Array(1000))).toBeNull();
+    expect(
+      await codificarDentroDeLimites(640, 480, REGLA_POR_DEFECTO, async () => new Uint8Array(1000)),
+    ).toBeNull();
   });
   it("respeta una regla del servidor más chica que la del producto", async () => {
     const regla = { ...REGLA_POR_DEFECTO, lado_max_px: 512, bytes_max: 20_000 };
@@ -64,7 +68,10 @@ describe("muestreador: uno cada 3 s, nunca guarda", () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => vi.useRealTimers());
 
-  function armar(over: Partial<ConstructorParameters<typeof MuestreadorFotogramas>[1]> = {}, regla = REGLA_POR_DEFECTO) {
+  function armar(
+    over: Partial<ConstructorParameters<typeof MuestreadorFotogramas>[1]> = {},
+    regla = REGLA_POR_DEFECTO,
+  ) {
     const enviadas: Uint8Array[] = [];
     let ahora = 0;
     const m = new MuestreadorFotogramas(regla, {

@@ -3,7 +3,13 @@ import { ControladorVC, textoMotivoCierre, type Dependencias } from "./controlad
 import { ErrorVC } from "./errores";
 import type { OpcionesMedios } from "./medios";
 import type { AvatarPuerto } from "./avatar";
-import type { Cotizacion, DerivacionWhatsApp, EnlacePublico, EventoServidor, SesionCreada } from "./tipos";
+import type {
+  Cotizacion,
+  DerivacionWhatsApp,
+  EnlacePublico,
+  EventoServidor,
+  SesionCreada,
+} from "./tipos";
 import { REGLA_POR_DEFECTO } from "./fotogramas";
 
 const ID_ENLACE = "RYZ4c3qAHifF6Rh4XEo3fG";
@@ -13,8 +19,18 @@ const enlace = {
   id_publico: ID_ENLACE,
   profesional: { nombre_visible: "Juan P.", oficios: ["pintura"], zonas: ["mar_chiquita"] },
   avatares: [
-    { avatar_id: "av_obrero_casco", nombre: "Juan", modos: ["3d", "clips"], descripcion_accesible: "Trabajador con casco" },
-    { avatar_id: "av_obrera", nombre: "Marta", modos: ["clips"], descripcion_accesible: "Trabajadora" },
+    {
+      avatar_id: "av_obrero_casco",
+      nombre: "Juan",
+      modos: ["3d", "clips"],
+      descripcion_accesible: "Trabajador con casco",
+    },
+    {
+      avatar_id: "av_obrera",
+      nombre: "Marta",
+      modos: ["clips"],
+      descripcion_accesible: "Trabajadora",
+    },
   ],
   aviso_privacidad: { version: "2026-10-08.1", url: "https://x.test/p" },
   camara_obligatoria: true,
@@ -27,7 +43,13 @@ const sesion = {
   estado: "creada",
   token_sesion: { valor: "vc_ses_" + "A".repeat(43), vence_en: "2026-10-10T13:00:00Z" },
   consentimiento: { requerido: true, aviso_version: "2026-10-08.1", aviso_url: "https://x.test/p" },
-  limites: { sin_voz_s: 30, duracion_maxima_s: 600, caracteres_max_por_turno: 500, turnos_llm_max: 40, fotograma: REGLA_POR_DEFECTO },
+  limites: {
+    sin_voz_s: 30,
+    duracion_maxima_s: 600,
+    caracteres_max_por_turno: 500,
+    turnos_llm_max: 40,
+    fotograma: REGLA_POR_DEFECTO,
+  },
   creada_en: "2026-10-10T12:00:00Z",
 } as unknown as SesionCreada;
 
@@ -53,8 +75,10 @@ const CONSENTIMIENTO = {
   informado_asistente_automatico: true,
 };
 
-const ev = <T extends EventoServidor["tipo"]>(tipo: T, datos: Extract<EventoServidor, { tipo: T }>["datos"]) =>
-  ({ v: 1, tipo, seq: 0, ts: "2026-10-10T12:00:00Z", datos }) as EventoServidor;
+const ev = <T extends EventoServidor["tipo"]>(
+  tipo: T,
+  datos: Extract<EventoServidor, { tipo: T }>["datos"],
+) => ({ v: 1, tipo, seq: 0, ts: "2026-10-10T12:00:00Z", datos }) as EventoServidor;
 
 function armar(over: Partial<Dependencias> = {}) {
   const pista = { stop: vi.fn(), onended: null as null | (() => void) };
@@ -96,7 +120,12 @@ function armar(over: Partial<Dependencias> = {}) {
   };
   const cliente = {
     leerEnlace: vi.fn(async () => enlace),
-    leerAviso: vi.fn(async () => ({ version: "2026-10-08.1", resumen: "Aviso", incisos: [], a_validar_con_abogado: true })),
+    leerAviso: vi.fn(async () => ({
+      version: "2026-10-08.1",
+      resumen: "Aviso",
+      incisos: [],
+      a_validar_con_abogado: true,
+    })),
     leerTextos: vi.fn(async () => ({ version: "0.1.0", idioma: "es-AR", textos: {} })),
     crearSesion: vi.fn(async (_s: unknown) => sesion),
     registrarConsentimiento: vi.fn(async () => ({})),
@@ -107,7 +136,12 @@ function armar(over: Partial<Dependencias> = {}) {
   };
   const pedirMedios = vi.fn(async () => stream);
   const deps = {
-    config: { apiBase: "https://api.test", clavePublica: "vc_pub_x", mock: false, enlaceDemo: undefined },
+    config: {
+      apiBase: "https://api.test",
+      clavePublica: "vc_pub_x",
+      mock: false,
+      enlaceDemo: undefined,
+    },
     cliente,
     pedirMedios,
     crearMedios: vi.fn((o: OpcionesMedios) => {
@@ -169,11 +203,17 @@ describe("ControladorVC: flujo completo", () => {
     expect(t.pedirMedios).not.toHaveBeenCalled(); // NADA de cámara antes del consentimiento
 
     await t.c.aceptarConsentimiento(CONSENTIMIENTO);
-    expect(t.cliente.registrarConsentimiento).toHaveBeenCalledWith(ID_SESION, sesion.token_sesion.valor, {
-      aviso_version: "2026-10-08.1",
-      ...CONSENTIMIENTO,
-    });
-    expect(t.cliente.registrarConsentimiento.mock.invocationCallOrder[0]!).toBeLessThan(t.pedirMedios.mock.invocationCallOrder[0]!);
+    expect(t.cliente.registrarConsentimiento).toHaveBeenCalledWith(
+      ID_SESION,
+      sesion.token_sesion.valor,
+      {
+        aviso_version: "2026-10-08.1",
+        ...CONSENTIMIENTO,
+      },
+    );
+    expect(t.cliente.registrarConsentimiento.mock.invocationCallOrder[0]!).toBeLessThan(
+      t.pedirMedios.mock.invocationCallOrder[0]!,
+    );
     expect(t.c.getState().flujo.fase).toBe("conectando");
     expect(t.medios.conectar).toHaveBeenCalled();
 
@@ -197,7 +237,12 @@ describe("ControladorVC: flujo completo", () => {
     const t = armar();
     await hastaLlamada(t);
     t.servidor(ev("avatar.respuesta", { turno: 1, texto: "Contame del trabajo" }));
-    t.servidor(ev("pizarron.actualizado", { version: 1, campos: [{ clave: "oficio", etiqueta: "Oficio", valor: "pintura", estado: "anotado" }] }));
+    t.servidor(
+      ev("pizarron.actualizado", {
+        version: 1,
+        campos: [{ clave: "oficio", etiqueta: "Oficio", valor: "pintura", estado: "anotado" }],
+      }),
+    );
     const s = t.c.getState();
     expect(s.cotizacion).toBeUndefined();
     expect(JSON.stringify(s)).not.toMatch(/total_centavos/);
@@ -209,7 +254,10 @@ describe("ControladorVC: flujo completo", () => {
     await t.c.abrir(ID_ENLACE);
     t.c.elegirAvatar("av_obrera");
     await t.c.continuar();
-    expect(t.cliente.crearSesion.mock.calls[0]![0]).toMatchObject({ modo_avatar: "clips", avatar_id: "av_obrera" });
+    expect(t.cliente.crearSesion.mock.calls[0]![0]).toMatchObject({
+      modo_avatar: "clips",
+      avatar_id: "av_obrera",
+    });
     t.c.elegirAvatar("av_no_existe");
     expect(t.c.getState().avatarId).toBe("av_obrera");
   });
@@ -229,7 +277,9 @@ describe("ControladorVC: flujo completo", () => {
     await t.c.abrir(ID_ENLACE);
     await t.c.continuar();
     await t.c.rechazarConsentimiento();
-    expect(t.cliente.cerrarSesion).toHaveBeenCalledWith(ID_SESION, sesion.token_sesion.valor, { motivo: "sin_consentimiento" });
+    expect(t.cliente.cerrarSesion).toHaveBeenCalledWith(ID_SESION, sesion.token_sesion.valor, {
+      motivo: "sin_consentimiento",
+    });
     expect(t.pedirMedios).not.toHaveBeenCalled();
     expect(t.c.getState().flujo).toEqual({ fase: "cerrada", motivoCierre: "sin_consentimiento" });
     expect(textoMotivoCierre("sin_consentimiento")).toMatch(/ni la cámara ni el micrófono/);
@@ -238,7 +288,11 @@ describe("ControladorVC: flujo completo", () => {
 
 describe("cámara obligatoria", () => {
   it("si la niega: explica que se necesita, cierra con sin_camara y NO sigue", async () => {
-    const t = armar({ pedirMedios: vi.fn(async () => Promise.reject(new DOMException("denegado", "NotAllowedError"))) });
+    const t = armar({
+      pedirMedios: vi.fn(async () =>
+        Promise.reject(new DOMException("denegado", "NotAllowedError")),
+      ),
+    });
     await t.c.abrir(ID_ENLACE);
     await t.c.continuar();
     await t.c.aceptarConsentimiento(CONSENTIMIENTO);
@@ -247,11 +301,15 @@ describe("cámara obligatoria", () => {
     expect(s.error?.mensaje).toMatch(/necesitamos/i);
     expect(t.deps.crearMedios).not.toHaveBeenCalled();
     expect(t.cliente.emitirTokenMedios).not.toHaveBeenCalled();
-    expect(t.cliente.cerrarSesion).toHaveBeenCalledWith(ID_SESION, expect.any(String), { motivo: "sin_camara" });
+    expect(t.cliente.cerrarSesion).toHaveBeenCalledWith(ID_SESION, expect.any(String), {
+      motivo: "sin_camara",
+    });
   });
 
   it("sin dispositivo de cámara: error propio, tampoco sigue", async () => {
-    const t = armar({ pedirMedios: vi.fn(async () => Promise.reject(new DOMException("no hay", "NotFoundError"))) });
+    const t = armar({
+      pedirMedios: vi.fn(async () => Promise.reject(new DOMException("no hay", "NotFoundError"))),
+    });
     await t.c.abrir(ID_ENLACE);
     await t.c.continuar();
     await t.c.aceptarConsentimiento(CONSENTIMIENTO);
@@ -273,7 +331,12 @@ describe("cámara obligatoria", () => {
 describe("errores del catálogo con mensajes claros", () => {
   const cases: [string, ErrorVC, RegExp, boolean][] = [
     ["cuota agotada", new ErrorVC("cuota_agotada", { status: 429 }), /no hay cupo/, false],
-    ["desafío inválido", new ErrorVC("desafio_invalido", { status: 403 }), /verificar el navegador/, true],
+    [
+      "desafío inválido",
+      new ErrorVC("desafio_invalido", { status: 403 }),
+      /verificar el navegador/,
+      true,
+    ],
     ["sesión vencida", new ErrorVC("sesion_vencida", { status: 401 }), /venció/, false],
   ];
   it.each(cases)("crearSesion → %s", async (_n, err, texto, reintentable) => {
@@ -310,7 +373,9 @@ describe("errores del catálogo con mensajes claros", () => {
     await a.c.abrir(undefined);
     expect(a.c.getState().error?.codigo).toBe("enlace_ausente");
     expect(a.cliente.leerEnlace).not.toHaveBeenCalled();
-    const b = armar({ config: { apiBase: "", clavePublica: "", mock: false, enlaceDemo: undefined } });
+    const b = armar({
+      config: { apiBase: "", clavePublica: "", mock: false, enlaceDemo: undefined },
+    });
     await b.c.abrir(ID_ENLACE);
     expect(b.c.getState().error?.codigo).toBe("config_incompleta");
     expect(b.cliente.leerEnlace).not.toHaveBeenCalled();
@@ -321,7 +386,10 @@ describe("errores del catálogo con mensajes claros", () => {
     await t.c.abrir(ID_ENLACE);
     await t.c.continuar();
     await t.c.aceptarConsentimiento(CONSENTIMIENTO);
-    t.estadoMedios("fallida", { intento: 0, error: new ErrorVC("simultaneas_agotadas", { status: 429 }) });
+    t.estadoMedios("fallida", {
+      intento: 0,
+      error: new ErrorVC("simultaneas_agotadas", { status: 429 }),
+    });
     await vi.waitFor(() => expect(t.c.getState().flujo.fase).toBe("error"));
     expect(t.c.getState().error?.mensaje).toMatch(/Probá en unos minutos/);
     expect(t.pista.stop).toHaveBeenCalled();
@@ -359,7 +427,12 @@ describe("reconexión", () => {
   it("la caída pasa a 'reconectando' (con el intento) y la recuperación vuelve a 'llamada' sin perder el pizarrón", async () => {
     const t = armar();
     await hastaLlamada(t);
-    t.servidor(ev("pizarron.actualizado", { version: 2, campos: [{ clave: "zona", etiqueta: "Zona", valor: "Cobo", estado: "anotado" }] }));
+    t.servidor(
+      ev("pizarron.actualizado", {
+        version: 2,
+        campos: [{ clave: "zona", etiqueta: "Zona", valor: "Cobo", estado: "anotado" }],
+      }),
+    );
     t.estadoMedios("reconectando", { intento: 2, proximoEnMs: 2000 });
     expect(t.c.getState().flujo.fase).toBe("reconectando");
     expect(t.c.getState().reconexion).toEqual({ intento: 2, proximoEnMs: 2000 });
@@ -387,8 +460,14 @@ describe("conversación, voz, avatar y pizarrón", () => {
   it("el asesor habla (voz + avatar) y se calla al terminar; el reconocedor se pausa mientras tanto", async () => {
     const t = armar();
     await hastaLlamada(t);
-    t.servidor(ev("avatar.respuesta", { turno: 1, texto: "Hola, soy Juan", clip_id: "clip_saludo" }));
-    expect(t.avatar.hablar).toHaveBeenCalledWith({ turno: 1, texto: "Hola, soy Juan", clipId: "clip_saludo" });
+    t.servidor(
+      ev("avatar.respuesta", { turno: 1, texto: "Hola, soy Juan", clip_id: "clip_saludo" }),
+    );
+    expect(t.avatar.hablar).toHaveBeenCalledWith({
+      turno: 1,
+      texto: "Hola, soy Juan",
+      clipId: "clip_saludo",
+    });
     expect(t.voz.hablar).toHaveBeenCalledWith("Hola, soy Juan", expect.any(Object));
     expect(t.reconocedor.pausar).toHaveBeenLastCalledWith(true);
     expect(t.c.getState().asesorHablando).toBe(true);
@@ -398,7 +477,9 @@ describe("conversación, voz, avatar y pizarrón", () => {
     expect(t.c.getState().asesorHablando).toBe(false);
     expect(t.avatar.callar).toHaveBeenCalled();
     expect(t.reconocedor.pausar).toHaveBeenLastCalledWith(false);
-    expect(t.c.getState().mensajes.map((m) => [m.de, m.texto])).toEqual([["asesor", "Hola, soy Juan"]]);
+    expect(t.c.getState().mensajes.map((m) => [m.de, m.texto])).toEqual([
+      ["asesor", "Hola, soy Juan"],
+    ]);
   });
 
   it("el texto del cliente (voz reconocida) va por texto.enviar y se ve en pantalla; el eco del servidor no duplica", async () => {
@@ -413,7 +494,10 @@ describe("conversación, voz, avatar y pizarrón", () => {
   it("el reconocedor del navegador alimenta al servidor con sus resultados finales", async () => {
     const t = armar();
     await hastaLlamada(t);
-    const cb = t.reconocedor.iniciar.mock.calls[0]![0] as { onParcial: (s: string) => void; onFinal: (s: string) => void };
+    const cb = t.reconocedor.iniciar.mock.calls[0]![0] as {
+      onParcial: (s: string) => void;
+      onFinal: (s: string) => void;
+    };
     cb.onParcial("quiero pin");
     expect(t.c.getState().parcial).toBe("quiero pin");
     cb.onFinal("quiero pintar");
@@ -444,7 +528,12 @@ describe("conversación, voz, avatar y pizarrón", () => {
     await hastaLlamada(t);
     t.servidor(ev("avatar.respuesta", { turno: 1, texto: "Anoto" }));
     t.voz.cancelar.mockClear();
-    t.servidor(ev("pizarron.actualizado", { version: 1, campos: [{ clave: "tarea", etiqueta: "Tarea", valor: "pintar living", estado: "anotado" }] }));
+    t.servidor(
+      ev("pizarron.actualizado", {
+        version: 1,
+        campos: [{ clave: "tarea", etiqueta: "Tarea", valor: "pintar living", estado: "anotado" }],
+      }),
+    );
     expect(t.c.getState().pizarron.campos[0]?.valor).toBe("pintar living");
     expect(t.c.getState().asesorHablando).toBe(true);
     expect(t.c.getState().flujo.fase).toBe("llamada");
@@ -463,14 +552,20 @@ describe("conversación, voz, avatar y pizarrón", () => {
     const t = armar();
     await hastaLlamada(t);
     t.servidor(ev("camara.fotograma", { seq_fotograma: 0, resultado: "aceptado" }));
-    t.servidor(ev("camara.fotograma", { seq_fotograma: 1, resultado: "descartado", motivo: "tamano" }));
+    t.servidor(
+      ev("camara.fotograma", { seq_fotograma: 1, resultado: "descartado", motivo: "tamano" }),
+    );
     expect(t.c.getState().fotogramas).toMatchObject({ aceptados: 1, descartados: 1 });
   });
 
   it("los fotogramas salen por el socket (enviarTrama)", async () => {
     const t = armar();
     await hastaLlamada(t);
-    const enviar = (t.deps.crearMuestreador as unknown as { mock: { calls: [unknown, (x: Uint8Array) => boolean][] } }).mock.calls[0]![1];
+    const enviar = (
+      t.deps.crearMuestreador as unknown as {
+        mock: { calls: [unknown, (x: Uint8Array) => boolean][] };
+      }
+    ).mock.calls[0]![1];
     enviar(Uint8Array.from([1]));
     expect(t.medios.enviarTrama).toHaveBeenCalled();
   });
@@ -482,7 +577,9 @@ describe("cierre y derivación a WhatsApp", () => {
     await hastaLlamada(t);
     await t.c.cortar();
     expect(t.medios.cerrar).toHaveBeenCalled();
-    expect(t.cliente.cerrarSesion).toHaveBeenCalledWith(ID_SESION, expect.any(String), { motivo: "cliente_cerro" });
+    expect(t.cliente.cerrarSesion).toHaveBeenCalledWith(ID_SESION, expect.any(String), {
+      motivo: "cliente_cerro",
+    });
     expect(t.pista.stop).toHaveBeenCalled();
     expect(t.reconocedor.detener).toHaveBeenCalled();
     expect(t.cliente.leerDerivacion).toHaveBeenCalled();
@@ -504,7 +601,9 @@ describe("cierre y derivación a WhatsApp", () => {
 
   it("si leerDerivacion falla al cerrar no rompe: igual muestra el cierre", async () => {
     const t = armar();
-    t.cliente.leerDerivacion.mockRejectedValue(new ErrorVC("cotizacion_no_emitida", { status: 409 }));
+    t.cliente.leerDerivacion.mockRejectedValue(
+      new ErrorVC("cotizacion_no_emitida", { status: 409 }),
+    );
     await hastaLlamada(t);
     await t.c.cortar();
     expect(t.c.getState().flujo.fase).toBe("cerrada");

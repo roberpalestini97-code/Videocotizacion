@@ -14,7 +14,10 @@ function respuesta(status: number, cuerpo: unknown, cab: Record<string, string> 
   const esProblema = status >= 400;
   return new Response(typeof cuerpo === "string" ? cuerpo : JSON.stringify(cuerpo), {
     status,
-    headers: { "Content-Type": esProblema ? "application/problem+json" : "application/json", ...cab },
+    headers: {
+      "Content-Type": esProblema ? "application/problem+json" : "application/json",
+      ...cab,
+    },
   });
 }
 
@@ -30,8 +33,16 @@ function cliente(f: typeof fetch, extra: Partial<ConstructorParameters<typeof Cl
 
 describe("config", () => {
   it("lee VITE_* y recorta la barra final", () => {
-    const c = leerConfig({ VITE_VC_API_BASE: "https://api.x.test/", VITE_VC_CLAVE_PUBLICA: "vc_pub_a" });
-    expect(c).toEqual({ apiBase: "https://api.x.test", clavePublica: "vc_pub_a", mock: false, enlaceDemo: undefined });
+    const c = leerConfig({
+      VITE_VC_API_BASE: "https://api.x.test/",
+      VITE_VC_CLAVE_PUBLICA: "vc_pub_a",
+    });
+    expect(c).toEqual({
+      apiBase: "https://api.x.test",
+      clavePublica: "vc_pub_a",
+      mock: false,
+      enlaceDemo: undefined,
+    });
     expect(validarConfig(c)).toBeNull();
   });
   it("modo mock completa con valores locales no secretos", () => {
@@ -42,10 +53,15 @@ describe("config", () => {
   });
   it("sin variables y sin mock la config es inválida", () => {
     expect(validarConfig(leerConfig({}))).toMatch(/VITE_VC_API_BASE/);
-    expect(validarConfig(leerConfig({ VITE_VC_API_BASE: "https://a.test" }))).toMatch(/CLAVE_PUBLICA/);
+    expect(validarConfig(leerConfig({ VITE_VC_API_BASE: "https://a.test" }))).toMatch(
+      /CLAVE_PUBLICA/,
+    );
   });
   it("rechaza una clave secreta en el navegador", () => {
-    const c = leerConfig({ VITE_VC_API_BASE: "https://a.test", VITE_VC_CLAVE_PUBLICA: "vc_sec_zzz" });
+    const c = leerConfig({
+      VITE_VC_API_BASE: "https://a.test",
+      VITE_VC_CLAVE_PUBLICA: "vc_sec_zzz",
+    });
     expect(validarConfig(c)).toMatch(/SECRETA/);
   });
 });
@@ -64,7 +80,9 @@ describe("desafío (prueba de trabajo)", () => {
     expect(cerosIniciales(h)).toBeGreaterThanOrEqual(12);
   });
   it("corta si la dificultad no es razonable para un navegador", async () => {
-    await expect(resolverDesafio(DESAFIO, 32)).rejects.toMatchObject({ codigo: "desafio_invalido" });
+    await expect(resolverDesafio(DESAFIO, 32)).rejects.toMatchObject({
+      codigo: "desafio_invalido",
+    });
   });
 });
 
@@ -81,25 +99,40 @@ describe("cliente HTTP", () => {
 
   it("un id de enlace mal formado ni sale a la red: es un 404", async () => {
     const f = vi.fn<typeof fetch>();
-    await expect(cliente(f).leerEnlace("../../etc")).rejects.toMatchObject({ codigo: "no_encontrado" });
+    await expect(cliente(f).leerEnlace("../../etc")).rejects.toMatchObject({
+      codigo: "no_encontrado",
+    });
     expect(f).not.toHaveBeenCalled();
   });
 
   it("crearSesion: emite desafío, lo resuelve y manda X-Desafio + Idempotency-Key", async () => {
     const f = vi.fn<typeof fetch>(async (url) =>
       String(url).endsWith("/desafios")
-        ? respuesta(201, { desafio: DESAFIO, mecanismo: "prueba_de_trabajo_sha256", dificultad_bits: 8, vence_en_s: 60 })
+        ? respuesta(201, {
+            desafio: DESAFIO,
+            mecanismo: "prueba_de_trabajo_sha256",
+            dificultad_bits: 8,
+            vence_en_s: 60,
+          })
         : respuesta(201, { sesion_id: ID_SESION }),
     );
     const resolver = vi.fn(async (d: string) => `${d}.00000000000000ab`);
-    const r = await cliente(f, { resolver }).crearSesion({ enlace: ID_ENLACE, modo_avatar: "3d", idioma: "es-AR" });
+    const r = await cliente(f, { resolver }).crearSesion({
+      enlace: ID_ENLACE,
+      modo_avatar: "3d",
+      idioma: "es-AR",
+    });
     expect(r.sesion_id).toBe(ID_SESION);
     expect(resolver).toHaveBeenCalledWith(DESAFIO, 8);
     const init = f.mock.calls[1]![1]!;
     const h = init.headers as Record<string, string>;
     expect(h["X-Desafio"]).toBe(`${DESAFIO}.00000000000000ab`);
     expect(h["Idempotency-Key"]).toBe("uuid-fijo");
-    expect(JSON.parse(init.body as string)).toEqual({ enlace: ID_ENLACE, modo_avatar: "3d", idioma: "es-AR" });
+    expect(JSON.parse(init.body as string)).toEqual({
+      enlace: ID_ENLACE,
+      modo_avatar: "3d",
+      idioma: "es-AR",
+    });
   });
 
   it("las rutas de sesión usan el token de sesión como Bearer (y no la clave pública)", async () => {
@@ -112,27 +145,44 @@ describe("cliente HTTP", () => {
 
   it("traduce application/problem+json a ErrorVC con código, traza y Retry-After", async () => {
     const f = vi.fn<typeof fetch>(async () =>
-      respuesta(429, { codigo: "limite_de_tasa", id_traza: "tr_0123456789abcdef", status: 429 }, { "Retry-After": "30" }),
+      respuesta(
+        429,
+        { codigo: "limite_de_tasa", id_traza: "tr_0123456789abcdef", status: 429 },
+        { "Retry-After": "30" },
+      ),
     );
     const e = await cliente(f)
       .leerAviso()
       .catch((x: unknown) => x);
     expect(e).toBeInstanceOf(ErrorVC);
-    expect(e).toMatchObject({ codigo: "limite_de_tasa", status: 429, idTraza: "tr_0123456789abcdef", reintentarEnS: 30 });
+    expect(e).toMatchObject({
+      codigo: "limite_de_tasa",
+      status: 429,
+      idTraza: "tr_0123456789abcdef",
+      reintentarEnS: 30,
+    });
   });
 
   it("falla de red, tiempo agotado y respuesta que no es JSON", async () => {
-    await expect(cliente(async () => Promise.reject(new TypeError("fallo"))).leerAviso()).rejects.toMatchObject({ codigo: "red" });
+    await expect(
+      cliente(async () => Promise.reject(new TypeError("fallo"))).leerAviso(),
+    ).rejects.toMatchObject({ codigo: "red" });
     await expect(cliente(async () => respuesta(200, "<html>")).leerAviso()).rejects.toMatchObject({
       codigo: "respuesta_invalida",
     });
     const colgado: typeof fetch = (_u, init) =>
-      new Promise((_r, rej) => init?.signal?.addEventListener("abort", () => rej(new DOMException("x", "AbortError"))));
-    await expect(cliente(colgado, { tiempoMaxMs: 10 }).leerAviso()).rejects.toMatchObject({ codigo: "tiempo_agotado" });
+      new Promise((_r, rej) =>
+        init?.signal?.addEventListener("abort", () => rej(new DOMException("x", "AbortError"))),
+      );
+    await expect(cliente(colgado, { tiempoMaxMs: 10 }).leerAviso()).rejects.toMatchObject({
+      codigo: "tiempo_agotado",
+    });
   });
 
   it("un 5xx sin cuerpo es error_interno", async () => {
-    await expect(cliente(async () => new Response("", { status: 502 })).leerAviso()).rejects.toMatchObject({
+    await expect(
+      cliente(async () => new Response("", { status: 502 })).leerAviso(),
+    ).rejects.toMatchObject({
       codigo: "error_interno",
       status: 502,
     });
@@ -148,7 +198,9 @@ describe("URLs permitidas", () => {
   });
   it("solo se abre un wa.me del contrato", () => {
     expect(urlWhatsAppPermitida("https://wa.me/5492236000000?text=VC-AB12-CD34EF")).toBe(true);
-    expect(urlWhatsAppPermitida("https://evil.test/?u=https://wa.me/5492236000000?text=x")).toBe(false);
+    expect(urlWhatsAppPermitida("https://evil.test/?u=https://wa.me/5492236000000?text=x")).toBe(
+      false,
+    );
     expect(urlWhatsAppPermitida("javascript:alert(1)")).toBe(false);
     expect(urlWhatsAppPermitida("http://wa.me/5492236000000?text=x")).toBe(false);
   });
@@ -158,7 +210,9 @@ describe("errores del catálogo", () => {
   it("cubre todos los códigos de catalogo-errores.json con el mismo texto (si el contrato está al lado)", () => {
     const ruta = resolve(__dirname, "../../../../proyecto/contracts/catalogo-errores.json");
     if (!existsSync(ruta)) return; // el front puede vivir en su repo aparte
-    const cat = JSON.parse(readFileSync(ruta, "utf8")) as { errores: Record<string, { mensaje: string }> };
+    const cat = JSON.parse(readFileSync(ruta, "utf8")) as {
+      errores: Record<string, { mensaje: string }>;
+    };
     for (const [codigo, v] of Object.entries(cat.errores)) {
       expect(MENSAJES_ERROR[codigo], codigo).toBe(v.mensaje);
     }
@@ -189,10 +243,14 @@ describe("errores del catálogo", () => {
   it("simultáneas agotadas y límite de tasa muestran la espera", () => {
     const m = mensajeError(new ErrorVC("limite_de_tasa", { reintentarEnS: 30 }));
     expect(m.mensaje).toMatch(/30 s/);
-    expect(mensajeError(new ErrorVC("simultaneas_agotadas")).mensaje).toMatch(/Probá en unos minutos/);
+    expect(mensajeError(new ErrorVC("simultaneas_agotadas")).mensaje).toMatch(
+      /Probá en unos minutos/,
+    );
   });
   it("el catálogo vivo (/v1/textos) pisa el respaldo, salvo los textos propios del front", () => {
-    const m = mensajeError(new ErrorVC("proveedor_no_disponible"), { "error.proveedor_no_disponible": "Texto vivo." });
+    const m = mensajeError(new ErrorVC("proveedor_no_disponible"), {
+      "error.proveedor_no_disponible": "Texto vivo.",
+    });
     expect(m.mensaje).toBe("Texto vivo.");
   });
   it("un código desconocido no rompe: cae en un mensaje genérico", () => {

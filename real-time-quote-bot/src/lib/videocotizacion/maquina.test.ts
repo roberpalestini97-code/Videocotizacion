@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { ESTADO_INICIAL, transicion, type EstadoFlujo, type EventoFlujo, type Fase } from "./maquina";
+import {
+  ESTADO_INICIAL,
+  transicion,
+  type EstadoFlujo,
+  type EventoFlujo,
+  type Fase,
+} from "./maquina";
 
 function correr(eventos: EventoFlujo[], desde: EstadoFlujo = ESTADO_INICIAL) {
   return eventos.reduce(transicion, desde);
@@ -20,7 +26,11 @@ describe("máquina de estados del flujo", () => {
   it("camino feliz: enlace → sesión → consentimiento → cámara → llamada → resultado", () => {
     const recorrido: Fase[] = [];
     let s = ESTADO_INICIAL;
-    for (const e of [...HASTA_LLAMADA, { t: "COTIZACION" } as const, { t: "SESION_CERRADA", motivo: "completada" } as const]) {
+    for (const e of [
+      ...HASTA_LLAMADA,
+      { t: "COTIZACION" } as const,
+      { t: "SESION_CERRADA", motivo: "completada" } as const,
+    ]) {
       s = transicion(s, e);
       recorrido.push(s.fase);
     }
@@ -39,17 +49,38 @@ describe("máquina de estados del flujo", () => {
   });
 
   it("el consentimiento va ANTES que la cámara: no hay forma de llegar a 'camara' sin ACEPTAR", () => {
-    expect(fase([{ t: "ABRIR" }, { t: "ENLACE_OK" }, { t: "CONTINUAR" }, { t: "SESION_OK" }, { t: "CAMARA_OK" }])).toBe("consentimiento");
+    expect(
+      fase([
+        { t: "ABRIR" },
+        { t: "ENLACE_OK" },
+        { t: "CONTINUAR" },
+        { t: "SESION_OK" },
+        { t: "CAMARA_OK" },
+      ]),
+    ).toBe("consentimiento");
     expect(fase([{ t: "ABRIR" }, { t: "ENLACE_OK" }, { t: "CAMARA_OK" }])).toBe("enlace");
   });
 
   it("rechazar el aviso cierra con sin_consentimiento y no pasa por la cámara", () => {
-    const s = correr([{ t: "ABRIR" }, { t: "ENLACE_OK" }, { t: "CONTINUAR" }, { t: "SESION_OK" }, { t: "RECHAZA" }]);
+    const s = correr([
+      { t: "ABRIR" },
+      { t: "ENLACE_OK" },
+      { t: "CONTINUAR" },
+      { t: "SESION_OK" },
+      { t: "RECHAZA" },
+    ]);
     expect(s).toEqual({ fase: "cerrada", motivoCierre: "sin_consentimiento" });
   });
 
   it("cámara denegada: queda en camara_denegada con motivo sin_camara y no sigue", () => {
-    const s = correr([{ t: "ABRIR" }, { t: "ENLACE_OK" }, { t: "CONTINUAR" }, { t: "SESION_OK" }, { t: "ACEPTA" }, { t: "CAMARA_DENEGADA" }]);
+    const s = correr([
+      { t: "ABRIR" },
+      { t: "ENLACE_OK" },
+      { t: "CONTINUAR" },
+      { t: "SESION_OK" },
+      { t: "ACEPTA" },
+      { t: "CAMARA_DENEGADA" },
+    ]);
     expect(s).toEqual({ fase: "camara_denegada", motivoCierre: "sin_camara" });
     expect(transicion(s, { t: "MEDIOS_LISTOS" })).toBe(s);
     expect(transicion(s, { t: "CAMARA_OK" })).toBe(s);
@@ -72,7 +103,12 @@ describe("máquina de estados del flujo", () => {
   });
 
   it("el servidor cierra (sin_voz, duración, cuota): finalizando → cerrada con el motivo", () => {
-    for (const motivo of ["sin_voz", "duracion_maxima", "cuota_agotada", "error_proveedor"] as const) {
+    for (const motivo of [
+      "sin_voz",
+      "duracion_maxima",
+      "cuota_agotada",
+      "error_proveedor",
+    ] as const) {
       const f = correr([...HASTA_LLAMADA, { t: "SESION_CERRADA", motivo }]);
       expect(f).toEqual({ fase: "finalizando", motivoCierre: motivo });
       expect(transicion(f, { t: "FIN_CIERRE" })).toEqual({ fase: "cerrada", motivoCierre: motivo });
@@ -80,12 +116,19 @@ describe("máquina de estados del flujo", () => {
   });
 
   it("si la cotización llega mientras se finaliza, igual se muestra el resultado", () => {
-    const f = correr([...HASTA_LLAMADA, { t: "SESION_CERRADA", motivo: "completada" }, { t: "COTIZACION" }]);
+    const f = correr([
+      ...HASTA_LLAMADA,
+      { t: "SESION_CERRADA", motivo: "completada" },
+      { t: "COTIZACION" },
+    ]);
     expect(f.fase).toBe("resultado");
   });
 
   it("el cliente corta", () => {
-    expect(correr([...HASTA_LLAMADA, { t: "CLIENTE_CORTA" }])).toEqual({ fase: "finalizando", motivoCierre: "cliente_cerro" });
+    expect(correr([...HASTA_LLAMADA, { t: "CLIENTE_CORTA" }])).toEqual({
+      fase: "finalizando",
+      motivoCierre: "cliente_cerro",
+    });
   });
 
   it("la cotización no puede aparecer antes de la llamada", () => {
@@ -96,7 +139,9 @@ describe("máquina de estados del flujo", () => {
   it("CERRAR vuelve a inactiva desde cualquier fase; REINICIAR solo desde estados finales", () => {
     expect(correr([...HASTA_LLAMADA, { t: "CERRAR" }])).toEqual(ESTADO_INICIAL);
     expect(correr([...HASTA_LLAMADA, { t: "REINICIAR" }]).fase).toBe("llamada");
-    expect(correr([{ t: "ABRIR" }, { t: "FALLO" }, { t: "REINICIAR" }]).fase).toBe("cargando_enlace");
+    expect(correr([{ t: "ABRIR" }, { t: "FALLO" }, { t: "REINICIAR" }]).fase).toBe(
+      "cargando_enlace",
+    );
   });
 
   it("eventos que no corresponden a la fase se ignoran (mismo objeto)", () => {

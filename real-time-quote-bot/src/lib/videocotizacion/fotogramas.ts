@@ -32,7 +32,11 @@ export function esJpeg(b: Uint8Array): boolean {
 }
 
 /** Codifica el cuadro actual a JPEG con ese tamaño y calidad (0..1). */
-export type CodificadorJpeg = (ancho: number, alto: number, calidad: number) => Promise<Uint8Array | null>;
+export type CodificadorJpeg = (
+  ancho: number,
+  alto: number,
+  calidad: number,
+) => Promise<Uint8Array | null>;
 
 const CALIDADES = [0.8, 0.65, 0.5, 0.38, 0.28, 0.2];
 
@@ -52,7 +56,11 @@ export async function codificarDentroDeLimites(
     for (const q of CALIDADES) {
       const jpeg = await codificar(ancho, alto, q);
       if (!jpeg) return null;
-      if (esJpeg(jpeg) && jpeg.byteLength <= regla.bytes_max && Math.max(ancho, alto) <= regla.lado_max_px) {
+      if (
+        esJpeg(jpeg) &&
+        jpeg.byteLength <= regla.bytes_max &&
+        Math.max(ancho, alto) <= regla.lado_max_px
+      ) {
         return { jpeg, ancho, alto };
       }
     }
@@ -114,7 +122,9 @@ export class MuestreadorFotogramas {
 
   detener(): void {
     if (this.id === null) return;
-    (this.deps.clearInterval ?? ((i) => clearInterval(i as ReturnType<typeof setInterval>)))(this.id);
+    (this.deps.clearInterval ?? ((i) => clearInterval(i as ReturnType<typeof setInterval>)))(
+      this.id,
+    );
     this.id = null;
   }
 
@@ -137,7 +147,12 @@ export class MuestreadorFotogramas {
     }
     this.enCurso = true;
     try {
-      const r = await codificarDentroDeLimites(fuente.ancho, fuente.alto, this.regla, this.deps.codificar);
+      const r = await codificarDentroDeLimites(
+        fuente.ancho,
+        fuente.alto,
+        this.regla,
+        this.deps.codificar,
+      );
       if (!r) {
         this.omitidos++;
         return "omitido";
