@@ -24,7 +24,7 @@ window.TABLERO = {
       "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh"
     },
     "pendiente_goal": [
-      "T13: adaptadores STT/LLM/TTS reales (arranque rechaza != falso en prod)",
+      "T13: probar Gemini con clave real (solo datos ficticios) y medir límites/latencia; revisión independiente de feat/T13-llm-orquestador",
       "T04a/T43: revisión independiente PostgreSQL/RLS",
       "T05/T06/T40/T41: revisiones cruzadas y visto Rober",
       "T11: levantar compose y validar imagen api (prompts+tarifas en distroless)"
@@ -275,9 +275,9 @@ window.TABLERO = {
       "id": "T13",
       "titulo": "Arquitectura en nube y costo por minuto con los proveedores elegidos de LLM, transcripción y voz, con rangos y fuentes",
       "agente": "ops",
-      "status": "pendiente",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": ""
+      "nota": "2026-10-10 (go, rama feat/T13-llm-orquestador, sin mergear): decisión de Rober aplicada: STT y TTS en el navegador (PROVEEDOR_STT/TTS=navegador, adaptadores nulos), LLM Gemini REST con clave gratuita (PROVEEDOR_LLM=gemini, modelo por defecto gemini-3.5-flash-lite verificado en ai.google.dev), WhatsApp por enlace wa.me (PROVEEDOR_WHATSAPP=enlace). Doc docs/ia/gemini.md (clave, variables, límites, aviso: con nivel gratuito Google usa los datos para mejorar productos → solo datos ficticios; clientes reales = plan pago u otro proveedor + abogado, Ley 25.326). PROBADO: httptest que imita generateContent (éxito, 429/5xx con reintento, 4xx, JSON inválido, cortada, bloqueada, enorme, cancelación, monto inyectado), contrato de seguridad (la clave no aparece en errores/logs/formatos), config/arranque H4. NO PROBADO: la API real (no hay clave; el entorno no llega a googleapis), límites reales del nivel gratuito, latencia y tokens por turno con imagen, costo por minuto (sigue P-gasto y P-pago-exterior). infra/ usa nombres VC_PROVEEDOR_* que la API no lee (hueco H10). Falta revisión independiente."
     },
     {
       "id": "T14",
@@ -371,9 +371,9 @@ window.TABLERO = {
       "id": "T25",
       "titulo": "Orquestador de sesión: transcripción, LLM con prompts versionados, validación de salida, cálculo de precio en Go y eventos de voz y visemas",
       "agente": "go",
-      "status": "en_curso",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": "2026-10-10: internal/turno + WS (texto/audio acumulado PCM/Opus); MaterialTurno + ReferenciaContrato; respuestas_modelo 0014; panel SesionDetalle (datos_extraidos + versiones.prompt). emitir_presupuesto → cotizacion.emitida. Falta LLM/STT real (T13) y streaming STT."
+      "nota": "2026-10-10 (go, rama feat/T13-llm-orquestador, sin mergear): turno de punta a punta: texto (+2 fotogramas más recientes, solo en memoria) → prompt por oficio → Extractor con datos previos → validación COMPLETA en Go del esquema 1.0 (cotizador.ValidarSalidaLLM; 12 ejemplos ok, 20 negativos fallan) con 1 reintento y plantilla → filtro de montos → pizarrón ampliado sin montos → avatar.respuesta + visemas del texto (voz del navegador) → precio en Go solo al emitir → cotizacion.emitida + sesion.cerrada (1000). Derivación y cierre por derivar_whatsapp, fuera_de_alcance, sin tarifa, cerrar, cuota del proveedor (429), tope de turnos y sin_voz (con aviso). intento_inyeccion marcado por el modelo o por heurística de Go; el precio no cambia (prueba). P3: turno numerado desde respuestas_modelo (límite declarado: intentos fallidos previos a un reinicio no cuentan para el tope). P4: si falla guardar respuesta o cotización → error y sin precio. PROBADO: go test -race ./... con PG real 0 SKIP, incluida TestSesionDePuntaAPuntaConPostgresYGemini (crear → consentir → token → WS → fotograma → 3 turnos con inyección → cotización → derivación; payload al proveedor sin ids/teléfono/código). NO PROBADO: modelo real, navegadores reales, latencia; pizarron.corregir sin implementar. Huecos del contrato en docs/review/T13-huecos-del-contrato.md (H1–H11). Falta revisión independiente."
     },
     {
       "id": "T26",
@@ -573,6 +573,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-10T16:58:00-03:00",
+      "texto": "T13/T25 (go, feat/T13-llm-orquestador): adaptadores gemini/navegador/enlace + config/arranque; orquestador de turno completo con validación en Go, derivación, sin_voz, tope de turnos y P3/P4; docs/ia/gemini.md y docs/review/T13-huecos-del-contrato.md. gofmt vacío, go vet ok, go test -race -count=1 ./... ok con PG 16.15 real, 0 SKIP. No probado: API real de Gemini (sin clave), navegadores, latencia."
+    },
     {
       "ts": "2026-10-10T16:05:00-03:00",
       "texto": "fix/base-verde (agente go): hash de prompts normaliza CRLF→LF (Go y prompts.mjs; anclas nuevas, p. ej. conducta_paisajismo@0e78ce0e816c) y .gitattributes eol=lf; migrador revierte 0015..0001 en orden inverso; migración 0015 (política dueno_lee_handshake solo por delegación, sin sesiones_por_creacion, respuestas_modelo.salida json); gofmt. go test -race con PG real verde, 0 SKIP. Hallazgos en docs/review/BASE-main-hallazgos.md. Falta revisión independiente."

@@ -1,0 +1,18 @@
+# T13 + T25 — huecos del contrato encontrados al orquestar el turno
+
+Fecha: 2026-10-10. Rama `feat/T13-llm-orquestador`. El contrato (`contracts/`) NO se editó: estos huecos
+los decide arquitecto. Lo que hace hoy el backend está marcado como **provisorio**.
+
+| # | Hueco | Qué hace hoy el backend (provisorio) | Propuesta |
+|---|---|---|---|
+| H1 | No hay evento WS de **derivación sin cotización** (`derivar_whatsapp`, `fuera_de_alcance`, sin tarifa, `cerrar`, tope de turnos, cuota, silencio). `cotizacion.emitida` exige `cotizacion`. | `avatar.respuesta` con frase de plantilla + `sesion.cerrada`; el front lee la derivación con `GET /v1/sesiones/{id}/derivacion` (ya válida porque la sesión quedó cerrada). | Evento `derivacion.emitida { derivacion, causa }` o `cotizacion` opcional en `cotizacion.emitida`. |
+| H2 | `MotivoCierre` no distingue **tope de turnos LLM** ni **cuota del proveedor** (HTTP 429). | Ambos cierran con `cuota_agotada`; la causa fina (`tope_turnos`, `cuota_proveedor`) solo queda en el log. | Agregar `tope_turnos` (o documentar que `cuota_agotada` los cubre). |
+| H3 | `MotivoCierre` no tiene **derivación** (`fuera_de_alcance`, `derivar_whatsapp`). | Cierran con `completada`. | `derivada` o un campo `causa` en `sesion.cerrada`. |
+| H4 | **`intento_inyeccion`** no aparece en ningún evento ni en `SesionDetalle`. | Queda en `respuestas_modelo.salida` (`"intento_inyeccion":true`, también si lo detecta Go y no el modelo) y en el log del turno (sin texto del cliente). | Mostrarlo en el panel (`SesionDetalle`) como marca; no al cliente. |
+| H5 | `avatar.visemas` no dice si los tiempos son **estimados del texto** o del audio. Con voz del navegador (`speechSynthesis`) el servidor no tiene audio. | Visemas por grafemas con 75 ms por letra y pausas (`turno.VisemasDeTexto`). El navegador debería reescalarlos a la duración real. | Campo `fuente: "texto" \| "audio"` y/o `duracion_estimada_ms`. Confirmar con av (T08). |
+| H6 | No hay forma de mandar **`texto.enviar` como resultado de voz** del navegador (parciales/finales del reconocedor). | Se trata igual que texto escrito. `transcripcion.final` se reenvía con el texto saneado. | Si el front quiere mostrar parciales, `transcripcion.parcial` cliente→servidor no existe; definir si hace falta. |
+| H7 | `pizarron.corregir` está en el contrato pero **no implementado** en el backend. | Se ignora. | Tarea aparte (R48). |
+| H8 | `sesion.aviso` / `sin_voz`: con voz en el navegador, "voz detectada" no está definida. | Cualquier mensaje del cliente reinicia el plazo; el reloj se pausa durante el turno. Aviso a los 2/3 de `sin_voz_s`. Con `sin_voz_s` = 20 (provisorio) puede cortar a alguien que escucha una respuesta larga del avatar. | Que el front mande un latido (`voz.actividad`) mientras el usuario habla o el avatar habla, o subir `sin_voz_s`. |
+| H9 | El orden de eventos del turno final no está escrito. | `transcripcion.final` → `pizarron.actualizado` → `avatar.respuesta` → `avatar.visemas` → `cotizacion.emitida` → `sesion.cerrada` → cierre 1000. | Documentarlo en eventos-sesion.md. |
+| H10 | `infra/docker-compose.yml` e `infra/.env.example` usan `VC_PROVEEDOR_*`, `VC_LLM_API_KEY`, etc.; la API lee `PROVEEDOR_*` y `GEMINI_*` (y no hay `PROVEEDOR_WHATSAPP`). | Sin cambios en infra en esta rama. | ops alinea nombres; la clave como secreto de Docker con `GEMINI_API_KEY_FILE`. |
+| H11 | `LimitesSesion.turnos_llm_max` (60) no aclara si cuenta intentos fallidos. | El número de turno sale de la base (`max(turno)+1`); el tope cuenta los guardados más los intentos fallidos de este proceso. Tras un reinicio, los fallidos previos no se cuentan (cota: un fallido no guarda nada). | Persistir intentos (columna o tabla de consumo, ADR 0005). |
