@@ -8,14 +8,19 @@ window.TABLERO = {
   "meta": {
     "phaseIndex": 3,
     "verificacion_repo": {
-      "fecha": "2026-10-10T01:55",
-      "backend_go_test": "ok",
+      "fecha": "2026-10-10T16:05",
+      "rama": "fix/base-verde (sin mergear; falta revisión independiente)",
+      "entorno": "Linux, Go 1.24.7 sin proxy: go.mod alternativo fuera del repo con x/crypto, x/sys y coder/websocket tomados de GitHub por tag (no verificados contra sumdb)",
+      "postgres_prueba": "PostgreSQL 16.15 local (PG_PRUEBA_URL), roles de pgprueba NOSUPERUSER NOBYPASSRLS, TimeZone Etc/UTC",
+      "backend_gofmt": "gofmt -l vacío",
+      "backend_go_vet": "ok",
+      "backend_go_test": "go test -race -count=1 ./... ok con PG real, 0 SKIP (antes en Cursor los tests de PostgreSQL se omitían sin PG_PRUEBA_URL)",
       "conductas_verificar": "0 fallas (12+20)",
       "contrato_validar": "0 fallas",
       "contrato_vectores": "506 ok",
-      "contrato_referencias_prompts": "6 slugs T06 alineados con Go",
+      "contrato_referencias_prompts": "6 slugs; anclas LF y prueba CRLF=LF",
       "lovable_contrato_verificar": "openapi.d.ts ok",
-      "infra_compose_config": "docker compose config (env de prueba; no levanta contenedores)",
+      "no_probado": "redocly y spectral; scripts/verificar-repo.ps1 (no hay PowerShell); docker compose; checkout real en Windows con .gitattributes; revisión completa de internal/rutas",
       "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh"
     },
     "pendiente_goal": [
@@ -568,6 +573,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-10T16:05:00-03:00",
+      "texto": "fix/base-verde (agente go): hash de prompts normaliza CRLF→LF (Go y prompts.mjs; anclas nuevas, p. ej. conducta_paisajismo@0e78ce0e816c) y .gitattributes eol=lf; migrador revierte 0015..0001 en orden inverso; migración 0015 (política dueno_lee_handshake solo por delegación, sin sesiones_por_creacion, respuestas_modelo.salida json); gofmt. go test -race con PG real verde, 0 SKIP. Hallazgos en docs/review/BASE-main-hallazgos.md. Falta revisión independiente."
+    },
     {
       "ts": "2026-10-10T15:10:00-03:00",
       "texto": "Repo GitHub Videocotizacion: raíz Documents/videocotizacion; AGENTS.md (2 harness, rama+PR); rama chore/repo-inicial pusheada."
