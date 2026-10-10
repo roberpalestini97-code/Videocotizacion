@@ -52,3 +52,7 @@ T09 pasa de bloqueada a **en revisión**: ya hay acceso al código; falta client
 - Lovable: `src/components/VideoCotizacion.tsx`, `src/lib/asesor-api/*`
 - Contrato: `contracts/openapi.yaml`, `contracts/eventos-sesion.md`
 - Panel React (más alineado): `proyecto/panel-asesor/`
+
+## Actualización T10 (2026-10-10)
+
+El front ya consume el contrato: `src/lib/videocotizacion/` (cliente tipado, desafío, WebSocket con reconexión, muestreo de fotogramas, pizarrón, controlador y máquina de estados) reemplazó a `src/lib/asesor-api`. Variables `VITE_VC_*` en `real-time-quote-bot/.env.example`; servidor falso en `scripts/mock-servidor-vc.mjs` (`npm run mock:vc`); prueba E2E en `scripts/e2e-videocotizacion.mjs`. Lo que falta o es ambiguo del contrato: `huecos-T10.md`. Capturas: `capturas/`.
