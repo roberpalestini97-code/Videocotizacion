@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "oficio": "pintura",
+  "trabajo": {
+    "tipo": "pintura_rejas_aberturas",
+    "descripcion": "Rejas del frente y portón",
+    "complejidad": "simple"
+  },
+  "medidas": [
+    {
+      "concepto": "rejas",
+      "cantidad": 18,
+      "unidad": "ml",
+      "origen": "dicho_por_cliente"
+    },
+    {
+      "concepto": "portón",
+      "cantidad": 1,
+      "unidad": "unidad",
+      "origen": "visto_en_camara"
+    }
+  ],
+  "altura": {
+    "metros_max": 2,
+    "requiere_andamio": "no",
+    "medio": "ninguno"
+  },
+  "estado_superficie": "descascarado",
+  "zona": {
+    "localidad": "mar_del_plata",
+    "fuera_de_zona": true,
+    "referencia": "zona norte"
+  },
+  "urgencia": {
+    "nivel": "baja",
+    "senales": []
+  },
+  "tipo_cliente": "particular_primera_vez",
+  "plazo": {
+    "tipo": "este_mes"
+  },
+  "faltantes": [],
+  "siguiente_paso": {
+    "accion": "emitir_presupuesto",
+    "motivo": "Datos completos; queda marcado fuera de zona para que el asesor confirme traslado",
+    "campos": [
+      "zona"
+    ]
+  },
+  "respuesta_hablada": "Mar del Plata nos queda un poco fuera de la zona habitual, pero igual te paso el presupuesto orientativo y el asesor te confirma el traslado."
+}

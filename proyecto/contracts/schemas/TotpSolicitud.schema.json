@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TotpSolicitud",
+  "description": "Código TOTP de 6 dígitos o código de recuperación de un uso (exactamente uno).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [],
+  "properties": {
+    "codigo": {
+      "type": "string",
+      "pattern": "^[0-9]{6}$"
+    },
+    "codigo_recuperacion": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$",
+      "writeOnly": true
+    }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "codigo": true
+      },
+      "required": [
+        "codigo"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "codigo_recuperacion": true
+      },
+      "required": [
+        "codigo_recuperacion"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "codigo": "123456"
+    },
+    {
+      "codigo_recuperacion": "AB12-CD34-EF56"
+    }
+  ]
+}

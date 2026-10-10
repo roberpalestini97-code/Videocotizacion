@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IdPublicoEnlace",
+  "description": "id_publico del enlace opaco del profesional: 22 caracteres base64url (128 bits aleatorios). Rotable (R62).",
+  "type": "string",
+  "pattern": "^[A-Za-z0-9_-]{22}$",
+  "examples": [
+    "WxoyJSebjQ2qgzlPxgXnjq",
+    "TGV1TOOc-4bD0HVKCPfk07"
+  ]
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "esquema": "ReautenticacionSolicitud",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "contrasena": "una-frase-larga-de-prueba-0",
+      "codigo_totp": "654321",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ReautenticacionSolicitud",
+    "caso": "falta \"contrasena\"",
+    "falla_por": "required",
+    "instancia": {
+      "codigo_totp": "654321"
+    }
+  },
+  {
+    "esquema": "ReautenticacionSolicitud",
+    "caso": "falta \"codigo_totp\"",
+    "falla_por": "required",
+    "instancia": {
+      "contrasena": "una-frase-larga-de-prueba-0"
+    }
+  }
+]

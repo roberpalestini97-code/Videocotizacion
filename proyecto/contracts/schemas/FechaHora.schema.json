@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FechaHora",
+  "description": "Fecha y hora RFC 3339 en UTC (sufijo Z).",
+  "type": "string",
+  "format": "date-time",
+  "pattern": "Z$",
+  "maxLength": 30,
+  "examples": [
+    "2026-10-08T13:00:00Z"
+  ]
+}

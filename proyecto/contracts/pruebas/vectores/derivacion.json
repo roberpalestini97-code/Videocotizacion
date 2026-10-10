@@ -1,0 +1,336 @@
+[
+  {
+    "id": "V430",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "derivación wa.me 1",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-QMN3-1TPTW1",
+        "url_wa_me": "https://wa.me/5492235550102?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-QMN3-1TPTW1",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-QMN3-1TPTW1",
+        "generada_en": "2026-10-08T13:35:00Z"
+      }
+    }
+  },
+  {
+    "id": "V431",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "derivación wa.me 2",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-M5NX-F7FZ42",
+        "url_wa_me": "https://wa.me/5492235550103?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-M5NX-F7FZ42",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-M5NX-F7FZ42",
+        "generada_en": "2026-10-08T13:36:00Z"
+      }
+    }
+  },
+  {
+    "id": "V432",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "derivación wa.me 3",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-EPCR-WHPFG1",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-EPCR-WHPFG1",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-EPCR-WHPFG1",
+        "generada_en": "2026-10-08T13:37:00Z"
+      }
+    }
+  },
+  {
+    "id": "V433",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "derivación wa.me 4",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-JQAP-HQ0GHK",
+        "url_wa_me": "https://wa.me/5492235550102?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-JQAP-HQ0GHK",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-JQAP-HQ0GHK",
+        "generada_en": "2026-10-08T13:38:00Z"
+      }
+    }
+  },
+  {
+    "id": "V434",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "derivación wa.me 5",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-FX39-RXYJX1",
+        "url_wa_me": "https://wa.me/5492235550103?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-FX39-RXYJX1",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-FX39-RXYJX1",
+        "generada_en": "2026-10-08T13:39:00Z"
+      }
+    }
+  },
+  {
+    "id": "V435",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "derivación wa.me 6",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-PN4Z-V4EG9P",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-PN4Z-V4EG9P",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-PN4Z-V4EG9P",
+        "generada_en": "2026-10-08T13:40:00Z"
+      }
+    }
+  },
+  {
+    "id": "V436",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "texto con teléfono del cliente",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-RP7C-E5RAF5",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20soy%20Marta%20%2B5492235551234%2C%20VC-RP7C-E5RAF5",
+        "texto_prellenado": "Hola, soy Marta +5492235551234, VC-RP7C-E5RAF5",
+        "generada_en": "2026-10-08T13:28:00Z"
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V437",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "texto con email del cliente",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-RP7C-E5RAF5",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20marta%40correo.local%20VC-RP7C-E5RAF5",
+        "texto_prellenado": "Hola, marta@correo.local VC-RP7C-E5RAF5",
+        "generada_en": "2026-10-08T13:28:00Z"
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V438",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "url sin el código de referencia",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-RP7C-E5RAF5",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-RP7C-E5RAF5",
+        "generada_en": "2026-10-08T13:28:00Z"
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V439",
+    "categoria": "derivacion",
+    "requisitos": [
+      "R50"
+    ],
+    "descripcion": "url y texto prellenado no coinciden",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "codigo_referencia": "VC-RP7C-E5RAF5",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-RP7C-E5RAF5",
+        "texto_prellenado": "Otro texto VC-RP7C-E5RAF5",
+        "generada_en": "2026-10-08T13:28:00Z"
+      },
+      "conforme": false
+    }
+  }
+]

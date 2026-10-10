@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ResumenCotizacion",
+  "description": "Fila de \"Mis cotizaciones\". contacto_disponible y codigo_referencia viven SOLO acá (T39).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sesion_id",
+    "creada_en",
+    "estado",
+    "fuera_de_zona",
+    "contacto_disponible",
+    "resumen"
+  ],
+  "properties": {
+    "sesion_id": {
+      "$ref": "IdSesion.schema.json"
+    },
+    "creada_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "estado": {
+      "$ref": "EstadoSesion.schema.json"
+    },
+    "motivo_cierre": {
+      "$ref": "MotivoCierre.schema.json"
+    },
+    "oficio": {
+      "$ref": "Oficio.schema.json"
+    },
+    "zona": {
+      "$ref": "Zona.schema.json"
+    },
+    "fuera_de_zona": {
+      "type": "boolean"
+    },
+    "total": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cotizacion_id",
+        "total_centavos",
+        "moneda"
+      ],
+      "properties": {
+        "cotizacion_id": {
+          "$ref": "IdCotizacion.schema.json"
+        },
+        "total_centavos": {
+          "$ref": "Centavos.schema.json"
+        },
+        "moneda": {
+          "$ref": "Moneda.schema.json"
+        }
+      }
+    },
+    "codigo_referencia": {
+      "$ref": "CodigoReferencia.schema.json"
+    },
+    "contacto_disponible": {
+      "type": "boolean"
+    },
+    "resumen": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 280,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    }
+  },
+  "examples": [
+    {
+      "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "estado": "cerrada",
+      "motivo_cierre": "completada",
+      "oficio": "pintura",
+      "zona": "mar_chiquita",
+      "fuera_de_zona": false,
+      "contacto_disponible": true,
+      "resumen": "pintura en Mar Chiquita",
+      "total": {
+        "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+        "total_centavos": 2312500,
+        "moneda": "ARS"
+      },
+      "codigo_referencia": "VC-6X0B-5RD4NC"
+    },
+    {
+      "sesion_id": "ses_Y2B1C87BRRVXZ22MPVG3Q3ZY9Q",
+      "creada_en": "2026-10-08T05:30:00Z",
+      "estado": "cerrada",
+      "motivo_cierre": "sin_voz",
+      "oficio": "pintura",
+      "zona": "mar_chiquita",
+      "fuera_de_zona": false,
+      "contacto_disponible": false,
+      "resumen": "pintura en Mar Chiquita"
+    }
+  ]
+}

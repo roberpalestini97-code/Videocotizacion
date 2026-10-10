@@ -1,0 +1,28 @@
+[
+  {
+    "esquema": "ListadoClavesWidget",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "items": [
+        {
+          "clave_id": "cpw_F47FE4NAE2YBQ039R346YGWPPB",
+          "nombre": "Sitio principal",
+          "prefijo": "vc_pub_NlwcBG",
+          "origins": [
+            "https://cotizar.videocotizacion.local"
+          ],
+          "estado": "activa",
+          "creada_en": "2026-10-05T01:40:00Z"
+        }
+      ],
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ListadoClavesWidget",
+    "caso": "falta \"items\"",
+    "falla_por": "required",
+    "instancia": {}
+  }
+]

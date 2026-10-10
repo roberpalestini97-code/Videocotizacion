@@ -1,0 +1,82 @@
+[
+  {
+    "esquema": "Sesion",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "estado": "creada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "duracion_s": 0,
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "Sesion",
+    "caso": "falta \"sesion_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "estado": "creada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "duracion_s": 0
+    }
+  },
+  {
+    "esquema": "Sesion",
+    "caso": "falta \"estado\"",
+    "falla_por": "required",
+    "instancia": {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "duracion_s": 0
+    }
+  },
+  {
+    "esquema": "Sesion",
+    "caso": "cerrada sin motivo",
+    "falla_por": "required",
+    "instancia": {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "estado": "cerrada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "duracion_s": 600,
+      "consentida_en": "2026-10-08T13:01:00Z",
+      "cerrada_en": "2026-10-08T13:15:00Z",
+      "cotizacion_id": "cot_9DQCFQZZ7H1RQ0CKK4EQF7C54A"
+    }
+  },
+  {
+    "esquema": "Sesion",
+    "caso": "abierta con motivo de cierre",
+    "falla_por": "not",
+    "instancia": {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "estado": "en_curso",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "duracion_s": 120,
+      "consentida_en": "2026-10-08T13:01:00Z",
+      "motivo_cierre": "sin_voz"
+    }
+  },
+  {
+    "esquema": "Sesion",
+    "caso": "motivo inventado",
+    "falla_por": "enum",
+    "instancia": {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "estado": "cerrada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "duracion_s": 600,
+      "consentida_en": "2026-10-08T13:01:00Z",
+      "cerrada_en": "2026-10-08T13:15:00Z",
+      "motivo_cierre": "aburrido",
+      "cotizacion_id": "cot_9DQCFQZZ7H1RQ0CKK4EQF7C54A"
+    }
+  }
+]

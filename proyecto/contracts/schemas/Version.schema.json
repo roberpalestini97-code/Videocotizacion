@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Version",
+  "description": "Versión del contrato. Solo el OpenAPI es candidato a 1.0.0; los eventos de sesión siguen en borrador.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "api",
+    "estado_api",
+    "eventos_sesion",
+    "deprecaciones"
+  ],
+  "properties": {
+    "api": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[a-z0-9.]+)?$"
+    },
+    "estado_api": {
+      "type": "string",
+      "enum": [
+        "borrador",
+        "congelado"
+      ]
+    },
+    "eventos_sesion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "estado"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "vc-eventos.borrador.1"
+        },
+        "estado": {
+          "type": "string",
+          "const": "borrador"
+        }
+      }
+    },
+    "deprecaciones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operacion",
+          "desde",
+          "retiro"
+        ],
+        "properties": {
+          "operacion": {
+            "type": "string",
+            "pattern": "^[a-zA-Z]+$"
+          },
+          "desde": {
+            "type": "string",
+            "format": "date"
+          },
+          "retiro": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "minItems": 0,
+      "maxItems": 50
+    }
+  },
+  "examples": [
+    {
+      "api": "0.1.4-borrador",
+      "estado_api": "borrador",
+      "eventos_sesion": {
+        "version": "vc-eventos.borrador.1",
+        "estado": "borrador"
+      },
+      "deprecaciones": []
+    }
+  ]
+}

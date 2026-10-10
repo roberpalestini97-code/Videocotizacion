@@ -1,0 +1,66 @@
+[
+  {
+    "esquema": "ClaveWidgetSolicitud",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "nombre": "Landing jardinería",
+      "origins": [
+        "https://cotizar.videocotizacion.local",
+        "https://socio.ejemplo.local:8443"
+      ],
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ClaveWidgetSolicitud",
+    "caso": "falta \"nombre\"",
+    "falla_por": "required",
+    "instancia": {
+      "origins": [
+        "https://cotizar.videocotizacion.local",
+        "https://socio.ejemplo.local:8443"
+      ]
+    }
+  },
+  {
+    "esquema": "ClaveWidgetSolicitud",
+    "caso": "falta \"origins\"",
+    "falla_por": "required",
+    "instancia": {
+      "nombre": "Landing jardinería"
+    }
+  },
+  {
+    "esquema": "ClaveWidgetSolicitud",
+    "caso": "sin origins",
+    "falla_por": "minItems",
+    "instancia": {
+      "nombre": "Sitio",
+      "origins": []
+    }
+  },
+  {
+    "esquema": "ClaveWidgetSolicitud",
+    "caso": "origins repetidos",
+    "falla_por": "uniqueItems",
+    "instancia": {
+      "nombre": "Sitio",
+      "origins": [
+        "https://a.local",
+        "https://a.local"
+      ]
+    }
+  },
+  {
+    "esquema": "ClaveWidgetSolicitud",
+    "caso": "origin con comodín",
+    "falla_por": "pattern",
+    "instancia": {
+      "nombre": "Sitio",
+      "origins": [
+        "https://*.a.local"
+      ]
+    }
+  }
+]

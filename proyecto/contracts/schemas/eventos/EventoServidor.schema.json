@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EventoServidor",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Unión de eventos servidor → cliente.",
+  "oneOf": [
+    {
+      "$ref": "Evento_sesion_lista.schema.json"
+    },
+    {
+      "$ref": "Evento_transcripcion_parcial.schema.json"
+    },
+    {
+      "$ref": "Evento_transcripcion_final.schema.json"
+    },
+    {
+      "$ref": "Evento_avatar_respuesta.schema.json"
+    },
+    {
+      "$ref": "Evento_avatar_visemas.schema.json"
+    },
+    {
+      "$ref": "Evento_pizarron_actualizado.schema.json"
+    },
+    {
+      "$ref": "Evento_camara_fotograma.schema.json"
+    },
+    {
+      "$ref": "Evento_sesion_aviso.schema.json"
+    },
+    {
+      "$ref": "Evento_cotizacion_emitida.schema.json"
+    },
+    {
+      "$ref": "Evento_sesion_cerrada.schema.json"
+    },
+    {
+      "$ref": "Evento_error.schema.json"
+    }
+  ],
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "pizarron.actualizado",
+      "seq": 5,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "version": 1,
+        "campos": [
+          {
+            "clave": "oficio",
+            "etiqueta": "Oficio",
+            "valor": "Pintura",
+            "estado": "anotado"
+          },
+          {
+            "clave": "superficie_m2",
+            "etiqueta": "Superficie",
+            "valor": "40 m²",
+            "estado": "anotado"
+          },
+          {
+            "clave": "altura",
+            "etiqueta": "Altura",
+            "valor": "Falta",
+            "estado": "faltante"
+          }
+        ]
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "cotizacion.emitida",
+      "seq": 8,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "cotizacion": {
+          "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+          "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+          "emitida_en": "2026-10-08T13:20:00Z",
+          "moneda": "ARS",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_interior",
+              "descripcion": "Pintura interior látex, dos manos",
+              "unidad": "m2",
+              "cantidad_centesimas": 1250,
+              "precio_unitario_centavos": 185000,
+              "importe_centavos": 2312500
+            }
+          ],
+          "total_centavos": 2312500,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        },
+        "derivacion": {
+          "codigo_referencia": "VC-6X0B-5RD4NC",
+          "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+          "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+          "generada_en": "2026-10-08T13:25:00Z"
+        }
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "sesion.cerrada",
+      "seq": 9,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "motivo_cierre": "completada",
+        "duracion_s": 600
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConsentimientoRegistrado",
+  "description": "Consentimiento registrado en tabla solo-anexar (R12).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "consentimiento_id",
+    "sesion_id",
+    "aviso_version",
+    "registrado_en",
+    "estado_sesion"
+  ],
+  "properties": {
+    "consentimiento_id": {
+      "$ref": "IdConsentimiento.schema.json"
+    },
+    "sesion_id": {
+      "$ref": "IdSesion.schema.json"
+    },
+    "aviso_version": {
+      "$ref": "VersionAviso.schema.json"
+    },
+    "registrado_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "estado_sesion": {
+      "type": "string",
+      "const": "consentida"
+    }
+  },
+  "examples": [
+    {
+      "consentimiento_id": "cns_M4D399VWAKXGCWFXMS45D8EN72",
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "aviso_version": "2026-10-08.1",
+      "registrado_en": "2026-10-08T13:01:00Z",
+      "estado_sesion": "consentida"
+    }
+  ]
+}

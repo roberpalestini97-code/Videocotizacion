@@ -1,0 +1,57 @@
+/* Tokens de diseño del panel. El estilo definitivo está pendiente de Rober (BRIEF, "Pendientes"): esto es neutro. */
+:root {
+  color-scheme: light dark;
+  --fuente: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --fuente-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fondo: #f5f6f8;
+  --superficie: #ffffff;
+  --superficie-2: #eef0f4;
+  --borde: #c3c9d4;
+  --texto: #1b2230;
+  --texto-suave: #4a5568;
+  --primario: #1d4ed8;
+  --primario-texto: #ffffff;
+  --primario-hover: #1e40af;
+  --peligro: #b42318;
+  --peligro-fondo: #fef3f2;
+  --exito: #067647;
+  --exito-fondo: #ecfdf3;
+  --aviso: #8a4b00;
+  --aviso-fondo: #fffaeb;
+  --info: #175cd3;
+  --info-fondo: #eff8ff;
+  --foco: #7a3df0;
+
+  --espacio-1: 0.25rem;
+  --espacio-2: 0.5rem;
+  --espacio-3: 0.75rem;
+  --espacio-4: 1rem;
+  --espacio-5: 1.5rem;
+  --espacio-6: 2rem;
+  --radio: 0.5rem;
+  --ancho-contenido: 64rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #10141c;
+    --superficie: #181e29;
+    --superficie-2: #212938;
+    --borde: #465069;
+    --texto: #e8ecf4;
+    --texto-suave: #b4bdcd;
+    --primario: #7aa2ff;
+    --primario-texto: #0b1020;
+    --primario-hover: #a3bfff;
+    --peligro: #ff8f85;
+    --peligro-fondo: #3a1714;
+    --exito: #6ee7a8;
+    --exito-fondo: #0f2a1d;
+    --aviso: #ffcf7a;
+    --aviso-fondo: #33260a;
+    --info: #8ab8ff;
+    --info-fondo: #0f2140;
+    --foco: #c7a8ff;
+  }
+}

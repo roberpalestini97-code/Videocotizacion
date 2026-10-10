@@ -1,0 +1,247 @@
+[
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte.",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "falta \"oficio\"",
+    "falla_por": "required",
+    "instancia": {
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "falta \"zona\"",
+    "falla_por": "required",
+    "instancia": {
+      "oficio": "pintura",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "campo prohibido precio",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte.",
+      "precio": 1
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "campo prohibido monto_estimado",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte.",
+      "monto_estimado": 1
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "campo prohibido total",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte.",
+      "total": 1
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "campo prohibido rostro",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte.",
+      "rostro": 1
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "campo prohibido edad_aparente",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte.",
+      "edad_aparente": 1
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "campo prohibido dni",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte.",
+      "dni": 1
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "superficie float",
+    "falla_por": "type",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 40.5,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "localidad sin normalizar",
+    "falla_por": "enum",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "mar_del_plata",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+    }
+  },
+  {
+    "esquema": "DatosExtraidos",
+    "caso": "observaciones con script",
+    "falla_por": "pattern",
+    "instancia": {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "<script>alert(1)</script>"
+    }
+  }
+]

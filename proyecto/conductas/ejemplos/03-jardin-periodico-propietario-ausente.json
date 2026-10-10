@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "oficio": "jardineria",
+  "trabajo": {
+    "tipo": "mantenimiento_jardin_periodico",
+    "descripcion": "Corte de césped y bordes cada 15 días, casa de fin de semana",
+    "complejidad": "simple"
+  },
+  "medidas": [
+    {
+      "concepto": "parque",
+      "cantidad": 800,
+      "unidad": "m2",
+      "origen": "dicho_por_cliente"
+    }
+  ],
+  "altura": {
+    "metros_max": null,
+    "requiere_andamio": "no",
+    "medio": "ninguno"
+  },
+  "estado_superficie": "no_aplica",
+  "zona": {
+    "localidad": "parque_lago",
+    "fuera_de_zona": false
+  },
+  "urgencia": {
+    "nivel": "baja",
+    "senales": []
+  },
+  "tipo_cliente": "propietario_ausente",
+  "plazo": {
+    "tipo": "flexible"
+  },
+  "faltantes": [],
+  "siguiente_paso": {
+    "accion": "confirmar_datos",
+    "motivo": "Confirmar frecuencia y acceso al terreno sin el dueño presente",
+    "campos": [
+      "acceso",
+      "medidas"
+    ]
+  },
+  "respuesta_hablada": "Te confirmo: unos ochocientos metros de parque en Parque Lago, corte cada quince días. ¿Alguien nos abre o dejás la llave en algún lado?"
+}

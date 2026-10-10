@@ -1,0 +1,47 @@
+# --- Secretos y entorno (nunca versionar) ---
+**/.env
+**/.env.*
+!**/.env.example
+**/secrets/
+**/*.pem
+**/*.key
+**/*.crt
+!**/infra/docker/healthcheck/**
+
+# --- Node (front Lovable, conductas, contrato, spike) ---
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/.output/
+**/.vinxi/
+**/.tanstack/
+**/.nitro/
+**/.wrangler/
+**/.dev.vars
+*.local
+
+# --- Go ---
+**/*.exe
+**/*.test
+**/bin/
+
+# --- Editor / OS ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# --- Logs ---
+**/*.log
+logs/
+
+# --- Cursor (local del IDE) ---
+.cursor/
+
+# --- Artefactos locales de build Docker ---
+**/.docker/
+
+# --- Sync / respaldos locales ---
+proyecto/_sync/
+**/*.tgz

@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evento_camara_fotograma",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Servidor → cliente: acuse de fotograma (R65); el fotograma no se guarda.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "tipo",
+    "seq",
+    "ts",
+    "datos"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "const": "camara.fotograma"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts": {
+      "$ref": "../FechaHora.schema.json"
+    },
+    "datos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "seq_fotograma",
+        "resultado"
+      ],
+      "properties": {
+        "seq_fotograma": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "resultado": {
+          "type": "string",
+          "enum": [
+            "aceptado",
+            "descartado"
+          ]
+        },
+        "motivo": {
+          "type": "string",
+          "enum": [
+            "frecuencia",
+            "tamano",
+            "dimensiones",
+            "formato",
+            "tope_sesion"
+          ]
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "camara.fotograma",
+      "seq": 6,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "seq_fotograma": 0,
+        "resultado": "aceptado"
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "camara.fotograma",
+      "seq": 7,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "seq_fotograma": 1,
+        "resultado": "descartado",
+        "motivo": "tamano"
+      }
+    }
+  ]
+}

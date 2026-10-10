@@ -1,0 +1,25 @@
+{
+  "name": "vc-avatar-spike",
+  "private": true,
+  "version": "0.0.0-spike",
+  "description": "SPIKE T07 (descartable): avatar 3D con visemas, modo clips, pizarrón y muestreo de cámara para VideoCotización",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "@types/three": "0.180.0",
+    "happy-dom": "20.11.1",
+    "typescript": "5.8.3",
+    "vite": "6.4.3",
+    "vitest": "5.0.1"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "version": "1.0",
+  "oficio": "pintura",
+  "trabajo": {
+    "tipo": "pintura_fachada_altura",
+    "descripcion": "Fachada de dos plantas, revoque con fisuras finas",
+    "complejidad": "media",
+    "requiere_planos": false,
+    "jornadas_estimadas": 5
+  },
+  "medidas": [
+    {
+      "concepto": "fachada frente",
+      "cantidad": 64,
+      "unidad": "m2",
+      "origen": "dicho_por_cliente"
+    },
+    {
+      "concepto": "fachada lateral",
+      "cantidad": 48.5,
+      "unidad": "m2",
+      "origen": "visto_en_camara"
+    }
+  ],
+  "altura": {
+    "metros_max": 7,
+    "requiere_andamio": "si",
+    "medio": "andamio"
+  },
+  "estado_superficie": "regular",
+  "zona": {
+    "localidad": "mar_chiquita",
+    "fuera_de_zona": false,
+    "referencia": "cerca de la laguna"
+  },
+  "urgencia": {
+    "nivel": "media",
+    "senales": [
+      "quiere terminar antes del verano"
+    ]
+  },
+  "tipo_cliente": "particular_recurrente",
+  "plazo": {
+    "tipo": "este_mes",
+    "sujeto_a_cambios": false
+  },
+  "faltantes": [],
+  "siguiente_paso": {
+    "accion": "emitir_presupuesto",
+    "motivo": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "campos": [
+      "medidas",
+      "altura",
+      "estado_superficie",
+      "zona"
+    ]
+  },
+  "respuesta_hablada": "Perfecto, con esto ya tengo todo. Te armo el presupuesto orientativo con andamio incluido y te lo muestro al final."
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "esquema": "LoginSolicitud",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "email": "juan@asesores.local",
+      "contrasena": "una-frase-larga-de-prueba-0",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "LoginSolicitud",
+    "caso": "falta \"email\"",
+    "falla_por": "required",
+    "instancia": {
+      "contrasena": "una-frase-larga-de-prueba-0"
+    }
+  },
+  {
+    "esquema": "LoginSolicitud",
+    "caso": "falta \"contrasena\"",
+    "falla_por": "required",
+    "instancia": {
+      "email": "juan@asesores.local"
+    }
+  },
+  {
+    "esquema": "LoginSolicitud",
+    "caso": "contraseña corta",
+    "falla_por": "minLength",
+    "instancia": {
+      "email": "juan@asesores.local",
+      "contrasena": "corta"
+    }
+  }
+]

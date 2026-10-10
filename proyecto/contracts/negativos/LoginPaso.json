@@ -1,0 +1,31 @@
+[
+  {
+    "esquema": "LoginPaso",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "paso": "totp",
+      "csrf_token": "1XSJcMMHC-cb3dy6BpcSlzubanTcfMpSi7NJNQzCB1U",
+      "vence_en": "2026-10-08T13:05:00Z",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "LoginPaso",
+    "caso": "falta \"paso\"",
+    "falla_por": "required",
+    "instancia": {
+      "csrf_token": "1XSJcMMHC-cb3dy6BpcSlzubanTcfMpSi7NJNQzCB1U",
+      "vence_en": "2026-10-08T13:05:00Z"
+    }
+  },
+  {
+    "esquema": "LoginPaso",
+    "caso": "falta \"csrf_token\"",
+    "falla_por": "required",
+    "instancia": {
+      "paso": "totp",
+      "vence_en": "2026-10-08T13:05:00Z"
+    }
+  }
+]

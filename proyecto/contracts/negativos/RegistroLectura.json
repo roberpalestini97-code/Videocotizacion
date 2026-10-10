@@ -1,0 +1,49 @@
+[
+  {
+    "esquema": "RegistroLectura",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "registro_id": "reg_MQR6KABWWFZXSKRH3NTB1ZW122",
+      "ocurrido_en": "2026-10-08T13:00:00Z",
+      "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+      "accion": "ver_detalle",
+      "recurso_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "RegistroLectura",
+    "caso": "falta \"registro_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "ocurrido_en": "2026-10-08T13:00:00Z",
+      "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+      "accion": "ver_detalle",
+      "recurso_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38"
+    }
+  },
+  {
+    "esquema": "RegistroLectura",
+    "caso": "falta \"ocurrido_en\"",
+    "falla_por": "required",
+    "instancia": {
+      "registro_id": "reg_MQR6KABWWFZXSKRH3NTB1ZW122",
+      "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+      "accion": "ver_detalle",
+      "recurso_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38"
+    }
+  },
+  {
+    "esquema": "RegistroLectura",
+    "caso": "acción inventada",
+    "falla_por": "enum",
+    "instancia": {
+      "registro_id": "reg_MQR6KABWWFZXSKRH3NTB1ZW122",
+      "ocurrido_en": "2026-10-08T13:00:00Z",
+      "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+      "accion": "borrar_registro",
+      "recurso_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38"
+    }
+  }
+]

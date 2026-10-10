@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evento_cotizacion_emitida",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Servidor → cliente: presupuesto final (solo al final, BRIEF 5).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "tipo",
+    "seq",
+    "ts",
+    "datos"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "const": "cotizacion.emitida"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts": {
+      "$ref": "../FechaHora.schema.json"
+    },
+    "datos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cotizacion",
+        "derivacion"
+      ],
+      "properties": {
+        "cotizacion": {
+          "$ref": "../Cotizacion.schema.json"
+        },
+        "derivacion": {
+          "$ref": "../DerivacionWhatsApp.schema.json"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "cotizacion.emitida",
+      "seq": 8,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "cotizacion": {
+          "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+          "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+          "emitida_en": "2026-10-08T13:20:00Z",
+          "moneda": "ARS",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_interior",
+              "descripcion": "Pintura interior látex, dos manos",
+              "unidad": "m2",
+              "cantidad_centesimas": 1250,
+              "precio_unitario_centavos": 185000,
+              "importe_centavos": 2312500
+            }
+          ],
+          "total_centavos": 2312500,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        },
+        "derivacion": {
+          "codigo_referencia": "VC-6X0B-5RD4NC",
+          "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+          "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+          "generada_en": "2026-10-08T13:25:00Z"
+        }
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "cotizacion.emitida",
+      "seq": 9,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "cotizacion": {
+          "cotizacion_id": "cot_NTSZPEF4M4JWCK9QFTM12QNTTB",
+          "sesion_id": "ses_T3HDPBBMD3P860A4S4T3PJ1DB2",
+          "emitida_en": "2026-10-08T13:21:00Z",
+          "moneda": "ARS",
+          "oficio": "jardineria",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "corte_cesped",
+              "descripcion": "Corte de césped y bordeado",
+              "unidad": "m2",
+              "cantidad_centesimas": 1625,
+              "precio_unitario_centavos": 30007,
+              "importe_centavos": 487614
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "poda",
+              "descripcion": "Poda de árbol mediano",
+              "unidad": "unidad",
+              "cantidad_centesimas": 300,
+              "precio_unitario_centavos": 4500014,
+              "importe_centavos": 13500042
+            }
+          ],
+          "total_centavos": 13987656,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        },
+        "derivacion": {
+          "codigo_referencia": "VC-JFGD-X4DDYV",
+          "url_wa_me": "https://wa.me/5492235550102?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-JFGD-X4DDYV",
+          "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-JFGD-X4DDYV",
+          "generada_en": "2026-10-08T13:26:00Z"
+        }
+      }
+    }
+  ]
+}

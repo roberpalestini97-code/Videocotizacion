@@ -1,0 +1,473 @@
+[
+  {
+    "esquema": "SesionDetalle",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sesion_id": "ses_XSC3X2V37K672NXJ3YBRKTJ4PC",
+      "estado": "cerrada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "cerrada_en": "2026-10-08T13:14:00Z",
+      "motivo_cierre": "completada",
+      "duracion_s": 780,
+      "datos_extraidos": {
+        "oficio": "pintura",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "faltantes": [],
+        "corregido_por_cliente": false,
+        "tarea": "pintura_interior",
+        "superficie_centesimas_m2": 1250,
+        "interior_exterior": "interior",
+        "altura": "planta_baja",
+        "estado_superficie": "bueno",
+        "urgencia": "baja",
+        "plazo": "inmediato"
+      },
+      "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
+      "versiones": {
+        "tarifas": "2026.1",
+        "prompt": "conducta_pintura@fdee14cbdaf7",
+        "esquema_salida": "1.0.0"
+      },
+      "cotizacion": {
+        "cotizacion_id": "cot_GZSK8TSNY38HM5VJRA3WX60M8T",
+        "sesion_id": "ses_XSC3X2V37K672NXJ3YBRKTJ4PC",
+        "emitida_en": "2026-10-08T13:20:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 1250,
+            "precio_unitario_centavos": 185000,
+            "importe_centavos": 2312500
+          },
+          {
+            "tipo": "traslado",
+            "codigo_tarea": "traslado_fuera_de_zona",
+            "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
+            "unidad": "global",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 1500000,
+            "importe_centavos": 1500000
+          }
+        ],
+        "total_centavos": 3812500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "SesionDetalle",
+    "caso": "falta \"sesion_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "estado": "cerrada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "cerrada_en": "2026-10-08T13:14:00Z",
+      "motivo_cierre": "completada",
+      "duracion_s": 780,
+      "datos_extraidos": {
+        "oficio": "pintura",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "faltantes": [],
+        "corregido_por_cliente": false,
+        "tarea": "pintura_interior",
+        "superficie_centesimas_m2": 1250,
+        "interior_exterior": "interior",
+        "altura": "planta_baja",
+        "estado_superficie": "bueno",
+        "urgencia": "baja",
+        "plazo": "inmediato"
+      },
+      "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
+      "versiones": {
+        "tarifas": "2026.1",
+        "prompt": "conducta_pintura@fdee14cbdaf7",
+        "esquema_salida": "1.0.0"
+      },
+      "cotizacion": {
+        "cotizacion_id": "cot_GZSK8TSNY38HM5VJRA3WX60M8T",
+        "sesion_id": "ses_XSC3X2V37K672NXJ3YBRKTJ4PC",
+        "emitida_en": "2026-10-08T13:20:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 1250,
+            "precio_unitario_centavos": 185000,
+            "importe_centavos": 2312500
+          },
+          {
+            "tipo": "traslado",
+            "codigo_tarea": "traslado_fuera_de_zona",
+            "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
+            "unidad": "global",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 1500000,
+            "importe_centavos": 1500000
+          }
+        ],
+        "total_centavos": 3812500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "esquema": "SesionDetalle",
+    "caso": "falta \"estado\"",
+    "falla_por": "required",
+    "instancia": {
+      "sesion_id": "ses_XSC3X2V37K672NXJ3YBRKTJ4PC",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "cerrada_en": "2026-10-08T13:14:00Z",
+      "motivo_cierre": "completada",
+      "duracion_s": 780,
+      "datos_extraidos": {
+        "oficio": "pintura",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "faltantes": [],
+        "corregido_por_cliente": false,
+        "tarea": "pintura_interior",
+        "superficie_centesimas_m2": 1250,
+        "interior_exterior": "interior",
+        "altura": "planta_baja",
+        "estado_superficie": "bueno",
+        "urgencia": "baja",
+        "plazo": "inmediato"
+      },
+      "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
+      "versiones": {
+        "tarifas": "2026.1",
+        "prompt": "conducta_pintura@fdee14cbdaf7",
+        "esquema_salida": "1.0.0"
+      },
+      "cotizacion": {
+        "cotizacion_id": "cot_GZSK8TSNY38HM5VJRA3WX60M8T",
+        "sesion_id": "ses_XSC3X2V37K672NXJ3YBRKTJ4PC",
+        "emitida_en": "2026-10-08T13:20:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 1250,
+            "precio_unitario_centavos": 185000,
+            "importe_centavos": 2312500
+          },
+          {
+            "tipo": "traslado",
+            "codigo_tarea": "traslado_fuera_de_zona",
+            "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
+            "unidad": "global",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 1500000,
+            "importe_centavos": 1500000
+          }
+        ],
+        "total_centavos": 3812500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "esquema": "SesionDetalle",
+    "caso": "con codigo_referencia",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+      "estado": "cerrada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "cerrada_en": "2026-10-08T13:14:00Z",
+      "motivo_cierre": "completada",
+      "duracion_s": 780,
+      "datos_extraidos": {
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "faltantes": [],
+        "corregido_por_cliente": false,
+        "tarea": "pintura_interior",
+        "superficie_centesimas_m2": 1250,
+        "interior_exterior": "interior",
+        "altura": "planta_baja",
+        "estado_superficie": "bueno",
+        "urgencia": "baja",
+        "plazo": "inmediato"
+      },
+      "resumen": "Consulta de pintura en Cobo.",
+      "versiones": {
+        "tarifas": "2026.1",
+        "prompt": "conducta_pintura@fdee14cbdaf7",
+        "esquema_salida": "1.0.0"
+      },
+      "cotizacion": {
+        "cotizacion_id": "cot_N601R3XEE3HYJYTD08YWEGKTCC",
+        "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+        "emitida_en": "2026-10-08T13:20:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 1250,
+            "precio_unitario_centavos": 185000,
+            "importe_centavos": 2312500
+          }
+        ],
+        "total_centavos": 2312500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "codigo_referencia": "VC-ABCD-EFGHJK"
+    }
+  },
+  {
+    "esquema": "SesionDetalle",
+    "caso": "con derivacion",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+      "estado": "cerrada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "cerrada_en": "2026-10-08T13:14:00Z",
+      "motivo_cierre": "completada",
+      "duracion_s": 780,
+      "datos_extraidos": {
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "faltantes": [],
+        "corregido_por_cliente": false,
+        "tarea": "pintura_interior",
+        "superficie_centesimas_m2": 1250,
+        "interior_exterior": "interior",
+        "altura": "planta_baja",
+        "estado_superficie": "bueno",
+        "urgencia": "baja",
+        "plazo": "inmediato"
+      },
+      "resumen": "Consulta de pintura en Cobo.",
+      "versiones": {
+        "tarifas": "2026.1",
+        "prompt": "conducta_pintura@fdee14cbdaf7",
+        "esquema_salida": "1.0.0"
+      },
+      "cotizacion": {
+        "cotizacion_id": "cot_N601R3XEE3HYJYTD08YWEGKTCC",
+        "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+        "emitida_en": "2026-10-08T13:20:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 1250,
+            "precio_unitario_centavos": 185000,
+            "importe_centavos": 2312500
+          }
+        ],
+        "total_centavos": 2312500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "derivacion": {
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+        "generada_en": "2026-10-08T13:25:00Z"
+      }
+    }
+  },
+  {
+    "esquema": "SesionDetalle",
+    "caso": "con contacto_disponible",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+      "estado": "cerrada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "cerrada_en": "2026-10-08T13:14:00Z",
+      "motivo_cierre": "completada",
+      "duracion_s": 780,
+      "datos_extraidos": {
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "faltantes": [],
+        "corregido_por_cliente": false,
+        "tarea": "pintura_interior",
+        "superficie_centesimas_m2": 1250,
+        "interior_exterior": "interior",
+        "altura": "planta_baja",
+        "estado_superficie": "bueno",
+        "urgencia": "baja",
+        "plazo": "inmediato"
+      },
+      "resumen": "Consulta de pintura en Cobo.",
+      "versiones": {
+        "tarifas": "2026.1",
+        "prompt": "conducta_pintura@fdee14cbdaf7",
+        "esquema_salida": "1.0.0"
+      },
+      "cotizacion": {
+        "cotizacion_id": "cot_N601R3XEE3HYJYTD08YWEGKTCC",
+        "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+        "emitida_en": "2026-10-08T13:20:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 1250,
+            "precio_unitario_centavos": 185000,
+            "importe_centavos": 2312500
+          }
+        ],
+        "total_centavos": 2312500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "contacto_disponible": true
+    }
+  },
+  {
+    "esquema": "SesionDetalle",
+    "caso": "con fotogramas",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+      "estado": "cerrada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "cerrada_en": "2026-10-08T13:14:00Z",
+      "motivo_cierre": "completada",
+      "duracion_s": 780,
+      "datos_extraidos": {
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "faltantes": [],
+        "corregido_por_cliente": false,
+        "tarea": "pintura_interior",
+        "superficie_centesimas_m2": 1250,
+        "interior_exterior": "interior",
+        "altura": "planta_baja",
+        "estado_superficie": "bueno",
+        "urgencia": "baja",
+        "plazo": "inmediato"
+      },
+      "resumen": "Consulta de pintura en Cobo.",
+      "versiones": {
+        "tarifas": "2026.1",
+        "prompt": "conducta_pintura@fdee14cbdaf7",
+        "esquema_salida": "1.0.0"
+      },
+      "cotizacion": {
+        "cotizacion_id": "cot_N601R3XEE3HYJYTD08YWEGKTCC",
+        "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+        "emitida_en": "2026-10-08T13:20:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 1250,
+            "precio_unitario_centavos": 185000,
+            "importe_centavos": 2312500
+          }
+        ],
+        "total_centavos": 2312500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "fotogramas": [
+        "/9j/4AAQ"
+      ]
+    }
+  }
+]

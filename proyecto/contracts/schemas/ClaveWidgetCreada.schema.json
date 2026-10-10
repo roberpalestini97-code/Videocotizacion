@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ClaveWidgetCreada",
+  "description": "Alta de clave: el valor completo se muestra UNA sola vez (secreto único, T37); después solo el prefijo.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "clave",
+    "valor",
+    "se_muestra_una_sola_vez"
+  ],
+  "properties": {
+    "clave": {
+      "$ref": "ClaveWidget.schema.json"
+    },
+    "valor": {
+      "type": "string",
+      "pattern": "^vc_pub_[A-Za-z0-9_-]{40}$"
+    },
+    "se_muestra_una_sola_vez": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "examples": [
+    {
+      "clave": {
+        "clave_id": "cpw_F47FE4NAE2YBQ039R346YGWPPB",
+        "nombre": "Sitio principal",
+        "prefijo": "vc_pub_NlwcBG",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ],
+        "estado": "activa",
+        "creada_en": "2026-10-05T01:40:00Z"
+      },
+      "valor": "vc_pub_NlwcBGzvreOVir5L_PAP9tzo0DeWwXpwIKaHN-Md",
+      "se_muestra_una_sola_vez": true
+    }
+  ]
+}

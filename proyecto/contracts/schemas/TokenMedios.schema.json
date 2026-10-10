@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TokenMedios",
+  "description": "Token del WebSocket de medios (R32): corto, un solo uso, ligado a la sesión; se envía en el primer mensaje, no en la URL. Emitirlo reserva el cupo de simultáneas (R57, R61).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "token",
+    "ws_url",
+    "vence_en",
+    "vence_en_s",
+    "un_solo_uso",
+    "protocolo_eventos"
+  ],
+  "properties": {
+    "token": {
+      "type": "string",
+      "pattern": "^vc_med_[A-Za-z0-9_-]{43}$"
+    },
+    "ws_url": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^wss://[a-z0-9.-]+(:[0-9]{1,5})?/v1/sesiones/ses_[0-9A-HJKMNP-TV-Z]{26}/medios$"
+    },
+    "vence_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "vence_en_s": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 60
+    },
+    "un_solo_uso": {
+      "type": "boolean",
+      "const": true
+    },
+    "protocolo_eventos": {
+      "type": "string",
+      "const": "vc-eventos.borrador.1",
+      "description": "Eventos NO CONGELADOS (eventos-sesion.md)."
+    }
+  },
+  "examples": [
+    {
+      "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 30,
+      "un_solo_uso": true,
+      "protocolo_eventos": "vc-eventos.borrador.1"
+    }
+  ]
+}

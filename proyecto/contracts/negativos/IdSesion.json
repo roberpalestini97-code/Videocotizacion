@@ -1,0 +1,14 @@
+[
+  {
+    "esquema": "IdSesion",
+    "caso": "id secuencial",
+    "falla_por": "pattern",
+    "instancia": "ses_1"
+  },
+  {
+    "esquema": "IdSesion",
+    "caso": "uuid sin prefijo",
+    "falla_por": "pattern",
+    "instancia": "7f1c2d4e-0000-4000-8000-000000000001"
+  }
+]

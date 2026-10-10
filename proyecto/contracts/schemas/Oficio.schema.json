@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Oficio",
+  "description": "Oficio cubierto. reparaciones, mantenimiento y limpieza todavía sin tarifario (T26).",
+  "type": "string",
+  "enum": [
+    "pintura",
+    "jardineria",
+    "reparaciones",
+    "mantenimiento",
+    "limpieza"
+  ],
+  "examples": [
+    "pintura",
+    "jardineria",
+    "reparaciones",
+    "mantenimiento",
+    "limpieza"
+  ]
+}

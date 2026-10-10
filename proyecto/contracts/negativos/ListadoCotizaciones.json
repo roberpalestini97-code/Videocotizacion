@@ -1,0 +1,1685 @@
+[
+  {
+    "esquema": "ListadoCotizaciones",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "items": [
+        {
+          "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+          "creada_en": "2026-10-08T13:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+            "total_centavos": 2312500,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-6X0B-5RD4NC"
+        },
+        {
+          "sesion_id": "ses_0NCA1Z4BJFKFFH4GBDK9N45TJR",
+          "creada_en": "2026-10-08T11:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_N673TX2ERF818D58BNBSH3VKHA",
+            "total_centavos": 13987656,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-JFGD-X4DDYV"
+        }
+      ],
+      "siguiente_cursor": "sT8wj58x5xAIWhIXBYt3bgkz",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ListadoCotizaciones",
+    "caso": "falta \"items\"",
+    "falla_por": "required",
+    "instancia": {
+      "siguiente_cursor": "sT8wj58x5xAIWhIXBYt3bgkz"
+    }
+  },
+  {
+    "esquema": "ListadoCotizaciones",
+    "caso": "más de 100 por página",
+    "falla_por": "maxItems",
+    "instancia": {
+      "items": [
+        {
+          "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+          "creada_en": "2026-10-08T13:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+            "total_centavos": 2312500,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-6X0B-5RD4NC"
+        },
+        {
+          "sesion_id": "ses_0NCA1Z4BJFKFFH4GBDK9N45TJR",
+          "creada_en": "2026-10-08T11:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_N673TX2ERF818D58BNBSH3VKHA",
+            "total_centavos": 13987656,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-JFGD-X4DDYV"
+        },
+        {
+          "sesion_id": "ses_C5BG6B8NBWWYZZNXJZMK4CAKJG",
+          "creada_en": "2026-10-08T10:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_XACVN5XARPGG65S9TMA805MCGG",
+            "total_centavos": 5100044,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-ABTP-61NNQ8"
+        },
+        {
+          "sesion_id": "ses_60W2RYG5NX388R3BERRN63T6C9",
+          "creada_en": "2026-10-08T08:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_BB78B0V6D8AZYAWFC90PZ8RZ2G",
+            "total_centavos": 12000084,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-RP7C-E5RAF5"
+        },
+        {
+          "sesion_id": "ses_BMMFTKFZ6X5B16P1QN6EQK1QNA",
+          "creada_en": "2026-10-08T07:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_6FWR7DDPPCJ4BR9ZX2G7G1BYQC",
+            "total_centavos": 4276864,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-JY95-3RHGKB"
+        },
+        {
+          "sesion_id": "ses_Y2B1C87BRRVXZ22MPVG3Q3ZY9Q",
+          "creada_en": "2026-10-08T05:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita"
+        },
+        {
+          "sesion_id": "ses_R9DSKKFQV5MPZEZCKE6F7MX3PC",
+          "creada_en": "2026-10-08T04:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_34EN9EYEM9EWAYKBMFE6JTAB2E",
+            "total_centavos": 1051470,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-JZ57-9A756N"
+        },
+        {
+          "sesion_id": "ses_DQ5B8MB8GVB4NG9VCPBK518XNF",
+          "creada_en": "2026-10-08T02:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_JHCX1Y1W7MB691S0H4NSMV2ZD6",
+            "total_centavos": 6300203,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-TDK7-ZZM7Q4"
+        },
+        {
+          "sesion_id": "ses_WQDFXXP68BV0GM022D2NF3S26T",
+          "creada_en": "2026-10-08T01:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_FT6FFG92MH9JE7WG4V7GHQY8GM",
+            "total_centavos": 3000056,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-0EEM-24VB74"
+        },
+        {
+          "sesion_id": "ses_3AVVHDKPAHAXFWCZJQRDK91XET",
+          "creada_en": "2026-10-07T23:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_CZVRM0MYGG3RP4NXQD566A5B44",
+            "total_centavos": 5090414,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-Q93C-H455HX"
+        },
+        {
+          "sesion_id": "ses_0BCK5Y0B3X963NGYWTX3HXXPA9",
+          "creada_en": "2026-10-07T22:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_V9KCTKHEHKPD38VGZHHEHTN36T",
+            "total_centavos": 14095139,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-QMN3-1TPTW1"
+        },
+        {
+          "sesion_id": "ses_M7PK1V3576FRTGH6J3YJNXDN3A",
+          "creada_en": "2026-10-07T20:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar"
+        },
+        {
+          "sesion_id": "ses_JBDKAN6Q5GXPCG3770ZN96C6VG",
+          "creada_en": "2026-10-07T19:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_ZJY8ZAD683E324M2Q0EWND6FMN",
+            "total_centavos": 2700096,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-EPCR-WHPFG1"
+        },
+        {
+          "sesion_id": "ses_88WBCHDBXBAC19HPQGCJ00M1QT",
+          "creada_en": "2026-10-07T17:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_1W70ZS9TCKHK4SG9B8K6ENSV6X",
+            "total_centavos": 6000182,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-JQAP-HQ0GHK"
+        },
+        {
+          "sesion_id": "ses_5V34NKV8K6VMS80TGGXPGW2GAE",
+          "creada_en": "2026-10-07T16:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_0RYVEBKYPCNGZ67NHP34DXVHR6",
+            "total_centavos": 9913589,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-FX39-RXYJX1"
+        },
+        {
+          "sesion_id": "ses_GF1DP5M3M9KYGB63R4NJJFR7YR",
+          "creada_en": "2026-10-07T14:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_13SZG0W2W5GEQ3HA172F66NW1A",
+            "total_centavos": 12725969,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-PN4Z-V4EG9P"
+        },
+        {
+          "sesion_id": "ses_AGAW9CYA4HETX430ECZDRWRHB5",
+          "creada_en": "2026-10-07T13:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_GMKQJTNCPYTG9H953GBB587HVY",
+            "total_centavos": 15683477,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-W4NW-QVFKTZ"
+        },
+        {
+          "sesion_id": "ses_YWY9WNSXTVFNR1Z7YTZ0C5P1X9",
+          "creada_en": "2026-10-07T11:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona"
+        },
+        {
+          "sesion_id": "ses_8REPP9KPF0RG5EWZ5726QGDZN4",
+          "creada_en": "2026-10-07T10:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_0J1SKXK8W8DZ2FMSQ7TJ0ZRYWS",
+            "total_centavos": 9000378,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-VH0A-VM6RKS"
+        },
+        {
+          "sesion_id": "ses_Z2BVR6TG8B3ET6EF9Y4RZMMJ3W",
+          "creada_en": "2026-10-07T08:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_QJF6XX7A544SCCVQMSMN1JTGMX",
+            "total_centavos": 12735889,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-01W9-GXM44E"
+        },
+        {
+          "sesion_id": "ses_JNEY9E0PCNZ7FE5K30XFWQAFDV",
+          "creada_en": "2026-10-07T07:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_1BVE2MJKS0DGZG6NHDFZ7XQ21E",
+            "total_centavos": 47240294,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-HCV3-FBVN91"
+        },
+        {
+          "sesion_id": "ses_14MFN0QSRBEGAMPCRXB2JZEG93",
+          "creada_en": "2026-10-07T05:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_93MK5CS5P7X9DTE3AGKSRQ5017",
+            "total_centavos": 2750914,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-4S28-D0Q3V2"
+        },
+        {
+          "sesion_id": "ses_T4DJPSB59PSZ1JHZ1KDGS0SXWS",
+          "creada_en": "2026-10-07T04:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_K1QM577K6X99F4KFQ97DSDPNRD",
+            "total_centavos": 5100484,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-151Z-7HHBWG"
+        },
+        {
+          "sesion_id": "ses_C5X53S89V6467KTQG2RHZ8V11A",
+          "creada_en": "2026-10-07T02:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo"
+        },
+        {
+          "sesion_id": "ses_EQTGW4BTC747CSWPRBZNXW5TFM",
+          "creada_en": "2026-10-07T01:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_BHKCA1945R260FMC5F9YBGA75A",
+            "total_centavos": 11292220,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-10R0-QCECK0"
+        },
+        {
+          "sesion_id": "ses_YX38RWCYQ1XS3RKA11ZZQG9QBQ",
+          "creada_en": "2026-10-06T23:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_AE7SCPY5VG6QHPQ44PWS2WZCTS",
+            "total_centavos": 29594864,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-57WV-NEBGP4"
+        },
+        {
+          "sesion_id": "ses_Z6PCQK823RZ3BFER79T7BQGCYH",
+          "creada_en": "2026-10-06T22:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_H25RBN9MKF57G558DXVD5B4R4F",
+            "total_centavos": 13718239,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-MJ3W-AZW4WZ"
+        },
+        {
+          "sesion_id": "ses_JT2DQCPNYSDJ639KN7M5YHKE3M",
+          "creada_en": "2026-10-06T20:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_0HNFYVAA4QHJP4333EJW8PZFPR",
+            "total_centavos": 6300783,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-REM8-20VNPN"
+        },
+        {
+          "sesion_id": "ses_RRMR3DHD6FSWT8KAAZBWQF394C",
+          "creada_en": "2026-10-06T19:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_3V4N9DQG36X8Y7ASFHYK9RB4CH",
+            "total_centavos": 3000196,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-ZFWZ-P2CJMH"
+        },
+        {
+          "sesion_id": "ses_ZEVNMGA90G0ZR02SVRDXYSEMJB",
+          "creada_en": "2026-10-06T17:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago"
+        },
+        {
+          "sesion_id": "ses_N22WXWECS50TXAA7GNHC3D0Q39",
+          "creada_en": "2026-10-06T16:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_N7FYG6RSDQ8R6MHWGQ12W0Z4TX",
+            "total_centavos": 23151250,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-D1NP-DWEWS7"
+        },
+        {
+          "sesion_id": "ses_NMZRQRS7PFMQRSAYMDBD63RBG8",
+          "creada_en": "2026-10-06T14:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_5X44VRCK6M17X22FVZFX4FQR65",
+            "total_centavos": 17391111,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-T1QD-3K8F24"
+        },
+        {
+          "sesion_id": "ses_5FYJAEACMZF4B8AZBNY7810FCV",
+          "creada_en": "2026-10-06T13:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_M1G06H7990JM82Q7855Y2QBCEC",
+            "total_centavos": 2700256,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-6E4Y-P9XE3P"
+        },
+        {
+          "sesion_id": "ses_37NK7RFTWZNCCE6EKQNGD2R112",
+          "creada_en": "2026-10-06T11:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_73GEXG4VQC75DNSEW2MZTVB9TK",
+            "total_centavos": 6000462,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-94PS-P4Q8HS"
+        },
+        {
+          "sesion_id": "ses_WASRV4FDXRFZ2D6KP762BFTJ8Z",
+          "creada_en": "2026-10-06T10:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_N0KGJHKZREMGSBC3H8METTXPGC",
+            "total_centavos": 21218539,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-A9V0-GH7485"
+        },
+        {
+          "sesion_id": "ses_K4MQS6FE0CPXVKKFZ50ZD4ZFVG",
+          "creada_en": "2026-10-06T08:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita"
+        },
+        {
+          "sesion_id": "ses_X7PCTD2FMRV2C7ZXXE72H715NJ",
+          "creada_en": "2026-10-06T07:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_PQCCR974TMHBQ16R54P5D6NDHE",
+            "total_centavos": 4462170,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-WDMD-M7P5FJ"
+        },
+        {
+          "sesion_id": "ses_GDAHJKF8S7D4MNRGCQ6DYVGH4Z",
+          "creada_en": "2026-10-06T05:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_YVEQ4W2FXCFJGC3GM974S4QHBM",
+            "total_centavos": 3900555,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-4MAQ-VZK7Z1"
+        },
+        {
+          "sesion_id": "ses_Q0YMTMX1BQ9X48Z1D11BDGYRWJ",
+          "creada_en": "2026-10-06T04:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_V38HC2V7DN9BDQAEC0Q9JSZT2C",
+            "total_centavos": 9000798,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-CKCR-8B5A01"
+        },
+        {
+          "sesion_id": "ses_70FDGHGGAQVBPKMBSVY2VFJBHF",
+          "creada_en": "2026-10-06T02:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_T3EKZ3KJZN7F6AJQJM78TJS9S2",
+            "total_centavos": 17505839,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-269B-R887A4"
+        },
+        {
+          "sesion_id": "ses_DPF94Y8QV6V42FZ2T1M8GQ182N",
+          "creada_en": "2026-10-06T01:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_3GTW97559K79SXMV2MS2E45TNS",
+            "total_centavos": 45118214,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-HP58-36R8TF"
+        },
+        {
+          "sesion_id": "ses_5FNH957W69T3RX6XZRRJCNCW24",
+          "creada_en": "2026-10-05T23:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar"
+        },
+        {
+          "sesion_id": "ses_VFW4VQAH2VBAN1FP0Q9V37QVFR",
+          "creada_en": "2026-10-05T22:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_TP2TYADBM7Z3F7CSX3PJ0EWD8D",
+            "total_centavos": 5100924,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-9DQ8-BDEXB6"
+        },
+        {
+          "sesion_id": "ses_XFDYW88BGWF2Z09PAVWXXFS0SM",
+          "creada_en": "2026-10-05T20:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_VHMV8X6Z591YWTVTN87E0CGJ6Y",
+            "total_centavos": 12001204,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-S0KG-CXGP8W"
+        },
+        {
+          "sesion_id": "ses_FG60C19B2XPSXARX12B5E8D90Y",
+          "creada_en": "2026-10-05T19:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_0HW4D03XSWKFNF9T9Y40BXPD77",
+            "total_centavos": 26886764,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-NMK5-7H9WD6"
+        },
+        {
+          "sesion_id": "ses_1PW0S23Y9EE093N2DKGDHF6WP2",
+          "creada_en": "2026-10-05T17:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_S3Q0ADRWY4EZFW4NCEXTWGCYMK",
+            "total_centavos": 33588344,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-HWFG-JD21CF"
+        },
+        {
+          "sesion_id": "ses_BFB7FPTA3ZFJ1W9JBQDXAR8CFE",
+          "creada_en": "2026-10-05T16:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_WF8RW855536BJ8KPNVW2KVMA5W",
+            "total_centavos": 19110557,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-WA7Y-XTJ563"
+        },
+        {
+          "sesion_id": "ses_TS06ARV0XTJ540GYE3CFDCF2BW",
+          "creada_en": "2026-10-05T14:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona"
+        },
+        {
+          "sesion_id": "ses_51TJ9NY8TJ6C5CR51BQ8DR79HK",
+          "creada_en": "2026-10-05T13:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_VCDQT4VC052BJFRW1NFQ63AYDD",
+            "total_centavos": 3000336,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-MCDH-56ZA8D"
+        },
+        {
+          "sesion_id": "ses_0XFJ0PKDCXYRZ6ZZCS2R3V3P9C",
+          "creada_en": "2026-10-05T11:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_VA1RF6NPA32BKJ60P0SY4YDRJ4",
+            "total_centavos": 29724814,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-NF4T-88A8YR"
+        },
+        {
+          "sesion_id": "ses_V0NJ0EHCVYSWP4FXFTGDFV1ZMK",
+          "creada_en": "2026-10-05T10:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_N0X84A5D8CQ25Z5JCXFVFBC4KA",
+            "total_centavos": 105355769,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-KGJG-MA745P"
+        },
+        {
+          "sesion_id": "ses_1ASZN3H138NPXD47FNKSR13M5V",
+          "creada_en": "2026-10-05T08:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_VPBYQ3P68H2HRYMHA3GQS2T8T4",
+            "total_centavos": 6185239,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-DNWQ-XEP8KS"
+        },
+        {
+          "sesion_id": "ses_8STTZC1F2K2SXYM5GVYZQHPT3C",
+          "creada_en": "2026-10-05T07:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_CBMR01DWV623PWTBQ9BB8XGRKV",
+            "total_centavos": 2700416,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-NCSX-326RPM"
+        },
+        {
+          "sesion_id": "ses_NTHB1VAK27944JS40AKWX6QSVS",
+          "creada_en": "2026-10-05T05:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo"
+        },
+        {
+          "sesion_id": "ses_YF5GTZMQNKCXHNNX7K03JX1M43",
+          "creada_en": "2026-10-05T04:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_3W7SH8037CP6FC5A28TKSG0HZX",
+            "total_centavos": 23731270,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-KF8A-J1SWMB"
+        },
+        {
+          "sesion_id": "ses_JB1KA3GBSZYPEAE2G2SQSZV4TM",
+          "creada_en": "2026-10-05T02:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_Y1JB51RVYMD0WXJZE33VVYVDR9",
+            "total_centavos": 60665189,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-4G78-FYNAGD"
+        },
+        {
+          "sesion_id": "ses_6K6V89RCH8XMVFZ3S3T1CP2JXE",
+          "creada_en": "2026-10-05T01:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_V0EJF35MYGTQXP4Y0TX6MJGMH5",
+            "total_centavos": 22855999,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-PR62-H389V4"
+        },
+        {
+          "sesion_id": "ses_HXTMV6VW2W31MMD51B8J97R5H3",
+          "creada_en": "2026-10-04T23:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_WTSWGDCGM7GPBJ3W9WBKRJZ7C4",
+            "total_centavos": 3900855,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-6HP9-KTRVBY"
+        },
+        {
+          "sesion_id": "ses_SD3V1NCVXPPTFVSVSVQFHMP3QG",
+          "creada_en": "2026-10-04T22:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_48C4C4HKPWJF06PKCS56369CDC",
+            "total_centavos": 9001218,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-JZBR-69JYMN"
+        },
+        {
+          "sesion_id": "ses_G9W8APRER5PR2KG9S8CJ1K64N9",
+          "creada_en": "2026-10-04T20:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago"
+        },
+        {
+          "sesion_id": "ses_VGS0M153N80K9YA31HHRC89AR2",
+          "creada_en": "2026-10-04T19:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_R5XR1QQ8F2DX0GAKE86QMBF5AQ",
+            "total_centavos": 44037250,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-YQ73-GVA0NP"
+        },
+        {
+          "sesion_id": "ses_7ZSAP8TAF986NBHR614DTW1G5E",
+          "creada_en": "2026-10-04T17:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_ZJZXDPRR1FV8PKTDVGYV5NH8TH",
+            "total_centavos": 20841816,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-12ZB-3DX0PX"
+        },
+        {
+          "sesion_id": "ses_CANMD98XD8XSHCAMRMTAT7KRZC",
+          "creada_en": "2026-10-04T16:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_P0ZD3DZFFCPKSQFDEQCVB9K5SR",
+            "total_centavos": 5101364,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-0A8K-TMHECX"
+        },
+        {
+          "sesion_id": "ses_AJCNMA00WX3QTFHAHK9MDS8T0A",
+          "creada_en": "2026-10-04T14:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_N7FRFKERQ18PZ72MMZPBVT8KG0",
+            "total_centavos": 12001764,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-05XE-PB55RB"
+        },
+        {
+          "sesion_id": "ses_3DB6PA8QYNF9HJ5R1QQCDF5A6D",
+          "creada_en": "2026-10-04T13:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_9R8YHNJZYDXSB40WJ0HN49RNCF",
+            "total_centavos": 38254714,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-53XP-4Z9WMR"
+        },
+        {
+          "sesion_id": "ses_HM9JH1M5KGZ7XFEJWTPGYXJ3KY",
+          "creada_en": "2026-10-04T11:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita"
+        },
+        {
+          "sesion_id": "ses_XDNF5GJX7DT8V4AQP9JERRCZ1E",
+          "creada_en": "2026-10-04T10:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_GD4AYG65VZQSNSWCTJN7AQQ3PG",
+            "total_centavos": 7920120,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-BHWX-ZBZNQ2"
+        },
+        {
+          "sesion_id": "ses_84NDRJ0KCARYBA6PP6F47YZ808",
+          "creada_en": "2026-10-04T08:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_4N2XHS9CYADXREFE5NTHW1M5H9",
+            "total_centavos": 6301943,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-CDBP-P6YZRA"
+        },
+        {
+          "sesion_id": "ses_GQWAD28DS5452QWHV9BQD4P8EA",
+          "creada_en": "2026-10-04T07:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_8652ACK1TEHS4PJSVKBXMVHXZX",
+            "total_centavos": 3000476,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-N3BQ-2S44NC"
+        },
+        {
+          "sesion_id": "ses_86SZ8ZWSPVNJ1VSFXXM97SRHQ6",
+          "creada_en": "2026-10-04T05:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_99Z99DS1YT4J8GRZ16QB9QHDEF",
+            "total_centavos": 29968514,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-J5HJ-72JGA1"
+        },
+        {
+          "sesion_id": "ses_MAAER43KM9QK5X7S4HCAWYTR42",
+          "creada_en": "2026-10-04T04:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_NGVFNEGZ7PNYM1KK10ABWG2QZY",
+            "total_centavos": 76235789,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-JXJD-37GT4R"
+        },
+        {
+          "sesion_id": "ses_BF0N8PCX1JDAYRFTPJ3CDVVD7E",
+          "creada_en": "2026-10-04T02:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar"
+        },
+        {
+          "sesion_id": "ses_2K2F9VA66KA973KB88D43FP81A",
+          "creada_en": "2026-10-04T01:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_TF989Q0JD859ZS6YAFKHJPG6EG",
+            "total_centavos": 2700576,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-BX39-520BC2"
+        },
+        {
+          "sesion_id": "ses_1R18527CCVTXJ4T40HFR063CG0",
+          "creada_en": "2026-10-03T23:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_TQ5ZQ8TJVGTBYBY2QW31266BK8",
+            "total_centavos": 6001022,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-EZXM-AVWAQ8"
+        },
+        {
+          "sesion_id": "ses_PGWG89DAQMPBA6YZNGW4SSMZM4",
+          "creada_en": "2026-10-03T22:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_XFKKF2GREXKNCKBVYA62VKBXW6",
+            "total_centavos": 43954439,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-W1EN-T9VFN0"
+        },
+        {
+          "sesion_id": "ses_H3VBNVEEDE3Q66VHPJJ0S4Y1P3",
+          "creada_en": "2026-10-03T20:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_8K798DM58REX5VNX8JKHAXS8EA",
+            "total_centavos": 54497969,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-AKJA-Y5M6WQ"
+        },
+        {
+          "sesion_id": "ses_8QWJXXSAG75SMZ2E30K33KMJQC",
+          "creada_en": "2026-10-03T19:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_KAYX8P359RX33AR6CXKCVNVEVN",
+            "total_centavos": 22584887,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-0BN0-CXVQDT"
+        },
+        {
+          "sesion_id": "ses_5GR023MQ03062Z4E0316S1XSZP",
+          "creada_en": "2026-10-03T17:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona"
+        },
+        {
+          "sesion_id": "ses_MZQ20QS6RFXK1XESFQB3MHSQMJ",
+          "creada_en": "2026-10-03T16:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_ZW85YH3RAH5KQ6NJNXKD6CJZXR",
+            "total_centavos": 9001638,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-51V4-V28RJS"
+        },
+        {
+          "sesion_id": "ses_X74BNX2RSZ95Y7VEER1SQ01NR5",
+          "creada_en": "2026-10-03T14:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_QD7TSKTH0TGM6REBWTFT69CV75",
+            "total_centavos": 46808239,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-VH11-DCFAFT"
+        },
+        {
+          "sesion_id": "ses_5QRDSM8WZTVHMMD3HBT9GW4QGS",
+          "creada_en": "2026-10-03T13:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_04AF8SF7NRF7QDAYMZCVGPC239",
+            "total_centavos": 163612994,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-QB6W-E9EAGX"
+        },
+        {
+          "sesion_id": "ses_4BK6YTQ81KYJVCQG6BP3VCMRDP",
+          "creada_en": "2026-10-03T11:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_T4VGQHB7Y5Z9YY4TDFRAZYQN2A",
+            "total_centavos": 9666814,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-37TG-76W5CH"
+        },
+        {
+          "sesion_id": "ses_7K55B7K8SGEGERMNB95ZV5X7HS",
+          "creada_en": "2026-10-03T10:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_GW226RVE9NYS9Y5HJZ87AEEA08",
+            "total_centavos": 5101804,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-P4GG-DDDHY0"
+        },
+        {
+          "sesion_id": "ses_T67MZ9AVE8K99J6NJ894922GF8",
+          "creada_en": "2026-10-03T08:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo"
+        },
+        {
+          "sesion_id": "ses_Y1ZRYWE6K2DWYK937VAY8XEY7M",
+          "creada_en": "2026-10-03T07:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_RSAN1D9KDBPJ00FJ28H1561N9Q",
+            "total_centavos": 36217570,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-YSJK-PWKNFV"
+        },
+        {
+          "sesion_id": "ses_4MYJTCK2SEXN3285T4X6EN2EMJ",
+          "creada_en": "2026-10-03T05:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_M739640KMWSKVQVGQ2000K0M4P",
+            "total_centavos": 91830014,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-TW6V-828RWP"
+        },
+        {
+          "sesion_id": "ses_YQ3YYVV3TF40XFQXEQWBBAYQMD",
+          "creada_en": "2026-10-03T04:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_1FXA7P8KM3QNG1M1AKK8WCJNTM",
+            "total_centavos": 32088259,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-V884-W2KQ2W"
+        },
+        {
+          "sesion_id": "ses_MAFB6GW9Q7YCJ35TF4V7BBH9JR",
+          "creada_en": "2026-10-03T02:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_60B2GYHM904QQ2566DRQA6SRYR",
+            "total_centavos": 6302523,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-KNMY-0MKDQJ"
+        },
+        {
+          "sesion_id": "ses_9NTWATYXTDB3YZQB6FN6AFXWNV",
+          "creada_en": "2026-10-03T01:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_WDR8FXMMSSYYQJE9C0V66MSF4Y",
+            "total_centavos": 3000616,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-Y4PH-CQ668Z"
+        },
+        {
+          "sesion_id": "ses_H7Y0QQBA7Y5BZPVGV05BQFZJQD",
+          "creada_en": "2026-10-02T23:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago"
+        },
+        {
+          "sesion_id": "ses_BGNG5KKNX36J737V39MHQ1MME3",
+          "creada_en": "2026-10-02T22:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_NKKQF36Q7AEB94VRVFEBKN872J",
+            "total_centavos": 64970500,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-M61Y-Y4R7JG"
+        },
+        {
+          "sesion_id": "ses_3T1M7DCWDDW816VY3SHC7FJB1T",
+          "creada_en": "2026-10-02T20:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_JA8ZJMQ8FH05897SE4K97HA5SR",
+            "total_centavos": 24339771,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-6Z4G-YRZ8RE"
+        },
+        {
+          "sesion_id": "ses_6BYQ73A02E29W4K7E2A04JSG0D",
+          "creada_en": "2026-10-02T19:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": true,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_00QNYC1AR3AP2WKB8M89GQ6YS6",
+            "total_centavos": 2700736,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-F1RH-Q35DH3"
+        },
+        {
+          "sesion_id": "ses_FFG29V72JV0TSBK7V39RBX154P",
+          "creada_en": "2026-10-02T17:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_JY3Z0Z33AA2A02DRE011T0PJAT",
+            "total_centavos": 6001302,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-1X3Y-76NN4K"
+        },
+        {
+          "sesion_id": "ses_9TWD70K1S3DBGGHHRRCDKYRM2P",
+          "creada_en": "2026-10-02T16:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_EHBGD9DWZ3BGCKT60XMKJ3R6J9",
+            "total_centavos": 55385389,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-QHYE-XJ5G0Q"
+        },
+        {
+          "sesion_id": "ses_CXY461VQXTVRA79D2AC4JN7K5F",
+          "creada_en": "2026-10-02T14:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "sin_voz",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "pintura en Mar Chiquita"
+        },
+        {
+          "sesion_id": "ses_QQ7EG4XQXCT5JMGWNX4JKS8NWV",
+          "creada_en": "2026-10-02T13:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_CR1CHXT4GW847457MDR2MWSD3H",
+            "total_centavos": 11425320,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-BVZZ-06WBJ0"
+        },
+        {
+          "sesion_id": "ses_AFE4H2Z39PSVCM0CYYVQQBGT7Z",
+          "creada_en": "2026-10-02T11:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "contacto_disponible": false,
+          "resumen": "reparaciones en fuera de zona",
+          "total": {
+            "cotizacion_id": "cot_E737P27BGZNQA54NMHMKWB75XN",
+            "total_centavos": 3901455,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-BN50-QPC66B"
+        },
+        {
+          "sesion_id": "ses_9VRN6CY4FANXGCPX9SZV9R933G",
+          "creada_en": "2026-10-02T10:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "mantenimiento en Cobo",
+          "total": {
+            "cotizacion_id": "cot_F9TQNEDEAPS0MC4D93E3AZE0N6",
+            "total_centavos": 9002058,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-CQGE-CMEWTB"
+        },
+        {
+          "sesion_id": "ses_J9WSHCEAQ5CFZT73D7QTRJWZPZ",
+          "creada_en": "2026-10-02T08:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "limpieza en Parque Lago",
+          "total": {
+            "cotizacion_id": "cot_SRQ9PQ55XWGS2BHN4KF064SNG8",
+            "total_centavos": 42478439,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-NWR0-55PJ7W"
+        },
+        {
+          "sesion_id": "ses_WWPW6A2DRA2E1ZF8CG5XEVEBB6",
+          "creada_en": "2026-10-02T07:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_EQAYJZA4VR8D0NGFY1YVGDTN2G",
+            "total_centavos": 107447864,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-37HF-NEFANR"
+        }
+      ]
+    }
+  }
+]

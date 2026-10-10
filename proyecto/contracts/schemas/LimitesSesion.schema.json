@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LimitesSesion",
+  "description": "Límites de la sesión (R60, R65, R66). Valores provisorios (P8).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sin_voz_s",
+    "duracion_maxima_s",
+    "caracteres_max_por_turno",
+    "turnos_llm_max",
+    "fotograma"
+  ],
+  "properties": {
+    "sin_voz_s": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 120
+    },
+    "duracion_maxima_s": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 3600
+    },
+    "caracteres_max_por_turno": {
+      "type": "integer",
+      "minimum": 50,
+      "maximum": 2000
+    },
+    "turnos_llm_max": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 200
+    },
+    "fotograma": {
+      "$ref": "ReglaFotograma.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "sin_voz_s": 20,
+      "duracion_maxima_s": 900,
+      "caracteres_max_por_turno": 500,
+      "turnos_llm_max": 60,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      }
+    }
+  ]
+}

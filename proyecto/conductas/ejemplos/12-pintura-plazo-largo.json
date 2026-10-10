@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "oficio": "pintura",
+  "trabajo": {
+    "tipo": "pintura_interior",
+    "descripcion": "Pintar la casa por etapas, primero los dormitorios y después el living",
+    "complejidad": "media",
+    "requiere_planos": false,
+    "jornadas_estimadas": 8
+  },
+  "medidas": [
+    {
+      "concepto": "ambientes",
+      "cantidad": 6,
+      "unidad": "ambiente",
+      "origen": "dicho_por_cliente"
+    }
+  ],
+  "altura": {
+    "metros_max": 2.7,
+    "requiere_andamio": "no",
+    "medio": "escalera"
+  },
+  "estado_superficie": "sin_definir",
+  "zona": {
+    "localidad": "mar_chiquita",
+    "fuera_de_zona": false,
+    "referencia": "cerca de la costa"
+  },
+  "urgencia": {
+    "nivel": "baja",
+    "senales": [
+      "cuando puedan",
+      "trabajo por etapas"
+    ]
+  },
+  "tipo_cliente": "particular_primera_vez",
+  "plazo": {
+    "tipo": "mas_de_un_mes",
+    "sujeto_a_cambios": true
+  },
+  "faltantes": [
+    "estado_superficie"
+  ],
+  "siguiente_paso": {
+    "accion": "preguntar",
+    "motivo": "Plazo de más de un mes y trabajo por etapas: queda sujeto a cambios y falta el estado de la pared",
+    "campos": [
+      "estado_superficie"
+    ]
+  },
+  "respuesta_hablada": "Dale. Como arranca en más de un mes y lo hacemos por etapas, el presupuesto puede ajustarse. El asesor te confirma el cronograma. ¿La pared está sana o hay humedad?"
+}

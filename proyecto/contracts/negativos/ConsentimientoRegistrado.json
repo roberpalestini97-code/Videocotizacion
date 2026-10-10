@@ -1,0 +1,37 @@
+[
+  {
+    "esquema": "ConsentimientoRegistrado",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "consentimiento_id": "cns_M4D399VWAKXGCWFXMS45D8EN72",
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "aviso_version": "2026-10-08.1",
+      "registrado_en": "2026-10-08T13:01:00Z",
+      "estado_sesion": "consentida",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ConsentimientoRegistrado",
+    "caso": "falta \"consentimiento_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "aviso_version": "2026-10-08.1",
+      "registrado_en": "2026-10-08T13:01:00Z",
+      "estado_sesion": "consentida"
+    }
+  },
+  {
+    "esquema": "ConsentimientoRegistrado",
+    "caso": "falta \"sesion_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "consentimiento_id": "cns_M4D399VWAKXGCWFXMS45D8EN72",
+      "aviso_version": "2026-10-08.1",
+      "registrado_en": "2026-10-08T13:01:00Z",
+      "estado_sesion": "consentida"
+    }
+  }
+]

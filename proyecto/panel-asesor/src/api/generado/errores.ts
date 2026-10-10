@@ -1,0 +1,35 @@
+// ARCHIVO GENERADO por scripts/generar-contrato.mjs: no editar a mano.
+// Contrato 0.1.4-borrador
+export const VERSION_CATALOGO_ERRORES = "0.1.4-borrador";
+export const MENSAJES_ERROR: Readonly<Record<string, string>> = {
+  "solicitud_invalida": "No pudimos leer el pedido. Revisá los datos e intentá de nuevo.",
+  "validacion_fallida": "Hay datos que no cumplen el formato esperado.",
+  "cuerpo_demasiado_grande": "El pedido supera el tamaño máximo permitido.",
+  "tipo_de_contenido_no_soportado": "El formato enviado no está soportado.",
+  "credencial_ausente": "Falta la credencial de acceso.",
+  "credencial_invalida": "La credencial no es válida o fue revocada.",
+  "credenciales_incorrectas": "El email o la contraseña no son correctos.",
+  "totp_invalido": "El código de verificación no es correcto o ya se usó.",
+  "sesion_vencida": "Tu sesión venció. Ingresá de nuevo.",
+  "reautenticacion_requerida": "Para esta acción tenés que volver a ingresar tu contraseña y código.",
+  "origen_no_permitido": "Este sitio no está autorizado para usar la clave.",
+  "desafio_invalido": "No pudimos verificar el navegador. Recargá la página e intentá de nuevo.",
+  "clave_secreta_desde_navegador": "La clave secreta no se puede usar desde un navegador.",
+  "alcance_insuficiente": "La credencial no permite esta operación.",
+  "csrf_invalido": "No pudimos verificar el pedido. Recargá el panel.",
+  "no_encontrado": "No encontramos lo que buscás.",
+  "version_retirada": "Esta versión de la API ya no está disponible.",
+  "estado_invalido": "La operación no corresponde en el estado actual.",
+  "consentimiento_requerido": "Antes de empezar tenés que aceptar el aviso de privacidad.",
+  "sesion_cerrada": "La videocotización ya terminó.",
+  "cotizacion_no_emitida": "El presupuesto todavía no se emitió.",
+  "contacto_ya_registrado": "Ya dejaste tus datos de contacto para esta consulta.",
+  "limite_de_tasa": "Hiciste muchos pedidos seguidos. Esperá un momento.",
+  "cuota_agotada": "Por ahora no hay cupo para videocotizaciones. Escribinos por WhatsApp.",
+  "simultaneas_agotadas": "En este momento hay muchas videocotizaciones en curso. Probá en unos minutos.",
+  "intentos_excedidos": "Hubo demasiados intentos. Esperá antes de volver a probar.",
+  "limite_lecturas_contacto": "Llegaste al límite diario de lecturas de contactos.",
+  "error_interno": "Tuvimos un problema. Intentá de nuevo más tarde.",
+  "proveedor_no_disponible": "Un servicio que usamos no responde. Intentá de nuevo en unos minutos.",
+  "servicio_no_disponible": "El servicio no está disponible en este momento."
+};

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EstadoSesion",
+  "description": "Estado de la sesión.",
+  "type": "string",
+  "enum": [
+    "creada",
+    "consentida",
+    "en_curso",
+    "cerrada"
+  ],
+  "examples": [
+    "creada",
+    "cerrada"
+  ]
+}

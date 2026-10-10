@@ -1,0 +1,2434 @@
+[
+  {
+    "id": "V440",
+    "categoria": "panel",
+    "requisitos": [
+      "R37"
+    ],
+    "descripcion": "iniciarSesionPanel con contrasena incorrecta",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "login": {
+        "contrasena": "incorrecta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "email": "juan@asesores.local",
+        "contrasena": "una-frase-larga-de-prueba-0"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credenciales_incorrectas"
+    }
+  },
+  {
+    "id": "V441",
+    "categoria": "panel",
+    "requisitos": [
+      "R37"
+    ],
+    "descripcion": "iniciarSesionPanel con intentos excedidos",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "excedidos"
+      },
+      "cuerpo": {
+        "email": "juan@asesores.local",
+        "contrasena": "una-frase-larga-de-prueba-0"
+      }
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "intentos_excedidos"
+    }
+  },
+  {
+    "id": "V442",
+    "categoria": "panel",
+    "requisitos": [
+      "R38"
+    ],
+    "descripcion": "verificarTotp con totp invalido",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "invalido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "totp_invalido"
+    }
+  },
+  {
+    "id": "V443",
+    "categoria": "panel",
+    "requisitos": [
+      "R38"
+    ],
+    "descripcion": "verificarTotp con totp reusado",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "reusado",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "totp_invalido"
+    }
+  },
+  {
+    "id": "V444",
+    "categoria": "panel",
+    "requisitos": [
+      "R38"
+    ],
+    "descripcion": "verificarTotp con intentos excedidos",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "excedidos"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      }
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "intentos_excedidos"
+    }
+  },
+  {
+    "id": "V445",
+    "categoria": "panel",
+    "requisitos": [
+      "R39"
+    ],
+    "descripcion": "reautenticar con contrasena incorrecta",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "incorrecta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "credenciales_incorrectas"
+    }
+  },
+  {
+    "id": "V446",
+    "categoria": "panel",
+    "requisitos": [
+      "R39"
+    ],
+    "descripcion": "reautenticar con totp invalido",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "invalido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321"
+      }
+    },
+    "esperado": {
+      "status": 401,
+      "codigo": "totp_invalido"
+    }
+  },
+  {
+    "id": "V447",
+    "categoria": "panel",
+    "requisitos": [
+      "R36"
+    ],
+    "descripcion": "login desde Origin ajeno al panel",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "email": "juan@asesores.local",
+        "contrasena": "una-frase-larga-de-prueba-0"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V448",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle pintura/mar_chiquita",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 780,
+        "datos_extraidos": {
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "pintura_interior",
+          "superficie_centesimas_m2": 1250,
+          "interior_exterior": "interior",
+          "altura": "planta_baja",
+          "estado_superficie": "bueno",
+          "urgencia": "baja",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de pintura en Mar Chiquita.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+          "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+          "emitida_en": "2026-10-08T13:20:00Z",
+          "moneda": "ARS",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_interior",
+              "descripcion": "Pintura interior látex, dos manos",
+              "unidad": "m2",
+              "cantidad_centesimas": 1250,
+              "precio_unitario_centavos": 185000,
+              "importe_centavos": 2312500
+            }
+          ],
+          "total_centavos": 2312500,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V449",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle pintura/cobo",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_18R70XT1HM8E3HYPW8JCSW6NMX",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 781,
+        "datos_extraidos": {
+          "oficio": "pintura",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": true,
+          "tarea": "pintura_interior",
+          "superficie_centesimas_m2": 1625,
+          "interior_exterior": "exterior",
+          "altura": "hasta_3m",
+          "estado_superficie": "regular",
+          "urgencia": "media",
+          "plazo": "esta_semana",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de pintura en Cobo.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_0A7AN55ATFNMF80HPTA0X1E39H",
+          "sesion_id": "ses_18R70XT1HM8E3HYPW8JCSW6NMX",
+          "emitida_en": "2026-10-08T13:21:00Z",
+          "moneda": "ARS",
+          "oficio": "pintura",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_interior",
+              "descripcion": "Pintura interior látex, dos manos",
+              "unidad": "m2",
+              "cantidad_centesimas": 1625,
+              "precio_unitario_centavos": 185007,
+              "importe_centavos": 3006364
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "preparacion_superficie",
+              "descripcion": "Lijado y enduido de paredes",
+              "unidad": "m2",
+              "cantidad_centesimas": 2000,
+              "precio_unitario_centavos": 90014,
+              "importe_centavos": 1800280
+            }
+          ],
+          "total_centavos": 4806644,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V450",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle pintura/santa_clara",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_Y0JB48ZFJHJQ1N1B203DHZGCHB",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 782,
+        "datos_extraidos": {
+          "oficio": "pintura",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "pintura_interior",
+          "superficie_centesimas_m2": 2000,
+          "interior_exterior": "ambos",
+          "altura": "entre_3_y_6m",
+          "estado_superficie": "con_humedad",
+          "urgencia": "alta",
+          "plazo": "este_mes"
+        },
+        "resumen": "Consulta de pintura en Santa Clara del Mar.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_0GG93SPQH5QGDPP64EA8M6FWP9",
+          "sesion_id": "ses_Y0JB48ZFJHJQ1N1B203DHZGCHB",
+          "emitida_en": "2026-10-08T13:22:00Z",
+          "moneda": "ARS",
+          "oficio": "pintura",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_interior",
+              "descripcion": "Pintura interior látex, dos manos",
+              "unidad": "m2",
+              "cantidad_centesimas": 2000,
+              "precio_unitario_centavos": 185014,
+              "importe_centavos": 3700280
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "preparacion_superficie",
+              "descripcion": "Lijado y enduido de paredes",
+              "unidad": "m2",
+              "cantidad_centesimas": 2375,
+              "precio_unitario_centavos": 90021,
+              "importe_centavos": 2137999
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_exterior",
+              "descripcion": "Pintura exterior acrílica",
+              "unidad": "m2",
+              "cantidad_centesimas": 2750,
+              "precio_unitario_centavos": 240028,
+              "importe_centavos": 6600770
+            }
+          ],
+          "total_centavos": 12439049,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V451",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle pintura/parque_lago",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_9WFAFC2GSRWB1X8BBGP57NWTYG",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 783,
+        "datos_extraidos": {
+          "oficio": "pintura",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "faltantes": [
+            "altura"
+          ],
+          "corregido_por_cliente": false,
+          "tarea": "pintura_interior",
+          "superficie_centesimas_m2": 2375,
+          "interior_exterior": "interior",
+          "altura": "mas_de_6m",
+          "estado_superficie": "bueno",
+          "urgencia": "baja",
+          "plazo": "flexible",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de pintura en Parque Lago.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_Q88D1HBYWYA2AB8TRVZRHZ5Z6A",
+          "sesion_id": "ses_9WFAFC2GSRWB1X8BBGP57NWTYG",
+          "emitida_en": "2026-10-08T13:23:00Z",
+          "moneda": "ARS",
+          "oficio": "pintura",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_interior",
+              "descripcion": "Pintura interior látex, dos manos",
+              "unidad": "m2",
+              "cantidad_centesimas": 2375,
+              "precio_unitario_centavos": 185021,
+              "importe_centavos": 4394249
+            }
+          ],
+          "total_centavos": 4394249,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V452",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle pintura/otra",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_ZR0K8FXGJEXGEATXKMMP7M0CJC",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "sin_voz",
+        "duracion_s": 784,
+        "datos_extraidos": {
+          "oficio": "pintura",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "faltantes": [],
+          "corregido_por_cliente": true,
+          "tarea": "pintura_interior",
+          "superficie_centesimas_m2": 2750,
+          "interior_exterior": "exterior",
+          "altura": "planta_baja",
+          "estado_superficie": "regular",
+          "urgencia": "media",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "esquema_salida": "1.0.0"
+        }
+      }
+    }
+  },
+  {
+    "id": "V453",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle jardineria/mar_chiquita",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_ABC2KCJDDD01E8WV3TP2KBKTXF",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 785,
+        "datos_extraidos": {
+          "oficio": "jardineria",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "corte_cesped",
+          "superficie_centesimas_m2": 3125,
+          "urgencia": "alta",
+          "plazo": "esta_semana",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de jardineria en Mar Chiquita.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_jardineria@de1c6081d09a",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_FDEWK49G9AMW4SA6MEXFWNAME5",
+          "sesion_id": "ses_ABC2KCJDDD01E8WV3TP2KBKTXF",
+          "emitida_en": "2026-10-08T13:25:00Z",
+          "moneda": "ARS",
+          "oficio": "jardineria",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "corte_cesped",
+              "descripcion": "Corte de césped y bordeado",
+              "unidad": "m2",
+              "cantidad_centesimas": 3125,
+              "precio_unitario_centavos": 30035,
+              "importe_centavos": 938594
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "poda",
+              "descripcion": "Poda de árbol mediano",
+              "unidad": "unidad",
+              "cantidad_centesimas": 100,
+              "precio_unitario_centavos": 4500042,
+              "importe_centavos": 4500042
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "desmalezado",
+              "descripcion": "Desmalezado de terreno",
+              "unidad": "m2",
+              "cantidad_centesimas": 3875,
+              "precio_unitario_centavos": 50049,
+              "importe_centavos": 1939399
+            }
+          ],
+          "total_centavos": 7378035,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V454",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle jardineria/cobo",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_8S5TM3X3TY650SV6BZ9XGBCEZ0",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 786,
+        "datos_extraidos": {
+          "oficio": "jardineria",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "corte_cesped",
+          "superficie_centesimas_m2": 3500,
+          "urgencia": "baja",
+          "plazo": "este_mes"
+        },
+        "resumen": "Consulta de jardineria en Cobo.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_jardineria@de1c6081d09a",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_WYR6HY4N2JT6E32GX3Q3NY07RJ",
+          "sesion_id": "ses_8S5TM3X3TY650SV6BZ9XGBCEZ0",
+          "emitida_en": "2026-10-08T13:26:00Z",
+          "moneda": "ARS",
+          "oficio": "jardineria",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "corte_cesped",
+              "descripcion": "Corte de césped y bordeado",
+              "unidad": "m2",
+              "cantidad_centesimas": 3500,
+              "precio_unitario_centavos": 30042,
+              "importe_centavos": 1051470
+            }
+          ],
+          "total_centavos": 1051470,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V455",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle jardineria/santa_clara",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_BK5G9GT125VAE654WJJ31CN203",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 787,
+        "datos_extraidos": {
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "faltantes": [
+            "altura"
+          ],
+          "corregido_por_cliente": true,
+          "tarea": "corte_cesped",
+          "superficie_centesimas_m2": 3875,
+          "urgencia": "media",
+          "plazo": "flexible",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de jardineria en Santa Clara del Mar.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_jardineria@de1c6081d09a",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_CDR394HSA2SXCQ5SDC9CWMB685",
+          "sesion_id": "ses_BK5G9GT125VAE654WJJ31CN203",
+          "emitida_en": "2026-10-08T13:27:00Z",
+          "moneda": "ARS",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "corte_cesped",
+              "descripcion": "Corte de césped y bordeado",
+              "unidad": "m2",
+              "cantidad_centesimas": 3875,
+              "precio_unitario_centavos": 30049,
+              "importe_centavos": 1164399
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "poda",
+              "descripcion": "Poda de árbol mediano",
+              "unidad": "unidad",
+              "cantidad_centesimas": 300,
+              "precio_unitario_centavos": 4500056,
+              "importe_centavos": 13500168
+            }
+          ],
+          "total_centavos": 14664567,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V456",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle jardineria/parque_lago",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_45DFQKQ0A3GS8HYGBTYQ22Y4DG",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 788,
+        "datos_extraidos": {
+          "oficio": "jardineria",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "corte_cesped",
+          "superficie_centesimas_m2": 4250,
+          "urgencia": "alta",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de jardineria en Parque Lago.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_jardineria@de1c6081d09a",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_ZW3ABBSZT3QCQES46XY8B7Z2RS",
+          "sesion_id": "ses_45DFQKQ0A3GS8HYGBTYQ22Y4DG",
+          "emitida_en": "2026-10-08T13:28:00Z",
+          "moneda": "ARS",
+          "oficio": "jardineria",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "corte_cesped",
+              "descripcion": "Corte de césped y bordeado",
+              "unidad": "m2",
+              "cantidad_centesimas": 4250,
+              "precio_unitario_centavos": 30056,
+              "importe_centavos": 1277380
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "poda",
+              "descripcion": "Poda de árbol mediano",
+              "unidad": "unidad",
+              "cantidad_centesimas": 100,
+              "precio_unitario_centavos": 4500063,
+              "importe_centavos": 4500063
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "desmalezado",
+              "descripcion": "Desmalezado de terreno",
+              "unidad": "m2",
+              "cantidad_centesimas": 5000,
+              "precio_unitario_centavos": 50070,
+              "importe_centavos": 2503500
+            }
+          ],
+          "total_centavos": 8280943,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V457",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle jardineria/otra",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_TF770FSTFEZ9BVRBFT9YZ578J7",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "sin_voz",
+        "duracion_s": 789,
+        "datos_extraidos": {
+          "oficio": "jardineria",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "corte_cesped",
+          "superficie_centesimas_m2": 4625,
+          "urgencia": "baja",
+          "plazo": "esta_semana",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de jardineria en fuera de zona (fuera de zona, se emitió igual).",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_jardineria@de1c6081d09a",
+          "esquema_salida": "1.0.0"
+        }
+      }
+    }
+  },
+  {
+    "id": "V458",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle reparaciones/mar_chiquita",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_NSESHSPT46X6PBDR6N5Y08VG0D",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 790,
+        "datos_extraidos": {
+          "oficio": "reparaciones",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": true,
+          "tarea": "reparacion_general",
+          "cantidad_unidades": 2,
+          "urgencia": "media",
+          "plazo": "este_mes"
+        },
+        "resumen": "Consulta de reparaciones en Mar Chiquita.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_E5TCT2NQ0GGMP4W8GZ3J1NMPFZ",
+          "sesion_id": "ses_NSESHSPT46X6PBDR6N5Y08VG0D",
+          "emitida_en": "2026-10-08T13:30:00Z",
+          "moneda": "ARS",
+          "oficio": "reparaciones",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "reparacion_general",
+              "descripcion": "Reparación general por hora",
+              "unidad": "hora",
+              "cantidad_centesimas": 300,
+              "precio_unitario_centavos": 1200070,
+              "importe_centavos": 3600210
+            }
+          ],
+          "total_centavos": 3600210,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V459",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle reparaciones/cobo",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_MMREN7CKQV0WJVH205Z5GZCYB1",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 791,
+        "datos_extraidos": {
+          "oficio": "reparaciones",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "faltantes": [
+            "altura"
+          ],
+          "corregido_por_cliente": false,
+          "tarea": "reparacion_general",
+          "cantidad_unidades": 3,
+          "urgencia": "alta",
+          "plazo": "flexible",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de reparaciones en Cobo.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_BKDCEPJ06KC6RZGKK9PMY8G9T9",
+          "sesion_id": "ses_MMREN7CKQV0WJVH205Z5GZCYB1",
+          "emitida_en": "2026-10-08T13:31:00Z",
+          "moneda": "ARS",
+          "oficio": "reparaciones",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "reparacion_general",
+              "descripcion": "Reparación general por hora",
+              "unidad": "hora",
+              "cantidad_centesimas": 400,
+              "precio_unitario_centavos": 1200077,
+              "importe_centavos": 4800308
+            }
+          ],
+          "total_centavos": 4800308,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V460",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle reparaciones/santa_clara",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_J6N2AWP1V6JHW1H8D43RB18HS0",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 792,
+        "datos_extraidos": {
+          "oficio": "reparaciones",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "reparacion_general",
+          "cantidad_unidades": 1,
+          "urgencia": "baja",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de reparaciones en Santa Clara del Mar.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_0K95ERKCHHEDBSJ604DHTRSKAJ",
+          "sesion_id": "ses_J6N2AWP1V6JHW1H8D43RB18HS0",
+          "emitida_en": "2026-10-08T13:32:00Z",
+          "moneda": "ARS",
+          "oficio": "reparaciones",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "reparacion_general",
+              "descripcion": "Reparación general por hora",
+              "unidad": "hora",
+              "cantidad_centesimas": 100,
+              "precio_unitario_centavos": 1200084,
+              "importe_centavos": 1200084
+            }
+          ],
+          "total_centavos": 1200084,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V461",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle reparaciones/parque_lago",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_27EAEPTB1W77E5PXV8Q8BQ9J3N",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 793,
+        "datos_extraidos": {
+          "oficio": "reparaciones",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": true,
+          "tarea": "reparacion_general",
+          "cantidad_unidades": 2,
+          "urgencia": "media",
+          "plazo": "esta_semana",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de reparaciones en Parque Lago.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_QBKHEBF88NFKP9P7XZEVEKAYJR",
+          "sesion_id": "ses_27EAEPTB1W77E5PXV8Q8BQ9J3N",
+          "emitida_en": "2026-10-08T13:33:00Z",
+          "moneda": "ARS",
+          "oficio": "reparaciones",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "reparacion_general",
+              "descripcion": "Reparación general por hora",
+              "unidad": "hora",
+              "cantidad_centesimas": 200,
+              "precio_unitario_centavos": 1200091,
+              "importe_centavos": 2400182
+            }
+          ],
+          "total_centavos": 2400182,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V462",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle reparaciones/otra",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_7F2915FY75NYX3YBXFZVWTWXPF",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "sin_voz",
+        "duracion_s": 794,
+        "datos_extraidos": {
+          "oficio": "reparaciones",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "reparacion_general",
+          "cantidad_unidades": 3,
+          "urgencia": "alta",
+          "plazo": "este_mes"
+        },
+        "resumen": "Consulta de reparaciones en fuera de zona (fuera de zona, se emitió igual).",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_reparaciones@cdb349e3a2e9",
+          "esquema_salida": "1.0.0"
+        }
+      }
+    }
+  },
+  {
+    "id": "V463",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle mantenimiento/mar_chiquita",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_H5B7H0DXJQWQZ6N1N7V9K2WWAN",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 795,
+        "datos_extraidos": {
+          "oficio": "mantenimiento",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "faltantes": [
+            "altura"
+          ],
+          "corregido_por_cliente": false,
+          "tarea": "visita_mantenimiento",
+          "cantidad_unidades": 1,
+          "urgencia": "baja",
+          "plazo": "flexible",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de mantenimiento en Mar Chiquita.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_9M14DD9N7M7WRQH0DP6QHZQEDG",
+          "sesion_id": "ses_H5B7H0DXJQWQZ6N1N7V9K2WWAN",
+          "emitida_en": "2026-10-08T13:35:00Z",
+          "moneda": "ARS",
+          "oficio": "mantenimiento",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "visita_mantenimiento",
+              "descripcion": "Visita de mantenimiento",
+              "unidad": "visita",
+              "cantidad_centesimas": 400,
+              "precio_unitario_centavos": 3000105,
+              "importe_centavos": 12000420
+            }
+          ],
+          "total_centavos": 12000420,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V464",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle mantenimiento/cobo",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_FM85GWSAM0M84X9PB4GPM40ZQT",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 796,
+        "datos_extraidos": {
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": true,
+          "tarea": "visita_mantenimiento",
+          "cantidad_unidades": 2,
+          "urgencia": "media",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de mantenimiento en Cobo.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_38CZGM6TYR8ZBKX8X8N1JFKBSB",
+          "sesion_id": "ses_FM85GWSAM0M84X9PB4GPM40ZQT",
+          "emitida_en": "2026-10-08T13:36:00Z",
+          "moneda": "ARS",
+          "oficio": "mantenimiento",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "visita_mantenimiento",
+              "descripcion": "Visita de mantenimiento",
+              "unidad": "visita",
+              "cantidad_centesimas": 100,
+              "precio_unitario_centavos": 3000112,
+              "importe_centavos": 3000112
+            }
+          ],
+          "total_centavos": 3000112,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V465",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle mantenimiento/santa_clara",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_J30CR2610R1TTFBRHPY6EG4J43",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 797,
+        "datos_extraidos": {
+          "oficio": "mantenimiento",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "visita_mantenimiento",
+          "cantidad_unidades": 3,
+          "urgencia": "alta",
+          "plazo": "esta_semana",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de mantenimiento en Santa Clara del Mar.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_8E5J82R7C2Q9RWE1E1XAF67MDM",
+          "sesion_id": "ses_J30CR2610R1TTFBRHPY6EG4J43",
+          "emitida_en": "2026-10-08T13:37:00Z",
+          "moneda": "ARS",
+          "oficio": "mantenimiento",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "visita_mantenimiento",
+              "descripcion": "Visita de mantenimiento",
+              "unidad": "visita",
+              "cantidad_centesimas": 200,
+              "precio_unitario_centavos": 3000119,
+              "importe_centavos": 6000238
+            }
+          ],
+          "total_centavos": 6000238,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V466",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle mantenimiento/parque_lago",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_E202K60CWVH5D1N3JAXWWF3PQB",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 798,
+        "datos_extraidos": {
+          "oficio": "mantenimiento",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "visita_mantenimiento",
+          "cantidad_unidades": 1,
+          "urgencia": "baja",
+          "plazo": "este_mes"
+        },
+        "resumen": "Consulta de mantenimiento en Parque Lago.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_S4055DKGTX813TQF9ZDZA5YA04",
+          "sesion_id": "ses_E202K60CWVH5D1N3JAXWWF3PQB",
+          "emitida_en": "2026-10-08T13:38:00Z",
+          "moneda": "ARS",
+          "oficio": "mantenimiento",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "visita_mantenimiento",
+              "descripcion": "Visita de mantenimiento",
+              "unidad": "visita",
+              "cantidad_centesimas": 300,
+              "precio_unitario_centavos": 3000126,
+              "importe_centavos": 9000378
+            }
+          ],
+          "total_centavos": 9000378,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V467",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle mantenimiento/otra",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_TMNH0FSWBWJ6EZBGYC0RZEG4BP",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "sin_voz",
+        "duracion_s": 799,
+        "datos_extraidos": {
+          "oficio": "mantenimiento",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "faltantes": [
+            "altura"
+          ],
+          "corregido_por_cliente": true,
+          "tarea": "visita_mantenimiento",
+          "cantidad_unidades": 2,
+          "urgencia": "media",
+          "plazo": "flexible",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de mantenimiento en fuera de zona (fuera de zona, se emitió igual).",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_mantenimiento@cb79d8745105",
+          "esquema_salida": "1.0.0"
+        }
+      }
+    }
+  },
+  {
+    "id": "V468",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle limpieza/mar_chiquita",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_WS5GMQGEPSVWTA6XA4RA80T4T0",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 800,
+        "datos_extraidos": {
+          "oficio": "limpieza",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "limpieza_final_obra",
+          "superficie_centesimas_m2": 8750,
+          "urgencia": "alta",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de limpieza en Mar Chiquita.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_14XPH3SN7PQNMVCW4KF6XAR92W",
+          "sesion_id": "ses_WS5GMQGEPSVWTA6XA4RA80T4T0",
+          "emitida_en": "2026-10-08T13:40:00Z",
+          "moneda": "ARS",
+          "oficio": "limpieza",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "limpieza_final_obra",
+              "descripcion": "Limpieza final de obra",
+              "unidad": "m2",
+              "cantidad_centesimas": 8750,
+              "precio_unitario_centavos": 110140,
+              "importe_centavos": 9637250
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "limpieza_terreno",
+              "descripcion": "Limpieza de terreno",
+              "unidad": "m2",
+              "cantidad_centesimas": 9125,
+              "precio_unitario_centavos": 40147,
+              "importe_centavos": 3663414
+            }
+          ],
+          "total_centavos": 13300664,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V469",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle limpieza/cobo",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_78T5X7QYYFMH6YRKDCDWCM92D8",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 801,
+        "datos_extraidos": {
+          "oficio": "limpieza",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "limpieza_final_obra",
+          "superficie_centesimas_m2": 9125,
+          "urgencia": "baja",
+          "plazo": "esta_semana",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de limpieza en Cobo.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_5HKME4S5EA42V2HVEWFARYZP1B",
+          "sesion_id": "ses_78T5X7QYYFMH6YRKDCDWCM92D8",
+          "emitida_en": "2026-10-08T13:41:00Z",
+          "moneda": "ARS",
+          "oficio": "limpieza",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "limpieza_final_obra",
+              "descripcion": "Limpieza final de obra",
+              "unidad": "m2",
+              "cantidad_centesimas": 9125,
+              "precio_unitario_centavos": 110147,
+              "importe_centavos": 10050914
+            }
+          ],
+          "total_centavos": 10050914,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V470",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle limpieza/santa_clara",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_324G1R51CQQ2CRNJ1ZP2JR88CR",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 802,
+        "datos_extraidos": {
+          "oficio": "limpieza",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": true,
+          "tarea": "limpieza_final_obra",
+          "superficie_centesimas_m2": 9500,
+          "urgencia": "media",
+          "plazo": "este_mes"
+        },
+        "resumen": "Consulta de limpieza en Santa Clara del Mar.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_P83FR5BKDHJ200R0Z3XQJYKEKB",
+          "sesion_id": "ses_324G1R51CQQ2CRNJ1ZP2JR88CR",
+          "emitida_en": "2026-10-08T13:42:00Z",
+          "moneda": "ARS",
+          "oficio": "limpieza",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "limpieza_final_obra",
+              "descripcion": "Limpieza final de obra",
+              "unidad": "m2",
+              "cantidad_centesimas": 9500,
+              "precio_unitario_centavos": 110154,
+              "importe_centavos": 10464630
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "limpieza_terreno",
+              "descripcion": "Limpieza de terreno",
+              "unidad": "m2",
+              "cantidad_centesimas": 9875,
+              "precio_unitario_centavos": 40161,
+              "importe_centavos": 3965899
+            }
+          ],
+          "total_centavos": 14430529,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V471",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle limpieza/parque_lago",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_B4DGWRVGG7V4XXDKFDVA2NZW16",
+        "estado": "cerrada",
+        "modo_avatar": "clips",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 803,
+        "datos_extraidos": {
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "faltantes": [
+            "altura"
+          ],
+          "corregido_por_cliente": false,
+          "tarea": "limpieza_final_obra",
+          "superficie_centesimas_m2": 9875,
+          "urgencia": "alta",
+          "plazo": "flexible",
+          "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+        },
+        "resumen": "Consulta de limpieza en Parque Lago.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_VWDX4WWS7AWF7VYBJWSAFY4V4M",
+          "sesion_id": "ses_B4DGWRVGG7V4XXDKFDVA2NZW16",
+          "emitida_en": "2026-10-08T13:43:00Z",
+          "moneda": "ARS",
+          "oficio": "limpieza",
+          "zona": "parque_lago",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "limpieza_final_obra",
+              "descripcion": "Limpieza final de obra",
+              "unidad": "m2",
+              "cantidad_centesimas": 9875,
+              "precio_unitario_centavos": 110161,
+              "importe_centavos": 10878399
+            },
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "limpieza_terreno",
+              "descripcion": "Limpieza de terreno",
+              "unidad": "m2",
+              "cantidad_centesimas": 10250,
+              "precio_unitario_centavos": 40168,
+              "importe_centavos": 4117220
+            }
+          ],
+          "total_centavos": 14995619,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        }
+      }
+    }
+  },
+  {
+    "id": "V472",
+    "categoria": "panel",
+    "requisitos": [
+      "R42",
+      "R69"
+    ],
+    "descripcion": "detalle limpieza/otra",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_W02W2CSCN5QP5SPD066VPTSRZ5",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "sin_voz",
+        "duracion_s": 804,
+        "datos_extraidos": {
+          "oficio": "limpieza",
+          "zona": "otra",
+          "fuera_de_zona": true,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "limpieza_final_obra",
+          "superficie_centesimas_m2": 10250,
+          "urgencia": "baja",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de limpieza en fuera de zona (fuera de zona, se emitió igual).",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_limpieza@9d7e87923bd4",
+          "esquema_salida": "1.0.0"
+        }
+      }
+    }
+  },
+  {
+    "id": "V473",
+    "categoria": "panel",
+    "requisitos": [
+      "T39"
+    ],
+    "descripcion": "detalle con código de referencia",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 780,
+        "datos_extraidos": {
+          "oficio": "pintura",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "pintura_interior",
+          "superficie_centesimas_m2": 1250,
+          "interior_exterior": "interior",
+          "altura": "planta_baja",
+          "estado_superficie": "bueno",
+          "urgencia": "baja",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de pintura en Cobo.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_N601R3XEE3HYJYTD08YWEGKTCC",
+          "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+          "emitida_en": "2026-10-08T13:20:00Z",
+          "moneda": "ARS",
+          "oficio": "pintura",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_interior",
+              "descripcion": "Pintura interior látex, dos manos",
+              "unidad": "m2",
+              "cantidad_centesimas": 1250,
+              "precio_unitario_centavos": 185000,
+              "importe_centavos": 2312500
+            }
+          ],
+          "total_centavos": 2312500,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        },
+        "codigo_referencia": "VC-ABCD-EFGHJK"
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V474",
+    "categoria": "panel",
+    "requisitos": [
+      "T39"
+    ],
+    "descripcion": "detalle con contacto_disponible",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+        "estado": "cerrada",
+        "modo_avatar": "3d",
+        "creada_en": "2026-10-08T13:00:00Z",
+        "cerrada_en": "2026-10-08T13:14:00Z",
+        "motivo_cierre": "completada",
+        "duracion_s": 780,
+        "datos_extraidos": {
+          "oficio": "pintura",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "faltantes": [],
+          "corregido_por_cliente": false,
+          "tarea": "pintura_interior",
+          "superficie_centesimas_m2": 1250,
+          "interior_exterior": "interior",
+          "altura": "planta_baja",
+          "estado_superficie": "bueno",
+          "urgencia": "baja",
+          "plazo": "inmediato"
+        },
+        "resumen": "Consulta de pintura en Cobo.",
+        "versiones": {
+          "tarifas": "2026.1",
+          "prompt": "conducta_pintura@fdee14cbdaf7",
+          "esquema_salida": "1.0.0"
+        },
+        "cotizacion": {
+          "cotizacion_id": "cot_N601R3XEE3HYJYTD08YWEGKTCC",
+          "sesion_id": "ses_W8RCA6RS2S6PMFH9E6K5KRECAQ",
+          "emitida_en": "2026-10-08T13:20:00Z",
+          "moneda": "ARS",
+          "oficio": "pintura",
+          "zona": "cobo",
+          "fuera_de_zona": false,
+          "items": [
+            {
+              "tipo": "mano_de_obra",
+              "codigo_tarea": "pintura_interior",
+              "descripcion": "Pintura interior látex, dos manos",
+              "unidad": "m2",
+              "cantidad_centesimas": 1250,
+              "precio_unitario_centavos": 185000,
+              "importe_centavos": 2312500
+            }
+          ],
+          "total_centavos": 2312500,
+          "orientativa": true,
+          "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+          "tarifas": {
+            "version": "2026.1",
+            "estado": "referencia_publica_sin_validar"
+          },
+          "validez_dias": 15
+        },
+        "contacto_disponible": true
+      },
+      "conforme": false
+    }
+  }
+]

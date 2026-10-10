@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SesionPanel",
+  "description": "Sesión del panel tras TOTP (id rotado, R35). Vencimientos por inactividad y absoluto (R34).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "asesor",
+    "csrf_token",
+    "vence_inactividad_en",
+    "vence_absoluto_en"
+  ],
+  "properties": {
+    "asesor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asesor_id",
+        "nombre_visible",
+        "rol"
+      ],
+      "properties": {
+        "asesor_id": {
+          "$ref": "IdAsesor.schema.json"
+        },
+        "nombre_visible": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60,
+          "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+        },
+        "rol": {
+          "type": "string",
+          "enum": [
+            "asesor",
+            "administrador"
+          ]
+        }
+      }
+    },
+    "csrf_token": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "vence_inactividad_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "vence_absoluto_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "reautenticado_hasta": {
+      "$ref": "FechaHora.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "asesor": {
+        "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+        "nombre_visible": "Juan P.",
+        "rol": "asesor"
+      },
+      "csrf_token": "rCcAVgku2ce_lHlEGHVjb0BzZaWS3a3Bgz4Crace5rv",
+      "vence_inactividad_en": "2026-10-08T13:30:00Z",
+      "vence_absoluto_en": "2026-10-09T01:00:00Z"
+    }
+  ]
+}

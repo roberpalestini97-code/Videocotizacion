@@ -1,0 +1,53 @@
+[
+  {
+    "esquema": "DesafioEmitido",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "desafio": "dsf_KNUl317y39WaG4rBFjMfm4OxyKdm1uaWKlYzmaQcNNz",
+      "mecanismo": "prueba_de_trabajo_sha256",
+      "dificultad_bits": 16,
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 120,
+      "provisorio": true,
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "DesafioEmitido",
+    "caso": "falta \"desafio\"",
+    "falla_por": "required",
+    "instancia": {
+      "mecanismo": "prueba_de_trabajo_sha256",
+      "dificultad_bits": 16,
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 120,
+      "provisorio": true
+    }
+  },
+  {
+    "esquema": "DesafioEmitido",
+    "caso": "falta \"mecanismo\"",
+    "falla_por": "required",
+    "instancia": {
+      "desafio": "dsf_KNUl317y39WaG4rBFjMfm4OxyKdm1uaWKlYzmaQcNNz",
+      "dificultad_bits": 16,
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 120,
+      "provisorio": true
+    }
+  },
+  {
+    "esquema": "DesafioEmitido",
+    "caso": "vence en 10 min",
+    "falla_por": "maximum",
+    "instancia": {
+      "desafio": "dsf_KNUl317y39WaG4rBFjMfm4OxyKdm1uaWKlYzmaQcNNz",
+      "mecanismo": "prueba_de_trabajo_sha256",
+      "dificultad_bits": 16,
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 600,
+      "provisorio": true
+    }
+  }
+]

@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tablero VideoCotización</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: panel de control de obra. Cabecera con fases, barra de avance, equipo, tablero por estado, votación y bitácora. */
+:root {
+  --bg: #ecf0f2;
+  --surface: #ffffff;
+  --surface-2: #f4f7f8;
+  --fg: #14202b;
+  --muted: #55636f;
+  --line: #d2d9de;
+  --accent: #0e5a78;
+  --accent-ink: #ffffff;
+  --s-pend: #6b7884;
+  --s-run: #1f5fae;
+  --s-rev: #a86a0c;
+  --s-done: #1b7a4b;
+  --s-block: #b3372e;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1418; --surface: #161f26; --surface-2: #1b262e; --fg: #e5ecf0; --muted: #98a6b1; --line: #2a3943;
+    --accent: #62b8d8; --accent-ink: #0b1317;
+    --s-pend: #8d9aa5; --s-run: #6aa5ee; --s-rev: #e0a24a; --s-done: #52c28a; --s-block: #ee7b72;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1418; --surface: #161f26; --surface-2: #1b262e; --fg: #e5ecf0; --muted: #98a6b1; --line: #2a3943;
+  --accent: #62b8d8; --accent-ink: #0b1317;
+  --s-pend: #8d9aa5; --s-run: #6aa5ee; --s-rev: #e0a24a; --s-done: #52c28a; --s-block: #ee7b72;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 56px; display: flex; flex-direction: column; gap: 28px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* cabecera */
+.head { display: flex; flex-direction: column; gap: 14px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.head h1 { font-size: clamp(26px, 5vw, 38px); line-height: 1.1; }
+.goal { max-width: 70ch; color: var(--muted); }
+.phases { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.phase { font-family: var(--font-mono); font-size: 12px; padding: 4px 10px; border: 1px solid var(--line); color: var(--muted); background: var(--surface); }
+.phase.done { color: var(--s-done); border-color: color-mix(in srgb, var(--s-done) 45%, var(--line)); }
+.phase.now { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 500; }
+
+/* navegación */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; background: var(--bg); padding-block: 8px; border-bottom: 1px solid var(--line); }
+.nav a { text-decoration: none; color: var(--fg); padding: 6px 10px; font-weight: 500; }
+.nav a:hover { background: var(--surface-2); }
+.live { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--s-pend); display: inline-block; flex: none; }
+.live.on .dot { background: var(--s-done); }
+
+/* avance */
+.progress { display: flex; flex-direction: column; gap: 10px; }
+.bar { display: flex; height: 12px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; }
+.bar span { display: block; height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; }
+.legend li { list-style: none; display: inline-flex; align-items: center; gap: 6px; }
+.legend { margin: 0; padding: 0; }
+.legend b { font-family: var(--font-mono); font-weight: 500; }
+
+/* secciones */
+.sec { display: flex; flex-direction: column; gap: 14px; scroll-margin-top: 64px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.sec-head h2 { font-size: 22px; }
+.sec-head p { color: var(--muted); }
+.empty { padding: 18px; border: 1px dashed var(--line); color: var(--muted); background: var(--surface); }
+
+.rules { margin: 0; padding: 12px 16px 12px 34px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+
+/* equipo */
+.agents { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.agent { background: var(--surface); border: 1px solid var(--line); padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.agent h3 { font-size: 16px; }
+.agent .role { color: var(--muted); font-size: 13px; }
+.agent .stack { font-family: var(--font-mono); font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.models { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.chip { display: inline-block; font-family: var(--font-mono); font-size: 12px; padding: 2px 8px; border: 1px solid var(--line); white-space: nowrap; }
+.m-fable { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.m-opus { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.m-sonnet { background: color-mix(in srgb, var(--s-run) 16%, var(--surface)); border-color: color-mix(in srgb, var(--s-run) 50%, var(--line)); color: var(--fg); }
+.m-haiku { background: var(--surface); color: var(--fg); }
+.astate { display: flex; align-items: center; gap: 8px; font-size: 13px; padding-top: 8px; border-top: 1px solid var(--line); }
+.astate .cur { color: var(--muted); min-width: 0; overflow-wrap: anywhere; }
+.mini { height: 4px; background: var(--surface-2); }
+.mini span { display: block; height: 100%; background: var(--s-done); }
+.st-esperando .dot { background: var(--s-pend); }
+.st-trabajando .dot { background: var(--s-run); }
+.st-listo .dot { background: var(--s-done); }
+.st-bloqueado .dot { background: var(--s-block); }
+button.filter, .filters button { font: inherit; }
+.ask-banner { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--line); background: var(--surface-2); font-size: 14px; }
+.ask-banner.hot { border-color: var(--s-block); border-left-width: 4px; font-weight: 600; }
+.ask-banner.err { border-color: var(--s-block); color: var(--s-block); }
+.ask { border-top: 1px solid var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+.ask-title { font-size: 12px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; color: var(--s-block); }
+.q { display: flex; flex-direction: column; gap: 6px; background: var(--surface-2); border: 1px solid var(--line); padding: 10px; }
+.q .qt { font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+.q .qh { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.q .qid { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.q textarea, .q select { font: inherit; font-size: 14px; color: var(--fg); background: var(--surface); border: 1px solid var(--line); padding: 6px 8px; width: 100%; min-height: 36px; resize: vertical; }
+.q textarea:focus-visible, .q select:focus-visible, .q button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.q button { font: inherit; font-size: 13px; align-self: flex-start; background: var(--accent); color: var(--accent-ink); border: 1px solid var(--accent); padding: 5px 12px; cursor: pointer; min-height: 32px; }
+.q button[disabled] { opacity: .5; cursor: default; }
+.q .qmsg { font-size: 12px; color: var(--muted); }
+.q.answered { opacity: .85; }
+.q.answered .qa { font-size: 13px; overflow-wrap: anywhere; }
+.badge-ask { display: inline-block; font-family: var(--font-mono); font-size: 11px; padding: 1px 6px; border: 1px solid var(--s-block); color: var(--s-block); margin-left: 6px; vertical-align: middle; }
+
+/* tablero */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.filters button { background: var(--surface); color: var(--fg); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; font-size: 13px; }
+.filters button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.board-scroll { overflow-x: auto; padding-bottom: 6px; }
+.board { display: grid; grid-template-columns: repeat(5, minmax(230px, 1fr)); gap: 12px; min-width: 1200px; }
+.col { background: var(--surface-2); border: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; }
+.col-head { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); font-weight: 600; }
+.col-head .n { margin-left: auto; font-family: var(--font-mono); font-weight: 500; color: var(--muted); }
+.col-body { display: flex; flex-direction: column; gap: 8px; padding: 8px; min-height: 80px; }
+.task { background: var(--surface); border: 1px solid var(--line); padding: 10px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.task .top { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.task .tt { font-weight: 500; overflow-wrap: anywhere; }
+.task .who { font-size: 12px; color: var(--muted); }
+.task .note { font-size: 12px; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 6px; overflow-wrap: anywhere; }
+.task.blocked-by { border-left: 3px solid var(--s-block); }
+.col-none { color: var(--muted); font-size: 12px; padding: 4px; }
+
+/* votación */
+.tally { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; }
+.votes { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+.vote { background: var(--surface); border: 1px solid var(--line); padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.vote .vh { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.vote .vh b { font-family: var(--font-display); font-size: 15px; }
+.verdict { font-family: var(--font-mono); font-size: 12px; padding: 2px 8px; border: 1px solid currentColor; }
+.v-ok { color: var(--s-done); }
+.v-ajustes { color: var(--s-rev); }
+.v-no { color: var(--s-block); }
+.vote ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; }
+.vote .c { color: var(--fg); overflow-wrap: anywhere; }
+.vote .sub { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.concl { background: var(--surface); border: 1px solid var(--accent); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.concl h3 { font-size: 18px; }
+.concl ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+.concl .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.concl h4 { margin: 0 0 6px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+
+/* bitácora */
+.log { margin: 0; padding: 0; list-style: none; background: var(--surface); border: 1px solid var(--line); }
+.log li { display: grid; grid-template-columns: auto 1fr; gap: 12px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+.log li:last-child { border-bottom: 0; }
+.log time { font-family: var(--font-mono); font-size: 12px; color: var(--muted); white-space: nowrap; padding-top: 1px; }
+.log span { overflow-wrap: anywhere; }
+
+@media (max-width: 640px) {
+  .nav a { padding: 6px 8px; }
+  .live { width: 100%; margin-left: 0; padding-inline: 8px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mini span, .bar span { transition: width 0.4s ease; }
+}
+
+.src { font-size: 13px; color: var(--muted); max-width: 70ch; }
+.src code { font-family: var(--font-mono); font-size: 12px; }
+.badge-rehacer { font-family: var(--font-mono); font-size: 11px; padding: 1px 6px; border: 1px solid var(--s-rev); color: var(--s-rev); }
+#export { margin-left: 8px; background: var(--surface); color: var(--fg); border: 1px solid var(--line); padding: 6px 10px; cursor: pointer; font: inherit; font-weight: 500; }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <div class="eyebrow">VideoCotización · equipo de desarrollo</div>
+    <h1>Tablero de agentes</h1>
+    <p class="goal" id="goal"></p>
+    <p class="src">Fuente compartida: <code>docs/tablero/datos.js</code>. La editan Cursor y Claude. Esta página solo la muestra.</p>
+    <ol class="phases" id="phases" aria-label="Fases del trabajo"></ol>
+  </header>
+
+  <nav class="nav" aria-label="Secciones">
+    <a href="#equipo">Equipo</a>
+    <a href="#tablero">Tareas</a>
+    <a href="#votacion">Votación</a>
+    <a href="#bitacora">Bitácora</a>
+    <span class="live on" id="live"><span class="dot"></span><span id="live-text">Copia local</span></span>
+    <button type="button" id="export">Descargar datos.js</button>
+  </nav>
+
+  <section class="progress" aria-label="Avance general">
+    <div class="bar" id="bar" role="img" aria-label="Avance de tareas"></div>
+    <ul class="legend" id="legend"></ul>
+  </section>
+
+  <section class="sec" id="equipo">
+    <div class="sec-head"><h2>Equipo</h2><p id="team-sub"></p></div>
+    <p class="ask-banner" id="ask-banner" role="status"></p>
+    <ol class="rules" id="rules" hidden></ol>
+    <div class="agents" id="agents"></div>
+  </section>
+
+  <section class="sec" id="tablero">
+    <div class="sec-head"><h2>Tareas por estado</h2><p>Muestra lo que está en datos.js. Al guardar un cambio ahí, recargá esta página.</p></div>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por agente"></div>
+    <div class="board-scroll"><div class="board" id="board"></div></div>
+  </section>
+
+  <section class="sec" id="votacion">
+    <div class="sec-head"><h2>Votación y conclusión</h2><p>Cada agente opina si las tareas quedaron bien asignadas y qué mejoraría.</p></div>
+    <div class="tally" id="tally"></div>
+    <div id="concl"></div>
+    <div class="votes" id="votes"></div>
+  </section>
+
+  <section class="sec" id="bitacora">
+    <div class="sec-head"><h2>Bitácora</h2><p>Últimos movimientos, el más reciente arriba.</p></div>
+    <div id="log"></div>
+  </section>
+</div>
+<script src="datos.js"></script>
+<script>
+(function () {
+  var STATUS_T = { pendiente: "Pendiente", en_curso: "En curso", en_revision: "En revisión", hecha: "Hecha", bloqueada: "Bloqueada" };
+  var COLS = ["pendiente", "en_curso", "en_revision", "hecha", "bloqueada"];
+  var COLOR = { pendiente: "var(--s-pend)", en_curso: "var(--s-run)", en_revision: "var(--s-rev)", hecha: "var(--s-done)", bloqueada: "var(--s-block)" };
+  var STATUS_A = { esperando: "Esperando", trabajando: "Trabajando", listo: "Listo", bloqueado: "Bloqueado" };
+  var VERDICT = { ok: "De acuerdo", ajustes: "De acuerdo con ajustes", no: "En desacuerdo" };
+  var PHASES = ["Asignación", "Votación", "Síntesis", "Ejecución", "Verificación"];
+  var STORE = "videocotizacion-tablero-respuestas";
+
+  var base = window.TABLERO || { meta: {}, agents: [], tasks: [], votes: [], preguntas: [], log: [] };
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { saved = {}; }
+
+  var state = {
+    agents: base.agents || [],
+    tasks: base.tasks || [],
+    votes: base.votes || [],
+    log: base.log || [],
+    preguntas: (base.preguntas || []).map(function (q) {
+      var s = saved[q.id];
+      if (q.abierta === false) return q;
+      if (s && s.respuesta) return Object.assign({}, q, { respuesta: s.respuesta, abierta: false });
+      return q;
+    }),
+    drafts: {},
+    msgs: {},
+    meta: base.meta || null,
+    filter: "all"
+  };
+
+  function h(tag, props) {
+    var el = document.createElement(tag);
+    if (props) Object.keys(props).forEach(function (k) {
+      var v = props[k];
+      if (v == null || v === false) return;
+      if (k === "class") el.className = v;
+      else if (k === "text") el.textContent = v;
+      else if (k.indexOf("on") === 0) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? "" : v);
+    });
+    for (var i = 2; i < arguments.length; i++) append(el, arguments[i]);
+    return el;
+  }
+  function append(el, kid) {
+    if (kid == null || kid === false) return;
+    if (Array.isArray(kid)) { kid.forEach(function (k) { append(el, k); }); return; }
+    el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+  }
+  function $(id) { return document.getElementById(id); }
+  function arr(v) { return Array.isArray(v) ? v : []; }
+  function modelClass(m) {
+    m = String(m || "").toLowerCase();
+    if (m.indexOf("fable") >= 0 || m.indexOf("mythos") >= 0) return "m-fable";
+    if (m.indexOf("opus") >= 0) return "m-opus";
+    if (m.indexOf("sonnet") >= 0) return "m-sonnet";
+    return "m-haiku";
+  }
+  function chip(m) { return h("span", { class: "chip " + modelClass(m), text: m || "—" }); }
+  function agentById(id) { return state.agents.find(function (a) { return a.id === id; }); }
+  function fmt(ts) {
+    var d = new Date(ts);
+    if (isNaN(d)) return "";
+    return d.toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false });
+  }
+
+  function renderBanner() {
+    var el = $("ask-banner");
+    if (!el) return;
+    var open = state.preguntas.filter(function (q) { return q.abierta !== false; });
+    var who = {};
+    open.forEach(function (q) { who[q.agente] = 1; });
+    var nAg = Object.keys(who).length;
+    el.className = "ask-banner";
+    if (open.length) {
+      el.classList.add("hot");
+      el.textContent = "Tenés " + open.length + " pregunta" + (open.length === 1 ? "" : "s") + " esperando tu respuesta, en las tarjetas marcadas \"te espera\" (" + nAg + " agente" + (nAg === 1 ? "" : "s") + ").";
+    } else {
+      el.textContent = "No hay preguntas esperando tu respuesta.";
+    }
+  }
+
+  function guardarRespuesta(q, val) {
+    q.respuesta = val;
+    q.abierta = false;
+    saved[q.id] = { respuesta: val };
+    localStorage.setItem(STORE, JSON.stringify(saved));
+  }
+
+  function renderQuestion(q) {
+    if (q.abierta === false) {
+      return h("div", { class: "q answered" },
+        h("span", { class: "qid", text: q.id + " · respondida en este navegador" }),
+        h("span", { class: "qt", text: q.texto }),
+        h("span", { class: "qa", text: "Tu respuesta: " + (q.respuesta || "—") }),
+        h("span", { class: "qmsg", text: "Para que Cursor y Claude la vean, descargá datos.js y reemplazá el archivo." }));
+    }
+    var opts = arr(q.opciones);
+    var field;
+    if (opts.length) {
+      field = h("select", { "aria-label": q.texto }, h("option", { value: "", text: "Elegí una opción…" }), opts.map(function (o) { return h("option", { value: o, text: o }); }));
+      field.value = state.drafts[q.id] || "";
+    } else {
+      field = h("textarea", { rows: "3", "aria-label": q.texto, placeholder: q.placeholder || "Escribí tu respuesta…" });
+      field.value = state.drafts[q.id] || "";
+    }
+    var btn = h("button", { type: "button", text: "Guardar respuesta" });
+    var msg = h("span", { class: "qmsg", text: state.msgs[q.id] || "", role: "status" });
+    field.addEventListener("input", function () { state.drafts[q.id] = field.value; });
+    field.addEventListener("change", function () { state.drafts[q.id] = field.value; });
+    btn.addEventListener("click", function () {
+      var val = String(field.value || "").trim();
+      if (!val) { msg.textContent = "Escribí o elegí una respuesta primero."; return; }
+      guardarRespuesta(q, val);
+      delete state.drafts[q.id];
+      renderAll();
+    });
+    return h("div", { class: "q" },
+      h("span", { class: "qid", text: q.id + (q.tarea ? " · " + q.tarea : "") }),
+      h("span", { class: "qt", text: q.texto }),
+      q.ayuda ? h("span", { class: "qh", text: q.ayuda }) : null,
+      field, btn, msg);
+  }
+
+  function renderPhases() {
+    var idx = state.meta && typeof state.meta.phaseIndex === "number" ? state.meta.phaseIndex : 0;
+    $("phases").replaceChildren.apply($("phases"), PHASES.map(function (p, i) {
+      return h("li", { class: "phase" + (i < idx ? " done" : i === idx ? " now" : ""), "aria-current": i === idx ? "step" : null, text: p });
+    }));
+    if (state.meta && state.meta.goal) $("goal").textContent = state.meta.goal;
+  }
+
+  function renderProgress() {
+    var total = state.tasks.length;
+    var counts = {};
+    COLS.forEach(function (c) { counts[c] = 0; });
+    state.tasks.forEach(function (t) { if (counts[t.status] != null) counts[t.status]++; });
+    var segs = total ? COLS.slice().reverse().map(function (c) {
+      var s = h("span", { title: STATUS_T[c] + ": " + counts[c] });
+      s.style.width = (counts[c] / total * 100) + "%";
+      s.style.background = COLOR[c];
+      return s;
+    }) : [];
+    $("bar").replaceChildren.apply($("bar"), segs);
+    $("bar").setAttribute("aria-label", total ? counts.hecha + " de " + total + " tareas hechas" : "Sin tareas cargadas");
+    var items = COLS.map(function (c) {
+      var d = h("span", { class: "dot" }); d.style.background = COLOR[c];
+      return h("li", null, d, STATUS_T[c] + " ", h("b", { text: counts[c] }));
+    });
+    var reh = state.tasks.filter(function (t) { return t.rehacer; }).length;
+    items.push(h("li", null, "Total ", h("b", { text: total })));
+    items.push(h("li", null, "Para rehacer ", h("b", { text: reh })));
+    $("legend").replaceChildren.apply($("legend"), items);
+  }
+
+  function renderTeam() {
+    var rules = arr(state.meta && state.meta.reglas);
+    var rEl = $("rules");
+    rEl.hidden = !rules.length;
+    rEl.replaceChildren.apply(rEl, rules.map(function (r) { return h("li", { text: r }); }));
+    $("team-sub").textContent = state.agents.length ? state.agents.length + " agentes, cada uno con un modelo principal y otro de consulta." : "";
+    renderBanner();
+    var box = $("agents");
+    var ae = document.activeElement;
+    if (ae && box.contains(ae) && (ae.tagName === "TEXTAREA" || ae.tagName === "SELECT")) return;
+    box.replaceChildren.apply(box, state.agents.map(function (a) {
+      var mine = state.tasks.filter(function (t) { return t.agente === a.id; });
+      var done = mine.filter(function (t) { return t.status === "hecha"; }).length;
+      var bar = h("div", { class: "mini", title: done + " de " + mine.length + " tareas hechas" }, h("span"));
+      bar.firstChild.style.width = (mine.length ? done / mine.length * 100 : 0) + "%";
+      var st = a.estado || "esperando";
+      var qs = state.preguntas.filter(function (q) { return q.agente === a.id; }).sort(function (x, y) { return String(x.id).localeCompare(String(y.id)); });
+      var open = qs.filter(function (q) { return q.abierta !== false; });
+      var ask = qs.length ? h("div", { class: "ask" },
+        h("div", { class: "ask-title", text: open.length ? "Espera tu respuesta (" + open.length + ")" : "Respuestas tuyas" }),
+        qs.map(renderQuestion)) : null;
+      return h("article", { class: "agent st-" + st },
+        h("h3", { text: a.nombre }, open.length ? h("span", { class: "badge-ask", text: "te espera" }) : null),
+        h("p", { class: "role", text: a.rol }),
+        h("p", { class: "stack", text: a.stack }),
+        h("div", { class: "models" }, chip(a.modelo), "consulta a", chip(a.consultor)),
+        bar,
+        h("div", { class: "astate" }, h("span", { class: "dot" }), h("b", { text: STATUS_A[st] || st }), h("span", { class: "cur", text: a.actual || (mine.length + " tareas asignadas") })),
+        ask
+      );
+    }));
+  }
+
+  function renderFilters() {
+    var f = $("filters");
+    var btns = [{ id: "all", label: "Todos" }].concat(state.agents.map(function (a) { return { id: a.id, label: a.nombre }; }));
+    f.replaceChildren.apply(f, btns.map(function (b) {
+      return h("button", { type: "button", "aria-pressed": state.filter === b.id ? "true" : "false", text: b.label, onclick: function () { state.filter = b.id; renderFilters(); renderBoard(); } });
+    }));
+  }
+
+  function renderBoard() {
+    var shown = state.tasks.filter(function (t) { return state.filter === "all" || t.agente === state.filter; });
+    var statusOf = {};
+    state.tasks.forEach(function (t) { statusOf[t.id] = t.status; });
+    var board = $("board");
+    board.replaceChildren.apply(board, COLS.map(function (c) {
+      var list = shown.filter(function (t) { return t.status === c; }).sort(function (a, b) { return String(a.id).localeCompare(b.id, "es", { numeric: true }); });
+      var dot = h("span", { class: "dot" }); dot.style.background = COLOR[c];
+      var cards = list.map(function (t) {
+        var a = agentById(t.agente);
+        var pending = arr(t.deps).filter(function (d) { return statusOf[d] && statusOf[d] !== "hecha"; });
+        return h("article", { class: "task" + (t.status === "bloqueada" ? " blocked-by" : "") },
+          h("div", { class: "top" },
+            h("span", { text: t.id }),
+            t.rehacer ? h("span", { class: "badge-rehacer", text: "rehacer" }) : null,
+            a ? chip(a.modelo) : null),
+          h("div", { class: "tt", text: t.titulo }),
+          h("div", { class: "who", text: a ? a.nombre : String(t.agente || "") }),
+          arr(t.deps).length ? h("div", { class: "who mono", text: "Depende de " + arr(t.deps).join(", ") + (pending.length && t.status === "pendiente" ? " (esperando " + pending.join(", ") + ")" : "") }) : null,
+          t.nota ? h("div", { class: "note", text: t.nota }) : null
+        );
+      });
+      return h("div", { class: "col" },
+        h("div", { class: "col-head" }, dot, STATUS_T[c], h("span", { class: "n", text: list.length })),
+        h("div", { class: "col-body" }, cards.length ? cards : h("div", { class: "col-none", text: "Sin tareas" }))
+      );
+    }));
+  }
+
+  function renderVotes() {
+    var votes = state.votes;
+    var tally = { ok: 0, ajustes: 0, no: 0 };
+    votes.forEach(function (v) { if (tally[v.veredicto] != null) tally[v.veredicto]++; });
+    $("tally").replaceChildren(
+      h("span", { class: "mono", text: votes.length ? votes.length + " de " + (state.agents.length || "—") + " votos" : "Los votos por agente quedaron en la base de Claude y no se pudieron copiar" }),
+      votes.length ? h("span", { class: "v-ok mono", text: tally.ok + " de acuerdo" }) : null,
+      votes.length ? h("span", { class: "v-ajustes mono", text: tally.ajustes + " con ajustes" }) : null,
+      votes.length ? h("span", { class: "v-no mono", text: tally.no + " en desacuerdo" }) : null
+    );
+    var c = state.meta && state.meta.conclusion;
+    var cEl = $("concl");
+    if (c && (c.resumen || arr(c.acuerdos).length || arr(c.ajustes).length)) {
+      cEl.replaceChildren(h("div", { class: "concl" },
+        h("h3", { text: "Conclusión del equipo" }),
+        c.resumen ? h("p", { text: c.resumen }) : null,
+        h("div", { class: "cols" },
+          arr(c.acuerdos).length ? h("div", null, h("h4", { text: "Todos coinciden en" }), h("ul", null, arr(c.acuerdos).map(function (x) { return h("li", { text: x }); }))) : null,
+          arr(c.ajustes).length ? h("div", null, h("h4", { text: "Cambios al plan" }), h("ul", null, arr(c.ajustes).map(function (x) { return h("li", { text: x }); }))) : null,
+          arr(c.sincronia).length ? h("div", null, h("h4", { text: "Cómo trabajan sincronizados" }), h("ul", null, arr(c.sincronia).map(function (x) { return h("li", { text: x }); }))) : null
+        )
+      ));
+    } else {
+      cEl.replaceChildren(h("div", { class: "empty", text: "La conclusión aparece acá cuando se cargue en datos.js." }));
+    }
+    var box = $("votes");
+    if (!votes.length) { box.replaceChildren(); return; }
+    box.replaceChildren.apply(box, votes.map(function (v) {
+      var a = agentById(v.agente);
+      return h("article", { class: "vote" },
+        h("div", { class: "vh" }, h("b", { text: a ? a.nombre : v.agente }), a ? chip(a.modelo) : null, h("span", { class: "verdict v-" + (v.veredicto || "ok"), text: VERDICT[v.veredicto] || "—" })),
+        v.comentario ? h("p", { class: "c", text: v.comentario }) : null,
+        arr(v.aportes).length ? h("div", null, h("div", { class: "sub", text: "Aportes" }), h("ul", null, arr(v.aportes).map(function (x) { return h("li", { text: x }); }))) : null
+      );
+    }));
+  }
+
+  function renderLog() {
+    var el = $("log");
+    if (!state.log.length) { el.replaceChildren(h("div", { class: "empty", text: "Sin movimientos todavía." })); return; }
+    el.replaceChildren(h("ul", { class: "log" }, state.log.map(function (l) {
+      return h("li", null, h("time", { text: fmt(l.ts) }), h("span", { text: l.texto }));
+    })));
+  }
+
+  function renderAll() { renderPhases(); renderProgress(); renderTeam(); renderFilters(); renderBoard(); renderVotes(); renderLog(); }
+
+  function exportar() {
+    var data = {
+      meta: state.meta,
+      agents: state.agents,
+      tasks: state.tasks,
+      votes: state.votes,
+      preguntas: state.preguntas.map(function (q) {
+        var o = { id: q.id, agente: q.agente, abierta: q.abierta !== false, texto: q.texto };
+        if (q.tarea) o.tarea = q.tarea;
+        if (q.ayuda) o.ayuda = q.ayuda;
+        if (q.opciones) o.opciones = q.opciones;
+        if (q.placeholder) o.placeholder = q.placeholder;
+        if (q.abierta === false) o.respuesta = q.respuesta || "";
+        return o;
+      }),
+      log: state.log
+    };
+    var text = headerComment() + "window.TABLERO = " + JSON.stringify(data, null, 2) + ";\n";
+    var blob = new Blob([text], { type: "text/javascript" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "datos.js";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+  function headerComment() {
+    return "/* Tablero VideoCotización. Fuente compartida.\n   Cursor y Claude editan ESTE archivo (docs/tablero/datos.js).\n   index.html lo muestra. No guardes el estado en la base del artifact de Claude.\n   Tarea: id, titulo, agente, status (pendiente | en_curso | en_revision | hecha | bloqueada), rehacer, nota.\n   Pregunta abierta: abierta true. Para cerrarla: respuesta y abierta false.\n*/\n";
+  }
+
+  $("export").addEventListener("click", exportar);
+  renderAll();
+})();
+</script>
+</body>
+</html>

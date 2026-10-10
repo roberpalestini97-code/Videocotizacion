@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LoginPaso",
+  "description": "Contraseña correcta: falta TOTP (R38). Se emite cookie __Host-vc_panel preliminar y un CSRF para el paso siguiente.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "paso",
+    "csrf_token",
+    "vence_en"
+  ],
+  "properties": {
+    "paso": {
+      "type": "string",
+      "const": "totp"
+    },
+    "csrf_token": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "vence_en": {
+      "$ref": "FechaHora.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "paso": "totp",
+      "csrf_token": "1XSJcMMHC-cb3dy6BpcSlzubanTcfMpSi7NJNQzCB1U",
+      "vence_en": "2026-10-08T13:05:00Z"
+    }
+  ]
+}

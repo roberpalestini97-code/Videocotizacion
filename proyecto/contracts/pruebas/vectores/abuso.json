@@ -1,0 +1,1642 @@
+[
+  {
+    "id": "V005",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "leerEnlacePublico con clave pública y Origin ajeno",
+    "operacion": "leerEnlacePublico",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V006",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "leerEnlacePublico con clave pública y Origin ausente",
+    "operacion": "leerEnlacePublico",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V007",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "leerEnlacePublico con clave pública y Origin comodin",
+    "operacion": "leerEnlacePublico",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V008",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerEnlacePublico en ráfaga por encima del límite",
+    "operacion": "leerEnlacePublico",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V017",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "emitirDesafio con clave pública y Origin ajeno",
+    "operacion": "emitirDesafio",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "ajeno"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V018",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "emitirDesafio con clave pública y Origin ausente",
+    "operacion": "emitirDesafio",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V019",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "emitirDesafio con clave pública y Origin comodin",
+    "operacion": "emitirDesafio",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "comodin"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V020",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "emitirDesafio en ráfaga por encima del límite",
+    "operacion": "emitirDesafio",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V027",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "leerAvisoPrivacidad con clave pública y Origin ajeno",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "ajeno"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V028",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "leerAvisoPrivacidad con clave pública y Origin ausente",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "ausente"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V029",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "leerAvisoPrivacidad con clave pública y Origin comodin",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "comodin"
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido"
+    }
+  },
+  {
+    "id": "V030",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerAvisoPrivacidad en ráfaga por encima del límite",
+    "operacion": "leerAvisoPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V037",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "crearSesion con clave pública y Origin ajeno",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V038",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "crearSesion con clave pública y Origin ausente",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V039",
+    "categoria": "abuso",
+    "requisitos": [
+      "R55"
+    ],
+    "descripcion": "crearSesion con clave pública y Origin comodin",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "origen_no_permitido",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V040",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "crearSesion en ráfaga por encima del límite",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V070",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerSesion en ráfaga por encima del límite",
+    "operacion": "leerSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V082",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "registrarConsentimiento en ráfaga por encima del límite",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V101",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "emitirTokenMedios en ráfaga por encima del límite",
+    "operacion": "emitirTokenMedios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "consentida",
+        "cotizacion_emitida": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V112",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "cerrarSesion en ráfaga por encima del límite",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro"
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V131",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerCotizacion en ráfaga por encima del límite",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V145",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerDerivacion en ráfaga por encima del límite",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V157",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "registrarContacto en ráfaga por encima del límite",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000"
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V180",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "crearSolicitudArco en ráfaga por encima del límite",
+    "operacion": "crearSolicitudArco",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "cuerpo": {
+        "tipo": "acceso",
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "verificacion": {
+          "telefono": "+5492235552000"
+        }
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V193",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerRetencion en ráfaga por encima del límite",
+    "operacion": "leerRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V200",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerConsumo en ráfaga por encima del límite",
+    "operacion": "leerConsumo",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V202",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerVersion en ráfaga por encima del límite",
+    "operacion": "leerVersion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V204",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerCatalogoTextos en ráfaga por encima del límite",
+    "operacion": "leerCatalogoTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V206",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "iniciarSesionPanel en ráfaga por encima del límite",
+    "operacion": "iniciarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "email": "juan@asesores.local",
+        "contrasena": "una-frase-larga-de-prueba-0"
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V219",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "verificarTotp en ráfaga por encima del límite",
+    "operacion": "verificarTotp",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "codigo": "123456"
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V231",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerSesionPanel en ráfaga por encima del límite",
+    "operacion": "leerSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V238",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "cerrarSesionPanel en ráfaga por encima del límite",
+    "operacion": "cerrarSesionPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V245",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "reautenticar en ráfaga por encima del límite",
+    "operacion": "reautenticar",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "login": {
+        "contrasena": "correcta",
+        "totp": "valido",
+        "intentos": "normales"
+      },
+      "cuerpo": {
+        "contrasena": "una-frase-larga-de-prueba-0",
+        "codigo_totp": "654321"
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V256",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerPerfil en ráfaga por encima del límite",
+    "operacion": "leerPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V263",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "actualizarPerfil en ráfaga por encima del límite",
+    "operacion": "actualizarPerfil",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "cuerpo": {
+        "nombre_visible": "Juan Pérez"
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V279",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "cambiarContrasena en ráfaga por encima del límite",
+    "operacion": "cambiarContrasena",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "cuerpo": {
+        "contrasena_nueva": "otra-frase-bien-larga-0"
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V288",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "listarMisCotizaciones en ráfaga por encima del límite",
+    "operacion": "listarMisCotizaciones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V293",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerMiCotizacion en ráfaga por encima del límite",
+    "operacion": "leerMiCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V302",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerContactoCliente en ráfaga por encima del límite",
+    "operacion": "leerContactoCliente",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V311",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "listarRegistros en ráfaga por encima del límite",
+    "operacion": "listarRegistros",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V316",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerConsumoPanel en ráfaga por encima del límite",
+    "operacion": "leerConsumoPanel",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V321",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "leerEnlaceCompartir en ráfaga por encima del límite",
+    "operacion": "leerEnlaceCompartir",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V329",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "rotarEnlace en ráfaga por encima del límite",
+    "operacion": "rotarEnlace",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V335",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "listarClavesWidget en ráfaga por encima del límite",
+    "operacion": "listarClavesWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "rol": "administrador",
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V344",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "crearClaveWidget en ráfaga por encima del límite",
+    "operacion": "crearClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "cuerpo": {
+        "nombre": "Sitio principal",
+        "origins": [
+          "https://cotizar.videocotizacion.local"
+        ]
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V363",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "revocarClaveWidget en ráfaga por encima del límite",
+    "operacion": "revocarClaveWidget",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "rol": "administrador",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V374",
+    "categoria": "abuso",
+    "requisitos": [
+      "R8"
+    ],
+    "descripcion": "exportarMiCuenta en ráfaga por encima del límite",
+    "operacion": "exportarMiCuenta",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "csrf": true,
+      "reautenticado": true,
+      "tasa": "excedida"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_de_tasa"
+    }
+  },
+  {
+    "id": "V375",
+    "categoria": "abuso",
+    "requisitos": [
+      "R53",
+      "R61"
+    ],
+    "descripcion": "crearSesion con desafío ausente",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "desafio_invalido",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V376",
+    "categoria": "abuso",
+    "requisitos": [
+      "R53",
+      "R61"
+    ],
+    "descripcion": "crearSesion con desafío vencido",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "vencido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "desafio_invalido",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V377",
+    "categoria": "abuso",
+    "requisitos": [
+      "R53",
+      "R61"
+    ],
+    "descripcion": "crearSesion con desafío reusado",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "reusado",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "desafio_invalido",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V378",
+    "categoria": "abuso",
+    "requisitos": [
+      "R53",
+      "R61"
+    ],
+    "descripcion": "crearSesion con desafío otro_origin",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "otro_origin",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "desafio_invalido",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V379",
+    "categoria": "abuso",
+    "requisitos": [
+      "R53",
+      "R61"
+    ],
+    "descripcion": "crearSesion con desafío otra_clave",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "otra_clave",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 403,
+      "codigo": "desafio_invalido",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V380",
+    "categoria": "abuso",
+    "requisitos": [
+      "R56"
+    ],
+    "descripcion": "crearSesion con cuota mensual agotada",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "agotada",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "cuota_agotada",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V381",
+    "categoria": "abuso",
+    "requisitos": [
+      "R57"
+    ],
+    "descripcion": "crearSesion con 5 simultáneas en curso",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "publica",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "desafio": "valido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "agotadas"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "simultaneas_agotadas",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V382",
+    "categoria": "abuso",
+    "requisitos": [
+      "R56"
+    ],
+    "descripcion": "crearSesion con clave secreta y cuota agotada",
+    "operacion": "crearSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "secreta",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true
+      },
+      "cupo": {
+        "cuota": "agotada",
+        "simultaneas": "disponibles"
+      },
+      "cuerpo": {
+        "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+        "modo_avatar": "3d",
+        "avatar_id": "av_obrero_casco"
+      }
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "cuota_agotada",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V383",
+    "categoria": "abuso",
+    "requisitos": [
+      "R10",
+      "R61",
+      "O1"
+    ],
+    "descripcion": "emitirTokenMedios sin consentimiento: sin token y sin proveedores",
+    "operacion": "emitirTokenMedios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "consentimiento_requerido",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V384",
+    "categoria": "abuso",
+    "requisitos": [
+      "R56",
+      "R61"
+    ],
+    "descripcion": "emitirTokenMedios con cuota agotada",
+    "operacion": "emitirTokenMedios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "consentida",
+        "cotizacion_emitida": true
+      },
+      "cupo": {
+        "cuota": "agotada",
+        "simultaneas": "disponibles"
+      }
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "cuota_agotada",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V385",
+    "categoria": "abuso",
+    "requisitos": [
+      "R57"
+    ],
+    "descripcion": "emitirTokenMedios: sexta simultánea",
+    "operacion": "emitirTokenMedios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "consentida",
+        "cotizacion_emitida": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "agotadas"
+      }
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "simultaneas_agotadas",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V386",
+    "categoria": "abuso",
+    "requisitos": [
+      "R69"
+    ],
+    "descripcion": "leerContactoCliente por encima del límite diario",
+    "operacion": "leerContactoCliente",
+    "solicitud": {
+      "credencial": {
+        "tipo": "panel",
+        "tenant": "A",
+        "sujeto": "ase_A1"
+      },
+      "origin": "permitido",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ase_A1",
+        "contacto_registrado": true
+      },
+      "lecturas_contacto": "agotadas"
+    },
+    "esperado": {
+      "status": 429,
+      "codigo": "limite_lecturas_contacto"
+    }
+  }
+]

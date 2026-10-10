@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PerfilAsesor",
+  "description": "Perfil mínimo del asesor (R40): sin DNI ni domicilio.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "asesor_id",
+    "rol",
+    "nombre_visible",
+    "email",
+    "whatsapp",
+    "oficios",
+    "zonas",
+    "totp_activo",
+    "consentimiento_asesor",
+    "creado_en"
+  ],
+  "properties": {
+    "asesor_id": {
+      "$ref": "IdAsesor.schema.json"
+    },
+    "rol": {
+      "type": "string",
+      "enum": [
+        "asesor",
+        "administrador"
+      ]
+    },
+    "nombre_visible": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "email": {
+      "$ref": "Email.schema.json"
+    },
+    "whatsapp": {
+      "$ref": "Telefono.schema.json"
+    },
+    "oficios": {
+      "type": "array",
+      "items": {
+        "$ref": "Oficio.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true
+    },
+    "zonas": {
+      "type": "array",
+      "items": {
+        "$ref": "ZonaAtendida.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true
+    },
+    "totp_activo": {
+      "type": "boolean",
+      "const": true
+    },
+    "consentimiento_asesor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "aceptado_en"
+      ],
+      "properties": {
+        "version": {
+          "$ref": "VersionAviso.schema.json"
+        },
+        "aceptado_en": {
+          "$ref": "FechaHora.schema.json"
+        }
+      }
+    },
+    "creado_en": {
+      "$ref": "FechaHora.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "asesor_id": "ase_5M2N9BKVB4MKP71EPBCDBWS8EV",
+      "rol": "asesor",
+      "nombre_visible": "Juan P.",
+      "email": "juan@asesores.local",
+      "whatsapp": "+5492235550101",
+      "oficios": [
+        "pintura"
+      ],
+      "zonas": [
+        "mar_chiquita"
+      ],
+      "totp_activo": true,
+      "consentimiento_asesor": {
+        "version": "2026-10-08.1",
+        "aceptado_en": "2026-10-01T14:20:00Z"
+      },
+      "creado_en": "2026-10-01T14:20:00Z"
+    }
+  ]
+}

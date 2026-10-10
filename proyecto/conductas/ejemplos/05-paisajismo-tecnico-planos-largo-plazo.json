@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "oficio": "paisajismo",
+  "trabajo": {
+    "tipo": "diseno_paisajismo",
+    "descripcion": "Parquización completa de lote nuevo con riego, según plano del estudio",
+    "complejidad": "tecnica",
+    "requiere_planos": true,
+    "jornadas_estimadas": 15
+  },
+  "medidas": [
+    {
+      "concepto": "lote",
+      "cantidad": 1200,
+      "unidad": "m2",
+      "origen": "plano"
+    }
+  ],
+  "altura": {
+    "metros_max": null,
+    "requiere_andamio": "no",
+    "medio": "ninguno"
+  },
+  "estado_superficie": "no_aplica",
+  "zona": {
+    "localidad": "cobo",
+    "fuera_de_zona": false
+  },
+  "urgencia": {
+    "nivel": "baja",
+    "senales": [
+      "obra en curso"
+    ]
+  },
+  "tipo_cliente": "constructora_estudio",
+  "plazo": {
+    "tipo": "mas_de_un_mes",
+    "sujeto_a_cambios": true
+  },
+  "faltantes": [
+    "planos"
+  ],
+  "siguiente_paso": {
+    "accion": "derivar_whatsapp",
+    "motivo": "Trabajo técnico con planos y varias jornadas: el asesor necesita el plano para cotizar con precisión",
+    "campos": [
+      "planos"
+    ]
+  },
+  "respuesta_hablada": "Es un trabajo lindo y grande. Para hacerlo bien necesitamos ver el plano; te paso con el asesor por WhatsApp y, como arranca en unos meses, el presupuesto puede ajustarse."
+}

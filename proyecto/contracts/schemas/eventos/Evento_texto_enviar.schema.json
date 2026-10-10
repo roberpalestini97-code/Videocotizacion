@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evento_texto_enviar",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Cliente → servidor: texto tipeado por el cliente (tope por turno, R66).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "tipo",
+    "seq",
+    "ts",
+    "datos"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "const": "texto.enviar"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts": {
+      "$ref": "../FechaHora.schema.json"
+    },
+    "datos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "texto"
+      ],
+      "properties": {
+        "texto": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "texto.enviar",
+      "seq": 1,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "texto": "Son dos ambientes de 4 por 3"
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "texto.enviar",
+      "seq": 2,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "texto": "La pared tiene humedad"
+      }
+    }
+  ]
+}

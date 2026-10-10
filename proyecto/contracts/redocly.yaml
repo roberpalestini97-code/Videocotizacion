@@ -1,0 +1,32 @@
+# Redocly: reglas recomendadas + endurecimientos del contrato VideoCotización.
+extends:
+  - recommended
+apis:
+  videocotizacion@v1:
+    root: ./openapi.yaml
+rules:
+  operation-operationId: error
+  operation-operationId-unique: error
+  operation-4xx-response: error
+  operation-2xx-response: error
+  operation-summary: error
+  operation-description: error
+  security-defined: error
+  # allowAdditionalProperties: true porque los esquemas ya cierran cada objeto con
+  # additionalProperties:false; con false Redocly inyecta unevaluatedProperties también en los
+  # subesquemas de if/then/else y rechaza ejemplos válidos (Sesion, Cotizacion).
+  no-invalid-media-type-examples:
+    severity: error
+    allowAdditionalProperties: true
+  no-invalid-parameter-examples: error
+  no-invalid-schema-examples:
+    severity: error
+    allowAdditionalProperties: true
+  no-unused-components: warn
+  no-server-example.com: error
+  no-ambiguous-paths: error
+  path-not-include-query: error
+  info-contact: error
+  info-license: warn
+  tag-description: error
+  operation-tag-defined: error

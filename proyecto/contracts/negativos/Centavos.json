@@ -1,0 +1,26 @@
+[
+  {
+    "esquema": "Centavos",
+    "caso": "monto con decimales",
+    "falla_por": "type",
+    "instancia": 1500.5
+  },
+  {
+    "esquema": "Centavos",
+    "caso": "monto como texto",
+    "falla_por": "type",
+    "instancia": "1500"
+  },
+  {
+    "esquema": "Centavos",
+    "caso": "monto negativo",
+    "falla_por": "minimum",
+    "instancia": -1
+  },
+  {
+    "esquema": "Centavos",
+    "caso": "supera 2^53−1",
+    "falla_por": "maximum",
+    "instancia": 9007199254740992
+  }
+]

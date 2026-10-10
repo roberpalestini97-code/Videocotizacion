@@ -1,0 +1,145 @@
+[
+  {
+    "esquema": "eventos/Evento_avatar_visemas",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "v": 1,
+      "tipo": "avatar.visemas",
+      "seq": 4,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 1,
+        "items": [
+          {
+            "v": "sil",
+            "t_ms": 0,
+            "d_ms": 80
+          },
+          {
+            "v": "PP",
+            "t_ms": 80,
+            "d_ms": 60
+          },
+          {
+            "v": "aa",
+            "t_ms": 140,
+            "d_ms": 120
+          },
+          {
+            "v": "E",
+            "t_ms": 260,
+            "d_ms": 90
+          }
+        ]
+      },
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "eventos/Evento_avatar_visemas",
+    "caso": "falta \"v\"",
+    "falla_por": "required",
+    "instancia": {
+      "tipo": "avatar.visemas",
+      "seq": 4,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 1,
+        "items": [
+          {
+            "v": "sil",
+            "t_ms": 0,
+            "d_ms": 80
+          },
+          {
+            "v": "PP",
+            "t_ms": 80,
+            "d_ms": 60
+          },
+          {
+            "v": "aa",
+            "t_ms": 140,
+            "d_ms": 120
+          },
+          {
+            "v": "E",
+            "t_ms": 260,
+            "d_ms": 90
+          }
+        ]
+      }
+    }
+  },
+  {
+    "esquema": "eventos/Evento_avatar_visemas",
+    "caso": "falta \"tipo\"",
+    "falla_por": "required",
+    "instancia": {
+      "v": 1,
+      "seq": 4,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 1,
+        "items": [
+          {
+            "v": "sil",
+            "t_ms": 0,
+            "d_ms": 80
+          },
+          {
+            "v": "PP",
+            "t_ms": 80,
+            "d_ms": 60
+          },
+          {
+            "v": "aa",
+            "t_ms": 140,
+            "d_ms": 120
+          },
+          {
+            "v": "E",
+            "t_ms": 260,
+            "d_ms": 90
+          }
+        ]
+      }
+    }
+  },
+  {
+    "esquema": "eventos/Evento_avatar_visemas",
+    "caso": "visema inventado",
+    "falla_por": "enum",
+    "instancia": {
+      "v": 1,
+      "tipo": "avatar.visemas",
+      "seq": 4,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 1,
+        "items": [
+          {
+            "v": "XX",
+            "t_ms": 0,
+            "d_ms": 80
+          },
+          {
+            "v": "PP",
+            "t_ms": 80,
+            "d_ms": 60
+          },
+          {
+            "v": "aa",
+            "t_ms": 140,
+            "d_ms": 120
+          },
+          {
+            "v": "E",
+            "t_ms": 260,
+            "d_ms": 90
+          }
+        ]
+      }
+    }
+  }
+]
