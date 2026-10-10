@@ -91,17 +91,32 @@ func TestAplicarContraPostgres(t *testing.T) {
 		t.Fatal("un binario sin la migración 0001 debía detectar que la base es más nueva")
 	}
 
-	// Reversión manual y vuelta a aplicar desde cero.
-	rev, err := os.ReadFile(filepath.Join("..", "..", "migrations", "0001_esquema_inicial.revertir.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if _, err := dueno.Exec(ctx, string(rev)); err != nil {
-		t.Fatalf("reversión: %v", err)
+	// Reversión manual de TODAS las migraciones, de la última a la primera
+	// (como lo haría un operador), y vuelta a aplicar desde cero. Cada
+	// NNNN_nombre.sql debe tener su NNNN_nombre.revertir.sql y cada reversión
+	// debe borrar su versión de vc_meta.migraciones.
+	for i := len(ms) - 1; i >= 0; i-- {
+		m := ms[i]
+		nombre := m.Version + "_" + m.Nombre + ".revertir.sql"
+		rev, err := os.ReadFile(filepath.Join("..", "..", "migrations", nombre))
+		if err != nil {
+			t.Fatalf("falta la reversión de %s: %v", m.Version, err)
+		}
+		if _, err := dueno.Exec(ctx, string(rev)); err != nil {
+			t.Fatalf("reversión %s: %v", nombre, err)
+		}
+		var sigue bool
+		if err := dueno.QueryRow(ctx, "SELECT EXISTS (SELECT 1 FROM vc_meta.migraciones WHERE version = $1)", m.Version).Scan(&sigue); err != nil || sigue {
+			t.Fatalf("%s no borró su versión de vc_meta.migraciones (%v)", nombre, err)
+		}
 	}
 	var existe bool
 	if err := dueno.QueryRow(ctx, "SELECT to_regnamespace('vc') IS NOT NULL").Scan(&existe); err != nil || existe {
 		t.Fatalf("después de revertir no debe quedar el esquema vc (%v)", err)
+	}
+	var quedan int
+	if err := dueno.QueryRow(ctx, "SELECT count(*) FROM vc_meta.migraciones").Scan(&quedan); err != nil || quedan != 0 {
+		t.Fatalf("después de revertir todo quedan %d versiones registradas (%v)", quedan, err)
 	}
 	res, err = migrador.Aplicar(ctx, dueno, ms)
 	if err != nil || len(res.Aplicadas) != len(ms) {
