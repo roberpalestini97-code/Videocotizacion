@@ -353,164 +353,166 @@ export function VideoCotizacion({
         )}
 
         {enLlamadaUI && fase !== "conectando" && (
-          <div
-            className="relative min-h-0 flex-1 overflow-hidden rounded-3xl bg-ink ring-1 ring-white/15"
-            data-testid="llamada"
-          >
-            {/* Layout tipo Zoom: asesor izquierda · cámara usuario derecha */}
-            <div className="absolute inset-0 flex gap-1.5 p-1.5 landscape:gap-2 landscape:p-2">
-              <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl bg-[#1a2e28]">
-                <div ref={avatarRef} className="absolute inset-0" data-testid="avatar" />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/20" />
-                <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-ink/65 px-2.5 py-1 backdrop-blur-sm">
-                  <span className="size-1.5 rounded-full bg-online animate-blink" />
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-white">
-                    {nombreAsesor}
-                  </span>
-                </div>
-                <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-end justify-between gap-2">
-                  <div className="min-w-0">
-                    <p className="truncate font-display text-sm font-semibold text-white drop-shadow">
+          <>
+            <div
+              className="relative min-h-0 flex-1 overflow-hidden rounded-3xl bg-ink ring-1 ring-white/15"
+              data-testid="llamada"
+            >
+              {/* Layout tipo Zoom: asesor izquierda · cámara usuario derecha */}
+              <div className="absolute inset-0 flex gap-1.5 p-1.5 landscape:gap-2 landscape:p-2">
+                <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl bg-[#1a2e28]">
+                  <div ref={avatarRef} className="absolute inset-0" data-testid="avatar" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/20" />
+                  <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-ink/65 px-2.5 py-1 backdrop-blur-sm">
+                    <span className="size-1.5 rounded-full bg-online animate-blink" />
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-white">
                       {nombreAsesor}
-                    </p>
-                    <p className="truncate text-[10px] text-white/70">
-                      Asistente automático · {s.enlace?.profesional.nombre_visible}
-                    </p>
+                    </span>
                   </div>
-                  <span
-                    className={`flex shrink-0 items-end gap-0.5 rounded-full bg-ink/55 px-2 py-1.5 ${
-                      s.asesorHablando ? "opacity-100" : "opacity-50"
-                    }`}
-                  >
-                    {[0, 0.15, 0.3].map((d) => (
-                      <span
-                        key={d}
-                        className="h-3.5 w-0.5 origin-bottom rounded-full bg-accent animate-bar"
-                        style={{
-                          animationDelay: `${d}s`,
-                          animationPlayState: s.asesorHablando ? "running" : "paused",
-                        }}
-                      />
-                    ))}
-                  </span>
-                </div>
-              </div>
-
-              <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl bg-black">
-                <video
-                  ref={videoRef}
-                  muted
-                  playsInline
-                  autoPlay
-                  data-testid="mi-camara"
-                  className="absolute inset-0 size-full object-cover"
-                />
-                <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-ink/65 px-2.5 py-1 backdrop-blur-sm">
-                  <span className="size-1.5 rounded-full bg-online animate-blink" />
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-white">
-                    Tu cámara
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <PizarronVivo pizarron={s.pizarron} />
-
-            {fase === "reconectando" && (
-              <div
-                role="status"
-                data-testid="reconectando"
-                className="absolute inset-x-3 top-3 z-20 rounded-2xl bg-destructive/85 p-2.5 text-center text-xs font-medium text-white backdrop-blur-md"
-              >
-                Se cortó la conexión. Reintentando
-                {s.reconexion?.intento ? ` (intento ${s.reconexion.intento})` : ""}…
-              </div>
-            )}
-            {s.avisoSesion && (
-              <div
-                role="status"
-                className="absolute inset-x-3 top-3 z-20 rounded-2xl bg-accent p-2 text-center text-[11px] font-semibold text-brand-dark"
-              >
-                {s.avisoSesion.aviso === "sin_voz_proximo" &&
-                  `No te escuchamos. Si seguís en silencio, cortamos en ${s.avisoSesion.segundosRestantes} s.`}
-                {s.avisoSesion.aviso === "duracion_proxima" &&
-                  `La llamada llega al máximo en ${s.avisoSesion.segundosRestantes} s.`}
-                {s.avisoSesion.aviso === "cuota_proxima" &&
-                  `Se está acabando el cupo: quedan ${s.avisoSesion.segundosRestantes} s.`}
-              </div>
-            )}
-            {s.avisoError && !s.avisoSesion && (
-              <div
-                role="status"
-                data-testid="aviso-error"
-                className="absolute inset-x-3 top-3 z-20 rounded-2xl bg-ink/90 p-2 text-center text-[11px] text-white ring-1 ring-white/20"
-              >
-                {s.avisoError}
-              </div>
-            )}
-
-            {/* Conversación flotante: no resta espacio al video */}
-            <div className="absolute bottom-3 right-3 z-10 flex w-[min(17.5rem,46%)] max-h-[46%] flex-col overflow-hidden rounded-2xl bg-ink/80 shadow-lg ring-1 ring-white/20 backdrop-blur-md landscape:bottom-4 landscape:right-4 landscape:max-h-[34%]">
-              <div
-                data-testid="conversacion"
-                className="min-h-0 flex-1 space-y-1.5 overflow-y-auto overscroll-contain p-2.5"
-              >
-                {s.mensajes.map((m) => (
-                  <div key={m.id} className="animate-rise">
-                    <div
-                      className={
-                        m.de === "asesor"
-                          ? "max-w-[95%] rounded-xl rounded-tl-sm bg-white/12 px-2.5 py-1.5 text-[11px] leading-snug text-white landscape:text-[10px] landscape:leading-tight landscape:py-1"
-                          : "ml-auto max-w-[95%] rounded-xl rounded-tr-sm bg-brand px-2.5 py-1.5 text-[11px] leading-snug text-white landscape:text-[10px] landscape:leading-tight landscape:py-1"
-                      }
-                    >
-                      {m.texto}
+                  <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-end justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="truncate font-display text-sm font-semibold text-white drop-shadow">
+                        {nombreAsesor}
+                      </p>
+                      <p className="truncate text-[10px] text-white/70">
+                        Asistente automático · {s.enlace?.profesional.nombre_visible}
+                      </p>
                     </div>
+                    <span
+                      className={`flex shrink-0 items-end gap-0.5 rounded-full bg-ink/55 px-2 py-1.5 ${
+                        s.asesorHablando ? "opacity-100" : "opacity-50"
+                      }`}
+                    >
+                      {[0, 0.15, 0.3].map((d) => (
+                        <span
+                          key={d}
+                          className="h-3.5 w-0.5 origin-bottom rounded-full bg-accent animate-bar"
+                          style={{
+                            animationDelay: `${d}s`,
+                            animationPlayState: s.asesorHablando ? "running" : "paused",
+                          }}
+                        />
+                      ))}
+                    </span>
                   </div>
-                ))}
-                {s.parcial && (
-                  <div className="ml-auto max-w-[95%] rounded-xl rounded-tr-sm bg-brand/50 px-2.5 py-1.5 text-[11px] italic text-white/80">
-                    {s.parcial}
-                  </div>
-                )}
-                <div ref={finRef} />
-              </div>
-              <form
-                className="flex gap-1.5 border-t border-white/10 p-1.5"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (ctl.enviarTexto(texto)) setTexto("");
-                }}
-              >
-                <input
-                  value={texto}
-                  onChange={(e) => setTexto(e.target.value)}
-                  maxLength={500}
-                  disabled={fase !== "llamada"}
-                  placeholder={s.escuchando ? "Hablá o escribí…" : "Escribile al asesor…"}
-                  aria-label="Escribile al asesor"
-                  data-testid="texto-cliente"
-                  className="min-w-0 flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-[11px] text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-accent"
-                />
-                <button
-                  type="submit"
-                  disabled={fase !== "llamada" || !texto.trim()}
-                  data-testid="enviar-texto"
-                  className="rounded-lg bg-accent px-2.5 text-[11px] font-semibold text-brand-dark disabled:opacity-40"
-                >
-                  Enviar
-                </button>
-              </form>
-            </div>
+                </div>
 
+                <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl bg-black">
+                  <video
+                    ref={videoRef}
+                    muted
+                    playsInline
+                    autoPlay
+                    data-testid="mi-camara"
+                    className="absolute inset-0 size-full object-cover"
+                  />
+                  <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-ink/65 px-2.5 py-1 backdrop-blur-sm">
+                    <span className="size-1.5 rounded-full bg-online animate-blink" />
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-white">
+                      Tu cámara
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <PizarronVivo pizarron={s.pizarron} />
+
+              {fase === "reconectando" && (
+                <div
+                  role="status"
+                  data-testid="reconectando"
+                  className="absolute inset-x-3 top-3 z-20 rounded-2xl bg-destructive/85 p-2.5 text-center text-xs font-medium text-white backdrop-blur-md"
+                >
+                  Se cortó la conexión. Reintentando
+                  {s.reconexion?.intento ? ` (intento ${s.reconexion.intento})` : ""}…
+                </div>
+              )}
+              {s.avisoSesion && (
+                <div
+                  role="status"
+                  className="absolute inset-x-3 top-3 z-20 rounded-2xl bg-accent p-2 text-center text-[11px] font-semibold text-brand-dark"
+                >
+                  {s.avisoSesion.aviso === "sin_voz_proximo" &&
+                    `No te escuchamos. Si seguís en silencio, cortamos en ${s.avisoSesion.segundosRestantes} s.`}
+                  {s.avisoSesion.aviso === "duracion_proxima" &&
+                    `La llamada llega al máximo en ${s.avisoSesion.segundosRestantes} s.`}
+                  {s.avisoSesion.aviso === "cuota_proxima" &&
+                    `Se está acabando el cupo: quedan ${s.avisoSesion.segundosRestantes} s.`}
+                </div>
+              )}
+              {s.avisoError && !s.avisoSesion && (
+                <div
+                  role="status"
+                  data-testid="aviso-error"
+                  className="absolute inset-x-3 top-3 z-20 rounded-2xl bg-ink/90 p-2 text-center text-[11px] text-white ring-1 ring-white/20"
+                >
+                  {s.avisoError}
+                </div>
+              )}
+
+              {/* Conversación flotante: no resta espacio al video */}
+              <div className="absolute bottom-3 right-3 z-10 flex w-[min(17.5rem,46%)] max-h-[46%] flex-col overflow-hidden rounded-2xl bg-ink/80 shadow-lg ring-1 ring-white/20 backdrop-blur-md landscape:bottom-4 landscape:right-4 landscape:max-h-[34%]">
+                <div
+                  data-testid="conversacion"
+                  className="min-h-0 flex-1 space-y-1.5 overflow-y-auto overscroll-contain p-2.5"
+                >
+                  {s.mensajes.map((m) => (
+                    <div key={m.id} className="animate-rise">
+                      <div
+                        className={
+                          m.de === "asesor"
+                            ? "max-w-[95%] rounded-xl rounded-tl-sm bg-white/12 px-2.5 py-1.5 text-[11px] leading-snug text-white landscape:text-[10px] landscape:leading-tight landscape:py-1"
+                            : "ml-auto max-w-[95%] rounded-xl rounded-tr-sm bg-brand px-2.5 py-1.5 text-[11px] leading-snug text-white landscape:text-[10px] landscape:leading-tight landscape:py-1"
+                        }
+                      >
+                        {m.texto}
+                      </div>
+                    </div>
+                  ))}
+                  {s.parcial && (
+                    <div className="ml-auto max-w-[95%] rounded-xl rounded-tr-sm bg-brand/50 px-2.5 py-1.5 text-[11px] italic text-white/80">
+                      {s.parcial}
+                    </div>
+                  )}
+                  <div ref={finRef} />
+                </div>
+                <form
+                  className="flex gap-1.5 border-t border-white/10 p-1.5"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (ctl.enviarTexto(texto)) setTexto("");
+                  }}
+                >
+                  <input
+                    value={texto}
+                    onChange={(e) => setTexto(e.target.value)}
+                    maxLength={500}
+                    disabled={fase !== "llamada"}
+                    placeholder={s.escuchando ? "Hablá o escribí…" : "Escribí acá…"}
+                    aria-label="Escribile al asesor"
+                    data-testid="texto-cliente"
+                    className="min-w-0 flex-1 rounded-lg bg-white/10 px-2 py-1.5 text-[11px] text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-accent"
+                  />
+                  <button
+                    type="submit"
+                    disabled={fase !== "llamada" || !texto.trim()}
+                    data-testid="enviar-texto"
+                    className="rounded-lg bg-accent px-2.5 text-[11px] font-semibold text-brand-dark disabled:opacity-40"
+                  >
+                    Enviar
+                  </button>
+                </form>
+              </div>
+            </div>
             <button
               onClick={() => void ctl.cortar()}
               data-testid="cortar"
-              className="absolute left-3 bottom-3 z-10 rounded-full bg-destructive px-4 py-2 text-[11px] font-semibold text-white shadow-lg"
+              className="mt-3 flex h-12 w-full shrink-0 items-center justify-center gap-2 rounded-2xl bg-destructive font-display text-sm font-semibold text-white shadow-lg"
             >
-              Cortar
+              <span className="size-2.5 rounded-sm bg-white" />
+              Cortar la llamada
             </button>
-          </div>
+          </>
         )}
       </div>
     </div>

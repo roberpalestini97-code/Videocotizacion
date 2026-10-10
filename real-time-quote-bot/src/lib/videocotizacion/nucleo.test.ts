@@ -242,7 +242,7 @@ describe("errores del catálogo", () => {
   });
   it("simultáneas agotadas y límite de tasa muestran la espera", () => {
     const m = mensajeError(new ErrorVC("limite_de_tasa", { reintentarEnS: 30 }));
-    expect(m.mensaje).toMatch(/30 s/);
+    expect(m.mensaje).toMatch(/reintentar en 30 s/);
     expect(mensajeError(new ErrorVC("simultaneas_agotadas")).mensaje).toMatch(
       /Probá en unos minutos/,
     );

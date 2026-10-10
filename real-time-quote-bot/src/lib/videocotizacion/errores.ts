@@ -219,7 +219,7 @@ export function mensajeError(err: unknown, textos?: Record<string, string>): Err
       titulo: TITULOS[e.codigo] ?? "No pudimos continuar",
       mensaje:
         accion === "esperar" && e.reintentarEnS
-          ? `${mensaje} Probá de nuevo en ${e.reintentarEnS} s.`
+          ? `${mensaje} (Podés reintentar en ${e.reintentarEnS} s.)`
           : mensaje,
       accion,
       reintentable: accion === "reintentar" || accion === "esperar",
