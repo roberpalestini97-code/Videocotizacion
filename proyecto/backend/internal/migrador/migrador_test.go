@@ -40,7 +40,7 @@ func TestLeer(t *testing.T) {
 		}
 	}
 	reales, err := migrador.Leer(migrations.Archivos)
-	if err != nil || reales[0].Version != "0001" || migrador.Ultima(reales) != "0014" {
+	if err != nil || reales[0].Version != "0001" || migrador.Ultima(reales) != "0015" {
 		t.Fatalf("migraciones embebidas: %v (última=%s) %v", reales, migrador.Ultima(reales), err)
 	}
 }

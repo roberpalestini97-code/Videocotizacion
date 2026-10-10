@@ -179,7 +179,9 @@ func (a *Almacen) verificarPoliticas(ctx context.Context) error {
 		"tenants|dueno_lista_tenants|PERMISSIVE|{" + dueno + "}|SELECT|true|",
 		"claves_api|dueno_autentica|PERMISSIVE|{" + dueno + "}|SELECT|true|",
 		"tokens_sesion|dueno_autentica|PERMISSIVE|{" + dueno + "}|SELECT|true|",
-		"sesiones|dueno_lee_handshake|PERMISSIVE|{" + dueno + "}|SELECT|true|",
+		// 0015: el dueño solo lee sesiones por delegación (SECURITY DEFINER
+		// llamada por otro rol), no conectado directo.
+		"sesiones|dueno_lee_handshake|PERMISSIVE|{" + dueno + "}|SELECT|(SESSION_USER <> CURRENT_USER)|",
 		"contrasenas_asesor|dueno_lee_contrasena|PERMISSIVE|{" + dueno + "}|SELECT|true|",
 		"ingresos_panel|dueno_lee_ingreso|PERMISSIVE|{" + dueno + "}|SELECT|true|",
 	}

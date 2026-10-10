@@ -625,4 +625,41 @@ func TestRespuestasModeloPostgres(t *testing.T) {
 	if _, err := a.ListarRespuestasModeloDeSesion(ctx, tb.ID, s.ID); !errores.Es(err, errores.NoEncontrado) {
 		t.Fatalf("otro tenant no debe ver respuestas: %v", err)
 	}
+	// 0015: \u0000 es JSON válido (json.Valid) y jsonb lo rechazaba; el turno
+	// debe guardarse y leerse byte a byte.
+	conNulo := []byte(`{"version":"1.0","oficio":"pintura","respuesta_hablada":"a\u0000b"}`)
+	if err := a.AnexarRespuestaModelo(ctx, tn.ID, dominio.RespuestaModelo{
+		SesionID: s.ID, Turno: 2, RegistradaEn: conformidad.Base, SalidaJSON: conNulo,
+	}); err != nil {
+		t.Fatalf("salida con \\u0000: %v", err)
+	}
+	list, err = a.ListarRespuestasModeloDeSesion(ctx, tn.ID, s.ID)
+	if err != nil || len(list) != 2 || string(list[1].SalidaJSON) != string(conNulo) {
+		t.Fatalf("listar con \\u0000: %+v %v", list, err)
+	}
+}
+
+// 0015: con la política del dueño restringida a la delegación, el handshake
+// (vc_api llama a vc.buscar_sesion_medios sin tenant) sigue encontrando la
+// sesión, y solo esa.
+func TestBuscarDatosMediosPostgres(t *testing.T) {
+	base := pgprueba.Preparar(t)
+	a, err := abrir(t, base.URLAPI, postgres.Opciones{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer a.Cerrar()
+	ctx := context.Background()
+	tn := conformidad.NuevoTenant(t, a)
+	as := conformidad.NuevoAsesor(t, a, tn.ID)
+	s := conformidad.NuevaSesion(t, a, tn.ID, as.ID, conformidad.Base, 30)
+	tb := conformidad.NuevoTenant(t, a)
+	conformidad.NuevaSesion(t, a, tb.ID, conformidad.NuevoAsesor(t, a, tb.ID).ID, conformidad.Base, 30)
+	d, err := a.BuscarDatosMedios(ctx, s.ID)
+	if err != nil || d.TenantID != tn.ID || d.Estado != s.Estado {
+		t.Fatalf("handshake: %+v %v", d, err)
+	}
+	if _, err := a.BuscarDatosMedios(ctx, "ses_ZZZZZZZZZZZZZZZZZZZZZZZZZZ"); !errores.Es(err, errores.NoEncontrado) {
+		t.Fatalf("sesión inexistente: %v", err)
+	}
 }
