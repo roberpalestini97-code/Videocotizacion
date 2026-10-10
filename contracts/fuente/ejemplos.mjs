@@ -34,18 +34,30 @@ export const importe = (cant, pu) => Math.floor((cant * pu + 50) / 100);
 export function item(oficio, k, i) {
   const t = TAREAS[oficio][k % TAREAS[oficio].length];
   const cantidad = t[1] === 'm2' ? 1250 + 375 * i : t[1] === 'unidad' ? 100 * (1 + (i % 3)) : 100 * (1 + (i % 4));
-  const pu = t[3] * 100 + 7 * i; // centavos
-  return { tipo: 'mano_de_obra', codigo_tarea: t[0], descripcion: t[2], unidad: t[1], cantidad_centesimas: cantidad, precio_unitario_centavos: pu, importe_centavos: importe(cantidad, pu) };
+  const pu = t[3] * 100 + 7 * i; // centavos (mínimo del rango)
+  const puMax = Math.floor((pu * 14) / 10); // máximo del rango: ilustrativo
+  return conRango({ tipo: 'mano_de_obra', codigo_tarea: t[0], descripcion: t[2], unidad: t[1], cantidad_centesimas: cantidad }, pu, puMax);
 }
+/** Completa precios e importes mínimo y máximo de un ítem (B1). */
+export function conRango(it, puMin, puMax) {
+  return { ...it, precio_unitario_min_centavos: puMin, precio_unitario_max_centavos: puMax, importe_min_centavos: importe(it.cantidad_centesimas, puMin), importe_max_centavos: importe(it.cantidad_centesimas, puMax) };
+}
+/** Recalcula los totales de una cotización a partir de sus ítems. */
+export function totales(c) {
+  c.total_min_centavos = c.items.reduce((a, it) => a + it.importe_min_centavos, 0);
+  c.total_max_centavos = c.items.reduce((a, it) => a + it.importe_max_centavos, 0);
+  return c;
+}
+export const VERSION_TARIFAS = 'tarifas-2026@0.1.0';
 
 export function cotizacion(oficio, zona, i = 0) {
   const n = Math.min(TAREAS[oficio].length, 1 + (i % 3));
   const items = Array.from({ length: n }, (_, k) => item(oficio, k, i + k));
   if (zona === 'otra') {
     const pu = 1500000 + i;
-    items.push({ tipo: 'traslado', codigo_tarea: 'traslado_fuera_de_zona', descripcion: 'Traslado fuera de zona (a confirmar por el asesor)', unidad: 'global', cantidad_centesimas: 100, precio_unitario_centavos: pu, importe_centavos: importe(100, pu) });
+    items.push(conRango({ tipo: 'traslado', codigo_tarea: 'traslado_fuera_de_zona', descripcion: 'Traslado fuera de zona (a confirmar por el asesor)', unidad: 'global', cantidad_centesimas: 100 }, pu, pu + 500000));
   }
-  return {
+  return totales({
     cotizacion_id: id('cot', `${oficio}-${zona}-${i}`),
     sesion_id: id('ses', `${oficio}-${zona}-${i}`),
     emitida_en: fh(20 + i),
@@ -54,12 +66,20 @@ export function cotizacion(oficio, zona, i = 0) {
     zona,
     fuera_de_zona: zona === 'otra',
     items,
-    total_centavos: items.reduce((a, it) => a + it.importe_centavos, 0),
     orientativa: true,
     leyenda: zona === 'otra' ? 'Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.' : 'Presupuesto orientativo: el profesional lo confirma al ver el trabajo.',
-    tarifas: { version: '2026.1', estado: 'referencia_publica_sin_validar' },
+    tarifas: { version: VERSION_TARIFAS, estado: 'referencia_publica_sin_validar' },
     validez_dias: 15,
-  };
+  });
+}
+/** Cotización con tarifario validado y rango de un punto: lleva precio_final_centavos (B1). */
+export function cotizacionPrecioFinal(i = 0) {
+  const c = cotizacion('mantenimiento', 'cobo', i);
+  c.items = c.items.map((it) => conRango(it, it.precio_unitario_min_centavos, it.precio_unitario_min_centavos));
+  totales(c);
+  c.precio_final_centavos = c.total_min_centavos;
+  c.tarifas = { version: VERSION_TARIFAS, estado: 'validada' };
+  return c;
 }
 
 export function derivacion(i = 0) {
@@ -120,6 +140,7 @@ export const consentimientoSol = (i = 0) => ({ aviso_version: ['2026-10-08.1', '
 export const consentimientoReg = (i = 0) => ({ consentimiento_id: id('cns', i), sesion_id: id('ses', i), aviso_version: '2026-10-08.1', registrado_en: fh(1), estado_sesion: 'consentida' });
 export const tokenMedios = (i = 0) => ({
   token: `vc_med_${b64u('med' + i, 43)}`,
+  reserva: i % 4 === 3 ? { duracion_maxima_s: 420, recortada_por_cuota: true, vence_en: fh(9) } : { duracion_maxima_s: [900, 1200, 1800][i % 3], recortada_por_cuota: false, vence_en: fh(2 + [15, 20, 30][i % 3] + 1) },
   ws_url: `wss://api.${DOMINIO}/v1/sesiones/${id('ses', i)}/medios`,
   vence_en: fh(2),
   vence_en_s: 30,
@@ -150,16 +171,20 @@ export function arcoSol(i = 0) {
 export const arcoRec = (i = 0) => ({ solicitud_id: id('arc', i), estado: 'recibida', recibida_en: fh(30), plazo_vence_en: fh(30 + 10 * 1440), mensaje: 'Recibimos tu solicitud. Si los datos coinciden, te respondemos dentro del plazo legal.' });
 export const consumoDiario = (d) => ({ fecha: fecha(-d), segundos: 1800 + 37 * d, sesiones: 3 + (d % 5), cotizaciones_emitidas: 2 + (d % 3) });
 export function consumo(i = 0, ambito = 'tenant') {
-  const usados = [0, 15000, 24000, 30000][i % 4];
-  const p = usados / 30000;
+  const usados = [0, 15000, 24000, 28200][i % 4];
+  const reservados = [0, 900, 1800, 1800][i % 4];
+  const p = (usados + reservados) / 30000;
   return {
     ambito,
     periodo: '2026-10',
     segundos_usados: usados,
+    segundos_reservados: reservados,
     segundos_tope: 30000,
+    reinicia_en: '2026-11-01T03:00:00Z',
     simultaneas_en_curso: i % 6,
     simultaneas_tope: 5,
     alerta: p >= 1 ? 'p100' : p >= 0.8 ? 'p80' : p >= 0.5 ? 'p50' : 'ninguna',
+    ...(ambito === 'asesor' ? { alerta_tenant: ['ninguna', 'p50', 'p80', 'p100'][i % 4] } : {}),
     diario: Array.from({ length: i % 8 }, (_, d) => consumoDiario(d)),
     actualizado_en: fh(5),
   };
@@ -168,12 +193,12 @@ export const retencion = () => ({
   version: '2026-10-08.1',
   a_validar_con_abogado: true,
   reglas: [
-    { tipo_dato: 'consulta_y_presupuesto', finalidad: 'Backoffice y seguimiento del presupuesto', persistido: true, plazo_dias: 365, configurable: true },
-    { tipo_dato: 'contacto_cliente', finalidad: 'Que el profesional te contacte', persistido: true, plazo_dias: 90, configurable: true },
-    { tipo_dato: 'registro_lecturas', finalidad: 'Trazabilidad de accesos', persistido: true, plazo_dias: 730, configurable: true },
-    { tipo_dato: 'consentimientos', finalidad: 'Prueba del consentimiento', persistido: true, plazo_dias: 730, configurable: true },
-    { tipo_dato: 'solicitudes_arco', finalidad: 'Constancia de derechos ARCO (anonimizada)', persistido: true, plazo_dias: 730, configurable: true },
-    { tipo_dato: 'perfil_asesor', finalidad: 'Operar el panel', persistido: true, plazo_dias: 365, configurable: true },
+    { tipo_dato: 'consulta_y_presupuesto', finalidad: 'Backoffice y seguimiento del presupuesto', persistido: true, plazo_dias: 365, configurable: true, plazo_dias_min: 30, plazo_dias_max: 730 },
+    { tipo_dato: 'contacto_cliente', finalidad: 'Que el profesional te contacte', persistido: true, plazo_dias: 90, configurable: true, plazo_dias_min: 30, plazo_dias_max: 365 },
+    { tipo_dato: 'registro_lecturas', finalidad: 'Trazabilidad de accesos', persistido: true, plazo_dias: 730, configurable: true, plazo_dias_min: 365, plazo_dias_max: 1825 },
+    { tipo_dato: 'consentimientos', finalidad: 'Prueba del consentimiento', persistido: true, plazo_dias: 730, configurable: true, plazo_dias_min: 365, plazo_dias_max: 1825 },
+    { tipo_dato: 'solicitudes_arco', finalidad: 'Constancia de derechos ARCO (anonimizada)', persistido: true, plazo_dias: 730, configurable: true, plazo_dias_min: 365, plazo_dias_max: 1825 },
+    { tipo_dato: 'perfil_asesor', finalidad: 'Operar el panel', persistido: true, plazo_dias: 365, configurable: true, plazo_dias_min: 30, plazo_dias_max: 730 },
     { tipo_dato: 'fotogramas', finalidad: 'Extraer datos del trabajo en memoria', persistido: false, plazo_dias: 0, configurable: false },
     { tipo_dato: 'audio', finalidad: 'Transcripción en memoria', persistido: false, plazo_dias: 0, configurable: false },
     { tipo_dato: 'transcripcion_completa', finalidad: 'No se guarda (ADR 0004)', persistido: false, plazo_dias: 0, configurable: false },
@@ -222,7 +247,7 @@ export function sesionDetalle(oficio, zona, i = 0) {
     duracion_s: 780 + i,
     datos_extraidos: datosExtraidos(oficio, zona, i),
     resumen: `Consulta de ${oficio} en ${NOMBRES_ZONA[zona]}${zona === 'otra' ? ' (fuera de zona, se emitió igual)' : ''}.`,
-    versiones: { tarifas: '2026.1', prompt: `conducta_${oficio}@${hex('prompt' + oficio, 12)}`, esquema_salida: '1.0.0' },
+    versiones: { tarifas: VERSION_TARIFAS, prompt: `conducta_${oficio}@${hex('prompt' + oficio, 12)}`, esquema_salida: '1.0.0' },
   };
   if (emitida) d.cotizacion = cotizacion(oficio, zona, i);
   return d;
@@ -233,7 +258,7 @@ export function resumenCot(i = 0) {
   const r = { sesion_id: id('ses', `${oficio}-${zona}-${i}`), creada_en: fh(-i * 90), estado: 'cerrada', motivo_cierre: i % 6 === 5 ? 'sin_voz' : 'completada', oficio, zona, fuera_de_zona: zona === 'otra', contacto_disponible: i % 2 === 0, resumen: `${oficio} en ${NOMBRES_ZONA[zona]}` };
   if (r.motivo_cierre === 'completada') {
     const c = cotizacion(oficio, zona, i);
-    r.total = { cotizacion_id: c.cotizacion_id, total_centavos: c.total_centavos, moneda: 'ARS' };
+    r.total = { cotizacion_id: c.cotizacion_id, total_min_centavos: c.total_min_centavos, total_max_centavos: c.total_max_centavos, moneda: 'ARS' };
     r.codigo_referencia = codigoRef(i);
   }
   return r;
@@ -298,10 +323,12 @@ export const enlaceCompartir = (i = 0) => {
 };
 export const exportacion = (i = 0) => ({ formato_version: '1', generada_en: fh(3), perfil: perfil(i), lecturas: Array.from({ length: 2 + i }, (_, k) => registro(k)), consumo: consumo(i, 'asesor') });
 
+// Retry-After de los ejemplos (H4): cuota mensual = segundos desde fh(0) (08/10 10:00 ART) hasta el 01/11 00:00 ART.
+const REINTENTO_EJEMPLO = { cuota_agotada: 2037600, limite_lecturas_contacto: 50400, limite_de_tasa: 3, intentos_excedidos: 300, simultaneas_agotadas: 30, proveedor_no_disponible: 30, servicio_no_disponible: 30 };
 export function error(codigo, i = 0, extra = {}) {
   const [status, title, msg] = catalogo[codigo];
   const e = { type: `https://${DOMINIO}/errores/${codigo}`, title, status, codigo, detail: msg, id_traza: traza(`${codigo}-${i}`), ...extra };
-  if (status === 429 && !e.reintentar_en_s) e.reintentar_en_s = codigo === 'cuota_agotada' ? 3600 : 30;
+  if ((status === 429 || status === 503) && !e.reintentar_en_s) e.reintentar_en_s = REINTENTO_EJEMPLO[codigo] ?? 30;
   if (codigo === 'validacion_fallida' && !e.errores) e.errores = [{ campo: '/modo_avatar', problema: 'Debe ser uno de: 3d, clips' }];
   return e;
 }

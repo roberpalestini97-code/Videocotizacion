@@ -33,5 +33,31 @@
       "plazo_dias": 0,
       "configurable": false
     }
+  },
+  {
+    "esquema": "ReglaRetencion",
+    "caso": "configurable sin rango (C6)",
+    "falla_por": "required",
+    "instancia": {
+      "tipo_dato": "consulta_y_presupuesto",
+      "finalidad": "Backoffice y seguimiento del presupuesto",
+      "persistido": true,
+      "plazo_dias": 365,
+      "configurable": true,
+      "plazo_dias_min": 30
+    }
+  },
+  {
+    "esquema": "ReglaRetencion",
+    "caso": "rango en dato no configurable (C6)",
+    "falla_por": "false schema",
+    "instancia": {
+      "tipo_dato": "fotogramas",
+      "finalidad": "Extraer datos del trabajo en memoria",
+      "persistido": false,
+      "plazo_dias": 0,
+      "configurable": false,
+      "plazo_dias_min": 1
+    }
   }
 ]

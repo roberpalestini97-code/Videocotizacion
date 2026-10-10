@@ -30,6 +30,37 @@ type datosTenant struct {
 	enlaces         map[string]dominio.Enlace      // por id_publico
 	tokens          map[string]dominio.TokenSesion // por hash
 	derivaciones    map[string]dominio.Derivacion  // por sesion_id
+	// H2/H3 de T04b1: contadores y reservas; la retención y el ARCO no los
+	// tocan (ADR 0004 §10).
+	consumo       map[time.Time]contadorMes // por MesCuota
+	consumoAsesor map[claveAsesor]contadorMes
+	diario        map[time.Time]contadorMes // por DiaCuota
+	reservas      map[string]reservaMem     // por sesion_id
+	// 0004 (parte 2a).
+	medios    map[string]tokenMedios      // por hash
+	contactos map[string]dominio.Contacto // por sesion_id
+	arco      []dominio.SolicitudArco
+}
+
+type tokenMedios struct {
+	dominio.TokenMedios
+	usadoEn, revocadoEn *time.Time
+}
+
+type contadorMes struct {
+	dominio.Contador
+	sesiones, cotizaciones int
+}
+
+type claveAsesor struct {
+	asesorID string
+	mes      time.Time
+}
+
+type reservaMem struct {
+	dominio.Reserva
+	liberadaEn *time.Time
+	cobrados   int
 }
 
 // Almacen en memoria, seguro para uso concurrente.
@@ -37,10 +68,19 @@ type Almacen struct {
 	mu      sync.Mutex
 	tenants map[dominio.TenantID]*datosTenant
 	cerrado bool
+	// Globales (ADR 0005 §4): topes y contador mensual de todos los tenants.
+	topes  dominio.TopesGlobales
+	global map[time.Time]dominio.Contador
 }
 
-// Nuevo crea un almacén vacío.
-func Nuevo() *Almacen { return &Almacen{tenants: map[dominio.TenantID]*datosTenant{}} }
+// TopesGlobalesIniciales son los valores provisorios de ADR 0005 §4 (los
+// mismos que siembra la migración 0003).
+var TopesGlobalesIniciales = dominio.TopesGlobales{SegundosMes: 30000, Simultaneas: 5}
+
+// Nuevo crea un almacén vacío con los topes globales iniciales.
+func Nuevo() *Almacen {
+	return &Almacen{tenants: map[dominio.TenantID]*datosTenant{}, topes: TopesGlobalesIniciales, global: map[time.Time]dominio.Contador{}}
+}
 
 var _ almacen.Completo = (*Almacen)(nil)
 
@@ -106,6 +146,9 @@ func (a *Almacen) CrearTenant(ctx context.Context, t dominio.Tenant) error {
 		consentimientos: map[string]dominio.Consentimiento{}, cotizaciones: map[string]dominio.Cotizacion{},
 		claves: map[string]dominio.ClaveAPI{}, enlaces: map[string]dominio.Enlace{},
 		tokens: map[string]dominio.TokenSesion{}, derivaciones: map[string]dominio.Derivacion{},
+		consumo: map[time.Time]contadorMes{}, consumoAsesor: map[claveAsesor]contadorMes{},
+		diario: map[time.Time]contadorMes{}, reservas: map[string]reservaMem{},
+		medios: map[string]tokenMedios{}, contactos: map[string]dominio.Contacto{},
 	}
 	return nil
 }
@@ -316,6 +359,8 @@ func (a *Almacen) CerrarSesion(ctx context.Context, t dominio.TenantID, id strin
 		return dominio.Sesion{}, err
 	}
 	d.sesiones[id] = s
+	d.revocarTokensMedios(id, ahora)
+	a.liberar(d, id, ahora)
 	return copiarSesion(s), nil
 }
 
@@ -391,15 +436,9 @@ func (a *Almacen) BorrarVencidos(ctx context.Context, t dominio.TenantID, ahora 
 			b.Consentimientos++
 			delete(d.consentimientos, id)
 		}
-		// Cascada como en la base (no se cuentan en la constancia).
-		delete(d.derivaciones, id)
-		for h, tok := range d.tokens {
-			if tok.SesionID == id {
-				delete(d.tokens, h)
-			}
-		}
+		// Cascada como en la base (no se cuenta en la constancia).
 		b.Sesiones++
-		delete(d.sesiones, id)
+		d.borrarSesion(id)
 	}
 	d.borrados = append(d.borrados, b)
 	return b, nil
@@ -433,6 +472,14 @@ func (a *Almacen) RegistroBorrados(t dominio.TenantID) []almacen.Borrados {
 
 func copiarAsesor(a dominio.Asesor) dominio.Asesor {
 	a.Oficios, a.Zonas = slices.Clone(a.Oficios), slices.Clone(a.Zonas)
+	if a.SegundosMesTope != nil {
+		v := *a.SegundosMesTope
+		a.SegundosMesTope = &v
+	}
+	if a.SimultaneasTope != nil {
+		v := *a.SimultaneasTope
+		a.SimultaneasTope = &v
+	}
 	a.CreadoEn = dominio.Instante(a.CreadoEn)
 	if a.BorrarDespuesDe != nil {
 		t := dominio.Instante(*a.BorrarDespuesDe)

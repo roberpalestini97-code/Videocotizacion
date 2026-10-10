@@ -1,6 +1,6 @@
 [
   {
-    "id": "V440",
+    "id": "V644",
     "categoria": "panel",
     "requisitos": [
       "R37"
@@ -29,7 +29,7 @@
     }
   },
   {
-    "id": "V441",
+    "id": "V645",
     "categoria": "panel",
     "requisitos": [
       "R37"
@@ -54,11 +54,12 @@
     },
     "esperado": {
       "status": 429,
-      "codigo": "intentos_excedidos"
+      "codigo": "intentos_excedidos",
+      "retry_after": "bloqueo_restante"
     }
   },
   {
-    "id": "V442",
+    "id": "V646",
     "categoria": "panel",
     "requisitos": [
       "R38"
@@ -88,7 +89,7 @@
     }
   },
   {
-    "id": "V443",
+    "id": "V647",
     "categoria": "panel",
     "requisitos": [
       "R38"
@@ -118,7 +119,7 @@
     }
   },
   {
-    "id": "V444",
+    "id": "V648",
     "categoria": "panel",
     "requisitos": [
       "R38"
@@ -144,11 +145,12 @@
     },
     "esperado": {
       "status": 429,
-      "codigo": "intentos_excedidos"
+      "codigo": "intentos_excedidos",
+      "retry_after": "bloqueo_restante"
     }
   },
   {
-    "id": "V445",
+    "id": "V649",
     "categoria": "panel",
     "requisitos": [
       "R39"
@@ -179,7 +181,7 @@
     }
   },
   {
-    "id": "V446",
+    "id": "V650",
     "categoria": "panel",
     "requisitos": [
       "R39"
@@ -210,7 +212,7 @@
     }
   },
   {
-    "id": "V447",
+    "id": "V651",
     "categoria": "panel",
     "requisitos": [
       "R36"
@@ -239,7 +241,7 @@
     }
   },
   {
-    "id": "V448",
+    "id": "V652",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -287,7 +289,7 @@
         },
         "resumen": "Consulta de pintura en Mar Chiquita.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_pintura@755b9690b387",
           "esquema_salida": "1.0.0"
         },
@@ -306,24 +308,27 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 1250,
-              "precio_unitario_centavos": 185000,
-              "importe_centavos": 2312500
+              "precio_unitario_min_centavos": 185000,
+              "precio_unitario_max_centavos": 259000,
+              "importe_min_centavos": 2312500,
+              "importe_max_centavos": 3237500
             }
           ],
-          "total_centavos": 2312500,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 2312500,
+          "total_max_centavos": 3237500
         }
       }
     }
   },
   {
-    "id": "V449",
+    "id": "V653",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -372,7 +377,7 @@
         },
         "resumen": "Consulta de pintura en Cobo.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_pintura@755b9690b387",
           "esquema_salida": "1.0.0"
         },
@@ -391,8 +396,10 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 1625,
-              "precio_unitario_centavos": 185007,
-              "importe_centavos": 3006364
+              "precio_unitario_min_centavos": 185007,
+              "precio_unitario_max_centavos": 259009,
+              "importe_min_centavos": 3006364,
+              "importe_max_centavos": 4208896
             },
             {
               "tipo": "mano_de_obra",
@@ -400,24 +407,27 @@
               "descripcion": "Lijado y enduido de paredes",
               "unidad": "m2",
               "cantidad_centesimas": 2000,
-              "precio_unitario_centavos": 90014,
-              "importe_centavos": 1800280
+              "precio_unitario_min_centavos": 90014,
+              "precio_unitario_max_centavos": 126019,
+              "importe_min_centavos": 1800280,
+              "importe_max_centavos": 2520380
             }
           ],
-          "total_centavos": 4806644,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 4806644,
+          "total_max_centavos": 6729276
         }
       }
     }
   },
   {
-    "id": "V450",
+    "id": "V654",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -465,7 +475,7 @@
         },
         "resumen": "Consulta de pintura en Santa Clara del Mar.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_pintura@755b9690b387",
           "esquema_salida": "1.0.0"
         },
@@ -484,8 +494,10 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 2000,
-              "precio_unitario_centavos": 185014,
-              "importe_centavos": 3700280
+              "precio_unitario_min_centavos": 185014,
+              "precio_unitario_max_centavos": 259019,
+              "importe_min_centavos": 3700280,
+              "importe_max_centavos": 5180380
             },
             {
               "tipo": "mano_de_obra",
@@ -493,8 +505,10 @@
               "descripcion": "Lijado y enduido de paredes",
               "unidad": "m2",
               "cantidad_centesimas": 2375,
-              "precio_unitario_centavos": 90021,
-              "importe_centavos": 2137999
+              "precio_unitario_min_centavos": 90021,
+              "precio_unitario_max_centavos": 126029,
+              "importe_min_centavos": 2137999,
+              "importe_max_centavos": 2993189
             },
             {
               "tipo": "mano_de_obra",
@@ -502,24 +516,27 @@
               "descripcion": "Pintura exterior acrílica",
               "unidad": "m2",
               "cantidad_centesimas": 2750,
-              "precio_unitario_centavos": 240028,
-              "importe_centavos": 6600770
+              "precio_unitario_min_centavos": 240028,
+              "precio_unitario_max_centavos": 336039,
+              "importe_min_centavos": 6600770,
+              "importe_max_centavos": 9241073
             }
           ],
-          "total_centavos": 12439049,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 12439049,
+          "total_max_centavos": 17414642
         }
       }
     }
   },
   {
-    "id": "V451",
+    "id": "V655",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -570,7 +587,7 @@
         },
         "resumen": "Consulta de pintura en Parque Lago.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_pintura@755b9690b387",
           "esquema_salida": "1.0.0"
         },
@@ -589,24 +606,27 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 2375,
-              "precio_unitario_centavos": 185021,
-              "importe_centavos": 4394249
+              "precio_unitario_min_centavos": 185021,
+              "precio_unitario_max_centavos": 259029,
+              "importe_min_centavos": 4394249,
+              "importe_max_centavos": 6151939
             }
           ],
-          "total_centavos": 4394249,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 4394249,
+          "total_max_centavos": 6151939
         }
       }
     }
   },
   {
-    "id": "V452",
+    "id": "V656",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -654,7 +674,7 @@
         },
         "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_pintura@755b9690b387",
           "esquema_salida": "1.0.0"
         }
@@ -662,7 +682,7 @@
     }
   },
   {
-    "id": "V453",
+    "id": "V657",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -708,7 +728,7 @@
         },
         "resumen": "Consulta de jardineria en Mar Chiquita.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_jardineria@8540b8057dc9",
           "esquema_salida": "1.0.0"
         },
@@ -727,8 +747,10 @@
               "descripcion": "Corte de césped y bordeado",
               "unidad": "m2",
               "cantidad_centesimas": 3125,
-              "precio_unitario_centavos": 30035,
-              "importe_centavos": 938594
+              "precio_unitario_min_centavos": 30035,
+              "precio_unitario_max_centavos": 42049,
+              "importe_min_centavos": 938594,
+              "importe_max_centavos": 1314031
             },
             {
               "tipo": "mano_de_obra",
@@ -736,8 +758,10 @@
               "descripcion": "Poda de árbol mediano",
               "unidad": "unidad",
               "cantidad_centesimas": 100,
-              "precio_unitario_centavos": 4500042,
-              "importe_centavos": 4500042
+              "precio_unitario_min_centavos": 4500042,
+              "precio_unitario_max_centavos": 6300058,
+              "importe_min_centavos": 4500042,
+              "importe_max_centavos": 6300058
             },
             {
               "tipo": "mano_de_obra",
@@ -745,24 +769,27 @@
               "descripcion": "Desmalezado de terreno",
               "unidad": "m2",
               "cantidad_centesimas": 3875,
-              "precio_unitario_centavos": 50049,
-              "importe_centavos": 1939399
+              "precio_unitario_min_centavos": 50049,
+              "precio_unitario_max_centavos": 70068,
+              "importe_min_centavos": 1939399,
+              "importe_max_centavos": 2715135
             }
           ],
-          "total_centavos": 7378035,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 7378035,
+          "total_max_centavos": 10329224
         }
       }
     }
   },
   {
-    "id": "V454",
+    "id": "V658",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -807,7 +834,7 @@
         },
         "resumen": "Consulta de jardineria en Cobo.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_jardineria@8540b8057dc9",
           "esquema_salida": "1.0.0"
         },
@@ -826,24 +853,27 @@
               "descripcion": "Corte de césped y bordeado",
               "unidad": "m2",
               "cantidad_centesimas": 3500,
-              "precio_unitario_centavos": 30042,
-              "importe_centavos": 1051470
+              "precio_unitario_min_centavos": 30042,
+              "precio_unitario_max_centavos": 42058,
+              "importe_min_centavos": 1051470,
+              "importe_max_centavos": 1472030
             }
           ],
-          "total_centavos": 1051470,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 1051470,
+          "total_max_centavos": 1472030
         }
       }
     }
   },
   {
-    "id": "V455",
+    "id": "V659",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -891,7 +921,7 @@
         },
         "resumen": "Consulta de jardineria en Santa Clara del Mar.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_jardineria@8540b8057dc9",
           "esquema_salida": "1.0.0"
         },
@@ -910,8 +940,10 @@
               "descripcion": "Corte de césped y bordeado",
               "unidad": "m2",
               "cantidad_centesimas": 3875,
-              "precio_unitario_centavos": 30049,
-              "importe_centavos": 1164399
+              "precio_unitario_min_centavos": 30049,
+              "precio_unitario_max_centavos": 42068,
+              "importe_min_centavos": 1164399,
+              "importe_max_centavos": 1630135
             },
             {
               "tipo": "mano_de_obra",
@@ -919,24 +951,27 @@
               "descripcion": "Poda de árbol mediano",
               "unidad": "unidad",
               "cantidad_centesimas": 300,
-              "precio_unitario_centavos": 4500056,
-              "importe_centavos": 13500168
+              "precio_unitario_min_centavos": 4500056,
+              "precio_unitario_max_centavos": 6300078,
+              "importe_min_centavos": 13500168,
+              "importe_max_centavos": 18900234
             }
           ],
-          "total_centavos": 14664567,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 14664567,
+          "total_max_centavos": 20530369
         }
       }
     }
   },
   {
-    "id": "V456",
+    "id": "V660",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -981,7 +1016,7 @@
         },
         "resumen": "Consulta de jardineria en Parque Lago.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_jardineria@8540b8057dc9",
           "esquema_salida": "1.0.0"
         },
@@ -1000,8 +1035,10 @@
               "descripcion": "Corte de césped y bordeado",
               "unidad": "m2",
               "cantidad_centesimas": 4250,
-              "precio_unitario_centavos": 30056,
-              "importe_centavos": 1277380
+              "precio_unitario_min_centavos": 30056,
+              "precio_unitario_max_centavos": 42078,
+              "importe_min_centavos": 1277380,
+              "importe_max_centavos": 1788315
             },
             {
               "tipo": "mano_de_obra",
@@ -1009,8 +1046,10 @@
               "descripcion": "Poda de árbol mediano",
               "unidad": "unidad",
               "cantidad_centesimas": 100,
-              "precio_unitario_centavos": 4500063,
-              "importe_centavos": 4500063
+              "precio_unitario_min_centavos": 4500063,
+              "precio_unitario_max_centavos": 6300088,
+              "importe_min_centavos": 4500063,
+              "importe_max_centavos": 6300088
             },
             {
               "tipo": "mano_de_obra",
@@ -1018,24 +1057,27 @@
               "descripcion": "Desmalezado de terreno",
               "unidad": "m2",
               "cantidad_centesimas": 5000,
-              "precio_unitario_centavos": 50070,
-              "importe_centavos": 2503500
+              "precio_unitario_min_centavos": 50070,
+              "precio_unitario_max_centavos": 70098,
+              "importe_min_centavos": 2503500,
+              "importe_max_centavos": 3504900
             }
           ],
-          "total_centavos": 8280943,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 8280943,
+          "total_max_centavos": 11593303
         }
       }
     }
   },
   {
-    "id": "V457",
+    "id": "V661",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1081,7 +1123,7 @@
         },
         "resumen": "Consulta de jardineria en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_jardineria@8540b8057dc9",
           "esquema_salida": "1.0.0"
         }
@@ -1089,7 +1131,7 @@
     }
   },
   {
-    "id": "V458",
+    "id": "V662",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1134,7 +1176,7 @@
         },
         "resumen": "Consulta de reparaciones en Mar Chiquita.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_reparaciones@5f39c2a20e92",
           "esquema_salida": "1.0.0"
         },
@@ -1153,24 +1195,27 @@
               "descripcion": "Reparación general por hora",
               "unidad": "hora",
               "cantidad_centesimas": 300,
-              "precio_unitario_centavos": 1200070,
-              "importe_centavos": 3600210
+              "precio_unitario_min_centavos": 1200070,
+              "precio_unitario_max_centavos": 1680098,
+              "importe_min_centavos": 3600210,
+              "importe_max_centavos": 5040294
             }
           ],
-          "total_centavos": 3600210,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 3600210,
+          "total_max_centavos": 5040294
         }
       }
     }
   },
   {
-    "id": "V459",
+    "id": "V663",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1218,7 +1263,7 @@
         },
         "resumen": "Consulta de reparaciones en Cobo.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_reparaciones@5f39c2a20e92",
           "esquema_salida": "1.0.0"
         },
@@ -1237,24 +1282,27 @@
               "descripcion": "Reparación general por hora",
               "unidad": "hora",
               "cantidad_centesimas": 400,
-              "precio_unitario_centavos": 1200077,
-              "importe_centavos": 4800308
+              "precio_unitario_min_centavos": 1200077,
+              "precio_unitario_max_centavos": 1680107,
+              "importe_min_centavos": 4800308,
+              "importe_max_centavos": 6720428
             }
           ],
-          "total_centavos": 4800308,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 4800308,
+          "total_max_centavos": 6720428
         }
       }
     }
   },
   {
-    "id": "V460",
+    "id": "V664",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1299,7 +1347,7 @@
         },
         "resumen": "Consulta de reparaciones en Santa Clara del Mar.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_reparaciones@5f39c2a20e92",
           "esquema_salida": "1.0.0"
         },
@@ -1318,24 +1366,27 @@
               "descripcion": "Reparación general por hora",
               "unidad": "hora",
               "cantidad_centesimas": 100,
-              "precio_unitario_centavos": 1200084,
-              "importe_centavos": 1200084
+              "precio_unitario_min_centavos": 1200084,
+              "precio_unitario_max_centavos": 1680117,
+              "importe_min_centavos": 1200084,
+              "importe_max_centavos": 1680117
             }
           ],
-          "total_centavos": 1200084,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 1200084,
+          "total_max_centavos": 1680117
         }
       }
     }
   },
   {
-    "id": "V461",
+    "id": "V665",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1381,7 +1432,7 @@
         },
         "resumen": "Consulta de reparaciones en Parque Lago.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_reparaciones@5f39c2a20e92",
           "esquema_salida": "1.0.0"
         },
@@ -1400,24 +1451,27 @@
               "descripcion": "Reparación general por hora",
               "unidad": "hora",
               "cantidad_centesimas": 200,
-              "precio_unitario_centavos": 1200091,
-              "importe_centavos": 2400182
+              "precio_unitario_min_centavos": 1200091,
+              "precio_unitario_max_centavos": 1680127,
+              "importe_min_centavos": 2400182,
+              "importe_max_centavos": 3360254
             }
           ],
-          "total_centavos": 2400182,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 2400182,
+          "total_max_centavos": 3360254
         }
       }
     }
   },
   {
-    "id": "V462",
+    "id": "V666",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1462,7 +1516,7 @@
         },
         "resumen": "Consulta de reparaciones en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_reparaciones@5f39c2a20e92",
           "esquema_salida": "1.0.0"
         }
@@ -1470,7 +1524,7 @@
     }
   },
   {
-    "id": "V463",
+    "id": "V667",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1518,7 +1572,7 @@
         },
         "resumen": "Consulta de mantenimiento en Mar Chiquita.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_mantenimiento@8adf6ca38dbf",
           "esquema_salida": "1.0.0"
         },
@@ -1537,24 +1591,27 @@
               "descripcion": "Visita de mantenimiento",
               "unidad": "visita",
               "cantidad_centesimas": 400,
-              "precio_unitario_centavos": 3000105,
-              "importe_centavos": 12000420
+              "precio_unitario_min_centavos": 3000105,
+              "precio_unitario_max_centavos": 4200147,
+              "importe_min_centavos": 12000420,
+              "importe_max_centavos": 16800588
             }
           ],
-          "total_centavos": 12000420,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 12000420,
+          "total_max_centavos": 16800588
         }
       }
     }
   },
   {
-    "id": "V464",
+    "id": "V668",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1599,7 +1656,7 @@
         },
         "resumen": "Consulta de mantenimiento en Cobo.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_mantenimiento@8adf6ca38dbf",
           "esquema_salida": "1.0.0"
         },
@@ -1618,24 +1675,27 @@
               "descripcion": "Visita de mantenimiento",
               "unidad": "visita",
               "cantidad_centesimas": 100,
-              "precio_unitario_centavos": 3000112,
-              "importe_centavos": 3000112
+              "precio_unitario_min_centavos": 3000112,
+              "precio_unitario_max_centavos": 4200156,
+              "importe_min_centavos": 3000112,
+              "importe_max_centavos": 4200156
             }
           ],
-          "total_centavos": 3000112,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 3000112,
+          "total_max_centavos": 4200156
         }
       }
     }
   },
   {
-    "id": "V465",
+    "id": "V669",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1681,7 +1741,7 @@
         },
         "resumen": "Consulta de mantenimiento en Santa Clara del Mar.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_mantenimiento@8adf6ca38dbf",
           "esquema_salida": "1.0.0"
         },
@@ -1700,24 +1760,27 @@
               "descripcion": "Visita de mantenimiento",
               "unidad": "visita",
               "cantidad_centesimas": 200,
-              "precio_unitario_centavos": 3000119,
-              "importe_centavos": 6000238
+              "precio_unitario_min_centavos": 3000119,
+              "precio_unitario_max_centavos": 4200166,
+              "importe_min_centavos": 6000238,
+              "importe_max_centavos": 8400332
             }
           ],
-          "total_centavos": 6000238,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 6000238,
+          "total_max_centavos": 8400332
         }
       }
     }
   },
   {
-    "id": "V466",
+    "id": "V670",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1762,7 +1825,7 @@
         },
         "resumen": "Consulta de mantenimiento en Parque Lago.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_mantenimiento@8adf6ca38dbf",
           "esquema_salida": "1.0.0"
         },
@@ -1781,24 +1844,27 @@
               "descripcion": "Visita de mantenimiento",
               "unidad": "visita",
               "cantidad_centesimas": 300,
-              "precio_unitario_centavos": 3000126,
-              "importe_centavos": 9000378
+              "precio_unitario_min_centavos": 3000126,
+              "precio_unitario_max_centavos": 4200176,
+              "importe_min_centavos": 9000378,
+              "importe_max_centavos": 12600528
             }
           ],
-          "total_centavos": 9000378,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 9000378,
+          "total_max_centavos": 12600528
         }
       }
     }
   },
   {
-    "id": "V467",
+    "id": "V671",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1846,7 +1912,7 @@
         },
         "resumen": "Consulta de mantenimiento en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_mantenimiento@8adf6ca38dbf",
           "esquema_salida": "1.0.0"
         }
@@ -1854,7 +1920,7 @@
     }
   },
   {
-    "id": "V468",
+    "id": "V672",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1899,7 +1965,7 @@
         },
         "resumen": "Consulta de limpieza en Mar Chiquita.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_limpieza@e8a8d27f0b31",
           "esquema_salida": "1.0.0"
         },
@@ -1918,8 +1984,10 @@
               "descripcion": "Limpieza final de obra",
               "unidad": "m2",
               "cantidad_centesimas": 8750,
-              "precio_unitario_centavos": 110140,
-              "importe_centavos": 9637250
+              "precio_unitario_min_centavos": 110140,
+              "precio_unitario_max_centavos": 154196,
+              "importe_min_centavos": 9637250,
+              "importe_max_centavos": 13492150
             },
             {
               "tipo": "mano_de_obra",
@@ -1927,24 +1995,27 @@
               "descripcion": "Limpieza de terreno",
               "unidad": "m2",
               "cantidad_centesimas": 9125,
-              "precio_unitario_centavos": 40147,
-              "importe_centavos": 3663414
+              "precio_unitario_min_centavos": 40147,
+              "precio_unitario_max_centavos": 56205,
+              "importe_min_centavos": 3663414,
+              "importe_max_centavos": 5128706
             }
           ],
-          "total_centavos": 13300664,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 13300664,
+          "total_max_centavos": 18620856
         }
       }
     }
   },
   {
-    "id": "V469",
+    "id": "V673",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -1990,7 +2061,7 @@
         },
         "resumen": "Consulta de limpieza en Cobo.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_limpieza@e8a8d27f0b31",
           "esquema_salida": "1.0.0"
         },
@@ -2009,24 +2080,27 @@
               "descripcion": "Limpieza final de obra",
               "unidad": "m2",
               "cantidad_centesimas": 9125,
-              "precio_unitario_centavos": 110147,
-              "importe_centavos": 10050914
+              "precio_unitario_min_centavos": 110147,
+              "precio_unitario_max_centavos": 154205,
+              "importe_min_centavos": 10050914,
+              "importe_max_centavos": 14071206
             }
           ],
-          "total_centavos": 10050914,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 10050914,
+          "total_max_centavos": 14071206
         }
       }
     }
   },
   {
-    "id": "V470",
+    "id": "V674",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -2071,7 +2145,7 @@
         },
         "resumen": "Consulta de limpieza en Santa Clara del Mar.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_limpieza@e8a8d27f0b31",
           "esquema_salida": "1.0.0"
         },
@@ -2090,8 +2164,10 @@
               "descripcion": "Limpieza final de obra",
               "unidad": "m2",
               "cantidad_centesimas": 9500,
-              "precio_unitario_centavos": 110154,
-              "importe_centavos": 10464630
+              "precio_unitario_min_centavos": 110154,
+              "precio_unitario_max_centavos": 154215,
+              "importe_min_centavos": 10464630,
+              "importe_max_centavos": 14650425
             },
             {
               "tipo": "mano_de_obra",
@@ -2099,24 +2175,27 @@
               "descripcion": "Limpieza de terreno",
               "unidad": "m2",
               "cantidad_centesimas": 9875,
-              "precio_unitario_centavos": 40161,
-              "importe_centavos": 3965899
+              "precio_unitario_min_centavos": 40161,
+              "precio_unitario_max_centavos": 56225,
+              "importe_min_centavos": 3965899,
+              "importe_max_centavos": 5552219
             }
           ],
-          "total_centavos": 14430529,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 14430529,
+          "total_max_centavos": 20202644
         }
       }
     }
   },
   {
-    "id": "V471",
+    "id": "V675",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -2164,7 +2243,7 @@
         },
         "resumen": "Consulta de limpieza en Parque Lago.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_limpieza@e8a8d27f0b31",
           "esquema_salida": "1.0.0"
         },
@@ -2183,8 +2262,10 @@
               "descripcion": "Limpieza final de obra",
               "unidad": "m2",
               "cantidad_centesimas": 9875,
-              "precio_unitario_centavos": 110161,
-              "importe_centavos": 10878399
+              "precio_unitario_min_centavos": 110161,
+              "precio_unitario_max_centavos": 154225,
+              "importe_min_centavos": 10878399,
+              "importe_max_centavos": 15229719
             },
             {
               "tipo": "mano_de_obra",
@@ -2192,24 +2273,27 @@
               "descripcion": "Limpieza de terreno",
               "unidad": "m2",
               "cantidad_centesimas": 10250,
-              "precio_unitario_centavos": 40168,
-              "importe_centavos": 4117220
+              "precio_unitario_min_centavos": 40168,
+              "precio_unitario_max_centavos": 56235,
+              "importe_min_centavos": 4117220,
+              "importe_max_centavos": 5764088
             }
           ],
-          "total_centavos": 14995619,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 14995619,
+          "total_max_centavos": 20993807
         }
       }
     }
   },
   {
-    "id": "V472",
+    "id": "V676",
     "categoria": "panel",
     "requisitos": [
       "R42",
@@ -2254,7 +2338,7 @@
         },
         "resumen": "Consulta de limpieza en fuera de zona (fuera de zona, se emitió igual).",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_limpieza@e8a8d27f0b31",
           "esquema_salida": "1.0.0"
         }
@@ -2262,7 +2346,7 @@
     }
   },
   {
-    "id": "V473",
+    "id": "V677",
     "categoria": "panel",
     "requisitos": [
       "T39"
@@ -2309,7 +2393,7 @@
         },
         "resumen": "Consulta de pintura en Cobo.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_pintura@755b9690b387",
           "esquema_salida": "1.0.0"
         },
@@ -2328,18 +2412,21 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 1250,
-              "precio_unitario_centavos": 185000,
-              "importe_centavos": 2312500
+              "precio_unitario_min_centavos": 185000,
+              "precio_unitario_max_centavos": 259000,
+              "importe_min_centavos": 2312500,
+              "importe_max_centavos": 3237500
             }
           ],
-          "total_centavos": 2312500,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 2312500,
+          "total_max_centavos": 3237500
         },
         "codigo_referencia": "VC-ABCD-EFGHJK"
       },
@@ -2347,7 +2434,7 @@
     }
   },
   {
-    "id": "V474",
+    "id": "V678",
     "categoria": "panel",
     "requisitos": [
       "T39"
@@ -2394,7 +2481,7 @@
         },
         "resumen": "Consulta de pintura en Cobo.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_pintura@755b9690b387",
           "esquema_salida": "1.0.0"
         },
@@ -2413,18 +2500,21 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 1250,
-              "precio_unitario_centavos": 185000,
-              "importe_centavos": 2312500
+              "precio_unitario_min_centavos": 185000,
+              "precio_unitario_max_centavos": 259000,
+              "importe_min_centavos": 2312500,
+              "importe_max_centavos": 3237500
             }
           ],
-          "total_centavos": 2312500,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 2312500,
+          "total_max_centavos": 3237500
         },
         "contacto_disponible": true
       },

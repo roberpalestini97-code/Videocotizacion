@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ReglaRetencion",
-  "description": "Regla de retención por tipo de dato (R21, R43). plazo_dias 0 y persistido false = nunca se guarda.",
+  "description": "Regla de retención por tipo de dato (R21, R43). plazo_dias 0 y persistido false = nunca se guarda. plazo_dias es el valor POR DEFECTO de la plataforma; si configurable, el operador lo fija por tenant con la CLI (`api tenant configurar`, C6) dentro de [plazo_dias_min, plazo_dias_max]. Los contadores de consumo (solo agregados) no figuran: no tienen datos personales.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -42,6 +42,53 @@
     },
     "configurable": {
       "type": "boolean"
+    },
+    "plazo_dias_min": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3650
+    },
+    "plazo_dias_max": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3650
+    }
+  },
+  "if": {
+    "type": "object",
+    "properties": {
+      "configurable": {
+        "const": true
+      }
+    },
+    "required": [
+      "configurable"
+    ]
+  },
+  "then": {
+    "type": "object",
+    "properties": {
+      "plazo_dias_min": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 3650
+      },
+      "plazo_dias_max": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 3650
+      }
+    },
+    "required": [
+      "plazo_dias_min",
+      "plazo_dias_max"
+    ]
+  },
+  "else": {
+    "type": "object",
+    "properties": {
+      "plazo_dias_min": false,
+      "plazo_dias_max": false
     }
   },
   "examples": [

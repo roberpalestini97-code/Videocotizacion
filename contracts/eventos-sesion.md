@@ -3,7 +3,7 @@
 > **NO CONGELADO.** Todo este documento, los esquemas de `schemas/eventos/` y el encabezado binario son
 > borrador. Pueden cambiar sin cambio de versión del OpenAPI. No se congelan hasta medir el avatar en
 > navegadores y equipos reales (T08) y probar el token de medios en navegadores reales (ADR 0002).
-> Contrato HTTP relacionado: `openapi.yaml` 0.1.4-borrador.
+> Contrato HTTP relacionado: `openapi.yaml` 0.1.5-borrador.
 
 ## 1. Conexión
 

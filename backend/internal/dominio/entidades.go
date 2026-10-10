@@ -79,6 +79,9 @@ type Asesor struct {
 	Zonas           []Zona
 	CreadoEn        time.Time
 	BorrarDespuesDe *time.Time // nil = vigente
+	// Topes propios (ADR 0005 §4); nil = sin tope propio.
+	SegundosMesTope *int64
+	SimultaneasTope *int
 }
 
 // Validar verifica invariantes del asesor.
@@ -117,6 +120,12 @@ func (a Asesor) Validar() error {
 	}
 	if a.CreadoEn.IsZero() {
 		errs = append(errs, invalido("/creado_en", "requerido"))
+	}
+	if a.SegundosMesTope != nil && (*a.SegundosMesTope < 0 || *a.SegundosMesTope > 100000000) {
+		errs = append(errs, invalido("/segundos_mes_tope", "fuera de rango"))
+	}
+	if a.SimultaneasTope != nil && (*a.SimultaneasTope < 1 || *a.SimultaneasTope > 1000) {
+		errs = append(errs, invalido("/simultaneas_tope", "fuera de rango"))
 	}
 	return unir(errs)
 }

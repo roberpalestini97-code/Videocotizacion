@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VersionTarifas",
+  "description": "Identificador del tarifario usado (B2): `<nombre del archivo sin .json>@<campo \"version\" del archivo>`. Ej.: tarifas/tarifas-2026.json con \"version\": \"0.1.0\" → `tarifas-2026@0.1.0`. Lo arma Go al cargar el archivo; el archivo no se modifica.",
+  "type": "string",
+  "pattern": "^tarifas-[0-9]{4}@[0-9]+\\.[0-9]+\\.[0-9]+$",
+  "examples": [
+    "tarifas-2026@0.1.0"
+  ]
+}

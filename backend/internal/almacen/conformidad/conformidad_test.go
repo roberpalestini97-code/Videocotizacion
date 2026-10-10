@@ -8,6 +8,7 @@ import (
 	"videocotizacion/backend/internal/almacen/memoria"
 	"videocotizacion/backend/internal/almacen/pgprueba"
 	"videocotizacion/backend/internal/almacen/postgres"
+	"videocotizacion/backend/internal/dominio"
 	"videocotizacion/backend/internal/migrador"
 	"videocotizacion/backend/migrations"
 )
@@ -15,6 +16,8 @@ import (
 func TestMemoria(t *testing.T) {
 	a := memoria.Nuevo()
 	defer a.Cerrar()
+	// Como las bases de prueba de pgprueba: topes globales holgados.
+	a.ConfigurarTopesGlobales(dominio.TopesGlobales{SegundosMes: pgprueba.TopesHolgadosSegundos, Simultaneas: pgprueba.TopesHolgadosSimultaneas})
 	conformidad.Correr(t, a)
 }
 

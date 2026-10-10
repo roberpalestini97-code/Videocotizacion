@@ -54,7 +54,8 @@
     "reintentar_en_s": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 86400
+      "maximum": 2678400,
+      "description": "Igual al encabezado Retry-After (H4): espera calculada, no un valor fijo. En cuota_agotada mensual, segundos hasta las 00:00 del día 1 del mes siguiente en hora argentina (UTC−3); máximo 31 días."
     }
   },
   "examples": [

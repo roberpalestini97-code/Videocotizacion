@@ -15,7 +15,8 @@
       "resumen": "pintura en Mar Chiquita",
       "total": {
         "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
-        "total_centavos": 2312500,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500,
         "moneda": "ARS"
       },
       "codigo_referencia": "VC-6X0B-5RD4NC",
@@ -37,7 +38,8 @@
       "resumen": "pintura en Mar Chiquita",
       "total": {
         "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
-        "total_centavos": 2312500,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500,
         "moneda": "ARS"
       },
       "codigo_referencia": "VC-6X0B-5RD4NC"
@@ -58,7 +60,8 @@
       "resumen": "pintura en Mar Chiquita",
       "total": {
         "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
-        "total_centavos": 2312500,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500,
         "moneda": "ARS"
       },
       "codigo_referencia": "VC-6X0B-5RD4NC"
@@ -80,7 +83,8 @@
       "resumen": "pintura en Mar Chiquita",
       "total": {
         "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
-        "total_centavos": 2312500,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500,
         "moneda": "ARS"
       },
       "codigo_referencia": "VC-6X0B-5RD4NC"

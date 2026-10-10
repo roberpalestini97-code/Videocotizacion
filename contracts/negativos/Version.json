@@ -4,7 +4,7 @@
     "caso": "campo extra tenant_id (R3)",
     "falla_por": "additionalProperties",
     "instancia": {
-      "api": "0.1.4-borrador",
+      "api": "0.1.5-borrador",
       "estado_api": "borrador",
       "eventos_sesion": {
         "version": "vc-eventos.borrador.1",
@@ -32,7 +32,7 @@
     "caso": "falta \"estado_api\"",
     "falla_por": "required",
     "instancia": {
-      "api": "0.1.4-borrador",
+      "api": "0.1.5-borrador",
       "eventos_sesion": {
         "version": "vc-eventos.borrador.1",
         "estado": "borrador"

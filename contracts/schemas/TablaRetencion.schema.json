@@ -37,42 +37,54 @@
           "finalidad": "Backoffice y seguimiento del presupuesto",
           "persistido": true,
           "plazo_dias": 365,
-          "configurable": true
+          "configurable": true,
+          "plazo_dias_min": 30,
+          "plazo_dias_max": 730
         },
         {
           "tipo_dato": "contacto_cliente",
           "finalidad": "Que el profesional te contacte",
           "persistido": true,
           "plazo_dias": 90,
-          "configurable": true
+          "configurable": true,
+          "plazo_dias_min": 30,
+          "plazo_dias_max": 365
         },
         {
           "tipo_dato": "registro_lecturas",
           "finalidad": "Trazabilidad de accesos",
           "persistido": true,
           "plazo_dias": 730,
-          "configurable": true
+          "configurable": true,
+          "plazo_dias_min": 365,
+          "plazo_dias_max": 1825
         },
         {
           "tipo_dato": "consentimientos",
           "finalidad": "Prueba del consentimiento",
           "persistido": true,
           "plazo_dias": 730,
-          "configurable": true
+          "configurable": true,
+          "plazo_dias_min": 365,
+          "plazo_dias_max": 1825
         },
         {
           "tipo_dato": "solicitudes_arco",
           "finalidad": "Constancia de derechos ARCO (anonimizada)",
           "persistido": true,
           "plazo_dias": 730,
-          "configurable": true
+          "configurable": true,
+          "plazo_dias_min": 365,
+          "plazo_dias_max": 1825
         },
         {
           "tipo_dato": "perfil_asesor",
           "finalidad": "Operar el panel",
           "persistido": true,
           "plazo_dias": 365,
-          "configurable": true
+          "configurable": true,
+          "plazo_dias_min": 30,
+          "plazo_dias_max": 730
         },
         {
           "tipo_dato": "fotogramas",

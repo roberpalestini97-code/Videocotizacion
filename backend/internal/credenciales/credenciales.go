@@ -25,12 +25,16 @@ const (
 	Secreta Tipo = "secreta" // vc_sec_ (claveSecreta)
 	Publica Tipo = "publica" // vc_pub_ (clavePublica)
 	Sesion  Tipo = "sesion"  // vc_ses_ (tokenSesion)
+	// Medios es el token del WebSocket (vc_med_, TokenMedios, R32). NO es una
+	// credencial HTTP: Reconocer no lo acepta (lo consume el WebSocket, 2b).
+	Medios Tipo = "medios"
 )
 
-var prefijos = map[Tipo]string{Secreta: "vc_sec_", Publica: "vc_pub_", Sesion: "vc_ses_"}
+var prefijos = map[Tipo]string{Secreta: "vc_sec_", Publica: "vc_pub_", Sesion: "vc_ses_", Medios: "vc_med_"}
 
 // 256 bits en base64url sin relleno = 43 caracteres (patrón del contrato
-// para vc_ses_; se usa el mismo largo para las claves).
+// para vc_ses_; se usa el mismo largo para las claves). vc_med_ queda afuera
+// a propósito: un token de medios en Authorization es credencial_invalida.
 var reCredencial = regexp.MustCompile(`^vc_(sec|pub|ses)_[A-Za-z0-9_-]{43}$`)
 
 // LargoMinimoClaveServidor es el mínimo de la clave del HMAC (256 bits).

@@ -57,7 +57,7 @@
     }
   },
   {
-    "id": "V013",
+    "id": "V015",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "emitirDesafio con credencial publica",
@@ -82,7 +82,7 @@
     }
   },
   {
-    "id": "V021",
+    "id": "V025",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerAvisoPrivacidad con credencial publica",
@@ -116,7 +116,7 @@
     }
   },
   {
-    "id": "V022",
+    "id": "V026",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerAvisoPrivacidad con credencial secreta",
@@ -150,7 +150,7 @@
     }
   },
   {
-    "id": "V031",
+    "id": "V038",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "crearSesion con credencial publica",
@@ -209,7 +209,7 @@
     }
   },
   {
-    "id": "V032",
+    "id": "V039",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "crearSesion con credencial secreta",
@@ -267,7 +267,7 @@
     }
   },
   {
-    "id": "V064",
+    "id": "V074",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerSesion con credencial secreta",
@@ -298,7 +298,7 @@
     }
   },
   {
-    "id": "V065",
+    "id": "V075",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerSesion con credencial sesion",
@@ -330,7 +330,7 @@
     }
   },
   {
-    "id": "V078",
+    "id": "V091",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "registrarConsentimiento con credencial sesion",
@@ -369,7 +369,7 @@
     }
   },
   {
-    "id": "V097",
+    "id": "V112",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "emitirTokenMedios con credencial sesion",
@@ -397,6 +397,11 @@
       "status": 201,
       "cuerpo": {
         "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+        "reserva": {
+          "duracion_maxima_s": 900,
+          "recortada_por_cuota": false,
+          "vence_en": "2026-10-08T13:18:00Z"
+        },
         "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
         "vence_en": "2026-10-08T13:02:00Z",
         "vence_en_s": 30,
@@ -406,7 +411,7 @@
     }
   },
   {
-    "id": "V106",
+    "id": "V123",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "cerrarSesion con credencial sesion",
@@ -448,7 +453,7 @@
     }
   },
   {
-    "id": "V107",
+    "id": "V124",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "cerrarSesion con credencial secreta",
@@ -489,7 +494,7 @@
     }
   },
   {
-    "id": "V125",
+    "id": "V145",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerCotizacion con credencial sesion",
@@ -526,23 +531,26 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 1250,
-            "precio_unitario_centavos": 185000,
-            "importe_centavos": 2312500
+            "precio_unitario_min_centavos": 185000,
+            "precio_unitario_max_centavos": 259000,
+            "importe_min_centavos": 2312500,
+            "importe_max_centavos": 3237500
           }
         ],
-        "total_centavos": 2312500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500
       }
     }
   },
   {
-    "id": "V126",
+    "id": "V146",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerCotizacion con credencial secreta",
@@ -578,23 +586,26 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 1250,
-            "precio_unitario_centavos": 185000,
-            "importe_centavos": 2312500
+            "precio_unitario_min_centavos": 185000,
+            "precio_unitario_max_centavos": 259000,
+            "importe_min_centavos": 2312500,
+            "importe_max_centavos": 3237500
           }
         ],
-        "total_centavos": 2312500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500
       }
     }
   },
   {
-    "id": "V139",
+    "id": "V162",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerDerivacion con credencial sesion",
@@ -625,7 +636,7 @@
     }
   },
   {
-    "id": "V140",
+    "id": "V163",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerDerivacion con credencial secreta",
@@ -655,7 +666,7 @@
     }
   },
   {
-    "id": "V153",
+    "id": "V179",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "registrarContacto con credencial sesion",
@@ -695,7 +706,7 @@
     }
   },
   {
-    "id": "V174",
+    "id": "V202",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "crearSolicitudArco con credencial secreta",
@@ -726,7 +737,7 @@
     }
   },
   {
-    "id": "V192",
+    "id": "V222",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerRetencion con credencial ninguna",
@@ -749,42 +760,54 @@
             "finalidad": "Backoffice y seguimiento del presupuesto",
             "persistido": true,
             "plazo_dias": 365,
-            "configurable": true
+            "configurable": true,
+            "plazo_dias_min": 30,
+            "plazo_dias_max": 730
           },
           {
             "tipo_dato": "contacto_cliente",
             "finalidad": "Que el profesional te contacte",
             "persistido": true,
             "plazo_dias": 90,
-            "configurable": true
+            "configurable": true,
+            "plazo_dias_min": 30,
+            "plazo_dias_max": 365
           },
           {
             "tipo_dato": "registro_lecturas",
             "finalidad": "Trazabilidad de accesos",
             "persistido": true,
             "plazo_dias": 730,
-            "configurable": true
+            "configurable": true,
+            "plazo_dias_min": 365,
+            "plazo_dias_max": 1825
           },
           {
             "tipo_dato": "consentimientos",
             "finalidad": "Prueba del consentimiento",
             "persistido": true,
             "plazo_dias": 730,
-            "configurable": true
+            "configurable": true,
+            "plazo_dias_min": 365,
+            "plazo_dias_max": 1825
           },
           {
             "tipo_dato": "solicitudes_arco",
             "finalidad": "Constancia de derechos ARCO (anonimizada)",
             "persistido": true,
             "plazo_dias": 730,
-            "configurable": true
+            "configurable": true,
+            "plazo_dias_min": 365,
+            "plazo_dias_max": 1825
           },
           {
             "tipo_dato": "perfil_asesor",
             "finalidad": "Operar el panel",
             "persistido": true,
             "plazo_dias": 365,
-            "configurable": true
+            "configurable": true,
+            "plazo_dias_min": 30,
+            "plazo_dias_max": 730
           },
           {
             "tipo_dato": "fotogramas",
@@ -812,7 +835,7 @@
     }
   },
   {
-    "id": "V194",
+    "id": "V224",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerConsumo con credencial secreta",
@@ -830,7 +853,9 @@
         "ambito": "tenant",
         "periodo": "2026-10",
         "segundos_usados": 0,
+        "segundos_reservados": 0,
         "segundos_tope": 30000,
+        "reinicia_en": "2026-11-01T03:00:00Z",
         "simultaneas_en_curso": 0,
         "simultaneas_tope": 5,
         "alerta": "ninguna",
@@ -840,7 +865,7 @@
     }
   },
   {
-    "id": "V201",
+    "id": "V233",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerVersion con credencial ninguna",
@@ -855,7 +880,7 @@
     "esperado": {
       "status": 200,
       "cuerpo": {
-        "api": "0.1.4-borrador",
+        "api": "0.1.5-borrador",
         "estado_api": "borrador",
         "eventos_sesion": {
           "version": "vc-eventos.borrador.1",
@@ -866,7 +891,7 @@
     }
   },
   {
-    "id": "V203",
+    "id": "V235",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerCatalogoTextos con credencial ninguna",
@@ -946,7 +971,7 @@
     }
   },
   {
-    "id": "V205",
+    "id": "V237",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "iniciarSesionPanel con credencial ninguna",
@@ -977,7 +1002,7 @@
     }
   },
   {
-    "id": "V213",
+    "id": "V245",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "verificarTotp con credencial panel",
@@ -1014,7 +1039,7 @@
     }
   },
   {
-    "id": "V227",
+    "id": "V261",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerSesionPanel con credencial panel",
@@ -1042,7 +1067,7 @@
     }
   },
   {
-    "id": "V232",
+    "id": "V268",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "cerrarSesionPanel con credencial panel",
@@ -1061,7 +1086,7 @@
     }
   },
   {
-    "id": "V239",
+    "id": "V277",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "reautenticar con credencial panel",
@@ -1093,7 +1118,7 @@
     }
   },
   {
-    "id": "V252",
+    "id": "V292",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerPerfil con credencial panel",
@@ -1130,7 +1155,7 @@
     }
   },
   {
-    "id": "V257",
+    "id": "V299",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "actualizarPerfil con credencial panel",
@@ -1171,7 +1196,7 @@
     }
   },
   {
-    "id": "V272",
+    "id": "V316",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "cambiarContrasena con credencial panel",
@@ -1194,7 +1219,7 @@
     }
   },
   {
-    "id": "V284",
+    "id": "V330",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "listarMisCotizaciones con credencial panel",
@@ -1215,7 +1240,7 @@
     }
   },
   {
-    "id": "V289",
+    "id": "V337",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerMiCotizacion con credencial panel",
@@ -1260,7 +1285,7 @@
         },
         "resumen": "Consulta de pintura en Mar Chiquita.",
         "versiones": {
-          "tarifas": "2026.1",
+          "tarifas": "tarifas-2026@0.1.0",
           "prompt": "conducta_pintura@755b9690b387",
           "esquema_salida": "1.0.0"
         },
@@ -1279,24 +1304,27 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 1250,
-              "precio_unitario_centavos": 185000,
-              "importe_centavos": 2312500
+              "precio_unitario_min_centavos": 185000,
+              "precio_unitario_max_centavos": 259000,
+              "importe_min_centavos": 2312500,
+              "importe_max_centavos": 3237500
             }
           ],
-          "total_centavos": 2312500,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 2312500,
+          "total_max_centavos": 3237500
         }
       }
     }
   },
   {
-    "id": "V298",
+    "id": "V348",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerContactoCliente con credencial panel",
@@ -1331,7 +1359,7 @@
     }
   },
   {
-    "id": "V307",
+    "id": "V359",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "listarRegistros con credencial panel",
@@ -1352,7 +1380,7 @@
     }
   },
   {
-    "id": "V312",
+    "id": "V366",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerConsumoPanel con credencial panel",
@@ -1371,17 +1399,20 @@
         "ambito": "asesor",
         "periodo": "2026-10",
         "segundos_usados": 0,
+        "segundos_reservados": 0,
         "segundos_tope": 30000,
+        "reinicia_en": "2026-11-01T03:00:00Z",
         "simultaneas_en_curso": 0,
         "simultaneas_tope": 5,
         "alerta": "ninguna",
+        "alerta_tenant": "ninguna",
         "diario": [],
         "actualizado_en": "2026-10-08T13:05:00Z"
       }
     }
   },
   {
-    "id": "V317",
+    "id": "V373",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "leerEnlaceCompartir con credencial panel",
@@ -1404,7 +1435,7 @@
     }
   },
   {
-    "id": "V322",
+    "id": "V380",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "rotarEnlace con credencial panel",
@@ -1430,7 +1461,7 @@
     }
   },
   {
-    "id": "V330",
+    "id": "V390",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "listarClavesWidget con credencial panel",
@@ -1452,7 +1483,7 @@
     }
   },
   {
-    "id": "V336",
+    "id": "V398",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "crearClaveWidget con credencial panel",
@@ -1493,7 +1524,7 @@
     }
   },
   {
-    "id": "V355",
+    "id": "V419",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "revocarClaveWidget con credencial panel",
@@ -1518,7 +1549,7 @@
     }
   },
   {
-    "id": "V367",
+    "id": "V433",
     "categoria": "exito",
     "requisitos": [],
     "descripcion": "exportarMiCuenta con credencial panel",
@@ -1577,14 +1608,342 @@
           "ambito": "asesor",
           "periodo": "2026-10",
           "segundos_usados": 0,
+          "segundos_reservados": 0,
           "segundos_tope": 30000,
+          "reinicia_en": "2026-11-01T03:00:00Z",
           "simultaneas_en_curso": 0,
           "simultaneas_tope": 5,
           "alerta": "ninguna",
+          "alerta_tenant": "ninguna",
           "diario": [],
           "actualizado_en": "2026-10-08T13:05:00Z"
         }
       }
+    }
+  },
+  {
+    "id": "V443",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightWidgetEnlacesPorId con credencial ninguna",
+    "operacion": "preflightWidgetEnlacesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V452",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightWidgetDesafios con credencial ninguna",
+    "operacion": "preflightWidgetDesafios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V461",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightWidgetAvisosPrivacidad con credencial ninguna",
+    "operacion": "preflightWidgetAvisosPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V470",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightSesiones con credencial ninguna",
+    "operacion": "preflightSesiones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V479",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightSesionesPorId con credencial ninguna",
+    "operacion": "preflightSesionesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V488",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightSesionesConsentimientoPorId con credencial ninguna",
+    "operacion": "preflightSesionesConsentimientoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V497",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightSesionesTokenMediosPorId con credencial ninguna",
+    "operacion": "preflightSesionesTokenMediosPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V506",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightSesionesCierrePorId con credencial ninguna",
+    "operacion": "preflightSesionesCierrePorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V515",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightSesionesCotizacionPorId con credencial ninguna",
+    "operacion": "preflightSesionesCotizacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V524",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightSesionesDerivacionPorId con credencial ninguna",
+    "operacion": "preflightSesionesDerivacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V533",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightSesionesContactoPorId con credencial ninguna",
+    "operacion": "preflightSesionesContactoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V542",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightPoliticasRetencion con credencial ninguna",
+    "operacion": "preflightPoliticasRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V551",
+    "categoria": "exito",
+    "requisitos": [],
+    "descripcion": "preflightTextos con credencial ninguna",
+    "operacion": "preflightTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
     }
   }
 ]

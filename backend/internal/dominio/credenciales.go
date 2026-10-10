@@ -191,9 +191,3 @@ func NuevoCodigoReferencia() (string, error) {
 	}
 	return "VC-" + string(c[:4]) + "-" + string(c[4:]), nil
 }
-
-// Consumo resume el uso de un tenant para decidir el cupo (R56/R57).
-type Consumo struct {
-	SegundosMes int64 // duración consumida por sesiones creadas desde el inicio del mes
-	Activas     int   // sesiones consentidas o en curso, creadas dentro de la ventana
-}

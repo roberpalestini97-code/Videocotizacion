@@ -46,4 +46,13 @@ Supuestos. Sin precios inventados. Lo legal (Ley 25.326) va como "a validar con 
   - 0006: se incorporan como decisión las condiciones de seguridad de T40 que T41 debía
     aplicar (Origin por tenant, `sin_voz_s`, motivos de cierre, contacto con aviso y
     consentimiento, clave pública + desafío, registro de lecturas). Requiere revisión de seg.
+- 2026-10-09 — T44 (contrato 0.1.5-borrador), a partir de la revisión de T04b parte 1 y los huecos B/C:
+  - 0002: presupuesto como rango min–max con `precio_final_centavos` opcional (B1); versión
+    del tarifario `tarifas-<año>@<version>` (B2).
+  - 0004: contadores de consumo que no borra la retención ni el ARCO (§10, H2); retención por
+    tenant por CLI (C6); retención de asesores y de consentimientos queda **pendiente de
+    Rober/abogado** con opciones y recomendación (§8; H4 de T43, C2); C7 en Consecuencias.
+  - 0005: dónde vive cada tope y reserva atómica (§4, H3/B3); orden de los límites (§5, H1);
+    consumo (§6); IP, IPv6 y una sola instancia con candado (§9, B4/H6); operación por CLI (§10,
+    B8/C5/C6); CORS (§11, B6); `Retry-After` calculado (§12, H4).
 - Pendiente: revisión independiente (rev + seg) antes de pasar a Aceptado.

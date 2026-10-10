@@ -5,6 +5,11 @@
     "falla_por": "additionalProperties",
     "instancia": {
       "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "reserva": {
+        "duracion_maxima_s": 900,
+        "recortada_por_cuota": false,
+        "vence_en": "2026-10-08T13:18:00Z"
+      },
       "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
       "vence_en": "2026-10-08T13:02:00Z",
       "vence_en_s": 30,
@@ -18,6 +23,11 @@
     "caso": "falta \"token\"",
     "falla_por": "required",
     "instancia": {
+      "reserva": {
+        "duracion_maxima_s": 900,
+        "recortada_por_cuota": false,
+        "vence_en": "2026-10-08T13:18:00Z"
+      },
       "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
       "vence_en": "2026-10-08T13:02:00Z",
       "vence_en_s": 30,
@@ -27,10 +37,11 @@
   },
   {
     "esquema": "TokenMedios",
-    "caso": "falta \"ws_url\"",
+    "caso": "falta \"reserva\"",
     "falla_por": "required",
     "instancia": {
       "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
       "vence_en": "2026-10-08T13:02:00Z",
       "vence_en_s": 30,
       "un_solo_uso": true,
@@ -43,6 +54,11 @@
     "falla_por": "maximum",
     "instancia": {
       "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "reserva": {
+        "duracion_maxima_s": 900,
+        "recortada_por_cuota": false,
+        "vence_en": "2026-10-08T13:18:00Z"
+      },
       "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
       "vence_en": "2026-10-08T13:02:00Z",
       "vence_en_s": 300,
@@ -56,6 +72,11 @@
     "falla_por": "pattern",
     "instancia": {
       "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "reserva": {
+        "duracion_maxima_s": 900,
+        "recortada_por_cuota": false,
+        "vence_en": "2026-10-08T13:18:00Z"
+      },
       "ws_url": "ws://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
       "vence_en": "2026-10-08T13:02:00Z",
       "vence_en_s": 30,
@@ -69,6 +90,11 @@
     "falla_por": "pattern",
     "instancia": {
       "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "reserva": {
+        "duracion_maxima_s": 900,
+        "recortada_por_cuota": false,
+        "vence_en": "2026-10-08T13:18:00Z"
+      },
       "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios?token=abc",
       "vence_en": "2026-10-08T13:02:00Z",
       "vence_en_s": 30,
@@ -82,10 +108,46 @@
     "falla_por": "const",
     "instancia": {
       "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "reserva": {
+        "duracion_maxima_s": 900,
+        "recortada_por_cuota": false,
+        "vence_en": "2026-10-08T13:18:00Z"
+      },
       "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
       "vence_en": "2026-10-08T13:02:00Z",
       "vence_en_s": 30,
       "un_solo_uso": false,
+      "protocolo_eventos": "vc-eventos.borrador.1"
+    }
+  },
+  {
+    "esquema": "TokenMedios",
+    "caso": "reserva menor a 60 s (H3)",
+    "falla_por": "minimum",
+    "instancia": {
+      "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "reserva": {
+        "duracion_maxima_s": 30,
+        "recortada_por_cuota": false,
+        "vence_en": "2026-10-08T13:18:00Z"
+      },
+      "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 30,
+      "un_solo_uso": true,
+      "protocolo_eventos": "vc-eventos.borrador.1"
+    }
+  },
+  {
+    "esquema": "TokenMedios",
+    "caso": "sin reserva (H3)",
+    "falla_por": "required",
+    "instancia": {
+      "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 30,
+      "un_solo_uso": true,
       "protocolo_eventos": "vc-eventos.borrador.1"
     }
   }

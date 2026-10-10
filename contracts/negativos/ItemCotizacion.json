@@ -9,8 +9,10 @@
       "descripcion": "Pintura interior látex, dos manos",
       "unidad": "m2",
       "cantidad_centesimas": 1250,
-      "precio_unitario_centavos": 185000,
-      "importe_centavos": 2312500,
+      "precio_unitario_min_centavos": 185000,
+      "precio_unitario_max_centavos": 259000,
+      "importe_min_centavos": 2312500,
+      "importe_max_centavos": 3237500,
       "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
     }
   },
@@ -23,8 +25,10 @@
       "descripcion": "Pintura interior látex, dos manos",
       "unidad": "m2",
       "cantidad_centesimas": 1250,
-      "precio_unitario_centavos": 185000,
-      "importe_centavos": 2312500
+      "precio_unitario_min_centavos": 185000,
+      "precio_unitario_max_centavos": 259000,
+      "importe_min_centavos": 2312500,
+      "importe_max_centavos": 3237500
     }
   },
   {
@@ -36,8 +40,10 @@
       "descripcion": "Pintura interior látex, dos manos",
       "unidad": "m2",
       "cantidad_centesimas": 1250,
-      "precio_unitario_centavos": 185000,
-      "importe_centavos": 2312500
+      "precio_unitario_min_centavos": 185000,
+      "precio_unitario_max_centavos": 259000,
+      "importe_min_centavos": 2312500,
+      "importe_max_centavos": 3237500
     }
   },
   {
@@ -50,8 +56,10 @@
       "descripcion": "Pintura interior látex, dos manos",
       "unidad": "m2",
       "cantidad_centesimas": 12.5,
-      "precio_unitario_centavos": 185000,
-      "importe_centavos": 2312500
+      "precio_unitario_min_centavos": 185000,
+      "precio_unitario_max_centavos": 259000,
+      "importe_min_centavos": 2312500,
+      "importe_max_centavos": 3237500
     }
   },
   {
@@ -64,8 +72,27 @@
       "descripcion": "Pintura interior látex, dos manos",
       "unidad": "m2",
       "cantidad_centesimas": 1250,
-      "precio_unitario_centavos": 185000,
-      "importe_centavos": 100.25
+      "precio_unitario_min_centavos": 185000,
+      "precio_unitario_max_centavos": 259000,
+      "importe_min_centavos": 2312500,
+      "importe_max_centavos": 100.25
+    }
+  },
+  {
+    "esquema": "ItemCotizacion",
+    "caso": "precio único sin rango (B1)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "tipo": "mano_de_obra",
+      "codigo_tarea": "pintura_interior",
+      "descripcion": "Pintura interior látex, dos manos",
+      "unidad": "m2",
+      "cantidad_centesimas": 1250,
+      "precio_unitario_min_centavos": 185000,
+      "precio_unitario_max_centavos": 259000,
+      "importe_min_centavos": 2312500,
+      "importe_max_centavos": 3237500,
+      "precio_unitario_centavos": 259000
     }
   },
   {
@@ -78,8 +105,10 @@
       "descripcion": "<b>oferta</b>",
       "unidad": "m2",
       "cantidad_centesimas": 1250,
-      "precio_unitario_centavos": 185000,
-      "importe_centavos": 2312500
+      "precio_unitario_min_centavos": 185000,
+      "precio_unitario_max_centavos": 259000,
+      "importe_min_centavos": 2312500,
+      "importe_max_centavos": 3237500
     }
   }
 ]

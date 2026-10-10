@@ -42,7 +42,10 @@ func Correr(t *testing.T, a almacen.Completo) {
 		{"consentimiento_concurrente", probarConcurrencia},
 		{"contexto_cancelado", probarContextoCancelado},
 		{"claves_y_enlaces", probarClavesYEnlaces},
-		{"tokens_consumo_y_derivacion", probarTokensConsumoYDerivacion},
+		{"tokens_y_derivacion", probarTokensConsumoYDerivacion},
+		{"consumo_mensual_y_reservas", probarConsumoYReservas},
+		{"reserva_concurrente_exacta", probarReservaConcurrente},
+		{"token_medios_contacto_y_arco", probarClienteFinal},
 	}
 	for _, c := range casos {
 		t.Run(c.nombre, func(t *testing.T) { c.fn(t, a) })
@@ -76,18 +79,45 @@ func NuevoTenant(t *testing.T, a almacen.Almacen) dominio.Tenant {
 	return tn
 }
 
+// NuevoTenantConTopes crea un tenant con topes de cupo dados.
+func NuevoTenantConTopes(t *testing.T, a almacen.Almacen, segundosMes, simultaneas int) dominio.Tenant {
+	t.Helper()
+	id, err := dominio.NuevoTenantID()
+	sinError(t, err, "id de tenant")
+	tn := dominio.Tenant{ID: id, Nombre: "Tenant con topes", SimultaneasTope: simultaneas, SegundosMesTope: segundosMes, RetencionDias: 90, CreadoEn: Base}
+	sinError(t, a.CrearTenant(ctx(), tn), "crear tenant")
+	return tn
+}
+
+// NuevoAsesorConTopes crea un asesor con topes propios.
+func NuevoAsesorConTopes(t *testing.T, a almacen.Almacen, tn dominio.TenantID, segundos *int64, simultaneas *int) dominio.Asesor {
+	t.Helper()
+	as := armarAsesor(t)
+	as.SegundosMesTope, as.SimultaneasTope = segundos, simultaneas
+	sinError(t, a.CrearAsesor(ctx(), tn, as), "crear asesor con topes")
+	leido, err := a.LeerAsesor(ctx(), tn, as.ID)
+	sinError(t, err, "leer asesor con topes")
+	igual(t, leido, as, "asesor con topes leído")
+	return as
+}
+
 // NuevoAsesor crea y guarda un asesor del tenant.
 func NuevoAsesor(t *testing.T, a almacen.Almacen, tn dominio.TenantID) dominio.Asesor {
 	t.Helper()
+	as := armarAsesor(t)
+	sinError(t, a.CrearAsesor(ctx(), tn, as), "crear asesor")
+	return as
+}
+
+func armarAsesor(t *testing.T) dominio.Asesor {
+	t.Helper()
 	id, err := dominio.NuevoIDAsesor()
 	sinError(t, err, "id de asesor")
-	as := dominio.Asesor{
+	return dominio.Asesor{
 		ID: id, Rol: dominio.RolAsesorBase, NombreVisible: "Asesor de prueba", Email: "asesor@prueba.local",
 		WhatsApp: "+5492235550000", Oficios: []dominio.Oficio{dominio.OficioPintura, dominio.OficioJardineria},
 		Zonas: []dominio.Zona{dominio.ZonaCobo, dominio.ZonaParqueLago}, CreadoEn: Base,
 	}
-	sinError(t, a.CrearAsesor(ctx(), tn, as), "crear asesor")
-	return as
 }
 
 // NuevaSesion crea y guarda una sesión en estado "creada".

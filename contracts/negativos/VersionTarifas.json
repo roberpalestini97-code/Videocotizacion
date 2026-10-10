@@ -1,0 +1,14 @@
+[
+  {
+    "esquema": "VersionTarifas",
+    "caso": "formato AAAA.N viejo (B2)",
+    "falla_por": "pattern",
+    "instancia": "2026.1"
+  },
+  {
+    "esquema": "VersionTarifas",
+    "caso": "versión del archivo sin nombre (B2)",
+    "falla_por": "pattern",
+    "instancia": "0.1.0"
+  }
+]

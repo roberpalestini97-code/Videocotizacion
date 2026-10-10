@@ -30,7 +30,14 @@ de prompts que pidan "un descuento".
    m² × 100) antes de multiplicar; nunca se usa float en el cálculo (hallazgo N1 de T16).
    El tarifario 2026 es provisorio (`referencia_publica_sin_validar`) y no se activa en
    producción sin validación de un profesional.
-7. El precio se anuncia al final con una frase armada por Go (plantilla), no por el LLM.
+   **Rango, no precio único (B1, T44, contrato 0.1.5).** El tarifario solo tiene rangos, así que
+   el presupuesto se emite como `total_min_centavos`–`total_max_centavos`, con mínimo y máximo por
+   ítem (mismo redondeo entero para cada extremo). `precio_final_centavos` es opcional y solo va
+   cuando el tarifario está `validada` y el rango es un punto (min = max); con tarifas sin validar
+   el contrato lo prohíbe. La versión del tarifario se publica como `tarifas-<año>@<version>`
+   (B2: `tarifas-2026@0.1.0`), armada por Go desde el nombre y el campo `version` del archivo.
+7. El precio se anuncia al final con una frase armada por Go (plantilla), no por el LLM: "entre
+   $X y $Y, orientativo; lo confirma el profesional" (o un único monto si hay `precio_final_centavos`).
 8. TTS detrás del puerto `Sintetizador`; se envía el audio y, si el proveedor da marcas de
    tiempo de fonemas, se convierten a visemas en el servidor; si no, el navegador estima
    visemas del audio. En modo clips no se usa TTS: se elige un clip por `siguiente_paso`.
@@ -50,6 +57,13 @@ de prompts que pidan "un descuento".
 
 ## Consecuencias
 - (+) Montos exactos y reproducibles; el LLM no puede "regalar" descuentos.
+- (+) Rango honesto (B1): no se publica el máximo como si fuera el precio (lo que hacía la parte 1)
+  ni el mínimo como gancho; el cliente ve la incertidumbre real de un tarifario sin validar.
+- (−) Cambio incompatible de 0.1.5: `ItemCotizacion`, `Cotizacion` y `ResumenCotizacion.total`
+  cambian de campos; go (dominio/api, que ya guarda min y max) y fe (tipos generados y mocks del
+  panel) tienen que adaptarse. El panel y la plantilla de voz muestran dos cifras.
+- (−) Un rango ancho (los de la tarifa pública llegan a ×2 o más) puede desalentar al cliente:
+  Rober decide si se acota con presupuestos reales (P9); el contrato no cambia por eso.
 - (+) Cada etapa se prueba con falsos (0001).
 - (−) Latencia sumada STT + LLM + TTS; hay que medirla (no medida todavía).
 - (−) Visemas estimados en el navegador sincronizan peor que los del proveedor.

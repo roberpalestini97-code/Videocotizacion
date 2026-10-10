@@ -120,8 +120,9 @@ func (a *Almacen) VerificarArranque(ctx context.Context, exigirTLS bool, version
 		JOIN pg_namespace n ON n.oid = c.relnamespace
 		WHERE n.nspname = 'vc' AND c.relkind IN ('r', 'p')
 		  AND (NOT c.relrowsecurity OR NOT c.relforcerowsecurity
-		       OR NOT EXISTS (SELECT 1 FROM pg_attribute a WHERE a.attrelid = c.oid
-		                      AND a.attname = 'tenant_id' AND NOT a.attisdropped AND a.attnotnull))`); err != nil {
+		       OR (NOT EXISTS (SELECT 1 FROM pg_attribute a WHERE a.attrelid = c.oid
+		                       AND a.attname = 'tenant_id' AND NOT a.attisdropped AND a.attnotnull)
+		           AND NOT c.relname = ANY ($1)))`, TablasGlobales); err != nil {
 		return err
 	}
 	if len(sinRLS) > 0 {
@@ -165,8 +166,8 @@ func (a *Almacen) VerificarArranque(ctx context.Context, exigirTLS bool, version
 	return nil
 }
 
-func juntar(ctx context.Context, pool *pgxpool.Pool, destino *[]string, sql string) error {
-	filas, err := pool.Query(ctx, sql)
+func juntar(ctx context.Context, pool *pgxpool.Pool, destino *[]string, sql string, args ...any) error {
+	filas, err := pool.Query(ctx, sql, args...)
 	if err != nil {
 		return fmt.Errorf("postgres: verificación de arranque: %w", err)
 	}
@@ -282,10 +283,11 @@ func (a *Almacen) CrearAsesor(ctx context.Context, t dominio.TenantID, as domini
 	}
 	return a.enTenant(ctx, t, func(ctx context.Context, tx pgx.Tx) error {
 		_, err := tx.Exec(ctx, `INSERT INTO vc.asesores
-			(tenant_id, asesor_id, rol, nombre_visible, email, whatsapp, oficios, zonas, creado_en, borrar_despues_de)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+			(tenant_id, asesor_id, rol, nombre_visible, email, whatsapp, oficios, zonas, creado_en, borrar_despues_de,
+			 segundos_mes_tope, simultaneas_tope)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
 			string(t), as.ID, string(as.Rol), as.NombreVisible, as.Email, as.WhatsApp,
-			textos(as.Oficios), textos(as.Zonas), as.CreadoEn, as.BorrarDespuesDe)
+			textos(as.Oficios), textos(as.Zonas), as.CreadoEn, as.BorrarDespuesDe, as.SegundosMesTope, as.SimultaneasTope)
 		return err
 	})
 }
@@ -296,9 +298,11 @@ func (a *Almacen) LeerAsesor(ctx context.Context, t dominio.TenantID, id string)
 	err := a.enTenant(ctx, t, func(ctx context.Context, tx pgx.Tx) error {
 		var rol string
 		var oficios, zonas []string
-		err := tx.QueryRow(ctx, `SELECT asesor_id, rol, nombre_visible, email, whatsapp, oficios, zonas, creado_en, borrar_despues_de
+		err := tx.QueryRow(ctx, `SELECT asesor_id, rol, nombre_visible, email, whatsapp, oficios, zonas, creado_en, borrar_despues_de,
+				segundos_mes_tope, simultaneas_tope
 			FROM vc.asesores WHERE tenant_id = $1 AND asesor_id = $2`, string(t), id).
-			Scan(&out.ID, &rol, &out.NombreVisible, &out.Email, &out.WhatsApp, &oficios, &zonas, &out.CreadoEn, &out.BorrarDespuesDe)
+			Scan(&out.ID, &rol, &out.NombreVisible, &out.Email, &out.WhatsApp, &oficios, &zonas, &out.CreadoEn, &out.BorrarDespuesDe,
+				&out.SegundosMesTope, &out.SimultaneasTope)
 		if err != nil {
 			return err
 		}
@@ -487,7 +491,13 @@ func (a *Almacen) CerrarSesion(ctx context.Context, t dominio.TenantID, id strin
 			return err
 		}
 		out = s
-		return actualizarSesion(ctx, tx, t, s)
+		if err := actualizarSesion(ctx, tx, t, s); err != nil {
+			return err
+		}
+		if err := revocarTokensMedios(ctx, tx, t, s.ID, ahora); err != nil {
+			return err
+		}
+		return liberarCupo(ctx, tx, s.ID, ahora)
 	})
 	return out, err
 }

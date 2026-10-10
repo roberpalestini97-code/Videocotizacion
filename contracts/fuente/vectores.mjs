@@ -4,6 +4,8 @@ import * as E from './ejemplos.mjs';
 import { clone } from './base.mjs';
 
 const TIPO = { claveSecreta: 'secreta', clavePublica: 'publica', tokenSesion: 'sesion', cookiePanel: 'panel' };
+// Retry-After esperado por código (H4). Lo contrasta pruebas/ejecutar.mjs con su propia tabla.
+const REINTENTO = { limite_de_tasa: 'espera_del_limitador', intentos_excedidos: 'bloqueo_restante', cuota_agotada: 'hasta_el_1_del_mes_ART', limite_lecturas_contacto: 'hasta_medianoche_ART', simultaneas_agotadas: 'estimacion_corta', proveedor_no_disponible: 'estimacion_corta', servicio_no_disponible: 'estimacion_corta' };
 const ESTADO_PREVIO = { registrarConsentimiento: 'creada', emitirTokenMedios: 'consentida', cerrarSesion: 'en_curso', registrarContacto: 'cerrada' };
 
 export function vectores(ops, neg) {
@@ -14,15 +16,17 @@ export function vectores(ops, neg) {
   const inseguro = (o) => o.m !== 'get';
   const exito = (o, k = 0) => {
     const e = { status: o.ok[0] };
+    if (o.preflight) e.cors = 'permitido';
     if (o.ok[0] !== 204) e.cuerpo = o.ok[2][k % o.ok[2].length];
     return e;
   };
-  const err = (status, codigo, extra = {}) => ({ status, codigo, ...extra });
+  const err = (status, codigo, extra = {}) => ({ status, codigo, ...(REINTENTO[codigo] ? { retry_after: REINTENTO[codigo] } : {}), ...extra });
   const base = (o, tipo = tipos(o)[0] || 'ninguna') => {
     const s = { credencial: { tipo, tenant: 'A' } };
     if (tipo === 'sesion') s.credencial.sujeto = 'ses_A1';
     if (tipo === 'panel') s.credencial.sujeto = 'ase_A1';
-    s.origin = tipo === 'publica' || o.panel ? 'permitido' : 'ausente';
+    s.origin = tipo === 'publica' || o.panel || o.preflight ? 'permitido' : 'ausente';
+    if (o.preflight) s.preflight = { metodo: o.preflight.metodos[0], encabezados: ['Authorization', 'Content-Type'] };
     if (o.seg.some((a) => a.includes('desafio')) && tipo === 'publica') s.desafio = 'valido';
     if (o.seg.some((a) => a.includes('csrf'))) s.csrf = true;
     if (o.sensible) s.reautenticado = true;
@@ -65,7 +69,26 @@ export function vectores(ops, neg) {
       if (o.sensible) add('autenticacion', ['R39'], `${o.id} sin reautenticación reciente`, o, { ...base(o), reautenticado: false }, err(401, 'reautenticacion_requerida'));
       if (o.admin) add('autenticacion', ['R54'], `${o.id} con rol asesor (no administrador)`, o, { ...base(o), rol: 'asesor' }, err(403, 'alcance_insuficiente'));
     }
-    add('abuso', ['R8'], `${o.id} en ráfaga por encima del límite`, o, { ...base(o), tasa: 'excedida' }, costo(o, err(429, 'limite_de_tasa')));
+    add('abuso', ['R8', 'R58'], `${o.id} en ráfaga por encima del límite por IP (paso 1)`, o, { ...base(o), tasa_ip: 'excedida' }, costo(o, err(429, 'limite_de_tasa')));
+    // H1: el límite por credencial va DESPUÉS de credencial, Origin y desafío.
+    if (o.seg.length) {
+      for (const t of tipos(o)) {
+        const aplica = t !== 'publica' || o.seg.some((a) => a.includes('desafio'));
+        add('abuso', ['R8', 'R58', 'H1'], `${o.id}: límite de la credencial ${t} agotado${aplica ? '' : ' (no aplica: con clave pública solo limita crearSesion)'}`, o, { ...base(o, t), tasa_credencial: 'excedida' }, costo(o, aplica ? err(429, 'limite_de_tasa') : exito(o)));
+      }
+      add('abuso', ['R58', 'H1'], `${o.id}: sin credencial y con el límite de la credencial agotado → 401, no 429`, o, { ...base(o, 'ninguna'), tasa_credencial: 'excedida' }, costo(o, err(401, 'credencial_ausente')));
+    }
+    if (o.preflight) {
+      const pf = (desc, cambio) => add('cors', ['R55', 'B6'], `${o.id}: ${desc}`, o, { ...base(o), ...cambio }, { status: 204, cors: 'ausente' });
+      pf('Origin ajeno: 204 sin Access-Control-Allow-*', { origin: 'ajeno' });
+      pf('Origin ausente: 204 sin Access-Control-Allow-*', { origin: 'ausente' });
+      pf('Origin con comodín: 204 sin Access-Control-Allow-*', { origin: 'comodin' });
+      pf('método no permitido', { preflight: { metodo: 'DELETE', encabezados: ['Content-Type'] } });
+      pf('pide X-CSRF-Token (encabezado del panel)', { preflight: { metodo: o.preflight.metodos[0], encabezados: ['Content-Type', 'X-CSRF-Token'] } });
+      pf('pide Cookie', { preflight: { metodo: o.preflight.metodos[0], encabezados: ['Cookie'] } });
+      o.preflight.metodos.slice(1).forEach((m) => add('cors', ['B6'], `${o.id}: método ${m}`, o, { ...base(o), preflight: { metodo: m, encabezados: ['Authorization'] } }, { status: 204, cors: 'permitido' }));
+      add('cors', ['B6'], `${o.id}: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key`, o, { ...base(o), preflight: { metodo: o.preflight.metodos[0], encabezados: ['Content-Type', 'X-VC-Clave-Publica', 'X-Desafio', 'Idempotency-Key'] } }, { status: 204, cors: 'permitido' });
+    }
 
     // 3. Aislamiento entre tenants y entre sujetos (R5, R41, R64).
     if (o.recurso) {
@@ -112,7 +135,31 @@ export function vectores(ops, neg) {
   add('abuso', ['R56'], 'crearSesion con cuota mensual agotada', cs, { ...base(cs, 'publica'), cupo: { cuota: 'agotada', simultaneas: 'disponibles' } }, err(429, 'cuota_agotada', { costo_cero: true }));
   add('abuso', ['R57'], 'crearSesion con 5 simultáneas en curso', cs, { ...base(cs, 'publica'), cupo: { cuota: 'disponible', simultaneas: 'agotadas' } }, err(429, 'simultaneas_agotadas', { costo_cero: true }));
   add('abuso', ['R56'], 'crearSesion con clave secreta y cuota agotada', cs, { ...base(cs, 'secreta'), cupo: { cuota: 'agotada', simultaneas: 'disponibles' } }, err(429, 'cuota_agotada', { costo_cero: true }));
+  // H1: rechazos anteriores al paso 8 no consumen el límite de la clave pública.
+  add('abuso', ['R58', 'H1'], 'crearSesion: límite de la clave agotado y Origin ausente → 403 (el rechazo es anterior y no consume)', cs, { ...base(cs, 'publica'), tasa_credencial: 'excedida', origin: 'ausente' }, err(403, 'origen_no_permitido', { costo_cero: true }));
+  add('abuso', ['R58', 'H1'], 'crearSesion: límite de la clave agotado y desafío reusado → 403 desafio_invalido', cs, { ...base(cs, 'publica'), tasa_credencial: 'excedida', desafio: 'reusado' }, err(403, 'desafio_invalido', { costo_cero: true }));
+  add('abuso', ['R58', 'H1'], 'crearSesion: clave secreta desde navegador con límite agotado → 403', cs, { ...base(cs, 'secreta'), tasa_credencial: 'excedida', origin: 'permitido' }, err(403, 'clave_secreta_desde_navegador', { costo_cero: true }));
+  add('abuso', ['R58'], 'crearSesion: límite por enlace agotado', cs, { ...base(cs, 'publica'), tasa_enlace: 'excedida' }, err(429, 'limite_de_tasa', { costo_cero: true }));
+  {
+    const s = { ...base(cs, 'publica'), tasa_enlace: 'excedida' };
+    s.recurso = { ...s.recurso, existe: false };
+    add('abuso', ['R58', 'R64'], 'crearSesion: enlace inexistente con límite por enlace agotado → 404 (el enlace se resuelve antes)', cs, s, err(404, 'no_encontrado', { costo_cero: true, grupo_identico: 'crearSesion-404' }));
+  }
+  const ed = op('emitirDesafio');
+  add('abuso', ['R53', 'H1'], 'emitirDesafio con el límite de la clave agotado por crearSesion: igual emite (solo límite por IP)', ed, { ...base(ed, 'publica'), tasa_credencial: 'excedida' }, exito(ed, 1));
+  add('abuso', ['R56', 'H3'], 'crearSesion con tope mensual del asesor agotado', cs, { ...base(cs, 'publica'), cupo: { cuota: 'disponible', simultaneas: 'disponibles', asesor: 'agotada' } }, err(429, 'cuota_agotada', { costo_cero: true }));
+  add('abuso', ['R56', 'H3'], 'crearSesion con tope global de gasto agotado (mismo código, sin revelar cuál)', cs, { ...base(cs, 'publica'), cupo: { cuota: 'disponible', simultaneas: 'disponibles', global: 'agotada' } }, err(429, 'cuota_agotada', { costo_cero: true }));
   const tm = op('emitirTokenMedios');
+  add('abuso', ['R56', 'H3'], 'emitirTokenMedios con tope mensual del asesor agotado', tm, { ...base(tm), cupo: { cuota: 'disponible', simultaneas: 'disponibles', asesor: 'agotada' } }, err(429, 'cuota_agotada', { costo_cero: true }));
+  add('abuso', ['R56', 'H3'], 'emitirTokenMedios con tope global de gasto agotado', tm, { ...base(tm), cupo: { cuota: 'disponible', simultaneas: 'disponibles', global: 'agotada' } }, err(429, 'cuota_agotada', { costo_cero: true }));
+  add('abuso', ['R57', 'H3'], 'emitirTokenMedios con simultáneas globales agotadas', tm, { ...base(tm), cupo: { cuota: 'disponible', simultaneas: 'disponibles', simultaneas_global: 'agotadas' } }, err(429, 'simultaneas_agotadas', { costo_cero: true }));
+  add('abuso', ['R57', 'H3'], 'emitirTokenMedios con simultáneas del asesor agotadas', tm, { ...base(tm), cupo: { cuota: 'disponible', simultaneas: 'disponibles', simultaneas_asesor: 'agotadas' } }, err(429, 'simultaneas_agotadas', { costo_cero: true }));
+  add('abuso', ['R56', 'H3'], 'emitirTokenMedios con saldo menor que duracion_maxima_s (≥ 60 s): reserva recortada', tm, { ...base(tm), cupo: { cuota: 'parcial', simultaneas: 'disponibles' } }, { status: 201, cuerpo: E.tokenMedios(3) });
+  {
+    const s = { ...base(tm), cupo: { cuota: 'agotada', simultaneas: 'agotadas' } };
+    s.recurso = { ...s.recurso, reserva_vigente: true };
+    add('abuso', ['R57', 'H3'], 'emitirTokenMedios para reconectar con reserva vigente: misma reserva, sin reservar de nuevo', tm, s, { status: 201, cuerpo: E.tokenMedios(0) });
+  }
   const sinCons = base(tm);
   sinCons.recurso.estado = 'creada';
   add('abuso', ['R10', 'R61', 'O1'], 'emitirTokenMedios sin consentimiento: sin token y sin proveedores', tm, sinCons, err(409, 'consentimiento_requerido', { costo_cero: true }));
@@ -161,14 +208,28 @@ export function vectores(ops, neg) {
     f(c);
     add('cotizacion', req, desc, lcot, base(lcot), { status: 200, cuerpo: c, conforme: false });
   };
-  malo('total distinto de la suma de ítems', (c) => (c.total_centavos += 1));
+  malo('total mínimo distinto de la suma de ítems', (c) => (c.total_min_centavos += 1));
+  malo('total máximo distinto de la suma de ítems', (c) => (c.total_max_centavos -= 1));
   malo('importe de ítem mal redondeado', (c) => {
-    c.items[0].importe_centavos += 1;
-    c.total_centavos += 1;
+    c.items[0].importe_max_centavos += 1;
+    c.total_max_centavos += 1;
   });
   malo('fuera de zona sin marca', (c) => (c.zona = 'otra'), ['T24']);
-  malo('monto con decimales', (c) => (c.total_centavos += 0.5), ['O04']);
-  malo('precio unitario negativo', (c) => (c.items[0].precio_unitario_centavos = -100), ['O04']);
+  malo('monto con decimales', (c) => (c.total_min_centavos += 0.5), ['O04']);
+  malo('precio unitario negativo', (c) => (c.items[0].precio_unitario_min_centavos = -100), ['O04']);
+  malo('rango invertido: mínimo mayor que máximo', (c) => {
+    const it = c.items[0];
+    Object.assign(c.items[0], E.conRango(it, it.precio_unitario_max_centavos, it.precio_unitario_min_centavos));
+    E.totales(c);
+  }, ['B1']);
+  malo('precio final con tarifas sin validar', (c) => (c.precio_final_centavos = c.total_min_centavos), ['B1']);
+  {
+    const c = E.cotizacionPrecioFinal(4);
+    c.items[0] = E.conRango(c.items[0], c.items[0].precio_unitario_min_centavos, c.items[0].precio_unitario_min_centavos + 100);
+    E.totales(c);
+    add('cotizacion', ['B1'], 'precio final con un rango que no es un punto', lcot, base(lcot), { status: 200, cuerpo: c, conforme: false });
+  }
+  add('cotizacion', ['B1'], 'tarifario validado con rango de un punto: lleva precio_final_centavos', lcot, base(lcot), { status: 200, cuerpo: E.cotizacionPrecioFinal(2) });
   const fz = E.cotizacion('jardineria', 'otra', 3);
   add('cotizacion', ['T24'], 'evento final: cotización fuera de zona emitida con derivación', op('cerrarSesion'), base(op('cerrarSesion')), { status: 200, cuerpo: { ...E.cierre(0), cotizacion_id: fz.cotizacion_id } });
 

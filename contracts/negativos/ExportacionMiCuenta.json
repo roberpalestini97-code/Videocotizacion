@@ -45,10 +45,13 @@
         "ambito": "asesor",
         "periodo": "2026-10",
         "segundos_usados": 0,
+        "segundos_reservados": 0,
         "segundos_tope": 30000,
+        "reinicia_en": "2026-11-01T03:00:00Z",
         "simultaneas_en_curso": 0,
         "simultaneas_tope": 5,
         "alerta": "ninguna",
+        "alerta_tenant": "ninguna",
         "diario": [],
         "actualizado_en": "2026-10-08T13:05:00Z"
       },
@@ -100,10 +103,13 @@
         "ambito": "asesor",
         "periodo": "2026-10",
         "segundos_usados": 0,
+        "segundos_reservados": 0,
         "segundos_tope": 30000,
+        "reinicia_en": "2026-11-01T03:00:00Z",
         "simultaneas_en_curso": 0,
         "simultaneas_tope": 5,
         "alerta": "ninguna",
+        "alerta_tenant": "ninguna",
         "diario": [],
         "actualizado_en": "2026-10-08T13:05:00Z"
       }
@@ -154,10 +160,13 @@
         "ambito": "asesor",
         "periodo": "2026-10",
         "segundos_usados": 0,
+        "segundos_reservados": 0,
         "segundos_tope": 30000,
+        "reinicia_en": "2026-11-01T03:00:00Z",
         "simultaneas_en_curso": 0,
         "simultaneas_tope": 5,
         "alerta": "ninguna",
+        "alerta_tenant": "ninguna",
         "diario": [],
         "actualizado_en": "2026-10-08T13:05:00Z"
       }

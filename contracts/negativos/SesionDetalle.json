@@ -27,7 +27,7 @@
       },
       "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
       "versiones": {
-        "tarifas": "2026.1",
+        "tarifas": "tarifas-2026@0.1.0",
         "prompt": "conducta_pintura@755b9690b387",
         "esquema_salida": "1.0.0"
       },
@@ -46,8 +46,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 1250,
-            "precio_unitario_centavos": 185000,
-            "importe_centavos": 2312500
+            "precio_unitario_min_centavos": 185000,
+            "precio_unitario_max_centavos": 259000,
+            "importe_min_centavos": 2312500,
+            "importe_max_centavos": 3237500
           },
           {
             "tipo": "traslado",
@@ -55,18 +57,21 @@
             "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
             "unidad": "global",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 1500000,
-            "importe_centavos": 1500000
+            "precio_unitario_min_centavos": 1500000,
+            "precio_unitario_max_centavos": 2000000,
+            "importe_min_centavos": 1500000,
+            "importe_max_centavos": 2000000
           }
         ],
-        "total_centavos": 3812500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 3812500,
+        "total_max_centavos": 5237500
       },
       "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
     }
@@ -98,7 +103,7 @@
       },
       "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
       "versiones": {
-        "tarifas": "2026.1",
+        "tarifas": "tarifas-2026@0.1.0",
         "prompt": "conducta_pintura@755b9690b387",
         "esquema_salida": "1.0.0"
       },
@@ -117,8 +122,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 1250,
-            "precio_unitario_centavos": 185000,
-            "importe_centavos": 2312500
+            "precio_unitario_min_centavos": 185000,
+            "precio_unitario_max_centavos": 259000,
+            "importe_min_centavos": 2312500,
+            "importe_max_centavos": 3237500
           },
           {
             "tipo": "traslado",
@@ -126,18 +133,21 @@
             "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
             "unidad": "global",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 1500000,
-            "importe_centavos": 1500000
+            "precio_unitario_min_centavos": 1500000,
+            "precio_unitario_max_centavos": 2000000,
+            "importe_min_centavos": 1500000,
+            "importe_max_centavos": 2000000
           }
         ],
-        "total_centavos": 3812500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 3812500,
+        "total_max_centavos": 5237500
       }
     }
   },
@@ -168,7 +178,7 @@
       },
       "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
       "versiones": {
-        "tarifas": "2026.1",
+        "tarifas": "tarifas-2026@0.1.0",
         "prompt": "conducta_pintura@755b9690b387",
         "esquema_salida": "1.0.0"
       },
@@ -187,8 +197,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 1250,
-            "precio_unitario_centavos": 185000,
-            "importe_centavos": 2312500
+            "precio_unitario_min_centavos": 185000,
+            "precio_unitario_max_centavos": 259000,
+            "importe_min_centavos": 2312500,
+            "importe_max_centavos": 3237500
           },
           {
             "tipo": "traslado",
@@ -196,18 +208,21 @@
             "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
             "unidad": "global",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 1500000,
-            "importe_centavos": 1500000
+            "precio_unitario_min_centavos": 1500000,
+            "precio_unitario_max_centavos": 2000000,
+            "importe_min_centavos": 1500000,
+            "importe_max_centavos": 2000000
           }
         ],
-        "total_centavos": 3812500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 3812500,
+        "total_max_centavos": 5237500
       }
     }
   },
@@ -239,7 +254,7 @@
       },
       "resumen": "Consulta de pintura en Cobo.",
       "versiones": {
-        "tarifas": "2026.1",
+        "tarifas": "tarifas-2026@0.1.0",
         "prompt": "conducta_pintura@755b9690b387",
         "esquema_salida": "1.0.0"
       },
@@ -258,18 +273,21 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 1250,
-            "precio_unitario_centavos": 185000,
-            "importe_centavos": 2312500
+            "precio_unitario_min_centavos": 185000,
+            "precio_unitario_max_centavos": 259000,
+            "importe_min_centavos": 2312500,
+            "importe_max_centavos": 3237500
           }
         ],
-        "total_centavos": 2312500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500
       },
       "codigo_referencia": "VC-ABCD-EFGHJK"
     }
@@ -302,7 +320,7 @@
       },
       "resumen": "Consulta de pintura en Cobo.",
       "versiones": {
-        "tarifas": "2026.1",
+        "tarifas": "tarifas-2026@0.1.0",
         "prompt": "conducta_pintura@755b9690b387",
         "esquema_salida": "1.0.0"
       },
@@ -321,18 +339,21 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 1250,
-            "precio_unitario_centavos": 185000,
-            "importe_centavos": 2312500
+            "precio_unitario_min_centavos": 185000,
+            "precio_unitario_max_centavos": 259000,
+            "importe_min_centavos": 2312500,
+            "importe_max_centavos": 3237500
           }
         ],
-        "total_centavos": 2312500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500
       },
       "derivacion": {
         "codigo_referencia": "VC-6X0B-5RD4NC",
@@ -370,7 +391,7 @@
       },
       "resumen": "Consulta de pintura en Cobo.",
       "versiones": {
-        "tarifas": "2026.1",
+        "tarifas": "tarifas-2026@0.1.0",
         "prompt": "conducta_pintura@755b9690b387",
         "esquema_salida": "1.0.0"
       },
@@ -389,18 +410,21 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 1250,
-            "precio_unitario_centavos": 185000,
-            "importe_centavos": 2312500
+            "precio_unitario_min_centavos": 185000,
+            "precio_unitario_max_centavos": 259000,
+            "importe_min_centavos": 2312500,
+            "importe_max_centavos": 3237500
           }
         ],
-        "total_centavos": 2312500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500
       },
       "contacto_disponible": true
     }
@@ -433,7 +457,7 @@
       },
       "resumen": "Consulta de pintura en Cobo.",
       "versiones": {
-        "tarifas": "2026.1",
+        "tarifas": "tarifas-2026@0.1.0",
         "prompt": "conducta_pintura@755b9690b387",
         "esquema_salida": "1.0.0"
       },
@@ -452,18 +476,21 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 1250,
-            "precio_unitario_centavos": 185000,
-            "importe_centavos": 2312500
+            "precio_unitario_min_centavos": 185000,
+            "precio_unitario_max_centavos": 259000,
+            "importe_min_centavos": 2312500,
+            "importe_max_centavos": 3237500
           }
         ],
-        "total_centavos": 2312500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 2312500,
+        "total_max_centavos": 3237500
       },
       "fotogramas": [
         "/9j/4AAQ"

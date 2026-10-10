@@ -1,6 +1,6 @@
 [
   {
-    "id": "V009",
+    "id": "V011",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -26,7 +26,7 @@
     }
   },
   {
-    "id": "V010",
+    "id": "V012",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -52,7 +52,7 @@
     }
   },
   {
-    "id": "V011",
+    "id": "V013",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -78,7 +78,7 @@
     }
   },
   {
-    "id": "V012",
+    "id": "V014",
     "categoria": "aislamiento",
     "requisitos": [
       "R62",
@@ -105,7 +105,7 @@
     }
   },
   {
-    "id": "V041",
+    "id": "V051",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -142,7 +142,7 @@
     }
   },
   {
-    "id": "V042",
+    "id": "V052",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -179,7 +179,7 @@
     }
   },
   {
-    "id": "V043",
+    "id": "V053",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -216,7 +216,7 @@
     }
   },
   {
-    "id": "V044",
+    "id": "V054",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -252,7 +252,7 @@
     }
   },
   {
-    "id": "V045",
+    "id": "V055",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -288,7 +288,7 @@
     }
   },
   {
-    "id": "V046",
+    "id": "V056",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -324,7 +324,7 @@
     }
   },
   {
-    "id": "V047",
+    "id": "V057",
     "categoria": "aislamiento",
     "requisitos": [
       "R62",
@@ -362,7 +362,7 @@
     }
   },
   {
-    "id": "V048",
+    "id": "V058",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -398,7 +398,7 @@
     }
   },
   {
-    "id": "V071",
+    "id": "V084",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -427,7 +427,7 @@
     }
   },
   {
-    "id": "V072",
+    "id": "V085",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -456,7 +456,7 @@
     }
   },
   {
-    "id": "V073",
+    "id": "V086",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -485,7 +485,7 @@
     }
   },
   {
-    "id": "V074",
+    "id": "V087",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -515,7 +515,7 @@
     }
   },
   {
-    "id": "V075",
+    "id": "V088",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -545,7 +545,7 @@
     }
   },
   {
-    "id": "V076",
+    "id": "V089",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -575,7 +575,7 @@
     }
   },
   {
-    "id": "V077",
+    "id": "V090",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -605,7 +605,7 @@
     }
   },
   {
-    "id": "V083",
+    "id": "V098",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -642,7 +642,7 @@
     }
   },
   {
-    "id": "V084",
+    "id": "V099",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -679,7 +679,7 @@
     }
   },
   {
-    "id": "V085",
+    "id": "V100",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -716,7 +716,7 @@
     }
   },
   {
-    "id": "V086",
+    "id": "V101",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -753,7 +753,7 @@
     }
   },
   {
-    "id": "V087",
+    "id": "V102",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -789,7 +789,7 @@
     }
   },
   {
-    "id": "V102",
+    "id": "V119",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -824,7 +824,7 @@
     }
   },
   {
-    "id": "V103",
+    "id": "V120",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -859,7 +859,7 @@
     }
   },
   {
-    "id": "V104",
+    "id": "V121",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -894,7 +894,7 @@
     }
   },
   {
-    "id": "V105",
+    "id": "V122",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -928,7 +928,7 @@
     }
   },
   {
-    "id": "V113",
+    "id": "V133",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -961,7 +961,7 @@
     }
   },
   {
-    "id": "V114",
+    "id": "V134",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -994,7 +994,7 @@
     }
   },
   {
-    "id": "V115",
+    "id": "V135",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1027,7 +1027,7 @@
     }
   },
   {
-    "id": "V116",
+    "id": "V136",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1060,7 +1060,7 @@
     }
   },
   {
-    "id": "V117",
+    "id": "V137",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1092,7 +1092,7 @@
     }
   },
   {
-    "id": "V118",
+    "id": "V138",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1124,7 +1124,7 @@
     }
   },
   {
-    "id": "V119",
+    "id": "V139",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1156,7 +1156,7 @@
     }
   },
   {
-    "id": "V120",
+    "id": "V140",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -1188,7 +1188,7 @@
     }
   },
   {
-    "id": "V132",
+    "id": "V155",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1218,7 +1218,7 @@
     }
   },
   {
-    "id": "V133",
+    "id": "V156",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1248,7 +1248,7 @@
     }
   },
   {
-    "id": "V134",
+    "id": "V157",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1278,7 +1278,7 @@
     }
   },
   {
-    "id": "V135",
+    "id": "V158",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1308,7 +1308,7 @@
     }
   },
   {
-    "id": "V136",
+    "id": "V159",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1337,7 +1337,7 @@
     }
   },
   {
-    "id": "V137",
+    "id": "V160",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1366,7 +1366,7 @@
     }
   },
   {
-    "id": "V138",
+    "id": "V161",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1395,7 +1395,7 @@
     }
   },
   {
-    "id": "V146",
+    "id": "V172",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1425,7 +1425,7 @@
     }
   },
   {
-    "id": "V147",
+    "id": "V173",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1455,7 +1455,7 @@
     }
   },
   {
-    "id": "V148",
+    "id": "V174",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1485,7 +1485,7 @@
     }
   },
   {
-    "id": "V149",
+    "id": "V175",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1515,7 +1515,7 @@
     }
   },
   {
-    "id": "V150",
+    "id": "V176",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1544,7 +1544,7 @@
     }
   },
   {
-    "id": "V151",
+    "id": "V177",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1573,7 +1573,7 @@
     }
   },
   {
-    "id": "V152",
+    "id": "V178",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1602,7 +1602,7 @@
     }
   },
   {
-    "id": "V158",
+    "id": "V186",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1641,7 +1641,7 @@
     }
   },
   {
-    "id": "V159",
+    "id": "V187",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1680,7 +1680,7 @@
     }
   },
   {
-    "id": "V160",
+    "id": "V188",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1719,7 +1719,7 @@
     }
   },
   {
-    "id": "V161",
+    "id": "V189",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1758,7 +1758,7 @@
     }
   },
   {
-    "id": "V162",
+    "id": "V190",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -1796,7 +1796,7 @@
     }
   },
   {
-    "id": "V181",
+    "id": "V211",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -1824,7 +1824,7 @@
     }
   },
   {
-    "id": "V207",
+    "id": "V239",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -1854,7 +1854,7 @@
     }
   },
   {
-    "id": "V220",
+    "id": "V254",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -1885,7 +1885,7 @@
     }
   },
   {
-    "id": "V246",
+    "id": "V286",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -1917,7 +1917,7 @@
     }
   },
   {
-    "id": "V264",
+    "id": "V308",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -1943,7 +1943,7 @@
     }
   },
   {
-    "id": "V280",
+    "id": "V326",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -1970,7 +1970,7 @@
     }
   },
   {
-    "id": "V294",
+    "id": "V344",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -1999,7 +1999,7 @@
     }
   },
   {
-    "id": "V295",
+    "id": "V345",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -2028,7 +2028,7 @@
     }
   },
   {
-    "id": "V296",
+    "id": "V346",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -2057,7 +2057,7 @@
     }
   },
   {
-    "id": "V297",
+    "id": "V347",
     "categoria": "aislamiento",
     "requisitos": [
       "R41"
@@ -2085,7 +2085,7 @@
     }
   },
   {
-    "id": "V303",
+    "id": "V355",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -2114,7 +2114,7 @@
     }
   },
   {
-    "id": "V304",
+    "id": "V356",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -2143,7 +2143,7 @@
     }
   },
   {
-    "id": "V305",
+    "id": "V357",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -2172,7 +2172,7 @@
     }
   },
   {
-    "id": "V306",
+    "id": "V358",
     "categoria": "aislamiento",
     "requisitos": [
       "R41"
@@ -2200,7 +2200,7 @@
     }
   },
   {
-    "id": "V345",
+    "id": "V409",
     "categoria": "aislamiento",
     "requisitos": [
       "R3"
@@ -2231,7 +2231,7 @@
     }
   },
   {
-    "id": "V364",
+    "id": "V430",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -2261,7 +2261,7 @@
     }
   },
   {
-    "id": "V365",
+    "id": "V431",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -2291,7 +2291,7 @@
     }
   },
   {
-    "id": "V366",
+    "id": "V432",
     "categoria": "aislamiento",
     "requisitos": [
       "R5",
@@ -2321,7 +2321,7 @@
     }
   },
   {
-    "id": "V387",
+    "id": "V586",
     "categoria": "aislamiento",
     "requisitos": [
       "R68"

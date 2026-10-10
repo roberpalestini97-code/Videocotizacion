@@ -6,8 +6,10 @@
     "instancia": {
       "ambito": "tenant",
       "periodo": "2026-10",
-      "segundos_usados": 30000,
+      "segundos_usados": 28200,
+      "segundos_reservados": 1800,
       "segundos_tope": 30000,
+      "reinicia_en": "2026-11-01T03:00:00Z",
       "simultaneas_en_curso": 3,
       "simultaneas_tope": 5,
       "alerta": "p100",
@@ -41,8 +43,10 @@
     "falla_por": "required",
     "instancia": {
       "periodo": "2026-10",
-      "segundos_usados": 30000,
+      "segundos_usados": 28200,
+      "segundos_reservados": 1800,
       "segundos_tope": 30000,
+      "reinicia_en": "2026-11-01T03:00:00Z",
       "simultaneas_en_curso": 3,
       "simultaneas_tope": 5,
       "alerta": "p100",
@@ -75,8 +79,10 @@
     "falla_por": "required",
     "instancia": {
       "ambito": "tenant",
-      "segundos_usados": 30000,
+      "segundos_usados": 28200,
+      "segundos_reservados": 1800,
       "segundos_tope": 30000,
+      "reinicia_en": "2026-11-01T03:00:00Z",
       "simultaneas_en_curso": 3,
       "simultaneas_tope": 5,
       "alerta": "p100",
@@ -111,7 +117,9 @@
       "ambito": "tenant",
       "periodo": "2026-13",
       "segundos_usados": 15000,
+      "segundos_reservados": 900,
       "segundos_tope": 30000,
+      "reinicia_en": "2026-11-01T03:00:00Z",
       "simultaneas_en_curso": 1,
       "simultaneas_tope": 5,
       "alerta": "p50",
@@ -134,7 +142,9 @@
       "ambito": "tenant",
       "periodo": "2026-10",
       "segundos_usados": 15000,
+      "segundos_reservados": 900,
       "segundos_tope": 30000,
+      "reinicia_en": "2026-11-01T03:00:00Z",
       "simultaneas_en_curso": 1,
       "simultaneas_tope": 5,
       "alerta": "p50",
@@ -148,6 +158,56 @@
       ],
       "actualizado_en": "2026-10-08T13:05:00Z",
       "costo_centavos": 120000
+    }
+  },
+  {
+    "esquema": "Consumo",
+    "caso": "expone el tope global (R52)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "ambito": "tenant",
+      "periodo": "2026-10",
+      "segundos_usados": 15000,
+      "segundos_reservados": 900,
+      "segundos_tope": 30000,
+      "reinicia_en": "2026-11-01T03:00:00Z",
+      "simultaneas_en_curso": 1,
+      "simultaneas_tope": 5,
+      "alerta": "p50",
+      "diario": [
+        {
+          "fecha": "2026-10-08",
+          "segundos": 1800,
+          "sesiones": 3,
+          "cotizaciones_emitidas": 2
+        }
+      ],
+      "actualizado_en": "2026-10-08T13:05:00Z",
+      "segundos_tope_global": 900000
+    }
+  },
+  {
+    "esquema": "Consumo",
+    "caso": "sin segundos reservados (H3)",
+    "falla_por": "required",
+    "instancia": {
+      "ambito": "tenant",
+      "periodo": "2026-10",
+      "segundos_usados": 15000,
+      "segundos_tope": 30000,
+      "reinicia_en": "2026-11-01T03:00:00Z",
+      "simultaneas_en_curso": 1,
+      "simultaneas_tope": 5,
+      "alerta": "p50",
+      "diario": [
+        {
+          "fecha": "2026-10-08",
+          "segundos": 1800,
+          "sesiones": 3,
+          "cotizaciones_emitidas": 2
+        }
+      ],
+      "actualizado_en": "2026-10-08T13:05:00Z"
     }
   }
 ]

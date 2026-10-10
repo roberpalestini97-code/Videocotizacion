@@ -71,7 +71,7 @@
   },
   "examples": [
     {
-      "api": "0.1.4-borrador",
+      "api": "0.1.5-borrador",
       "estado_api": "borrador",
       "eventos_sesion": {
         "version": "vc-eventos.borrador.1",

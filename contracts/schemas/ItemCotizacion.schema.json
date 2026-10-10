@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ItemCotizacion",
-  "description": "Ítem del presupuesto. importe_centavos = (cantidad_centesimas × precio_unitario_centavos + 50) div 100 (redondeo mitad hacia arriba, enteros). Calculado por Go desde tarifas, nunca por el LLM.",
+  "description": "Ítem del presupuesto con RANGO (B1): el tarifario solo tiene rangos mínimo–máximo. importe_X_centavos = (cantidad_centesimas × precio_unitario_X_centavos + 50) div 100 para X = min y max (redondeo mitad hacia arriba, enteros) y min ≤ max. Calculado por Go desde tarifas, nunca por el LLM.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -10,8 +10,10 @@
     "descripcion",
     "unidad",
     "cantidad_centesimas",
-    "precio_unitario_centavos",
-    "importe_centavos"
+    "precio_unitario_min_centavos",
+    "precio_unitario_max_centavos",
+    "importe_min_centavos",
+    "importe_max_centavos"
   ],
   "properties": {
     "tipo": {
@@ -38,10 +40,16 @@
     "cantidad_centesimas": {
       "$ref": "CantidadCentesimas.schema.json"
     },
-    "precio_unitario_centavos": {
+    "precio_unitario_min_centavos": {
       "$ref": "Centavos.schema.json"
     },
-    "importe_centavos": {
+    "precio_unitario_max_centavos": {
+      "$ref": "Centavos.schema.json"
+    },
+    "importe_min_centavos": {
+      "$ref": "Centavos.schema.json"
+    },
+    "importe_max_centavos": {
       "$ref": "Centavos.schema.json"
     }
   },
@@ -52,8 +60,10 @@
       "descripcion": "Pintura interior látex, dos manos",
       "unidad": "m2",
       "cantidad_centesimas": 1250,
-      "precio_unitario_centavos": 185000,
-      "importe_centavos": 2312500
+      "precio_unitario_min_centavos": 185000,
+      "precio_unitario_max_centavos": 259000,
+      "importe_min_centavos": 2312500,
+      "importe_max_centavos": 3237500
     }
   ]
 }

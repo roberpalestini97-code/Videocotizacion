@@ -76,5 +76,19 @@
       "id_traza": "tr_48e906cea01dd675",
       "stack": "panic: runtime error"
     }
+  },
+  {
+    "esquema": "Error",
+    "caso": "Retry-After de más de 31 días (H4)",
+    "falla_por": "maximum",
+    "instancia": {
+      "type": "https://videocotizacion.local/errores/cuota_agotada",
+      "title": "Cupo agotado",
+      "status": 429,
+      "codigo": "cuota_agotada",
+      "detail": "Por ahora no hay cupo para videocotizaciones. Escribinos por WhatsApp.",
+      "id_traza": "tr_ab9dd0e41dc04af1",
+      "reintentar_en_s": 2678401
+    }
   }
 ]

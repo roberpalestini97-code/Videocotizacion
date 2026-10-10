@@ -24,18 +24,21 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 1250,
-              "precio_unitario_centavos": 185000,
-              "importe_centavos": 2312500
+              "precio_unitario_min_centavos": 185000,
+              "precio_unitario_max_centavos": 259000,
+              "importe_min_centavos": 2312500,
+              "importe_max_centavos": 3237500
             }
           ],
-          "total_centavos": 2312500,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 2312500,
+          "total_max_centavos": 3237500
         },
         "derivacion": {
           "codigo_referencia": "VC-6X0B-5RD4NC",
@@ -71,18 +74,21 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 1250,
-              "precio_unitario_centavos": 185000,
-              "importe_centavos": 2312500
+              "precio_unitario_min_centavos": 185000,
+              "precio_unitario_max_centavos": 259000,
+              "importe_min_centavos": 2312500,
+              "importe_max_centavos": 3237500
             }
           ],
-          "total_centavos": 2312500,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 2312500,
+          "total_max_centavos": 3237500
         },
         "derivacion": {
           "codigo_referencia": "VC-6X0B-5RD4NC",
@@ -117,18 +123,21 @@
               "descripcion": "Pintura interior látex, dos manos",
               "unidad": "m2",
               "cantidad_centesimas": 1250,
-              "precio_unitario_centavos": 185000,
-              "importe_centavos": 2312500
+              "precio_unitario_min_centavos": 185000,
+              "precio_unitario_max_centavos": 259000,
+              "importe_min_centavos": 2312500,
+              "importe_max_centavos": 3237500
             }
           ],
-          "total_centavos": 2312500,
           "orientativa": true,
           "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
           "tarifas": {
-            "version": "2026.1",
+            "version": "tarifas-2026@0.1.0",
             "estado": "referencia_publica_sin_validar"
           },
-          "validez_dias": 15
+          "validez_dias": 15,
+          "total_min_centavos": 2312500,
+          "total_max_centavos": 3237500
         },
         "derivacion": {
           "codigo_referencia": "VC-6X0B-5RD4NC",

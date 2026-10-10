@@ -5,7 +5,9 @@
 //  C5 la credencial está admitida por `security` cuando se espera éxito · C6 la TABLA DE DECISIÓN de abajo
 //  (redactada aparte de los vectores) da el mismo resultado · C7 el cuerpo de respuesta esperado cumple
 //  esquema + reglas de negocio (sumas en centavos, fuera de zona, wa.me sin datos personales) y eso
-//  coincide con `conforme` · C8 costo_cero solo donde el contrato garantiza que no se llama a proveedores.
+//  coincide con `conforme` · C8 costo_cero solo donde el contrato garantiza que no se llama a proveedores ·
+//  C9 todo 429/503 declara Retry-After y el vector dice cómo se calcula (H4) · C10 CORS: preflight
+//  declarado para cada ruta del widget y resultado del preflight igual al de la tabla (B6).
 // Además corre, contra RespuestaModelo/SesionDetalle, los ejemplos y negativos de conductas/ (cot).
 // Uso: node pruebas/ejecutar.mjs <carpeta contracts>
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
@@ -50,10 +52,18 @@ const tieneEsquema = (op, s) => op.security.some((alt) => s in alt);
 
 // ---- C6: tabla de decisión del contrato (orden de evaluación documentado en estado-de-congelamiento.md) ----
 function decidir(op, s) {
-  const r = (status, codigo) => ({ status, codigo });
+  const r = (status, codigo, extra = {}) => ({ status, codigo, ...extra });
   const inseguro = op.metodo !== 'get';
   const c = s.credencial || { tipo: 'ninguna' };
-  if (s.tasa === 'excedida') return r(429, 'limite_de_tasa');
+  // 1. Único límite antes de autenticar: por IP (H1).
+  if (s.tasa_ip === 'excedida') return r(429, 'limite_de_tasa');
+  // 2. Preflight CORS: no lee credenciales (B6).
+  if (op['x-vc-preflight']) {
+    const pf = op['x-vc-preflight'];
+    const q = s.preflight || {};
+    const ok = s.origin === 'permitido' && pf.metodos.includes(q.metodo) && (q.encabezados || []).every((h) => pf.encabezados.includes(h));
+    return r(204, undefined, { cors: ok ? 'permitido' : 'ausente' });
+  }
   if (op.security.length) {
     const t = c.tipo;
     if (t === 'ninguna') return r(401, 'credencial_ausente');
@@ -66,6 +76,8 @@ function decidir(op, s) {
     if (op['x-vc-panel'] && inseguro && s.origin === 'ajeno') return r(403, 'origen_no_permitido');
     if (op['x-vc-panel'] && inseguro && !s.csrf) return r(403, 'csrf_invalido');
     if (t === 'publica' && tieneEsquema(op, 'desafio') && s.desafio !== 'valido') return r(403, 'desafio_invalido');
+    // 8. Límite por credencial: después de Origin y desafío. Con clave pública solo en rutas con desafío (crearSesion).
+    if (s.tasa_credencial === 'excedida' && (t !== 'publica' || tieneEsquema(op, 'desafio'))) return r(429, 'limite_de_tasa');
     if (op['x-vc-rol'] && s.rol !== op['x-vc-rol']) return r(403, 'alcance_insuficiente');
     if (op['x-vc-reautenticacion'] && !s.reautenticado) return r(401, 'reautenticacion_requerida');
   } else if (op['x-vc-panel'] && inseguro && s.origin === 'ajeno') return r(403, 'origen_no_permitido');
@@ -82,6 +94,8 @@ function decidir(op, s) {
     if (op['x-vc-recurso'] === 'sesion' && c.tipo === 'sesion' && rec.sujeto !== c.sujeto) return r(404, 'no_encontrado');
     if (op['x-vc-recurso'] === 'sesion_panel' && rec.sujeto !== c.sujeto) return r(404, 'no_encontrado');
   }
+  // 13. Límite por enlace, con el enlace ya resuelto.
+  if (s.tasa_enlace === 'excedida' && op['x-vc-recurso'] === 'enlace_cuerpo') return r(429, 'limite_de_tasa');
   const e = rec?.estado;
   switch (op.operationId) {
     case 'registrarConsentimiento':
@@ -110,9 +124,11 @@ function decidir(op, s) {
       if (s.lecturas_contacto === 'agotadas') return r(429, 'limite_lecturas_contacto');
       break;
   }
-  if (op['x-vc-cupo']) {
-    if (s.cupo?.cuota === 'agotada') return r(429, 'cuota_agotada');
-    if (s.cupo?.simultaneas === 'agotadas') return r(429, 'simultaneas_agotadas');
+  // 15. Cupo: topes del tenant, del asesor y global dan el mismo código. Reconexión con reserva vigente no reserva.
+  if (op['x-vc-cupo'] && !(op.operationId === 'emitirTokenMedios' && rec?.reserva_vigente)) {
+    const k = s.cupo || {};
+    if ([k.cuota, k.asesor, k.global].includes('agotada')) return r(429, 'cuota_agotada');
+    if ([k.simultaneas, k.simultaneas_asesor, k.simultaneas_global].includes('agotadas')) return r(429, 'simultaneas_agotadas');
   }
   const ok = Object.keys(op.responses).map(Number).find((n) => n < 300);
   return r(ok);
@@ -121,10 +137,18 @@ function decidir(op, s) {
 // ---- C7: reglas de negocio sobre cuerpos ----
 function reglasCotizacion(c, out) {
   if (!c) return;
-  for (const it of c.items || []) if (it.importe_centavos !== Math.floor((it.cantidad_centesimas * it.precio_unitario_centavos + 50) / 100)) out.push(`importe de ${it.codigo_tarea} mal calculado`);
-  if ((c.items || []).reduce((a, it) => a + it.importe_centavos, 0) !== c.total_centavos) out.push('total ≠ suma de ítems');
+  const imp = (cant, pu) => Math.floor((cant * pu + 50) / 100);
+  for (const it of c.items || []) {
+    for (const x of ['min', 'max']) if (it[`importe_${x}_centavos`] !== imp(it.cantidad_centesimas, it[`precio_unitario_${x}_centavos`])) out.push(`importe ${x} de ${it.codigo_tarea} mal calculado`);
+    if (it.precio_unitario_min_centavos > it.precio_unitario_max_centavos) out.push(`rango invertido en ${it.codigo_tarea}`);
+  }
+  for (const x of ['min', 'max']) if ((c.items || []).reduce((a, it) => a + it[`importe_${x}_centavos`], 0) !== c[`total_${x}_centavos`]) out.push(`total ${x} ≠ suma de ítems`);
+  if (c.total_min_centavos > c.total_max_centavos) out.push('total mínimo > máximo');
+  if (c.precio_final_centavos !== undefined && !(c.tarifas?.estado === 'validada' && c.total_min_centavos === c.total_max_centavos && c.precio_final_centavos === c.total_min_centavos)) out.push('precio_final sin tarifario validado o con rango que no es un punto (B1)');
   if ((c.zona === 'otra') !== c.fuera_de_zona) out.push('marca fuera_de_zona inconsistente');
 }
+// C9: cómo se calcula Retry-After por código (H4), redactado aparte de los vectores.
+const REINTENTO = { limite_de_tasa: 'espera_del_limitador', intentos_excedidos: 'bloqueo_restante', cuota_agotada: 'hasta_el_1_del_mes_ART', limite_lecturas_contacto: 'hasta_medianoche_ART', simultaneas_agotadas: 'estimacion_corta', proveedor_no_disponible: 'estimacion_corta', servicio_no_disponible: 'estimacion_corta' };
 function reglasDerivacion(d, out) {
   if (!d) return;
   const texto = decodeURIComponent((d.url_wa_me.split('?text=')[1] || '').replace(/\+/g, ' '));
@@ -179,6 +203,11 @@ for (const f of readdirSync(dir).filter((x) => x.endsWith('.json')).sort()) {
     if (status < 300 && op.security.length && !tiposDe(op).has(vec.solicitud.credencial?.tipo)) mal('C5 éxito con credencial no admitida');
     const d = decidir(op, vec.solicitud);
     if (d.status !== status || (d.codigo || null) !== (codigo || null)) mal(`C6 la tabla de decisión da ${d.status} ${d.codigo || ''}, el vector espera ${status} ${codigo || ''}`);
+    if (status === 429 || status === 503) {
+      if (!resp?.headers?.['Retry-After']) mal('C9 la respuesta no declara Retry-After');
+      if (vec.esperado.retry_after !== REINTENTO[codigo]) mal(`C9 Retry-After "${vec.esperado.retry_after}" ≠ "${REINTENTO[codigo]}"`);
+    }
+    if (op['x-vc-preflight'] && d.cors !== vec.esperado.cors) mal(`C10 la tabla da CORS ${d.cors}, el vector espera ${vec.esperado.cors}`);
     if (vec.esperado.cuerpo !== undefined) {
       const problemas = conforme(op, status, vec.esperado.cuerpo);
       const esperado = vec.esperado.conforme ?? true;
@@ -186,6 +215,15 @@ for (const f of readdirSync(dir).filter((x) => x.endsWith('.json')).sort()) {
       if (!esperado && !problemas.length) mal('C7 debía detectarse como NO conforme y pasó');
     }
     if (vec.esperado.costo_cero && vec.operacion === 'emitirTokenMedios' && status < 300) mal('C8 costo_cero imposible: emitir token habilita proveedores');
+  }
+}
+
+// C10 estático: cada operación del widget tiene su preflight con su método; todo 429/503 declara Retry-After.
+for (const [ruta, ms] of Object.entries(oas.paths)) {
+  for (const [m, o] of Object.entries(ms)) {
+    if (o['x-vc-cors'] && !ms.options?.['x-vc-preflight']?.metodos.includes(m.toUpperCase())) fallas.push(`C10 ${o.operationId}: sin preflight OPTIONS para ${m.toUpperCase()} ${ruta}`);
+    if (!o['x-vc-cors'] && m !== 'options' && ms.options) fallas.push(`C10 ${o.operationId}: preflight en una ruta sin CORS`);
+    for (const st of ['429', '503']) if (o.responses[st] && !o.responses[st].headers?.['Retry-After']) fallas.push(`C9 ${o.operationId} ${st} sin Retry-After`);
   }
 }
 
@@ -201,7 +239,7 @@ for (const sub of ['ejemplos', 'negativos']) {
     const salida = leer(join(d, f));
     const resp = { turno: 1, registrada_en: '2026-10-08T13:00:00Z', salida };
     const ok = rm(resp);
-    const det = sd({ sesion_id: 'ses_' + '0'.repeat(26), estado: 'cerrada', modo_avatar: '3d', creada_en: '2026-10-08T13:00:00Z', duracion_s: 1, resumen: 'r', versiones: { tarifas: '2026.1', prompt: 'p@0123456789ab', esquema_salida: '1.0.0' }, respuestas_modelo: [resp] });
+    const det = sd({ sesion_id: 'ses_' + '0'.repeat(26), estado: 'cerrada', modo_avatar: '3d', creada_en: '2026-10-08T13:00:00Z', duracion_s: 1, resumen: 'r', versiones: { tarifas: 'tarifas-2026@0.1.0', prompt: 'p@0123456789ab', esquema_salida: '1.0.0' }, respuestas_modelo: [resp] });
     if (sub === 'ejemplos' && !(ok && det)) fallas.push(`conductas/${sub}/${f}: debía validar dentro de RespuestaModelo y SesionDetalle`);
     if (sub === 'negativos' && (ok || det)) fallas.push(`conductas/${sub}/${f}: debía fallar dentro de RespuestaModelo`);
   }

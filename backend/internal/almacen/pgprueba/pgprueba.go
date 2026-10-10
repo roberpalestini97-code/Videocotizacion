@@ -140,8 +140,31 @@ func crear(ctx context.Context, admin string, migrar bool) (*Base, error) {
 		if err := b.Migrar(ctx); err != nil {
 			return nil, err
 		}
+		if err := b.FijarTopesGlobales(ctx, TopesHolgadosSegundos, TopesHolgadosSimultaneas); err != nil {
+			return nil, fmt.Errorf("topes globales de prueba: %w", err)
+		}
 	}
 	return b, nil
+}
+
+// TopesHolgados: las bases de prueba nacen con topes globales que no
+// interfieren (la migración siembra los provisorios de ADR 0005 §4); las
+// pruebas del tope global los bajan con FijarTopesGlobales.
+const (
+	TopesHolgadosSegundos    = 1_000_000_000
+	TopesHolgadosSimultaneas = 1000
+)
+
+// FijarTopesGlobales cambia vc.topes_globales con el rol dueño (lo que hará
+// `api topes configurar`).
+func (b *Base) FijarTopesGlobales(ctx context.Context, segundos int64, simultaneas int) error {
+	conn, err := pgx.Connect(ctx, b.URLDueno.Revelar())
+	if err != nil {
+		return fmt.Errorf("conectar como vc_dueno: %w", err)
+	}
+	defer func() { _ = conn.Close(context.WithoutCancel(ctx)) }()
+	_, err = conn.Exec(ctx, "UPDATE vc.topes_globales SET segundos_mes = $1, simultaneas = $2, actualizado_en = now()", segundos, simultaneas)
+	return err
 }
 
 // Migrar aplica las migraciones embebidas con el rol dueño.

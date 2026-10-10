@@ -1,4 +1,4 @@
-# Trazabilidad R1–R70 → contrato 0.1.4-borrador
+# Trazabilidad R1–R70 → contrato 0.1.5-borrador
 
 "Contrato" = lo que el OpenAPI/esquemas fijan y la verificación prueba hoy. "Backend" = lo implementa go
 (T04/T25/T27) y lo prueba qa contra el servidor. "Legal" = a validar con abogado. Vectores: `pruebas/vectores/<categoría>.json`.
@@ -12,20 +12,20 @@
 | R5 | 404 único `no_encontrado` en cada ruta con recurso; vectores aislamiento (tenant A↔B, inexistente, otra sesión) | Plan contra servidor: pruebas |
 | R6 | — | Backend |
 | R7 | Ids `xxx_` + 26 Crockford (`Id*.schema.json`), `IdPublicoEnlace` 128 bits; negativos "id secuencial" | Generación aleatoria: backend |
-| R8 | 429 `limite_de_tasa` + `Retry-After` en todas las operaciones; vectores abuso "ráfaga" | Valores por ruta: backend |
+| R8 | 429 `limite_de_tasa` + `Retry-After` **calculado** (H4) en todas las operaciones; orden: IP en el paso 1, credencial en el paso 8 (H1); vectores abuso "ráfaga por IP" y "límite de la credencial" por operación; C9 exige `retry_after` por código | Valores por ruta y cálculo de la espera: backend |
 | R9 | Límites `maxLength`/`maxItems` en todos los esquemas; 413 en rutas con cuerpo; límites WS en `eventos-sesion.md` (NO CONGELADO) | Tamaños máximos y timeouts: backend |
 | R10 | `ConsentimientoSolicitud` (todo `const: true`, mayor de 18); `SesionCreada` sin token de medios (negativo O1); `emitirTokenMedios` 409 `consentimiento_requerido` | — |
 | R11 | `AvisoPrivacidad` con 8 incisos y `a_validar_con_abogado`; `leerAvisoPrivacidad` | Texto: legal |
 | R12 | `ConsentimientoRegistrado` (id `cns_`) | Tabla solo-anexar: backend |
 | R13 | Finalidades en `TablaRetencion`; `ContactoSolicitud.consentimiento.finalidad` const | Proveedores "no entrenar": backend/ops |
 | R14 | Salida del LLM: esquema de cot referenciado desde `RespuestaModelo`; validar.mjs comprueba que no tenga campos de dinero y que `siguiente_paso` sea {accion, motivo, campos} del ADR 0002; ejemplos/negativos de cot corren dentro de `RespuestaModelo` | Validación en Go: backend |
-| R15 | `Cotizacion`/`ItemCotizacion` en `Centavos` int64, `orientativa: true`, regla de importe y suma (vectores cotizacion, 5 no conformes) | Cálculo en Go: backend |
+| R15 | `Cotizacion`/`ItemCotizacion` en `Centavos` int64 como **rango** min–max (B1), `precio_final_centavos` solo con tarifario validado y rango de un punto (regla de esquema + C7), `orientativa: true`, regla de importe y suma para min y max (vectores cotizacion, 9 no conformes) | Cálculo en Go: backend |
 | R16 | — | Backend + T17 |
 | R17 | — | T17 |
 | R18 | — | Backend/cot |
 | R19 | Patrón de texto plano (sin `<` `>`) en todo texto de pizarrón, avatar, transcripción, ítems, observaciones; negativos con `<script>` | Escapado en el front: fe |
-| R20 | `Cotizacion.tarifas.estado` expone `referencia_publica_sin_validar` | Bloqueo en producción: backend |
-| R21 | `leerRetencion` → `TablaRetencion` (plazos configurables) | Plazos: legal |
+| R20 | `Cotizacion.tarifas.estado` expone `referencia_publica_sin_validar`; `tarifas.version` = `VersionTarifas` (`tarifas-2026@0.1.0`, B2) | Bloqueo en producción: backend |
+| R21 | `leerRetencion` → `TablaRetencion` (plazo por defecto y rango `plazo_dias_min`–`plazo_dias_max` que el operador fija por tenant con la CLI, C6) | Plazos: legal (ADR 0004 §8, pendiente de Rober/abogado) |
 | R22 | `crearSolicitudArco` (tipo `acceso`), 202 sin cargo, `plazo_vence_en` | Alerta y respuesta: backend |
 | R23 | `crearSolicitudArco` (`rectificacion`, `supresion`) | Borrado y anonimización: backend |
 | R24 | `SolicitudArco` exige código de referencia + `verificacion`; acuse genérico idéntico | Comparación: backend |
@@ -59,11 +59,11 @@
 | R52 | `Consumo` sin montos (negativo `costo_centavos`); `leerConsumoPanel` con `ambito: asesor` | Aislamiento: pruebas |
 | R53 | Esquema `desafio` (`X-Desafio`) AND `clavePublica` en `crearSesion`; `DesafioEmitido.vence_en_s ≤ 120`; vectores abuso (ausente, vencido, reusado, otro Origin, otra clave) con `costo_cero` | Un solo uso real: backend |
 | R54 | `clavePublica` solo en `crearSesion`, `emitirDesafio`, `leerEnlacePublico`, `leerAvisoPrivacidad`; 403 `alcance_insuficiente` en el resto (vectores autenticacion) | — |
-| R55 | `Origin` exacto (sin comodines, https, sin ruta; 7 negativos); 403 `origen_no_permitido` (vectores ajeno/ausente/comodín) | CORS: backend/ops |
-| R56 | 429 `cuota_agotada` en `crearSesion` y `emitirTokenMedios`; `Consumo` con topes y alertas | Tope global de gasto: backend (cifra de Rober) |
-| R57 | 429 `simultaneas_agotadas`; reserva en `emitirTokenMedios`; `Retry-After` | Atomicidad (20 pedidos → 5): pruebas |
-| R58 | 429 `limite_de_tasa` en `crearSesion` | Ejes IP/clave/enlace: backend |
-| R59 | `Consumo.alerta` (`p50`, `p80`, `p100`) | Notificación: backend |
+| R55 | `Origin` exacto (sin comodines, https, sin ruta; 7 negativos); 403 `origen_no_permitido` (vectores ajeno/ausente/comodín); **CORS** (B6): preflight `OPTIONS` declarado en las 13 rutas del widget (`x-vc-preflight`), `Access-Control-Allow-Origin` exacto, sin credenciales; vectores categoría `cors` (91) y C10 | Implementación y caché de la unión de Origins: backend |
+| R56 | 429 `cuota_agotada` en `crearSesion` y `emitirTokenMedios` para topes de tenant, asesor y **global** (mismo código); `TokenMedios.reserva` descuenta `duracion_maxima_s` (recorte ≥ 60 s); `Consumo` desde contadores que no borra la retención (H2), con `segundos_reservados` y `reinicia_en` | Contadores y función de reserva (ADR 0004 §10, 0005 §4): backend; cifra del tope global: Rober (P2) |
+| R57 | 429 `simultaneas_agotadas` (tenant, asesor, global); reserva atómica en `emitirTokenMedios` con vencimiento propio (no `VidaToken`); reconexión reutiliza la reserva; `Retry-After` | Atomicidad (20 pedidos → 5) con PG y `-race`: pruebas |
+| R58 | 429 `limite_de_tasa` en `crearSesion` por IP (paso 1), por clave (paso 8, tras Origin y desafío) y por enlace (paso 13, tras resolverlo); vectores H1 (rechazos previos no consumen; `emitirDesafio` no usa el límite de la clave) | Ejes, IPv6 /64, proxy de confianza y una sola instancia (ADR 0005 §9): backend |
+| R59 | `Consumo.alerta` (`p50`, `p80`, `p100`) calculada sobre usados + reservados; `alerta_tenant` en el consumo del asesor | Notificación: backend |
 | R60 | `MotivoCierre` (S1), `LimitesSesion.sin_voz_s` y `duracion_maxima_s`, `sesion.aviso`, `sesion.cerrada` | Corte real con reloj falso: backend |
 | R61 | Orden documentado en `estado-de-congelamiento.md`; vectores `costo_cero` | Contadores de falsos en 0: pruebas |
 | R62 | `IdPublicoEnlace` 128 bits; `rotarEnlace` con reautenticación; vector "enlace revocado" → 404 | — |
@@ -71,7 +71,7 @@
 | R64 | 404 único por ruta (validado en `ejecutar.mjs`); vectores inexistente/revocado/otro tenant con `grupo_identico` | Tiempo de respuesta similar: pruebas |
 | R65 | `ReglaFotograma` (JPEG, ≤1024 px, ≤128 KiB, ≥3000 ms, tope por sesión; negativos); `camara.fotograma` y encabezado binario (NO CONGELADO) | Bytes mágicos y decodificación: backend |
 | R66 | `LimitesSesion.caracteres_max_por_turno`/`turnos_llm_max`; `texto.enviar` ≤500 (negativo) | Tokens y audio: backend |
-| R67 | Vectores categoría `abuso` (59) como semilla de la suite | Suite contra servidor en CI: qa/ops |
+| R67 | Vectores categoría `abuso` (154) y `cors` (91) como semilla de la suite | Suite contra servidor en CI: qa/ops |
 | R68 | `ContactoSolicitud` (aviso, `acepta_ser_contactado` const, finalidad const; negativos publicidad/false); `contacto_disponible` solo en el listado; `leerContactoCliente` | Casilla no premarcada: fe; texto: legal |
 | R69 | `RegistroLectura`/`listarRegistros`; `ContactoCliente.lectura` con lecturas restantes; 429 `limite_lecturas_contacto` | Solo-anexar: backend |
 | R70 | `RegistroLectura` solo ids | Plan de incidentes: seg/ops |

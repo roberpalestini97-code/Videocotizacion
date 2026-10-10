@@ -1,6 +1,6 @@
 [
   {
-    "id": "V399",
+    "id": "V598",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -39,8 +39,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 38750,
-            "precio_unitario_centavos": 185700,
-            "importe_centavos": 71958750
+            "precio_unitario_min_centavos": 185700,
+            "precio_unitario_max_centavos": 259980,
+            "importe_min_centavos": 71958750,
+            "importe_max_centavos": 100742250
           },
           {
             "tipo": "mano_de_obra",
@@ -48,23 +50,26 @@
             "descripcion": "Lijado y enduido de paredes",
             "unidad": "m2",
             "cantidad_centesimas": 39125,
-            "precio_unitario_centavos": 90707,
-            "importe_centavos": 35489114
+            "precio_unitario_min_centavos": 90707,
+            "precio_unitario_max_centavos": 126989,
+            "importe_min_centavos": 35489114,
+            "importe_max_centavos": 49684446
           }
         ],
-        "total_centavos": 107447864,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 107447864,
+        "total_max_centavos": 150426696
       }
     }
   },
   {
-    "id": "V400",
+    "id": "V599",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -103,8 +108,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 39125,
-            "precio_unitario_centavos": 185707,
-            "importe_centavos": 72657864
+            "precio_unitario_min_centavos": 185707,
+            "precio_unitario_max_centavos": 259989,
+            "importe_min_centavos": 72657864,
+            "importe_max_centavos": 101720696
           },
           {
             "tipo": "mano_de_obra",
@@ -112,8 +119,10 @@
             "descripcion": "Lijado y enduido de paredes",
             "unidad": "m2",
             "cantidad_centesimas": 39500,
-            "precio_unitario_centavos": 90714,
-            "importe_centavos": 35832030
+            "precio_unitario_min_centavos": 90714,
+            "precio_unitario_max_centavos": 126999,
+            "importe_min_centavos": 35832030,
+            "importe_max_centavos": 50164605
           },
           {
             "tipo": "mano_de_obra",
@@ -121,23 +130,26 @@
             "descripcion": "Pintura exterior acrílica",
             "unidad": "m2",
             "cantidad_centesimas": 39875,
-            "precio_unitario_centavos": 240721,
-            "importe_centavos": 95987499
+            "precio_unitario_min_centavos": 240721,
+            "precio_unitario_max_centavos": 337009,
+            "importe_min_centavos": 95987499,
+            "importe_max_centavos": 134382339
           }
         ],
-        "total_centavos": 204477393,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 204477393,
+        "total_max_centavos": 286267640
       }
     }
   },
   {
-    "id": "V401",
+    "id": "V600",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -176,23 +188,26 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 39500,
-            "precio_unitario_centavos": 185714,
-            "importe_centavos": 73357030
+            "precio_unitario_min_centavos": 185714,
+            "precio_unitario_max_centavos": 259999,
+            "importe_min_centavos": 73357030,
+            "importe_max_centavos": 102699605
           }
         ],
-        "total_centavos": 73357030,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 73357030,
+        "total_max_centavos": 102699605
       }
     }
   },
   {
-    "id": "V402",
+    "id": "V601",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -231,8 +246,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 39875,
-            "precio_unitario_centavos": 185721,
-            "importe_centavos": 74056249
+            "precio_unitario_min_centavos": 185721,
+            "precio_unitario_max_centavos": 260009,
+            "importe_min_centavos": 74056249,
+            "importe_max_centavos": 103678589
           },
           {
             "tipo": "mano_de_obra",
@@ -240,23 +257,26 @@
             "descripcion": "Lijado y enduido de paredes",
             "unidad": "m2",
             "cantidad_centesimas": 40250,
-            "precio_unitario_centavos": 90728,
-            "importe_centavos": 36518020
+            "precio_unitario_min_centavos": 90728,
+            "precio_unitario_max_centavos": 127019,
+            "importe_min_centavos": 36518020,
+            "importe_max_centavos": 51125148
           }
         ],
-        "total_centavos": 110574269,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 110574269,
+        "total_max_centavos": 154803737
       }
     }
   },
   {
-    "id": "V403",
+    "id": "V602",
     "categoria": "cotizacion",
     "requisitos": [
       "R15",
@@ -296,8 +316,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 40250,
-            "precio_unitario_centavos": 185728,
-            "importe_centavos": 74755520
+            "precio_unitario_min_centavos": 185728,
+            "precio_unitario_max_centavos": 260019,
+            "importe_min_centavos": 74755520,
+            "importe_max_centavos": 104657648
           },
           {
             "tipo": "mano_de_obra",
@@ -305,8 +327,10 @@
             "descripcion": "Lijado y enduido de paredes",
             "unidad": "m2",
             "cantidad_centesimas": 40625,
-            "precio_unitario_centavos": 90735,
-            "importe_centavos": 36861094
+            "precio_unitario_min_centavos": 90735,
+            "precio_unitario_max_centavos": 127029,
+            "importe_min_centavos": 36861094,
+            "importe_max_centavos": 51605531
           },
           {
             "tipo": "mano_de_obra",
@@ -314,8 +338,10 @@
             "descripcion": "Pintura exterior acrílica",
             "unidad": "m2",
             "cantidad_centesimas": 41000,
-            "precio_unitario_centavos": 240742,
-            "importe_centavos": 98704220
+            "precio_unitario_min_centavos": 240742,
+            "precio_unitario_max_centavos": 337038,
+            "importe_min_centavos": 98704220,
+            "importe_max_centavos": 138185580
           },
           {
             "tipo": "traslado",
@@ -323,23 +349,26 @@
             "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
             "unidad": "global",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 1500104,
-            "importe_centavos": 1500104
+            "precio_unitario_min_centavos": 1500104,
+            "precio_unitario_max_centavos": 2000104,
+            "importe_min_centavos": 1500104,
+            "importe_max_centavos": 2000104
           }
         ],
-        "total_centavos": 211820938,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 211820938,
+        "total_max_centavos": 296448863
       }
     }
   },
   {
-    "id": "V404",
+    "id": "V603",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -378,23 +407,26 @@
             "descripcion": "Corte de césped y bordeado",
             "unidad": "m2",
             "cantidad_centesimas": 40625,
-            "precio_unitario_centavos": 30735,
-            "importe_centavos": 12486094
+            "precio_unitario_min_centavos": 30735,
+            "precio_unitario_max_centavos": 43029,
+            "importe_min_centavos": 12486094,
+            "importe_max_centavos": 17480531
           }
         ],
-        "total_centavos": 12486094,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 12486094,
+        "total_max_centavos": 17480531
       }
     }
   },
   {
-    "id": "V405",
+    "id": "V604",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -433,8 +465,10 @@
             "descripcion": "Corte de césped y bordeado",
             "unidad": "m2",
             "cantidad_centesimas": 41000,
-            "precio_unitario_centavos": 30742,
-            "importe_centavos": 12604220
+            "precio_unitario_min_centavos": 30742,
+            "precio_unitario_max_centavos": 43038,
+            "importe_min_centavos": 12604220,
+            "importe_max_centavos": 17645580
           },
           {
             "tipo": "mano_de_obra",
@@ -442,23 +476,26 @@
             "descripcion": "Poda de árbol mediano",
             "unidad": "unidad",
             "cantidad_centesimas": 300,
-            "precio_unitario_centavos": 4500749,
-            "importe_centavos": 13502247
+            "precio_unitario_min_centavos": 4500749,
+            "precio_unitario_max_centavos": 6301048,
+            "importe_min_centavos": 13502247,
+            "importe_max_centavos": 18903144
           }
         ],
-        "total_centavos": 26106467,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 26106467,
+        "total_max_centavos": 36548724
       }
     }
   },
   {
-    "id": "V406",
+    "id": "V605",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -497,8 +534,10 @@
             "descripcion": "Corte de césped y bordeado",
             "unidad": "m2",
             "cantidad_centesimas": 41375,
-            "precio_unitario_centavos": 30749,
-            "importe_centavos": 12722399
+            "precio_unitario_min_centavos": 30749,
+            "precio_unitario_max_centavos": 43048,
+            "importe_min_centavos": 12722399,
+            "importe_max_centavos": 17811110
           },
           {
             "tipo": "mano_de_obra",
@@ -506,8 +545,10 @@
             "descripcion": "Poda de árbol mediano",
             "unidad": "unidad",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 4500756,
-            "importe_centavos": 4500756
+            "precio_unitario_min_centavos": 4500756,
+            "precio_unitario_max_centavos": 6301058,
+            "importe_min_centavos": 4500756,
+            "importe_max_centavos": 6301058
           },
           {
             "tipo": "mano_de_obra",
@@ -515,23 +556,26 @@
             "descripcion": "Desmalezado de terreno",
             "unidad": "m2",
             "cantidad_centesimas": 42125,
-            "precio_unitario_centavos": 50763,
-            "importe_centavos": 21383914
+            "precio_unitario_min_centavos": 50763,
+            "precio_unitario_max_centavos": 71068,
+            "importe_min_centavos": 21383914,
+            "importe_max_centavos": 29937395
           }
         ],
-        "total_centavos": 38607069,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 38607069,
+        "total_max_centavos": 54049563
       }
     }
   },
   {
-    "id": "V407",
+    "id": "V606",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -570,23 +614,26 @@
             "descripcion": "Corte de césped y bordeado",
             "unidad": "m2",
             "cantidad_centesimas": 41750,
-            "precio_unitario_centavos": 30756,
-            "importe_centavos": 12840630
+            "precio_unitario_min_centavos": 30756,
+            "precio_unitario_max_centavos": 43058,
+            "importe_min_centavos": 12840630,
+            "importe_max_centavos": 17976715
           }
         ],
-        "total_centavos": 12840630,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 12840630,
+        "total_max_centavos": 17976715
       }
     }
   },
   {
-    "id": "V408",
+    "id": "V607",
     "categoria": "cotizacion",
     "requisitos": [
       "R15",
@@ -626,8 +673,10 @@
             "descripcion": "Corte de césped y bordeado",
             "unidad": "m2",
             "cantidad_centesimas": 42125,
-            "precio_unitario_centavos": 30763,
-            "importe_centavos": 12958914
+            "precio_unitario_min_centavos": 30763,
+            "precio_unitario_max_centavos": 43068,
+            "importe_min_centavos": 12958914,
+            "importe_max_centavos": 18142395
           },
           {
             "tipo": "mano_de_obra",
@@ -635,8 +684,10 @@
             "descripcion": "Poda de árbol mediano",
             "unidad": "unidad",
             "cantidad_centesimas": 300,
-            "precio_unitario_centavos": 4500770,
-            "importe_centavos": 13502310
+            "precio_unitario_min_centavos": 4500770,
+            "precio_unitario_max_centavos": 6301078,
+            "importe_min_centavos": 13502310,
+            "importe_max_centavos": 18903234
           },
           {
             "tipo": "traslado",
@@ -644,23 +695,26 @@
             "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
             "unidad": "global",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 1500109,
-            "importe_centavos": 1500109
+            "precio_unitario_min_centavos": 1500109,
+            "precio_unitario_max_centavos": 2000109,
+            "importe_min_centavos": 1500109,
+            "importe_max_centavos": 2000109
           }
         ],
-        "total_centavos": 27961333,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 27961333,
+        "total_max_centavos": 39045738
       }
     }
   },
   {
-    "id": "V409",
+    "id": "V608",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -699,23 +753,26 @@
             "descripcion": "Reparación general por hora",
             "unidad": "hora",
             "cantidad_centesimas": 300,
-            "precio_unitario_centavos": 1200770,
-            "importe_centavos": 3602310
+            "precio_unitario_min_centavos": 1200770,
+            "precio_unitario_max_centavos": 1681078,
+            "importe_min_centavos": 3602310,
+            "importe_max_centavos": 5043234
           }
         ],
-        "total_centavos": 3602310,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 3602310,
+        "total_max_centavos": 5043234
       }
     }
   },
   {
-    "id": "V410",
+    "id": "V609",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -754,23 +811,26 @@
             "descripcion": "Reparación general por hora",
             "unidad": "hora",
             "cantidad_centesimas": 400,
-            "precio_unitario_centavos": 1200777,
-            "importe_centavos": 4803108
+            "precio_unitario_min_centavos": 1200777,
+            "precio_unitario_max_centavos": 1681087,
+            "importe_min_centavos": 4803108,
+            "importe_max_centavos": 6724348
           }
         ],
-        "total_centavos": 4803108,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 4803108,
+        "total_max_centavos": 6724348
       }
     }
   },
   {
-    "id": "V411",
+    "id": "V610",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -809,23 +869,26 @@
             "descripcion": "Reparación general por hora",
             "unidad": "hora",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 1200784,
-            "importe_centavos": 1200784
+            "precio_unitario_min_centavos": 1200784,
+            "precio_unitario_max_centavos": 1681097,
+            "importe_min_centavos": 1200784,
+            "importe_max_centavos": 1681097
           }
         ],
-        "total_centavos": 1200784,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 1200784,
+        "total_max_centavos": 1681097
       }
     }
   },
   {
-    "id": "V412",
+    "id": "V611",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -864,23 +927,26 @@
             "descripcion": "Reparación general por hora",
             "unidad": "hora",
             "cantidad_centesimas": 200,
-            "precio_unitario_centavos": 1200791,
-            "importe_centavos": 2401582
+            "precio_unitario_min_centavos": 1200791,
+            "precio_unitario_max_centavos": 1681107,
+            "importe_min_centavos": 2401582,
+            "importe_max_centavos": 3362214
           }
         ],
-        "total_centavos": 2401582,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 2401582,
+        "total_max_centavos": 3362214
       }
     }
   },
   {
-    "id": "V413",
+    "id": "V612",
     "categoria": "cotizacion",
     "requisitos": [
       "R15",
@@ -920,8 +986,10 @@
             "descripcion": "Reparación general por hora",
             "unidad": "hora",
             "cantidad_centesimas": 300,
-            "precio_unitario_centavos": 1200798,
-            "importe_centavos": 3602394
+            "precio_unitario_min_centavos": 1200798,
+            "precio_unitario_max_centavos": 1681117,
+            "importe_min_centavos": 3602394,
+            "importe_max_centavos": 5043351
           },
           {
             "tipo": "traslado",
@@ -929,23 +997,26 @@
             "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
             "unidad": "global",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 1500114,
-            "importe_centavos": 1500114
+            "precio_unitario_min_centavos": 1500114,
+            "precio_unitario_max_centavos": 2000114,
+            "importe_min_centavos": 1500114,
+            "importe_max_centavos": 2000114
           }
         ],
-        "total_centavos": 5102508,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 5102508,
+        "total_max_centavos": 7043465
       }
     }
   },
   {
-    "id": "V414",
+    "id": "V613",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -984,23 +1055,26 @@
             "descripcion": "Visita de mantenimiento",
             "unidad": "visita",
             "cantidad_centesimas": 400,
-            "precio_unitario_centavos": 3000805,
-            "importe_centavos": 12003220
+            "precio_unitario_min_centavos": 3000805,
+            "precio_unitario_max_centavos": 4201127,
+            "importe_min_centavos": 12003220,
+            "importe_max_centavos": 16804508
           }
         ],
-        "total_centavos": 12003220,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 12003220,
+        "total_max_centavos": 16804508
       }
     }
   },
   {
-    "id": "V415",
+    "id": "V614",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -1039,23 +1113,26 @@
             "descripcion": "Visita de mantenimiento",
             "unidad": "visita",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 3000812,
-            "importe_centavos": 3000812
+            "precio_unitario_min_centavos": 3000812,
+            "precio_unitario_max_centavos": 4201136,
+            "importe_min_centavos": 3000812,
+            "importe_max_centavos": 4201136
           }
         ],
-        "total_centavos": 3000812,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 3000812,
+        "total_max_centavos": 4201136
       }
     }
   },
   {
-    "id": "V416",
+    "id": "V615",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -1094,23 +1171,26 @@
             "descripcion": "Visita de mantenimiento",
             "unidad": "visita",
             "cantidad_centesimas": 200,
-            "precio_unitario_centavos": 3000819,
-            "importe_centavos": 6001638
+            "precio_unitario_min_centavos": 3000819,
+            "precio_unitario_max_centavos": 4201146,
+            "importe_min_centavos": 6001638,
+            "importe_max_centavos": 8402292
           }
         ],
-        "total_centavos": 6001638,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 6001638,
+        "total_max_centavos": 8402292
       }
     }
   },
   {
-    "id": "V417",
+    "id": "V616",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -1149,23 +1229,26 @@
             "descripcion": "Visita de mantenimiento",
             "unidad": "visita",
             "cantidad_centesimas": 300,
-            "precio_unitario_centavos": 3000826,
-            "importe_centavos": 9002478
+            "precio_unitario_min_centavos": 3000826,
+            "precio_unitario_max_centavos": 4201156,
+            "importe_min_centavos": 9002478,
+            "importe_max_centavos": 12603468
           }
         ],
-        "total_centavos": 9002478,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 9002478,
+        "total_max_centavos": 12603468
       }
     }
   },
   {
-    "id": "V418",
+    "id": "V617",
     "categoria": "cotizacion",
     "requisitos": [
       "R15",
@@ -1205,8 +1288,10 @@
             "descripcion": "Visita de mantenimiento",
             "unidad": "visita",
             "cantidad_centesimas": 400,
-            "precio_unitario_centavos": 3000833,
-            "importe_centavos": 12003332
+            "precio_unitario_min_centavos": 3000833,
+            "precio_unitario_max_centavos": 4201166,
+            "importe_min_centavos": 12003332,
+            "importe_max_centavos": 16804664
           },
           {
             "tipo": "traslado",
@@ -1214,23 +1299,26 @@
             "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
             "unidad": "global",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 1500119,
-            "importe_centavos": 1500119
+            "precio_unitario_min_centavos": 1500119,
+            "precio_unitario_max_centavos": 2000119,
+            "importe_min_centavos": 1500119,
+            "importe_max_centavos": 2000119
           }
         ],
-        "total_centavos": 13503451,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 13503451,
+        "total_max_centavos": 18804783
       }
     }
   },
   {
-    "id": "V419",
+    "id": "V618",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -1269,23 +1357,26 @@
             "descripcion": "Limpieza final de obra",
             "unidad": "m2",
             "cantidad_centesimas": 46250,
-            "precio_unitario_centavos": 110840,
-            "importe_centavos": 51263500
+            "precio_unitario_min_centavos": 110840,
+            "precio_unitario_max_centavos": 155176,
+            "importe_min_centavos": 51263500,
+            "importe_max_centavos": 71768900
           }
         ],
-        "total_centavos": 51263500,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 51263500,
+        "total_max_centavos": 71768900
       }
     }
   },
   {
-    "id": "V420",
+    "id": "V619",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -1324,8 +1415,10 @@
             "descripcion": "Limpieza final de obra",
             "unidad": "m2",
             "cantidad_centesimas": 46625,
-            "precio_unitario_centavos": 110847,
-            "importe_centavos": 51682414
+            "precio_unitario_min_centavos": 110847,
+            "precio_unitario_max_centavos": 155185,
+            "importe_min_centavos": 51682414,
+            "importe_max_centavos": 72355006
           },
           {
             "tipo": "mano_de_obra",
@@ -1333,23 +1426,26 @@
             "descripcion": "Limpieza de terreno",
             "unidad": "m2",
             "cantidad_centesimas": 47000,
-            "precio_unitario_centavos": 40854,
-            "importe_centavos": 19201380
+            "precio_unitario_min_centavos": 40854,
+            "precio_unitario_max_centavos": 57195,
+            "importe_min_centavos": 19201380,
+            "importe_max_centavos": 26881650
           }
         ],
-        "total_centavos": 70883794,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 70883794,
+        "total_max_centavos": 99236656
       }
     }
   },
   {
-    "id": "V421",
+    "id": "V620",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -1388,8 +1484,10 @@
             "descripcion": "Limpieza final de obra",
             "unidad": "m2",
             "cantidad_centesimas": 47000,
-            "precio_unitario_centavos": 110854,
-            "importe_centavos": 52101380
+            "precio_unitario_min_centavos": 110854,
+            "precio_unitario_max_centavos": 155195,
+            "importe_min_centavos": 52101380,
+            "importe_max_centavos": 72941650
           },
           {
             "tipo": "mano_de_obra",
@@ -1397,23 +1495,26 @@
             "descripcion": "Limpieza de terreno",
             "unidad": "m2",
             "cantidad_centesimas": 47375,
-            "precio_unitario_centavos": 40861,
-            "importe_centavos": 19357899
+            "precio_unitario_min_centavos": 40861,
+            "precio_unitario_max_centavos": 57205,
+            "importe_min_centavos": 19357899,
+            "importe_max_centavos": 27100869
           }
         ],
-        "total_centavos": 71459279,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 71459279,
+        "total_max_centavos": 100042519
       }
     }
   },
   {
-    "id": "V422",
+    "id": "V621",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -1452,23 +1553,26 @@
             "descripcion": "Limpieza final de obra",
             "unidad": "m2",
             "cantidad_centesimas": 47375,
-            "precio_unitario_centavos": 110861,
-            "importe_centavos": 52520399
+            "precio_unitario_min_centavos": 110861,
+            "precio_unitario_max_centavos": 155205,
+            "importe_min_centavos": 52520399,
+            "importe_max_centavos": 73528369
           }
         ],
-        "total_centavos": 52520399,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 52520399,
+        "total_max_centavos": 73528369
       }
     }
   },
   {
-    "id": "V423",
+    "id": "V622",
     "categoria": "cotizacion",
     "requisitos": [
       "R15",
@@ -1508,8 +1612,10 @@
             "descripcion": "Limpieza final de obra",
             "unidad": "m2",
             "cantidad_centesimas": 47750,
-            "precio_unitario_centavos": 110868,
-            "importe_centavos": 52939470
+            "precio_unitario_min_centavos": 110868,
+            "precio_unitario_max_centavos": 155215,
+            "importe_min_centavos": 52939470,
+            "importe_max_centavos": 74115163
           },
           {
             "tipo": "mano_de_obra",
@@ -1517,8 +1623,10 @@
             "descripcion": "Limpieza de terreno",
             "unidad": "m2",
             "cantidad_centesimas": 48125,
-            "precio_unitario_centavos": 40875,
-            "importe_centavos": 19671094
+            "precio_unitario_min_centavos": 40875,
+            "precio_unitario_max_centavos": 57225,
+            "importe_min_centavos": 19671094,
+            "importe_max_centavos": 27539531
           },
           {
             "tipo": "traslado",
@@ -1526,28 +1634,31 @@
             "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
             "unidad": "global",
             "cantidad_centesimas": 100,
-            "precio_unitario_centavos": 1500124,
-            "importe_centavos": 1500124
+            "precio_unitario_min_centavos": 1500124,
+            "precio_unitario_max_centavos": 2000124,
+            "importe_min_centavos": 1500124,
+            "importe_max_centavos": 2000124
           }
         ],
-        "total_centavos": 74110688,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 74110688,
+        "total_max_centavos": 103654818
       }
     }
   },
   {
-    "id": "V424",
+    "id": "V623",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
     ],
-    "descripcion": "total distinto de la suma de ítems",
+    "descripcion": "total mínimo distinto de la suma de ítems",
     "operacion": "leerCotizacion",
     "solicitud": {
       "credencial": {
@@ -1581,8 +1692,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 3875,
-            "precio_unitario_centavos": 185049,
-            "importe_centavos": 7170649
+            "precio_unitario_min_centavos": 185049,
+            "precio_unitario_max_centavos": 259068,
+            "importe_min_centavos": 7170649,
+            "importe_max_centavos": 10038885
           },
           {
             "tipo": "mano_de_obra",
@@ -1590,24 +1703,97 @@
             "descripcion": "Lijado y enduido de paredes",
             "unidad": "m2",
             "cantidad_centesimas": 4250,
-            "precio_unitario_centavos": 90056,
-            "importe_centavos": 3827380
+            "precio_unitario_min_centavos": 90056,
+            "precio_unitario_max_centavos": 126078,
+            "importe_min_centavos": 3827380,
+            "importe_max_centavos": 5358315
           }
         ],
-        "total_centavos": 10998030,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 10998030,
+        "total_max_centavos": 15397200
       },
       "conforme": false
     }
   },
   {
-    "id": "V425",
+    "id": "V624",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "total máximo distinto de la suma de ítems",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_Y88R02KJEXQ49G2TDW4P01RH8E",
+        "sesion_id": "ses_SVR3G3ZHD3HE383EZY3TJJE05V",
+        "emitida_en": "2026-10-08T13:27:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 3875,
+            "precio_unitario_min_centavos": 185049,
+            "precio_unitario_max_centavos": 259068,
+            "importe_min_centavos": 7170649,
+            "importe_max_centavos": 10038885
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 4250,
+            "precio_unitario_min_centavos": 90056,
+            "precio_unitario_max_centavos": 126078,
+            "importe_min_centavos": 3827380,
+            "importe_max_centavos": 5358315
+          }
+        ],
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "tarifas-2026@0.1.0",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15,
+        "total_min_centavos": 10998029,
+        "total_max_centavos": 15397199
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V625",
     "categoria": "cotizacion",
     "requisitos": [
       "R15"
@@ -1646,8 +1832,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 3875,
-            "precio_unitario_centavos": 185049,
-            "importe_centavos": 7170650
+            "precio_unitario_min_centavos": 185049,
+            "precio_unitario_max_centavos": 259068,
+            "importe_min_centavos": 7170649,
+            "importe_max_centavos": 10038886
           },
           {
             "tipo": "mano_de_obra",
@@ -1655,24 +1843,27 @@
             "descripcion": "Lijado y enduido de paredes",
             "unidad": "m2",
             "cantidad_centesimas": 4250,
-            "precio_unitario_centavos": 90056,
-            "importe_centavos": 3827380
+            "precio_unitario_min_centavos": 90056,
+            "precio_unitario_max_centavos": 126078,
+            "importe_min_centavos": 3827380,
+            "importe_max_centavos": 5358315
           }
         ],
-        "total_centavos": 10998030,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 10998029,
+        "total_max_centavos": 15397201
       },
       "conforme": false
     }
   },
   {
-    "id": "V426",
+    "id": "V626",
     "categoria": "cotizacion",
     "requisitos": [
       "T24"
@@ -1711,8 +1902,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 3875,
-            "precio_unitario_centavos": 185049,
-            "importe_centavos": 7170649
+            "precio_unitario_min_centavos": 185049,
+            "precio_unitario_max_centavos": 259068,
+            "importe_min_centavos": 7170649,
+            "importe_max_centavos": 10038885
           },
           {
             "tipo": "mano_de_obra",
@@ -1720,24 +1913,27 @@
             "descripcion": "Lijado y enduido de paredes",
             "unidad": "m2",
             "cantidad_centesimas": 4250,
-            "precio_unitario_centavos": 90056,
-            "importe_centavos": 3827380
+            "precio_unitario_min_centavos": 90056,
+            "precio_unitario_max_centavos": 126078,
+            "importe_min_centavos": 3827380,
+            "importe_max_centavos": 5358315
           }
         ],
-        "total_centavos": 10998029,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 10998029,
+        "total_max_centavos": 15397200
       },
       "conforme": false
     }
   },
   {
-    "id": "V427",
+    "id": "V627",
     "categoria": "cotizacion",
     "requisitos": [
       "O04"
@@ -1776,8 +1972,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 3875,
-            "precio_unitario_centavos": 185049,
-            "importe_centavos": 7170649
+            "precio_unitario_min_centavos": 185049,
+            "precio_unitario_max_centavos": 259068,
+            "importe_min_centavos": 7170649,
+            "importe_max_centavos": 10038885
           },
           {
             "tipo": "mano_de_obra",
@@ -1785,24 +1983,27 @@
             "descripcion": "Lijado y enduido de paredes",
             "unidad": "m2",
             "cantidad_centesimas": 4250,
-            "precio_unitario_centavos": 90056,
-            "importe_centavos": 3827380
+            "precio_unitario_min_centavos": 90056,
+            "precio_unitario_max_centavos": 126078,
+            "importe_min_centavos": 3827380,
+            "importe_max_centavos": 5358315
           }
         ],
-        "total_centavos": 10998029.5,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 10998029.5,
+        "total_max_centavos": 15397200
       },
       "conforme": false
     }
   },
   {
-    "id": "V428",
+    "id": "V628",
     "categoria": "cotizacion",
     "requisitos": [
       "O04"
@@ -1841,8 +2042,10 @@
             "descripcion": "Pintura interior látex, dos manos",
             "unidad": "m2",
             "cantidad_centesimas": 3875,
-            "precio_unitario_centavos": -100,
-            "importe_centavos": 7170649
+            "precio_unitario_min_centavos": -100,
+            "precio_unitario_max_centavos": 259068,
+            "importe_min_centavos": 7170649,
+            "importe_max_centavos": 10038885
           },
           {
             "tipo": "mano_de_obra",
@@ -1850,24 +2053,287 @@
             "descripcion": "Lijado y enduido de paredes",
             "unidad": "m2",
             "cantidad_centesimas": 4250,
-            "precio_unitario_centavos": 90056,
-            "importe_centavos": 3827380
+            "precio_unitario_min_centavos": 90056,
+            "precio_unitario_max_centavos": 126078,
+            "importe_min_centavos": 3827380,
+            "importe_max_centavos": 5358315
           }
         ],
-        "total_centavos": 10998029,
         "orientativa": true,
         "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
         "tarifas": {
-          "version": "2026.1",
+          "version": "tarifas-2026@0.1.0",
           "estado": "referencia_publica_sin_validar"
         },
-        "validez_dias": 15
+        "validez_dias": 15,
+        "total_min_centavos": 10998029,
+        "total_max_centavos": 15397200
       },
       "conforme": false
     }
   },
   {
-    "id": "V429",
+    "id": "V629",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "B1"
+    ],
+    "descripcion": "rango invertido: mínimo mayor que máximo",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_Y88R02KJEXQ49G2TDW4P01RH8E",
+        "sesion_id": "ses_SVR3G3ZHD3HE383EZY3TJJE05V",
+        "emitida_en": "2026-10-08T13:27:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 3875,
+            "precio_unitario_min_centavos": 259068,
+            "precio_unitario_max_centavos": 185049,
+            "importe_min_centavos": 10038885,
+            "importe_max_centavos": 7170649
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 4250,
+            "precio_unitario_min_centavos": 90056,
+            "precio_unitario_max_centavos": 126078,
+            "importe_min_centavos": 3827380,
+            "importe_max_centavos": 5358315
+          }
+        ],
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "tarifas-2026@0.1.0",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15,
+        "total_min_centavos": 13866265,
+        "total_max_centavos": 12528964
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V630",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "B1"
+    ],
+    "descripcion": "precio final con tarifas sin validar",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_Y88R02KJEXQ49G2TDW4P01RH8E",
+        "sesion_id": "ses_SVR3G3ZHD3HE383EZY3TJJE05V",
+        "emitida_en": "2026-10-08T13:27:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 3875,
+            "precio_unitario_min_centavos": 185049,
+            "precio_unitario_max_centavos": 259068,
+            "importe_min_centavos": 7170649,
+            "importe_max_centavos": 10038885
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 4250,
+            "precio_unitario_min_centavos": 90056,
+            "precio_unitario_max_centavos": 126078,
+            "importe_min_centavos": 3827380,
+            "importe_max_centavos": 5358315
+          }
+        ],
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "tarifas-2026@0.1.0",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15,
+        "total_min_centavos": 10998029,
+        "total_max_centavos": 15397200,
+        "precio_final_centavos": 10998029
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V631",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "B1"
+    ],
+    "descripcion": "precio final con un rango que no es un punto",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_0VWEQ703FNGG40B9D0NATDN56K",
+        "sesion_id": "ses_KAR4NAWQCY6HTRAX0CNEVSPYG2",
+        "emitida_en": "2026-10-08T13:24:00Z",
+        "moneda": "ARS",
+        "oficio": "mantenimiento",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "visita_mantenimiento",
+            "descripcion": "Visita de mantenimiento",
+            "unidad": "visita",
+            "cantidad_centesimas": 100,
+            "precio_unitario_min_centavos": 3000028,
+            "precio_unitario_max_centavos": 3000128,
+            "importe_min_centavos": 3000028,
+            "importe_max_centavos": 3000128
+          }
+        ],
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "tarifas-2026@0.1.0",
+          "estado": "validada"
+        },
+        "validez_dias": 15,
+        "total_min_centavos": 3000028,
+        "total_max_centavos": 3000128,
+        "precio_final_centavos": 3000028
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V632",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "B1"
+    ],
+    "descripcion": "tarifario validado con rango de un punto: lleva precio_final_centavos",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_GM6MH5WST655PH0ENQD3MQP9SP",
+        "sesion_id": "ses_GJNZ11WH7H7G6AKENHHXRAMNX1",
+        "emitida_en": "2026-10-08T13:22:00Z",
+        "moneda": "ARS",
+        "oficio": "mantenimiento",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "visita_mantenimiento",
+            "descripcion": "Visita de mantenimiento",
+            "unidad": "visita",
+            "cantidad_centesimas": 300,
+            "precio_unitario_min_centavos": 3000014,
+            "precio_unitario_max_centavos": 3000014,
+            "importe_min_centavos": 9000042,
+            "importe_max_centavos": 9000042
+          }
+        ],
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "tarifas-2026@0.1.0",
+          "estado": "validada"
+        },
+        "validez_dias": 15,
+        "total_min_centavos": 9000042,
+        "total_max_centavos": 9000042,
+        "precio_final_centavos": 9000042
+      }
+    }
+  },
+  {
+    "id": "V633",
     "categoria": "cotizacion",
     "requisitos": [
       "T24"

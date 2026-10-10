@@ -1,0 +1,2537 @@
+[
+  {
+    "id": "V445",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetEnlacesPorId: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightWidgetEnlacesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V446",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetEnlacesPorId: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightWidgetEnlacesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V447",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetEnlacesPorId: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightWidgetEnlacesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V448",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetEnlacesPorId: método no permitido",
+    "operacion": "preflightWidgetEnlacesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V449",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetEnlacesPorId: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightWidgetEnlacesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V450",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetEnlacesPorId: pide Cookie",
+    "operacion": "preflightWidgetEnlacesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V451",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightWidgetEnlacesPorId: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightWidgetEnlacesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V454",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetDesafios: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightWidgetDesafios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V455",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetDesafios: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightWidgetDesafios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V456",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetDesafios: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightWidgetDesafios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V457",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetDesafios: método no permitido",
+    "operacion": "preflightWidgetDesafios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V458",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetDesafios: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightWidgetDesafios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V459",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetDesafios: pide Cookie",
+    "operacion": "preflightWidgetDesafios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V460",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightWidgetDesafios: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightWidgetDesafios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V463",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetAvisosPrivacidad: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightWidgetAvisosPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V464",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetAvisosPrivacidad: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightWidgetAvisosPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V465",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetAvisosPrivacidad: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightWidgetAvisosPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V466",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetAvisosPrivacidad: método no permitido",
+    "operacion": "preflightWidgetAvisosPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V467",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetAvisosPrivacidad: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightWidgetAvisosPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V468",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightWidgetAvisosPrivacidad: pide Cookie",
+    "operacion": "preflightWidgetAvisosPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V469",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightWidgetAvisosPrivacidad: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightWidgetAvisosPrivacidad",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V472",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesiones: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesiones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V473",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesiones: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesiones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V474",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesiones: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesiones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V475",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesiones: método no permitido",
+    "operacion": "preflightSesiones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V476",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesiones: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightSesiones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V477",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesiones: pide Cookie",
+    "operacion": "preflightSesiones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V478",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightSesiones: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightSesiones",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V481",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesPorId: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V482",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesPorId: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V483",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesPorId: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V484",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesPorId: método no permitido",
+    "operacion": "preflightSesionesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V485",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesPorId: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightSesionesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V486",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesPorId: pide Cookie",
+    "operacion": "preflightSesionesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V487",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightSesionesPorId: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightSesionesPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V490",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesConsentimientoPorId: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesConsentimientoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V491",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesConsentimientoPorId: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesConsentimientoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V492",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesConsentimientoPorId: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesConsentimientoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V493",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesConsentimientoPorId: método no permitido",
+    "operacion": "preflightSesionesConsentimientoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V494",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesConsentimientoPorId: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightSesionesConsentimientoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V495",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesConsentimientoPorId: pide Cookie",
+    "operacion": "preflightSesionesConsentimientoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V496",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightSesionesConsentimientoPorId: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightSesionesConsentimientoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V499",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesTokenMediosPorId: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesTokenMediosPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V500",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesTokenMediosPorId: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesTokenMediosPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V501",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesTokenMediosPorId: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesTokenMediosPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V502",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesTokenMediosPorId: método no permitido",
+    "operacion": "preflightSesionesTokenMediosPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V503",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesTokenMediosPorId: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightSesionesTokenMediosPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V504",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesTokenMediosPorId: pide Cookie",
+    "operacion": "preflightSesionesTokenMediosPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V505",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightSesionesTokenMediosPorId: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightSesionesTokenMediosPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V508",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCierrePorId: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesCierrePorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V509",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCierrePorId: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesCierrePorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V510",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCierrePorId: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesCierrePorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V511",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCierrePorId: método no permitido",
+    "operacion": "preflightSesionesCierrePorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V512",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCierrePorId: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightSesionesCierrePorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V513",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCierrePorId: pide Cookie",
+    "operacion": "preflightSesionesCierrePorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V514",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCierrePorId: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightSesionesCierrePorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V517",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCotizacionPorId: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesCotizacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V518",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCotizacionPorId: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesCotizacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V519",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCotizacionPorId: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesCotizacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V520",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCotizacionPorId: método no permitido",
+    "operacion": "preflightSesionesCotizacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V521",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCotizacionPorId: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightSesionesCotizacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V522",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCotizacionPorId: pide Cookie",
+    "operacion": "preflightSesionesCotizacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V523",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightSesionesCotizacionPorId: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightSesionesCotizacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V526",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesDerivacionPorId: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesDerivacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V527",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesDerivacionPorId: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesDerivacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V528",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesDerivacionPorId: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesDerivacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V529",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesDerivacionPorId: método no permitido",
+    "operacion": "preflightSesionesDerivacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V530",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesDerivacionPorId: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightSesionesDerivacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V531",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesDerivacionPorId: pide Cookie",
+    "operacion": "preflightSesionesDerivacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V532",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightSesionesDerivacionPorId: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightSesionesDerivacionPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V535",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesContactoPorId: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesContactoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V536",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesContactoPorId: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesContactoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V537",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesContactoPorId: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightSesionesContactoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V538",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesContactoPorId: método no permitido",
+    "operacion": "preflightSesionesContactoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V539",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesContactoPorId: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightSesionesContactoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V540",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightSesionesContactoPorId: pide Cookie",
+    "operacion": "preflightSesionesContactoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V541",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightSesionesContactoPorId: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightSesionesContactoPorId",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "POST",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V544",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightPoliticasRetencion: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightPoliticasRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V545",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightPoliticasRetencion: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightPoliticasRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V546",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightPoliticasRetencion: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightPoliticasRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V547",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightPoliticasRetencion: método no permitido",
+    "operacion": "preflightPoliticasRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V548",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightPoliticasRetencion: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightPoliticasRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V549",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightPoliticasRetencion: pide Cookie",
+    "operacion": "preflightPoliticasRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V550",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightPoliticasRetencion: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightPoliticasRetencion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  },
+  {
+    "id": "V553",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightTextos: Origin ajeno: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ajeno",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V554",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightTextos: Origin ausente: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "ausente",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V555",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightTextos: Origin con comodín: 204 sin Access-Control-Allow-*",
+    "operacion": "preflightTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "comodin",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Authorization",
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V556",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightTextos: método no permitido",
+    "operacion": "preflightTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "DELETE",
+        "encabezados": [
+          "Content-Type"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V557",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightTextos: pide X-CSRF-Token (encabezado del panel)",
+    "operacion": "preflightTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-CSRF-Token"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V558",
+    "categoria": "cors",
+    "requisitos": [
+      "R55",
+      "B6"
+    ],
+    "descripcion": "preflightTextos: pide Cookie",
+    "operacion": "preflightTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Cookie"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "ausente"
+    }
+  },
+  {
+    "id": "V559",
+    "categoria": "cors",
+    "requisitos": [
+      "B6"
+    ],
+    "descripcion": "preflightTextos: con X-VC-Clave-Publica, X-Desafio e Idempotency-Key",
+    "operacion": "preflightTextos",
+    "solicitud": {
+      "credencial": {
+        "tipo": "ninguna",
+        "tenant": "A"
+      },
+      "origin": "permitido",
+      "preflight": {
+        "metodo": "GET",
+        "encabezados": [
+          "Content-Type",
+          "X-VC-Clave-Publica",
+          "X-Desafio",
+          "Idempotency-Key"
+        ]
+      }
+    },
+    "esperado": {
+      "status": 204,
+      "cors": "permitido"
+    }
+  }
+]

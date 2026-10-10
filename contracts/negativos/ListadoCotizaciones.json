@@ -17,7 +17,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
-            "total_centavos": 2312500,
+            "total_min_centavos": 2312500,
+            "total_max_centavos": 3237500,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-6X0B-5RD4NC"
@@ -34,7 +35,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_N673TX2ERF818D58BNBSH3VKHA",
-            "total_centavos": 13987656,
+            "total_min_centavos": 13987656,
+            "total_max_centavos": 19582703,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-JFGD-X4DDYV"
@@ -70,7 +72,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
-            "total_centavos": 2312500,
+            "total_min_centavos": 2312500,
+            "total_max_centavos": 3237500,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-6X0B-5RD4NC"
@@ -87,7 +90,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_N673TX2ERF818D58BNBSH3VKHA",
-            "total_centavos": 13987656,
+            "total_min_centavos": 13987656,
+            "total_max_centavos": 19582703,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-JFGD-X4DDYV"
@@ -104,7 +108,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_XACVN5XARPGG65S9TMA805MCGG",
-            "total_centavos": 5100044,
+            "total_min_centavos": 5100044,
+            "total_max_centavos": 7040059,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-ABTP-61NNQ8"
@@ -121,7 +126,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_BB78B0V6D8AZYAWFC90PZ8RZ2G",
-            "total_centavos": 12000084,
+            "total_min_centavos": 12000084,
+            "total_max_centavos": 16800116,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-RP7C-E5RAF5"
@@ -138,7 +144,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_6FWR7DDPPCJ4BR9ZX2G7G1BYQC",
-            "total_centavos": 4276864,
+            "total_min_centavos": 4276864,
+            "total_max_centavos": 5987604,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-JY95-3RHGKB"
@@ -166,7 +173,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_34EN9EYEM9EWAYKBMFE6JTAB2E",
-            "total_centavos": 1051470,
+            "total_min_centavos": 1051470,
+            "total_max_centavos": 1472030,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-JZ57-9A756N"
@@ -183,7 +191,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_JHCX1Y1W7MB691S0H4NSMV2ZD6",
-            "total_centavos": 6300203,
+            "total_min_centavos": 6300203,
+            "total_max_centavos": 8720279,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-TDK7-ZZM7Q4"
@@ -200,7 +209,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_FT6FFG92MH9JE7WG4V7GHQY8GM",
-            "total_centavos": 3000056,
+            "total_min_centavos": 3000056,
+            "total_max_centavos": 4200078,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-0EEM-24VB74"
@@ -217,7 +227,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_CZVRM0MYGG3RP4NXQD566A5B44",
-            "total_centavos": 5090414,
+            "total_min_centavos": 5090414,
+            "total_max_centavos": 7126570,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-Q93C-H455HX"
@@ -234,7 +245,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_V9KCTKHEHKPD38VGZHHEHTN36T",
-            "total_centavos": 14095139,
+            "total_min_centavos": 14095139,
+            "total_max_centavos": 19733151,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-QMN3-1TPTW1"
@@ -262,7 +274,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_ZJY8ZAD683E324M2Q0EWND6FMN",
-            "total_centavos": 2700096,
+            "total_min_centavos": 2700096,
+            "total_max_centavos": 3680129,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-EPCR-WHPFG1"
@@ -279,7 +292,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_1W70ZS9TCKHK4SG9B8K6ENSV6X",
-            "total_centavos": 6000182,
+            "total_min_centavos": 6000182,
+            "total_max_centavos": 8400254,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-JQAP-HQ0GHK"
@@ -296,7 +310,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_0RYVEBKYPCNGZ67NHP34DXVHR6",
-            "total_centavos": 9913589,
+            "total_min_centavos": 9913589,
+            "total_max_centavos": 13879011,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-FX39-RXYJX1"
@@ -313,7 +328,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_13SZG0W2W5GEQ3HA172F66NW1A",
-            "total_centavos": 12725969,
+            "total_min_centavos": 12725969,
+            "total_max_centavos": 17816356,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-PN4Z-V4EG9P"
@@ -330,7 +346,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_GMKQJTNCPYTG9H953GBB587HVY",
-            "total_centavos": 15683477,
+            "total_min_centavos": 15683477,
+            "total_max_centavos": 21956808,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-W4NW-QVFKTZ"
@@ -358,7 +375,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_0J1SKXK8W8DZ2FMSQ7TJ0ZRYWS",
-            "total_centavos": 9000378,
+            "total_min_centavos": 9000378,
+            "total_max_centavos": 12600528,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-VH0A-VM6RKS"
@@ -375,7 +393,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_QJF6XX7A544SCCVQMSMN1JTGMX",
-            "total_centavos": 12735889,
+            "total_min_centavos": 12735889,
+            "total_max_centavos": 17830228,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-01W9-GXM44E"
@@ -392,7 +411,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_1BVE2MJKS0DGZG6NHDFZ7XQ21E",
-            "total_centavos": 47240294,
+            "total_min_centavos": 47240294,
+            "total_max_centavos": 66136281,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-HCV3-FBVN91"
@@ -409,7 +429,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_93MK5CS5P7X9DTE3AGKSRQ5017",
-            "total_centavos": 2750914,
+            "total_min_centavos": 2750914,
+            "total_max_centavos": 3851206,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-4S28-D0Q3V2"
@@ -426,7 +447,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_K1QM577K6X99F4KFQ97DSDPNRD",
-            "total_centavos": 5100484,
+            "total_min_centavos": 5100484,
+            "total_max_centavos": 7040667,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-151Z-7HHBWG"
@@ -454,7 +476,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_BHKCA1945R260FMC5F9YBGA75A",
-            "total_centavos": 11292220,
+            "total_min_centavos": 11292220,
+            "total_max_centavos": 15809088,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-10R0-QCECK0"
@@ -471,7 +494,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_AE7SCPY5VG6QHPQ44PWS2WZCTS",
-            "total_centavos": 29594864,
+            "total_min_centavos": 29594864,
+            "total_max_centavos": 41432721,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-57WV-NEBGP4"
@@ -488,7 +512,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_H25RBN9MKF57G558DXVD5B4R4F",
-            "total_centavos": 13718239,
+            "total_min_centavos": 13718239,
+            "total_max_centavos": 19205399,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-MJ3W-AZW4WZ"
@@ -505,7 +530,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_0HNFYVAA4QHJP4333EJW8PZFPR",
-            "total_centavos": 6300783,
+            "total_min_centavos": 6300783,
+            "total_max_centavos": 8721083,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-REM8-20VNPN"
@@ -522,7 +548,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_3V4N9DQG36X8Y7ASFHYK9RB4CH",
-            "total_centavos": 3000196,
+            "total_min_centavos": 3000196,
+            "total_max_centavos": 4200274,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-ZFWZ-P2CJMH"
@@ -550,7 +577,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_N7FYG6RSDQ8R6MHWGQ12W0Z4TX",
-            "total_centavos": 23151250,
+            "total_min_centavos": 23151250,
+            "total_max_centavos": 32411750,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-D1NP-DWEWS7"
@@ -567,7 +595,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_5X44VRCK6M17X22FVZFX4FQR65",
-            "total_centavos": 17391111,
+            "total_min_centavos": 17391111,
+            "total_max_centavos": 24347450,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-T1QD-3K8F24"
@@ -584,7 +613,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_M1G06H7990JM82Q7855Y2QBCEC",
-            "total_centavos": 2700256,
+            "total_min_centavos": 2700256,
+            "total_max_centavos": 3680345,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-6E4Y-P9XE3P"
@@ -601,7 +631,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_73GEXG4VQC75DNSEW2MZTVB9TK",
-            "total_centavos": 6000462,
+            "total_min_centavos": 6000462,
+            "total_max_centavos": 8400646,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-94PS-P4Q8HS"
@@ -618,7 +649,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_N0KGJHKZREMGSBC3H8METTXPGC",
-            "total_centavos": 21218539,
+            "total_min_centavos": 21218539,
+            "total_max_centavos": 29705926,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-A9V0-GH7485"
@@ -646,7 +678,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_PQCCR974TMHBQ16R54P5D6NDHE",
-            "total_centavos": 4462170,
+            "total_min_centavos": 4462170,
+            "total_max_centavos": 6246920,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-WDMD-M7P5FJ"
@@ -663,7 +696,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_YVEQ4W2FXCFJGC3GM974S4QHBM",
-            "total_centavos": 3900555,
+            "total_min_centavos": 3900555,
+            "total_max_centavos": 5360761,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-4MAQ-VZK7Z1"
@@ -680,7 +714,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_V38HC2V7DN9BDQAEC0Q9JSZT2C",
-            "total_centavos": 9000798,
+            "total_min_centavos": 9000798,
+            "total_max_centavos": 12601116,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-CKCR-8B5A01"
@@ -697,7 +732,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_T3EKZ3KJZN7F6AJQJM78TJS9S2",
-            "total_centavos": 17505839,
+            "total_min_centavos": 17505839,
+            "total_max_centavos": 24508143,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-269B-R887A4"
@@ -714,7 +750,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_3GTW97559K79SXMV2MS2E45TNS",
-            "total_centavos": 45118214,
+            "total_min_centavos": 45118214,
+            "total_max_centavos": 63165366,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-HP58-36R8TF"
@@ -742,7 +779,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_TP2TYADBM7Z3F7CSX3PJ0EWD8D",
-            "total_centavos": 5100924,
+            "total_min_centavos": 5100924,
+            "total_max_centavos": 7041275,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-9DQ8-BDEXB6"
@@ -759,7 +797,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_VHMV8X6Z591YWTVTN87E0CGJ6Y",
-            "total_centavos": 12001204,
+            "total_min_centavos": 12001204,
+            "total_max_centavos": 16801684,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-S0KG-CXGP8W"
@@ -776,7 +815,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_0HW4D03XSWKFNF9T9Y40BXPD77",
-            "total_centavos": 26886764,
+            "total_min_centavos": 26886764,
+            "total_max_centavos": 37641434,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-NMK5-7H9WD6"
@@ -793,7 +833,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_S3Q0ADRWY4EZFW4NCEXTWGCYMK",
-            "total_centavos": 33588344,
+            "total_min_centavos": 33588344,
+            "total_max_centavos": 47023681,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-HWFG-JD21CF"
@@ -810,7 +851,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_WF8RW855536BJ8KPNVW2KVMA5W",
-            "total_centavos": 19110557,
+            "total_min_centavos": 19110557,
+            "total_max_centavos": 26754630,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-WA7Y-XTJ563"
@@ -838,7 +880,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_VCDQT4VC052BJFRW1NFQ63AYDD",
-            "total_centavos": 3000336,
+            "total_min_centavos": 3000336,
+            "total_max_centavos": 4200470,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-MCDH-56ZA8D"
@@ -855,7 +898,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_VA1RF6NPA32BKJ60P0SY4YDRJ4",
-            "total_centavos": 29724814,
+            "total_min_centavos": 29724814,
+            "total_max_centavos": 41614700,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-NF4T-88A8YR"
@@ -872,7 +916,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_N0X84A5D8CQ25Z5JCXFVFBC4KA",
-            "total_centavos": 105355769,
+            "total_min_centavos": 105355769,
+            "total_max_centavos": 147497789,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-KGJG-MA745P"
@@ -889,7 +934,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_VPBYQ3P68H2HRYMHA3GQS2T8T4",
-            "total_centavos": 6185239,
+            "total_min_centavos": 6185239,
+            "total_max_centavos": 8659171,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-DNWQ-XEP8KS"
@@ -906,7 +952,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_CBMR01DWV623PWTBQ9BB8XGRKV",
-            "total_centavos": 2700416,
+            "total_min_centavos": 2700416,
+            "total_max_centavos": 3680561,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-NCSX-326RPM"
@@ -934,7 +981,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_3W7SH8037CP6FC5A28TKSG0HZX",
-            "total_centavos": 23731270,
+            "total_min_centavos": 23731270,
+            "total_max_centavos": 33223735,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-KF8A-J1SWMB"
@@ -951,7 +999,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_Y1JB51RVYMD0WXJZE33VVYVDR9",
-            "total_centavos": 60665189,
+            "total_min_centavos": 60665189,
+            "total_max_centavos": 84931086,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-4G78-FYNAGD"
@@ -968,7 +1017,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_V0EJF35MYGTQXP4Y0TX6MJGMH5",
-            "total_centavos": 22855999,
+            "total_min_centavos": 22855999,
+            "total_max_centavos": 31998128,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-PR62-H389V4"
@@ -985,7 +1035,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_WTSWGDCGM7GPBJ3W9WBKRJZ7C4",
-            "total_centavos": 3900855,
+            "total_min_centavos": 3900855,
+            "total_max_centavos": 5361173,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-6HP9-KTRVBY"
@@ -1002,7 +1053,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_48C4C4HKPWJF06PKCS56369CDC",
-            "total_centavos": 9001218,
+            "total_min_centavos": 9001218,
+            "total_max_centavos": 12601704,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-JZBR-69JYMN"
@@ -1030,7 +1082,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_R5XR1QQ8F2DX0GAKE86QMBF5AQ",
-            "total_centavos": 44037250,
+            "total_min_centavos": 44037250,
+            "total_max_centavos": 61652150,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-YQ73-GVA0NP"
@@ -1047,7 +1100,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_ZJZXDPRR1FV8PKTDVGYV5NH8TH",
-            "total_centavos": 20841816,
+            "total_min_centavos": 20841816,
+            "total_max_centavos": 29178347,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-12ZB-3DX0PX"
@@ -1064,7 +1118,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_P0ZD3DZFFCPKSQFDEQCVB9K5SR",
-            "total_centavos": 5101364,
+            "total_min_centavos": 5101364,
+            "total_max_centavos": 7041883,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-0A8K-TMHECX"
@@ -1081,7 +1136,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_N7FRFKERQ18PZ72MMZPBVT8KG0",
-            "total_centavos": 12001764,
+            "total_min_centavos": 12001764,
+            "total_max_centavos": 16802468,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-05XE-PB55RB"
@@ -1098,7 +1154,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_9R8YHNJZYDXSB40WJ0HN49RNCF",
-            "total_centavos": 38254714,
+            "total_min_centavos": 38254714,
+            "total_max_centavos": 53556549,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-53XP-4Z9WMR"
@@ -1126,7 +1183,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_GD4AYG65VZQSNSWCTJN7AQQ3PG",
-            "total_centavos": 7920120,
+            "total_min_centavos": 7920120,
+            "total_max_centavos": 11087960,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-BHWX-ZBZNQ2"
@@ -1143,7 +1201,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_4N2XHS9CYADXREFE5NTHW1M5H9",
-            "total_centavos": 6301943,
+            "total_min_centavos": 6301943,
+            "total_max_centavos": 8722691,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-CDBP-P6YZRA"
@@ -1160,7 +1219,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_8652ACK1TEHS4PJSVKBXMVHXZX",
-            "total_centavos": 3000476,
+            "total_min_centavos": 3000476,
+            "total_max_centavos": 4200666,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-N3BQ-2S44NC"
@@ -1177,7 +1237,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_99Z99DS1YT4J8GRZ16QB9QHDEF",
-            "total_centavos": 29968514,
+            "total_min_centavos": 29968514,
+            "total_max_centavos": 41955865,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-J5HJ-72JGA1"
@@ -1194,7 +1255,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_NGVFNEGZ7PNYM1KK10ABWG2QZY",
-            "total_centavos": 76235789,
+            "total_min_centavos": 76235789,
+            "total_max_centavos": 106729881,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-JXJD-37GT4R"
@@ -1222,7 +1284,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_TF989Q0JD859ZS6YAFKHJPG6EG",
-            "total_centavos": 2700576,
+            "total_min_centavos": 2700576,
+            "total_max_centavos": 3680777,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-BX39-520BC2"
@@ -1239,7 +1302,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_TQ5ZQ8TJVGTBYBY2QW31266BK8",
-            "total_centavos": 6001022,
+            "total_min_centavos": 6001022,
+            "total_max_centavos": 8401430,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-EZXM-AVWAQ8"
@@ -1256,7 +1320,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_XFKKF2GREXKNCKBVYA62VKBXW6",
-            "total_centavos": 43954439,
+            "total_min_centavos": 43954439,
+            "total_max_centavos": 61536156,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-W1EN-T9VFN0"
@@ -1273,7 +1338,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_8K798DM58REX5VNX8JKHAXS8EA",
-            "total_centavos": 54497969,
+            "total_min_centavos": 54497969,
+            "total_max_centavos": 76297156,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-AKJA-Y5M6WQ"
@@ -1290,7 +1356,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_KAYX8P359RX33AR6CXKCVNVEVN",
-            "total_centavos": 22584887,
+            "total_min_centavos": 22584887,
+            "total_max_centavos": 31618602,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-0BN0-CXVQDT"
@@ -1318,7 +1385,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_ZW85YH3RAH5KQ6NJNXKD6CJZXR",
-            "total_centavos": 9001638,
+            "total_min_centavos": 9001638,
+            "total_max_centavos": 12602292,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-51V4-V28RJS"
@@ -1335,7 +1403,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_QD7TSKTH0TGM6REBWTFT69CV75",
-            "total_centavos": 46808239,
+            "total_min_centavos": 46808239,
+            "total_max_centavos": 65531473,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-VH11-DCFAFT"
@@ -1352,7 +1421,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_04AF8SF7NRF7QDAYMZCVGPC239",
-            "total_centavos": 163612994,
+            "total_min_centavos": 163612994,
+            "total_max_centavos": 229057746,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-QB6W-E9EAGX"
@@ -1369,7 +1439,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_T4VGQHB7Y5Z9YY4TDFRAZYQN2A",
-            "total_centavos": 9666814,
+            "total_min_centavos": 9666814,
+            "total_max_centavos": 13533286,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-37TG-76W5CH"
@@ -1386,7 +1457,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_GW226RVE9NYS9Y5HJZ87AEEA08",
-            "total_centavos": 5101804,
+            "total_min_centavos": 5101804,
+            "total_max_centavos": 7042491,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-P4GG-DDDHY0"
@@ -1414,7 +1486,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_RSAN1D9KDBPJ00FJ28H1561N9Q",
-            "total_centavos": 36217570,
+            "total_min_centavos": 36217570,
+            "total_max_centavos": 50704533,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-YSJK-PWKNFV"
@@ -1431,7 +1504,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_M739640KMWSKVQVGQ2000K0M4P",
-            "total_centavos": 91830014,
+            "total_min_centavos": 91830014,
+            "total_max_centavos": 128561751,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-TW6V-828RWP"
@@ -1448,7 +1522,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_1FXA7P8KM3QNG1M1AKK8WCJNTM",
-            "total_centavos": 32088259,
+            "total_min_centavos": 32088259,
+            "total_max_centavos": 44923157,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-V884-W2KQ2W"
@@ -1465,7 +1540,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_60B2GYHM904QQ2566DRQA6SRYR",
-            "total_centavos": 6302523,
+            "total_min_centavos": 6302523,
+            "total_max_centavos": 8723495,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-KNMY-0MKDQJ"
@@ -1482,7 +1558,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_WDR8FXMMSSYYQJE9C0V66MSF4Y",
-            "total_centavos": 3000616,
+            "total_min_centavos": 3000616,
+            "total_max_centavos": 4200862,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-Y4PH-CQ668Z"
@@ -1510,7 +1587,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_NKKQF36Q7AEB94VRVFEBKN872J",
-            "total_centavos": 64970500,
+            "total_min_centavos": 64970500,
+            "total_max_centavos": 90958700,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-M61Y-Y4R7JG"
@@ -1527,7 +1605,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_JA8ZJMQ8FH05897SE4K97HA5SR",
-            "total_centavos": 24339771,
+            "total_min_centavos": 24339771,
+            "total_max_centavos": 34075394,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-6Z4G-YRZ8RE"
@@ -1544,7 +1623,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_00QNYC1AR3AP2WKB8M89GQ6YS6",
-            "total_centavos": 2700736,
+            "total_min_centavos": 2700736,
+            "total_max_centavos": 3680993,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-F1RH-Q35DH3"
@@ -1561,7 +1641,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_JY3Z0Z33AA2A02DRE011T0PJAT",
-            "total_centavos": 6001302,
+            "total_min_centavos": 6001302,
+            "total_max_centavos": 8401822,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-1X3Y-76NN4K"
@@ -1578,7 +1659,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_EHBGD9DWZ3BGCKT60XMKJ3R6J9",
-            "total_centavos": 55385389,
+            "total_min_centavos": 55385389,
+            "total_max_centavos": 77539471,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-QHYE-XJ5G0Q"
@@ -1606,7 +1688,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_CR1CHXT4GW847457MDR2MWSD3H",
-            "total_centavos": 11425320,
+            "total_min_centavos": 11425320,
+            "total_max_centavos": 15995150,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-BVZZ-06WBJ0"
@@ -1623,7 +1706,8 @@
           "resumen": "reparaciones en fuera de zona",
           "total": {
             "cotizacion_id": "cot_E737P27BGZNQA54NMHMKWB75XN",
-            "total_centavos": 3901455,
+            "total_min_centavos": 3901455,
+            "total_max_centavos": 5361997,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-BN50-QPC66B"
@@ -1640,7 +1724,8 @@
           "resumen": "mantenimiento en Cobo",
           "total": {
             "cotizacion_id": "cot_F9TQNEDEAPS0MC4D93E3AZE0N6",
-            "total_centavos": 9002058,
+            "total_min_centavos": 9002058,
+            "total_max_centavos": 12602880,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-CQGE-CMEWTB"
@@ -1657,7 +1742,8 @@
           "resumen": "limpieza en Parque Lago",
           "total": {
             "cotizacion_id": "cot_SRQ9PQ55XWGS2BHN4KF064SNG8",
-            "total_centavos": 42478439,
+            "total_min_centavos": 42478439,
+            "total_max_centavos": 59469738,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-NWR0-55PJ7W"
@@ -1674,7 +1760,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_EQAYJZA4VR8D0NGFY1YVGDTN2G",
-            "total_centavos": 107447864,
+            "total_min_centavos": 107447864,
+            "total_max_centavos": 150426696,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-37HF-NEFANR"

@@ -132,7 +132,7 @@ def(
       detail: txt(500),
       id_traza: { type: 'string', pattern: '^tr_[0-9a-f]{16}$' },
       errores: arr(r('ErrorCampo'), 1, 50),
-      reintentar_en_s: ent(1, 86400),
+      reintentar_en_s: ent(1, 2678400, { description: 'Igual al encabezado Retry-After (H4): espera calculada, no un valor fijo. En cuota_agotada mensual, segundos hasta las 00:00 del día 1 del mes siguiente en hora argentina (UTC−3); máximo 31 días.' }),
     },
     ['type', 'title', 'status', 'codigo', 'id_traza'],
   ),
@@ -213,7 +213,7 @@ def(
 );
 def(
   'LimitesSesion',
-  'Límites de la sesión (R60, R65, R66). Valores provisorios (P8).',
+  'Límites de la sesión (R60, R65, R66). Valores provisorios (P8). duracion_maxima_s es lo que reserva emitirTokenMedios del saldo mensual (H3); la reserva puede recortarlo (TokenMedios.reserva).',
   obj({
     sin_voz_s: ent(5, 120),
     duracion_maxima_s: ent(60, 3600),
@@ -275,9 +275,18 @@ def(
 );
 def(
   'TokenMedios',
-  'Token del WebSocket de medios (R32): corto, un solo uso, ligado a la sesión; se envía en el primer mensaje, no en la URL. Emitirlo reserva el cupo de simultáneas (R57, R61).',
+  'Token del WebSocket de medios (R32): corto, un solo uso, ligado a la sesión; se envía en el primer mensaje, no en la URL. Emitirlo reserva en forma atómica una simultánea y duracion_maxima_s del saldo mensual (R56, R57, R61, H3).',
   obj({
     token: { type: 'string', pattern: '^vc_med_[A-Za-z0-9_-]{43}$' },
+    reserva: obj(
+      {
+        duracion_maxima_s: ent(60, 3600, { description: 'Segundos reservados y descontados del saldo mensual (tenant, asesor y global). Es el límite efectivo de la llamada.' }),
+        recortada_por_cuota: { type: 'boolean', description: 'true si el saldo mensual era menor que LimitesSesion.duracion_maxima_s y se reservó solo el saldo (≥ 60 s). Al llegar al límite recortado la sesión cierra con cuota_agotada, con aviso previo.' },
+        vence_en: { $ref: 'FechaHora.schema.json', description: 'Inicio de la reserva + duracion_maxima_s + 60 s de margen. Si la sesión no se cerró antes, el servidor la cierra y cobra la reserva completa.' },
+      },
+      undefined,
+      { description: 'Reserva atómica de cupo (R56, R57, H3). Una reconexión con reserva vigente devuelve la misma reserva y no reserva de nuevo.' },
+    ),
     ws_url: str(300, { pattern: '^wss://[a-z0-9.-]+(:[0-9]{1,5})?/v1/sesiones/ses_[0-9A-HJKMNP-TV-Z]{26}/medios$' }),
     vence_en: r('FechaHora'),
     vence_en_s: ent(5, 60),
@@ -287,21 +296,28 @@ def(
 );
 def('CierreSolicitud', 'Cierre pedido por el cliente o el tenant.', obj({ motivo: { type: 'string', enum: ['cliente_cerro', 'sin_consentimiento', 'sin_camara'] } }));
 def(
+  'VersionTarifas',
+  'Identificador del tarifario usado (B2): `<nombre del archivo sin .json>@<campo "version" del archivo>`. Ej.: tarifas/tarifas-2026.json con "version": "0.1.0" → `tarifas-2026@0.1.0`. Lo arma Go al cargar el archivo; el archivo no se modifica.',
+  { type: 'string', pattern: '^tarifas-[0-9]{4}@[0-9]+\\.[0-9]+\\.[0-9]+$' },
+);
+def(
   'ItemCotizacion',
-  'Ítem del presupuesto. importe_centavos = (cantidad_centesimas × precio_unitario_centavos + 50) div 100 (redondeo mitad hacia arriba, enteros). Calculado por Go desde tarifas, nunca por el LLM.',
+  'Ítem del presupuesto con RANGO (B1): el tarifario solo tiene rangos mínimo–máximo. importe_X_centavos = (cantidad_centesimas × precio_unitario_X_centavos + 50) div 100 para X = min y max (redondeo mitad hacia arriba, enteros) y min ≤ max. Calculado por Go desde tarifas, nunca por el LLM.',
   obj({
     tipo: { type: 'string', enum: ['mano_de_obra', 'traslado', 'recargo'] },
     codigo_tarea: { type: 'string', pattern: '^[a-z0-9_]{3,60}$' },
     descripcion: txt(200),
     unidad: r('UnidadMedida'),
     cantidad_centesimas: r('CantidadCentesimas'),
-    precio_unitario_centavos: r('Centavos'),
-    importe_centavos: r('Centavos'),
+    precio_unitario_min_centavos: r('Centavos'),
+    precio_unitario_max_centavos: r('Centavos'),
+    importe_min_centavos: r('Centavos'),
+    importe_max_centavos: r('Centavos'),
   }),
 );
 def(
   'Cotizacion',
-  'Presupuesto orientativo emitido al final (BRIEF 5). total_centavos = suma de importes. zona "otra" ⇒ fuera_de_zona true y se emite igual (T24).',
+  'Presupuesto orientativo emitido al final (BRIEF 5) como RANGO (B1): total_min_centavos = suma de importe_min_centavos, total_max_centavos = suma de importe_max_centavos, min ≤ max. precio_final_centavos es opcional y solo existe si el tarifario está validado y el rango es un punto (total_min = total_max = precio_final); con tarifas sin validar NUNCA va. zona "otra" ⇒ fuera_de_zona true y se emite igual (T24).',
   obj(
     {
       cotizacion_id: r('IdCotizacion'),
@@ -312,17 +328,27 @@ def(
       zona: r('Zona'),
       fuera_de_zona: { type: 'boolean' },
       items: arr(r('ItemCotizacion'), 1, 30),
-      total_centavos: r('Centavos'),
+      total_min_centavos: r('Centavos'),
+      total_max_centavos: r('Centavos'),
+      precio_final_centavos: r('Centavos'),
       orientativa: cte(true),
       leyenda: txt(300),
-      tarifas: obj({ version: { type: 'string', pattern: '^[0-9]{4}\\.[0-9]{1,3}$' }, estado: { type: 'string', enum: ['referencia_publica_sin_validar', 'validada'] } }),
+      tarifas: obj({ version: r('VersionTarifas'), estado: { type: 'string', enum: ['referencia_publica_sin_validar', 'validada'] } }),
       validez_dias: ent(1, 90),
     },
-    undefined,
+    ['cotizacion_id', 'sesion_id', 'emitida_en', 'moneda', 'oficio', 'zona', 'fuera_de_zona', 'items', 'total_min_centavos', 'total_max_centavos', 'orientativa', 'leyenda', 'tarifas', 'validez_dias'],
     {
-      if: { type: 'object', properties: { zona: { const: 'otra' } }, required: ['zona'] },
-      then: { type: 'object', properties: { fuera_de_zona: { const: true } } },
-      else: { type: 'object', properties: { fuera_de_zona: { const: false } } },
+      allOf: [
+        {
+          if: { type: 'object', properties: { zona: { const: 'otra' } }, required: ['zona'] },
+          then: { type: 'object', properties: { fuera_de_zona: { const: true } } },
+          else: { type: 'object', properties: { fuera_de_zona: { const: false } } },
+        },
+        {
+          if: { type: 'object', properties: { tarifas: { type: 'object', additionalProperties: false, properties: { version: true, estado: { const: 'referencia_publica_sin_validar' } }, required: ['estado'] } }, required: ['tarifas'] },
+          then: { type: 'object', not: { type: 'object', properties: { precio_final_centavos: r('Centavos') }, required: ['precio_final_centavos'] } },
+        },
+      ],
     },
   ),
 );
@@ -396,24 +422,28 @@ def(
 );
 def(
   'Consumo',
-  'Consumo y topes (BRIEF 7, R56, R59). Sin montos: no expone costos de proveedores ni de otros tenants (R52).',
+  'Consumo y topes (BRIEF 7, R56, R59). Sale de los CONTADORES de consumo (H2, ADR 0004 §10 y 0005 §4), no de las sesiones: la retención y el ARCO no los borran ni los bajan. Sin montos: no expone costos de proveedores ni de otros tenants ni el tope global (R52).',
   obj(
     {
       ambito: { type: 'string', enum: ['tenant', 'asesor'] },
-      periodo: { type: 'string', pattern: '^[0-9]{4}-(0[1-9]|1[0-2])$' },
-      segundos_usados: ent(0, 100000000),
+      periodo: { type: 'string', pattern: '^[0-9]{4}-(0[1-9]|1[0-2])$', description: 'Mes calendario en hora argentina (UTC−3).' },
+      segundos_usados: ent(0, 100000000, { description: 'Segundos de llamadas cerradas del período (contador persistente).' }),
+      segundos_reservados: ent(0, 100000000, { description: 'Segundos reservados por llamadas en curso (H3). Saldo = segundos_tope − segundos_usados − segundos_reservados.' }),
       segundos_tope: ent(0, 100000000),
+      reinicia_en: { $ref: 'FechaHora.schema.json', description: '00:00 del día 1 del mes siguiente, hora argentina. Coincide con el Retry-After de cuota_agotada.' },
+      alerta_tenant: { type: 'string', enum: ['ninguna', 'p50', 'p80', 'p100'], description: 'Solo con ambito asesor: nivel de alerta del contador del tenant, sin cifras, para que el asesor entienda un corte por cupo del tenant.' },
       simultaneas_en_curso: ent(0, 1000),
       simultaneas_tope: ent(1, 1000),
       alerta: { type: 'string', enum: ['ninguna', 'p50', 'p80', 'p100'] },
       diario: arr(r('ConsumoDiario'), 0, 31),
       actualizado_en: r('FechaHora'),
     },
+    ['ambito', 'periodo', 'segundos_usados', 'segundos_reservados', 'segundos_tope', 'reinicia_en', 'simultaneas_en_curso', 'simultaneas_tope', 'alerta', 'diario', 'actualizado_en'],
   ),
 );
 def(
   'ReglaRetencion',
-  'Regla de retención por tipo de dato (R21, R43). plazo_dias 0 y persistido false = nunca se guarda.',
+  'Regla de retención por tipo de dato (R21, R43). plazo_dias 0 y persistido false = nunca se guarda. plazo_dias es el valor POR DEFECTO de la plataforma; si configurable, el operador lo fija por tenant con la CLI (`api tenant configurar`, C6) dentro de [plazo_dias_min, plazo_dias_max]. Los contadores de consumo (solo agregados) no figuran: no tienen datos personales.',
   obj({
     tipo_dato: {
       type: 'string',
@@ -423,6 +453,12 @@ def(
     persistido: { type: 'boolean' },
     plazo_dias: ent(0, 3650),
     configurable: { type: 'boolean' },
+    plazo_dias_min: ent(1, 3650),
+    plazo_dias_max: ent(1, 3650),
+  }, ['tipo_dato', 'finalidad', 'persistido', 'plazo_dias', 'configurable'], {
+    if: { type: 'object', properties: { configurable: { const: true } }, required: ['configurable'] },
+    then: { type: 'object', properties: { plazo_dias_min: ent(1, 3650), plazo_dias_max: ent(1, 3650) }, required: ['plazo_dias_min', 'plazo_dias_max'] },
+    else: { type: 'object', properties: { plazo_dias_min: false, plazo_dias_max: false } },
   }),
 );
 def(
@@ -491,7 +527,7 @@ def(
       oficio: r('Oficio'),
       zona: r('Zona'),
       fuera_de_zona: { type: 'boolean' },
-      total: obj({ cotizacion_id: r('IdCotizacion'), total_centavos: r('Centavos'), moneda: r('Moneda') }),
+      total: obj({ cotizacion_id: r('IdCotizacion'), total_min_centavos: r('Centavos'), total_max_centavos: r('Centavos'), precio_final_centavos: r('Centavos'), moneda: r('Moneda') }, ['cotizacion_id', 'total_min_centavos', 'total_max_centavos', 'moneda']),
       codigo_referencia: r('CodigoReferencia'),
       contacto_disponible: { type: 'boolean' },
       resumen: txt(280),
@@ -520,7 +556,7 @@ def(
       cotizacion: r('Cotizacion'),
       resumen: txt(1000),
       versiones: obj({
-        tarifas: { type: 'string', pattern: '^[0-9]{4}\\.[0-9]{1,3}$' },
+        tarifas: r('VersionTarifas'),
         prompt: { type: 'string', pattern: '^[a-z0-9_]+@[0-9a-f]{12}$' },
         esquema_salida: { type: 'string', pattern: '^[0-9]+\\.[0-9]+\\.[0-9]+(-[a-z0-9.]+)?$' },
       }),

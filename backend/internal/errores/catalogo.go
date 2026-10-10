@@ -14,6 +14,7 @@ import (
 	"errors"
 	"fmt"
 	"sort"
+	"time"
 )
 
 // Codigo es un código estable del catálogo del contrato.
@@ -127,7 +128,24 @@ func Buscar(c Codigo) Entrada {
 type Error struct {
 	Codigo Codigo
 	causa  error
+	// reintentarS: segundos hasta poder reintentar (429/503, R8/R57); 0 = el
+	// servidor usa su valor por defecto.
+	reintentarS int
 }
+
+// MaxReintentarS es el máximo de Retry-After y reintentar_en_s del contrato.
+const MaxReintentarS = 86400
+
+// ConEspera crea un error del catálogo con la espera real calculada para
+// Retry-After (H4 de T04b1). Se redondea hacia arriba y se acota a 1..86400 s
+// (rango de RetryAfter y de Error.reintentar_en_s en el contrato).
+func ConEspera(c Codigo, causa error, espera time.Duration) *Error {
+	s := int((espera + time.Second - 1) / time.Second)
+	return &Error{Codigo: c, causa: causa, reintentarS: min(max(s, 1), MaxReintentarS)}
+}
+
+// ReintentarEnS devuelve la espera calculada (0 si no hay).
+func (e *Error) ReintentarEnS() int { return e.reintentarS }
 
 // Nuevo crea un error del catálogo sin causa.
 func Nuevo(c Codigo) *Error { return &Error{Codigo: c} }
@@ -205,13 +223,19 @@ func ProblemaDe(err error, idTraza string) Problema {
 		c = ErrorInterno
 	}
 	e := cat.Errores[c]
+	espera := 0
+	var conCodigo *Error
+	if errors.As(err, &conCodigo) {
+		espera = conCodigo.reintentarS
+	}
 	return Problema{
-		Type:    BaseTipo + string(c),
-		Title:   e.Titulo,
-		Status:  e.HTTP,
-		Codigo:  c,
-		Detail:  e.Mensaje,
-		IDTraza: idTraza,
+		ReintentarEnS: espera,
+		Type:          BaseTipo + string(c),
+		Title:         e.Titulo,
+		Status:        e.HTTP,
+		Codigo:        c,
+		Detail:        e.Mensaje,
+		IDTraza:       idTraza,
 	}
 }
 

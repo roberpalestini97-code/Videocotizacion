@@ -1,11 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "TokenMedios",
-  "description": "Token del WebSocket de medios (R32): corto, un solo uso, ligado a la sesión; se envía en el primer mensaje, no en la URL. Emitirlo reserva el cupo de simultáneas (R57, R61).",
+  "description": "Token del WebSocket de medios (R32): corto, un solo uso, ligado a la sesión; se envía en el primer mensaje, no en la URL. Emitirlo reserva en forma atómica una simultánea y duracion_maxima_s del saldo mensual (R56, R57, R61, H3).",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "token",
+    "reserva",
     "ws_url",
     "vence_en",
     "vence_en_s",
@@ -16,6 +17,32 @@
     "token": {
       "type": "string",
       "pattern": "^vc_med_[A-Za-z0-9_-]{43}$"
+    },
+    "reserva": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duracion_maxima_s",
+        "recortada_por_cuota",
+        "vence_en"
+      ],
+      "properties": {
+        "duracion_maxima_s": {
+          "type": "integer",
+          "minimum": 60,
+          "maximum": 3600,
+          "description": "Segundos reservados y descontados del saldo mensual (tenant, asesor y global). Es el límite efectivo de la llamada."
+        },
+        "recortada_por_cuota": {
+          "type": "boolean",
+          "description": "true si el saldo mensual era menor que LimitesSesion.duracion_maxima_s y se reservó solo el saldo (≥ 60 s). Al llegar al límite recortado la sesión cierra con cuota_agotada, con aviso previo."
+        },
+        "vence_en": {
+          "$ref": "FechaHora.schema.json",
+          "description": "Inicio de la reserva + duracion_maxima_s + 60 s de margen. Si la sesión no se cerró antes, el servidor la cierra y cobra la reserva completa."
+        }
+      },
+      "description": "Reserva atómica de cupo (R56, R57, H3). Una reconexión con reserva vigente devuelve la misma reserva y no reserva de nuevo."
     },
     "ws_url": {
       "type": "string",
@@ -44,6 +71,11 @@
   "examples": [
     {
       "token": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6",
+      "reserva": {
+        "duracion_maxima_s": 900,
+        "recortada_por_cuota": false,
+        "vence_en": "2026-10-08T13:18:00Z"
+      },
       "ws_url": "wss://api.videocotizacion.local/v1/sesiones/ses_FFPS51S06FXAT3HXHKKKAS7A38/medios",
       "vence_en": "2026-10-08T13:02:00Z",
       "vence_en_s": 30,

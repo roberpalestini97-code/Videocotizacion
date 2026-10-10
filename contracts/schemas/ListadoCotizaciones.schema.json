@@ -36,7 +36,8 @@
           "resumen": "pintura en Mar Chiquita",
           "total": {
             "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
-            "total_centavos": 2312500,
+            "total_min_centavos": 2312500,
+            "total_max_centavos": 3237500,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-6X0B-5RD4NC"
@@ -53,7 +54,8 @@
           "resumen": "jardineria en Santa Clara del Mar",
           "total": {
             "cotizacion_id": "cot_N673TX2ERF818D58BNBSH3VKHA",
-            "total_centavos": 13987656,
+            "total_min_centavos": 13987656,
+            "total_max_centavos": 19582703,
             "moneda": "ARS"
           },
           "codigo_referencia": "VC-JFGD-X4DDYV"

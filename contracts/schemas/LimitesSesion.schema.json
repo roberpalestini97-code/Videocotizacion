@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "LimitesSesion",
-  "description": "Límites de la sesión (R60, R65, R66). Valores provisorios (P8).",
+  "description": "Límites de la sesión (R60, R65, R66). Valores provisorios (P8). duracion_maxima_s es lo que reserva emitirTokenMedios del saldo mensual (H3); la reserva puede recortarlo (TokenMedios.reserva).",
   "type": "object",
   "additionalProperties": false,
   "required": [

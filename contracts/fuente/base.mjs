@@ -1,7 +1,7 @@
 // Utilidades compartidas por el generador del contrato. No contiene reglas de negocio.
 import { createHash } from 'node:crypto';
 
-export const VERSION = '0.1.4-borrador';
+export const VERSION = '0.1.5-borrador';
 export const BASE = 'https://videocotizacion.local/contracts/schemas/';
 export const RUTA_SALIDA_LLM = '../../conductas/esquema-salida-llm.schema.json';
 export const ID_SALIDA_LLM = new URL(RUTA_SALIDA_LLM, BASE + 'x.schema.json').href;

@@ -1,14 +1,16 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Consumo",
-  "description": "Consumo y topes (BRIEF 7, R56, R59). Sin montos: no expone costos de proveedores ni de otros tenants (R52).",
+  "description": "Consumo y topes (BRIEF 7, R56, R59). Sale de los CONTADORES de consumo (H2, ADR 0004 §10 y 0005 §4), no de las sesiones: la retención y el ARCO no los borran ni los bajan. Sin montos: no expone costos de proveedores ni de otros tenants ni el tope global (R52).",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "ambito",
     "periodo",
     "segundos_usados",
+    "segundos_reservados",
     "segundos_tope",
+    "reinicia_en",
     "simultaneas_en_curso",
     "simultaneas_tope",
     "alerta",
@@ -25,17 +27,39 @@
     },
     "periodo": {
       "type": "string",
-      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Mes calendario en hora argentina (UTC−3)."
     },
     "segundos_usados": {
       "type": "integer",
       "minimum": 0,
-      "maximum": 100000000
+      "maximum": 100000000,
+      "description": "Segundos de llamadas cerradas del período (contador persistente)."
+    },
+    "segundos_reservados": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000,
+      "description": "Segundos reservados por llamadas en curso (H3). Saldo = segundos_tope − segundos_usados − segundos_reservados."
     },
     "segundos_tope": {
       "type": "integer",
       "minimum": 0,
       "maximum": 100000000
+    },
+    "reinicia_en": {
+      "$ref": "FechaHora.schema.json",
+      "description": "00:00 del día 1 del mes siguiente, hora argentina. Coincide con el Retry-After de cuota_agotada."
+    },
+    "alerta_tenant": {
+      "type": "string",
+      "enum": [
+        "ninguna",
+        "p50",
+        "p80",
+        "p100"
+      ],
+      "description": "Solo con ambito asesor: nivel de alerta del contador del tenant, sin cifras, para que el asesor entienda un corte por cupo del tenant."
     },
     "simultaneas_en_curso": {
       "type": "integer",
@@ -72,8 +96,10 @@
     {
       "ambito": "tenant",
       "periodo": "2026-10",
-      "segundos_usados": 30000,
+      "segundos_usados": 28200,
+      "segundos_reservados": 1800,
       "segundos_tope": 30000,
+      "reinicia_en": "2026-11-01T03:00:00Z",
       "simultaneas_en_curso": 3,
       "simultaneas_tope": 5,
       "alerta": "p100",

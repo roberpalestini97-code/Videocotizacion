@@ -161,24 +161,163 @@ func (a *Almacen) RevocarTokensDeSesion(ctx context.Context, t dominio.TenantID,
 	return nil
 }
 
-// Consumo implementa almacen.Credenciales.
-func (a *Almacen) Consumo(ctx context.Context, t dominio.TenantID, inicioMes, inicioActivas time.Time) (dominio.Consumo, error) {
+// activas cuenta las reservas vigentes (sin liberar y sin vencer).
+func (d *datosTenant) activas(ahora time.Time, asesorID string) (tenant, asesor int) {
+	for _, r := range d.reservas {
+		if r.liberadaEn == nil && r.VenceEn.After(ahora) {
+			tenant++
+			if r.AsesorID == asesorID {
+				asesor++
+			}
+		}
+	}
+	return tenant, asesor
+}
+
+// Cupo implementa almacen.Credenciales.
+func (a *Almacen) Cupo(ctx context.Context, t dominio.TenantID, asesorID string, mes, ahora time.Time) (dominio.EstadoCupo, error) {
 	a.mu.Lock()
 	defer a.mu.Unlock()
 	d, err := a.tenant(ctx, t)
 	if err != nil {
-		return dominio.Consumo{}, err
+		return dominio.EstadoCupo{}, err
 	}
-	var c dominio.Consumo
-	for _, s := range d.sesiones {
-		if !s.CreadaEn.Before(inicioMes) {
-			c.SegundosMes += int64(s.DuracionS)
+	as, ok := d.asesores[asesorID]
+	if !ok {
+		return dominio.EstadoCupo{}, noEncontrado("asesor")
+	}
+	e := dominio.EstadoCupo{
+		Tenant: d.consumo[mes].Contador, Asesor: d.consumoAsesor[claveAsesor{asesorID, mes}].Contador,
+		TopeSegundosTenant: int64(d.tenant.SegundosMesTope), TopeSimultaneasTenant: d.tenant.SimultaneasTope,
+		TopeSegundosAsesor: as.SegundosMesTope, TopeSimultaneasAsesor: as.SimultaneasTope,
+	}
+	e.ActivasTenant, e.ActivasAsesor = d.activas(ahora, asesorID)
+	return e, nil
+}
+
+// ReservarCupo implementa almacen.Credenciales (atómico bajo el candado; misma
+// regla que vc.reservar_cupo).
+func (a *Almacen) ReservarCupo(ctx context.Context, t dominio.TenantID, p dominio.PedidoReserva) (dominio.ResultadoReserva, error) {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	d, err := a.tenant(ctx, t)
+	if err != nil {
+		return dominio.ResultadoReserva{}, err
+	}
+	s, ok := d.sesiones[p.SesionID]
+	if !ok {
+		return dominio.ResultadoReserva{}, noEncontrado("sesión")
+	}
+	s = copiarSesion(s)
+	if err := s.IniciarMedios(); err != nil {
+		return dominio.ResultadoReserva{}, err
+	}
+	if p.SegundosMax < dominio.MinimoReservaS || p.SegundosMax > 86400 {
+		return dominio.ResultadoReserva{}, errores.Nuevo(errores.ValidacionFallida)
+	}
+	ahora := dominio.Instante(p.Ahora)
+	mes := dominio.MesCuota(ahora)
+	if r, ok := d.reservas[p.SesionID]; ok {
+		out := dominio.ResultadoReserva{Reserva: r.Reserva}
+		if r.liberadaEn == nil && r.VenceEn.After(ahora) {
+			out.Reutilizada = true
+		} else {
+			a.liberar(d, p.SesionID, r.VenceEn)
+			out.Vencida = true
+			motivo := dominio.MotivoDuracionMaxima
+			if r.Recortada {
+				motivo = dominio.MotivoCuotaAgotada
+			}
+			if err := s.Cerrar(motivo, ahora); err != nil {
+				return dominio.ResultadoReserva{}, err
+			}
+			d.revocarTokensMedios(s.ID, ahora)
 		}
-		if !s.CreadaEn.Before(inicioActivas) && (s.Estado == dominio.EstadoConsentida || s.Estado == dominio.EstadoEnCurso) {
-			c.Activas++
+		d.sesiones[s.ID] = s
+		return out, nil
+	}
+	for id, r := range d.reservas {
+		if r.liberadaEn == nil && !r.VenceEn.After(ahora) {
+			a.liberar(d, id, r.VenceEn)
 		}
 	}
-	return c, nil
+	as := d.asesores[s.AsesorID]
+	saldos := []int64{int64(d.tenant.SegundosMesTope) - d.consumo[mes].Total(), a.topes.SegundosMes - a.global[mes].Total()}
+	if as.SegundosMesTope != nil {
+		saldos = append(saldos, *as.SegundosMesTope-d.consumoAsesor[claveAsesor{s.AsesorID, mes}].Total())
+	}
+	actT, actA := d.activas(ahora, s.AsesorID)
+	actG := 0
+	for _, otro := range a.tenants {
+		n, _ := otro.activas(ahora, "")
+		actG += n
+	}
+	topeA := -1
+	if as.SimultaneasTope != nil {
+		topeA = *as.SimultaneasTope
+	}
+	seg, recortada, err := dominio.DecidirReserva(p.SegundosMax, saldos, []int{actT, actA, actG},
+		[]int{d.tenant.SimultaneasTope, topeA, a.topes.Simultaneas})
+	if err != nil {
+		return dominio.ResultadoReserva{}, err
+	}
+	r := dominio.Reserva{SesionID: s.ID, AsesorID: s.AsesorID, Mes: mes, Segundos: seg, Recortada: recortada,
+		CreadaEn: ahora, VenceEn: ahora.Add(time.Duration(seg)*time.Second + dominio.MargenReserva)}
+	d.reservas[s.ID] = reservaMem{Reserva: r}
+	a.sumar(d, r.AsesorID, mes, func(c *contadorMes) { c.SegundosReservados += int64(seg) })
+	d.sesiones[s.ID] = s
+	return dominio.ResultadoReserva{Reserva: r}, nil
+}
+
+// sumar aplica fn a los contadores mensuales global, del tenant y del asesor.
+func (a *Almacen) sumar(d *datosTenant, asesorID string, mes time.Time, fn func(*contadorMes)) {
+	g := contadorMes{Contador: a.global[mes]}
+	fn(&g)
+	a.global[mes] = g.Contador
+	c := d.consumo[mes]
+	fn(&c)
+	d.consumo[mes] = c
+	k := claveAsesor{asesorID, mes}
+	ca := d.consumoAsesor[k]
+	fn(&ca)
+	d.consumoAsesor[k] = ca
+}
+
+// liberar cobra la reserva (segundos reales, tope = lo reservado) y devuelve
+// el resto; idempotente (como vc.liberar_cupo).
+func (a *Almacen) liberar(d *datosTenant, sesionID string, ahora time.Time) {
+	r, ok := d.reservas[sesionID]
+	if !ok || r.liberadaEn != nil {
+		return
+	}
+	cobrados := dominio.SegundosCobrados(r.Reserva, ahora)
+	cot := 0
+	if _, ok := d.cotizaciones[sesionID]; ok {
+		cot = 1
+	}
+	a.sumar(d, r.AsesorID, r.Mes, func(c *contadorMes) {
+		c.SegundosUsados += int64(cobrados)
+		c.SegundosReservados -= int64(r.Segundos)
+		c.sesiones++
+		c.cotizaciones += cot
+	})
+	dia := dominio.DiaCuota(ahora)
+	cd := d.diario[dia]
+	cd.SegundosUsados += int64(cobrados)
+	cd.sesiones++
+	cd.cotizaciones += cot
+	d.diario[dia] = cd
+	l := dominio.Instante(ahora)
+	r.liberadaEn, r.cobrados = &l, cobrados
+	d.reservas[sesionID] = r
+}
+
+// ConfigurarTopesGlobales fija los topes globales (en postgres los fija
+// `api topes configurar`). Para desarrollo y pruebas.
+func (a *Almacen) ConfigurarTopesGlobales(t dominio.TopesGlobales) {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	a.topes = t
 }
 
 // ObtenerDerivacion implementa almacen.Credenciales.

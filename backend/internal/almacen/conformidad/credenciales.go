@@ -122,32 +122,9 @@ func probarTokensConsumoYDerivacion(t *testing.T, a almacen.Completo) {
 		t.Fatalf("token revocado sigue vigente: %+v", got)
 	}
 
-	// Consumo: duración del mes y activas (consentidas o en curso) en la ventana.
-	viejo := NuevaSesion(t, a, tn.ID, as.ID, Base.AddDate(0, -1, 0), 90)
-	_, err = a.RegistrarConsentimiento(ctx(), tn.ID, consentimiento(t, viejo, viejo.CreadaEn), viejo.CreadaEn)
-	sinError(t, err, "consentir vieja")
-	_, err = a.CerrarSesion(ctx(), tn.ID, viejo.ID, dominio.MotivoCompletada, viejo.CreadaEn.Add(10*time.Minute))
-	sinError(t, err, "cerrar vieja")
-	cerrada := NuevaSesion(t, a, tn.ID, as.ID, Base, 90)
-	_, err = a.RegistrarConsentimiento(ctx(), tn.ID, consentimiento(t, cerrada, Base), Base)
-	sinError(t, err, "consentir")
-	_, err = a.CerrarSesion(ctx(), tn.ID, cerrada.ID, dominio.MotivoCompletada, Base.Add(125*time.Second))
-	sinError(t, err, "cerrar")
-	activa := NuevaSesion(t, a, tn.ID, as.ID, Base.Add(time.Minute), 90)
-	_, err = a.RegistrarConsentimiento(ctx(), tn.ID, consentimiento(t, activa, Base.Add(time.Minute)), Base.Add(time.Minute))
-	sinError(t, err, "consentir activa")
-	inicioMes := time.Date(2026, 10, 1, 3, 0, 0, 0, time.UTC)
-	c, err := a.Consumo(ctx(), tn.ID, inicioMes, Base)
-	sinError(t, err, "consumo")
-	igual(t, c, dominio.Consumo{SegundosMes: 125, Activas: 1}, "consumo del mes")
-	c, err = a.Consumo(ctx(), tn.ID, inicioMes, Base.Add(2*time.Minute))
-	sinError(t, err, "consumo con ventana corta")
-	igual(t, c.Activas, 0, "activa fuera de la ventana")
-	c, err = a.Consumo(ctx(), otro.ID, inicioMes, Base)
-	sinError(t, err, "consumo de otro tenant")
-	igual(t, c, dominio.Consumo{}, "otro tenant no ve el consumo")
-
 	// Derivación: idempotente, código único por tenant, sesión ajena → 404.
+	cerrada := NuevaSesion(t, a, tn.ID, as.ID, Base, 90)
+	activa := NuevaSesion(t, a, tn.ID, as.ID, Base, 90)
 	d := dominio.Derivacion{SesionID: cerrada.ID, CodigoReferencia: "VC-AAAA-BBBBBB", GeneradaEn: Base}
 	got1, err := a.ObtenerDerivacion(ctx(), tn.ID, d)
 	sinError(t, err, "derivación")
@@ -172,4 +149,119 @@ func probarTokensConsumoYDerivacion(t *testing.T, a almacen.Completo) {
 	sinError(t, err, "retención 2")
 	_, err = a.ObtenerDerivacion(ctx(), tn.ID, d)
 	exigirCodigo(t, err, errores.NoEncontrado, "derivación de sesión borrada")
+}
+
+// probarConsumoYReservas: contadores (H2) y reserva atómica con recorte (H3).
+// Los topes globales del almacén tienen que ser holgados (los fija quien
+// llama a Correr).
+func probarConsumoYReservas(t *testing.T, a almacen.Completo) {
+	tn := NuevoTenantConTopes(t, a, 2000, 1)
+	otro := NuevoTenant(t, a)
+	as := NuevoAsesor(t, a, tn.ID)
+	mes := dominio.MesCuota(Base)
+	consentida := func(cuando time.Time) dominio.Sesion {
+		s := NuevaSesion(t, a, tn.ID, as.ID, cuando, 90)
+		_, err := a.RegistrarConsentimiento(ctx(), tn.ID, consentimiento(t, s, cuando), cuando)
+		sinError(t, err, "consentir")
+		return s
+	}
+	leer := func(cuando time.Time) dominio.EstadoCupo {
+		e, err := a.Cupo(ctx(), tn.ID, as.ID, mes, cuando)
+		sinError(t, err, "cupo")
+		return e
+	}
+	e := leer(Base)
+	igual(t, e, dominio.EstadoCupo{TopeSegundosTenant: 2000, TopeSimultaneasTenant: 1}, "cupo inicial")
+
+	// Reserva de 900 s: en_curso, descuenta del saldo y ocupa el lugar.
+	s1 := consentida(Base)
+	r, err := a.ReservarCupo(ctx(), tn.ID, dominio.PedidoReserva{SesionID: s1.ID, Ahora: Base.Add(time.Minute), SegundosMax: 900})
+	sinError(t, err, "reservar")
+	quiero := dominio.Reserva{SesionID: s1.ID, AsesorID: as.ID, Mes: mes, Segundos: 900, CreadaEn: dominio.Instante(Base.Add(time.Minute)),
+		VenceEn: dominio.Instante(Base.Add(time.Minute + 900*time.Second + dominio.MargenReserva))}
+	igual(t, r, dominio.ResultadoReserva{Reserva: quiero}, "reserva")
+	ses, _ := a.LeerSesion(ctx(), tn.ID, s1.ID)
+	igual(t, ses.Estado, dominio.EstadoEnCurso, "la reserva pasa la sesión a en_curso")
+	e = leer(Base.Add(2 * time.Minute))
+	igual(t, e.Tenant, dominio.Contador{SegundosReservados: 900}, "reservados del tenant")
+	igual(t, e.Asesor, dominio.Contador{SegundosReservados: 900}, "reservados del asesor")
+	igual(t, [2]int{e.ActivasTenant, e.ActivasAsesor}, [2]int{1, 1}, "activas")
+	exigirCodigo(t, e.Verificar(), errores.SimultaneasAgotadas, "crearSesion vería el lugar ocupado")
+	// Reconexión: la misma reserva, sin volver a contar.
+	r2, err := a.ReservarCupo(ctx(), tn.ID, dominio.PedidoReserva{SesionID: s1.ID, Ahora: Base.Add(5 * time.Minute), SegundosMax: 900})
+	sinError(t, err, "reconectar")
+	igual(t, r2, dominio.ResultadoReserva{Reserva: quiero, Reutilizada: true}, "reconexión")
+	igual(t, leer(Base.Add(5*time.Minute)).Tenant.SegundosReservados, int64(900), "sin doble reserva")
+	// Otra sesión sin lugar libre → simultáneas; no cambia su estado.
+	s2 := consentida(Base)
+	_, err = a.ReservarCupo(ctx(), tn.ID, dominio.PedidoReserva{SesionID: s2.ID, Ahora: Base.Add(6 * time.Minute), SegundosMax: 900})
+	exigirCodigo(t, err, errores.SimultaneasAgotadas, "sin lugar")
+	ses, _ = a.LeerSesion(ctx(), tn.ID, s2.ID)
+	igual(t, ses.Estado, dominio.EstadoConsentida, "rechazada no cambia el estado")
+	// Cerrar libera: cobra lo real (8 min = 480 s), devuelve el resto.
+	_, err = a.CerrarSesion(ctx(), tn.ID, s1.ID, dominio.MotivoCompletada, Base.Add(9*time.Minute))
+	sinError(t, err, "cerrar")
+	e = leer(Base.Add(9 * time.Minute))
+	igual(t, e.Tenant, dominio.Contador{SegundosUsados: 480}, "usados del tenant")
+	igual(t, e.Asesor, dominio.Contador{SegundosUsados: 480}, "usados del asesor")
+	igual(t, e.ActivasTenant, 0, "libera el lugar")
+	// Saldo 1520 ≥ 900: reserva completa; después saldo 620: recorte.
+	r, err = a.ReservarCupo(ctx(), tn.ID, dominio.PedidoReserva{SesionID: s2.ID, Ahora: Base.Add(10 * time.Minute), SegundosMax: 900})
+	sinError(t, err, "reservar s2")
+	igual(t, [2]any{r.Reserva.Segundos, r.Reserva.Recortada}, [2]any{900, false}, "reserva completa")
+	_, err = a.CerrarSesion(ctx(), tn.ID, s2.ID, dominio.MotivoClienteCerro, Base.Add(10*time.Minute).Add(900*time.Second))
+	sinError(t, err, "cerrar s2")
+	s3 := consentida(Base)
+	r, err = a.ReservarCupo(ctx(), tn.ID, dominio.PedidoReserva{SesionID: s3.ID, Ahora: Base.Add(30 * time.Minute), SegundosMax: 900})
+	sinError(t, err, "reservar recortada")
+	igual(t, [2]any{r.Reserva.Segundos, r.Reserva.Recortada}, [2]any{2000 - 480 - 900, true}, "reserva recortada al saldo")
+	// La reserva vence sin cerrarse: al reconectar se cobra completa y la sesión cierra por cuota.
+	r, err = a.ReservarCupo(ctx(), tn.ID, dominio.PedidoReserva{SesionID: s3.ID, Ahora: r.Reserva.VenceEn, SegundosMax: 900})
+	sinError(t, err, "reconectar vencida")
+	if !r.Vencida {
+		t.Fatalf("reserva vencida: %+v", r)
+	}
+	ses, _ = a.LeerSesion(ctx(), tn.ID, s3.ID)
+	igual(t, [2]any{ses.Estado, ses.MotivoCierre}, [2]any{dominio.EstadoCerrada, dominio.MotivoCuotaAgotada}, "vencida cierra la sesión")
+	e = leer(Base.Add(time.Hour))
+	igual(t, e.Tenant, dominio.Contador{SegundosUsados: 2000}, "la vencida se cobra completa")
+	exigirCodigo(t, e.Verificar(), errores.CuotaAgotada, "sin saldo")
+	s4 := consentida(Base)
+	_, err = a.ReservarCupo(ctx(), tn.ID, dominio.PedidoReserva{SesionID: s4.ID, Ahora: Base.Add(time.Hour), SegundosMax: 900})
+	exigirCodigo(t, err, errores.CuotaAgotada, "saldo < 60 s")
+
+	_, err = a.ReservarCupo(ctx(), tn.ID, dominio.PedidoReserva{SesionID: s1.ID, Ahora: Base, SegundosMax: 900})
+	exigirCodigo(t, err, errores.SesionCerrada, "reservar sesión cerrada")
+	_, err = a.ReservarCupo(ctx(), otro.ID, dominio.PedidoReserva{SesionID: s4.ID, Ahora: Base, SegundosMax: 900})
+	exigirCodigo(t, err, errores.NoEncontrado, "reservar sesión de otro tenant")
+	nueva := NuevaSesion(t, a, tn.ID, as.ID, Base, 90)
+	_, err = a.ReservarCupo(ctx(), tn.ID, dominio.PedidoReserva{SesionID: nueva.ID, Ahora: Base, SegundosMax: 900})
+	exigirCodigo(t, err, errores.ConsentimientoRequerido, "reservar sin consentimiento")
+	_, err = a.Cupo(ctx(), otro.ID, as.ID, mes, Base)
+	exigirCodigo(t, err, errores.NoEncontrado, "cupo con asesor de otro tenant")
+
+	// La retención (y el ARCO) no tocan los contadores (H2).
+	_, err = a.BorrarVencidos(ctx(), tn.ID, Base.AddDate(0, 0, 200))
+	sinError(t, err, "retención total")
+	igual(t, leer(Base.Add(time.Hour)).Tenant, dominio.Contador{SegundosUsados: 2000}, "el contador sobrevive a la retención")
+
+	// Tope propio del asesor: cuenta aparte del tenant (el mismo código).
+	tn2 := NuevoTenantConTopes(t, a, 100000, 10)
+	topeS, topeSim := int64(900), 1
+	as2 := NuevoAsesorConTopes(t, a, tn2.ID, &topeS, &topeSim)
+	sa := NuevaSesion(t, a, tn2.ID, as2.ID, Base, 90)
+	_, err = a.RegistrarConsentimiento(ctx(), tn2.ID, consentimiento(t, sa, Base), Base)
+	sinError(t, err, "consentir a")
+	sb := NuevaSesion(t, a, tn2.ID, as2.ID, Base, 90)
+	_, err = a.RegistrarConsentimiento(ctx(), tn2.ID, consentimiento(t, sb, Base), Base)
+	sinError(t, err, "consentir b")
+	_, err = a.ReservarCupo(ctx(), tn2.ID, dominio.PedidoReserva{SesionID: sa.ID, Ahora: Base, SegundosMax: 900})
+	sinError(t, err, "reservar con tope del asesor")
+	_, err = a.ReservarCupo(ctx(), tn2.ID, dominio.PedidoReserva{SesionID: sb.ID, Ahora: Base, SegundosMax: 600})
+	exigirCodigo(t, err, errores.CuotaAgotada, "saldo del asesor agotado")
+	_, err = a.CerrarSesion(ctx(), tn2.ID, sa.ID, dominio.MotivoCompletada, Base.Add(2*time.Minute))
+	sinError(t, err, "cerrar a")
+	r, err = a.ReservarCupo(ctx(), tn2.ID, dominio.PedidoReserva{SesionID: sb.ID, Ahora: Base.Add(3 * time.Minute), SegundosMax: 900})
+	sinError(t, err, "reservar con saldo del asesor")
+	igual(t, [2]any{r.Reserva.Segundos, r.Reserva.Recortada}, [2]any{900 - 120, true}, "recorte por el tope del asesor")
 }

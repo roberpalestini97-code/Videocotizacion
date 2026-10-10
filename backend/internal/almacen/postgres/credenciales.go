@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -113,17 +114,96 @@ func (a *Almacen) RevocarTokensDeSesion(ctx context.Context, t dominio.TenantID,
 	})
 }
 
-// Consumo implementa almacen.Credenciales (usa sesiones_por_creacion).
-func (a *Almacen) Consumo(ctx context.Context, t dominio.TenantID, inicioMes, inicioActivas time.Time) (dominio.Consumo, error) {
-	var c dominio.Consumo
+// Cupo implementa almacen.Credenciales: contadores (H2) y reservas vigentes,
+// nunca vc.sesiones.
+func (a *Almacen) Cupo(ctx context.Context, t dominio.TenantID, asesorID string, mes, ahora time.Time) (dominio.EstadoCupo, error) {
+	var e dominio.EstadoCupo
 	err := a.enTenant(ctx, t, func(ctx context.Context, tx pgx.Tx) error {
 		return tx.QueryRow(ctx, `SELECT
-				coalesce(sum(duracion_s) FILTER (WHERE creada_en >= $2), 0),
-				count(*) FILTER (WHERE creada_en >= $3 AND estado IN ('consentida', 'en_curso'))
-			FROM vc.sesiones WHERE tenant_id = $1 AND creada_en >= least($2::timestamptz, $3::timestamptz)`,
-			string(t), inicioMes, inicioActivas).Scan(&c.SegundosMes, &c.Activas)
+				t.segundos_mes_tope, t.simultaneas_tope, a.segundos_mes_tope, a.simultaneas_tope,
+				coalesce(c.segundos_usados, 0), coalesce(c.segundos_reservados, 0),
+				coalesce(ca.segundos_usados, 0), coalesce(ca.segundos_reservados, 0),
+				(SELECT count(*) FROM vc.reservas_cupo r WHERE r.tenant_id = $1 AND r.liberada_en IS NULL AND r.vence_en > $4),
+				(SELECT count(*) FROM vc.reservas_cupo r WHERE r.tenant_id = $1 AND r.asesor_id = $2
+				   AND r.liberada_en IS NULL AND r.vence_en > $4)
+			FROM vc.tenants t
+			JOIN vc.asesores a ON a.tenant_id = t.tenant_id AND a.asesor_id = $2
+			LEFT JOIN vc.consumo_mensual c ON c.tenant_id = t.tenant_id AND c.mes = $3
+			LEFT JOIN vc.consumo_asesor_mensual ca ON ca.tenant_id = t.tenant_id AND ca.asesor_id = $2 AND ca.mes = $3
+			WHERE t.tenant_id = $1`, string(t), asesorID, mes, ahora).
+			Scan(&e.TopeSegundosTenant, &e.TopeSimultaneasTenant, &e.TopeSegundosAsesor, &e.TopeSimultaneasAsesor,
+				&e.Tenant.SegundosUsados, &e.Tenant.SegundosReservados, &e.Asesor.SegundosUsados, &e.Asesor.SegundosReservados,
+				&e.ActivasTenant, &e.ActivasAsesor)
 	})
-	return c, err
+	return e, err
+}
+
+// ReservarCupo implementa almacen.Credenciales con vc.reservar_cupo. Orden de
+// bloqueos: fila de la sesión y después global → tenant → asesor (adentro de
+// la función), el mismo que CerrarSesion.
+func (a *Almacen) ReservarCupo(ctx context.Context, t dominio.TenantID, p dominio.PedidoReserva) (dominio.ResultadoReserva, error) {
+	var out dominio.ResultadoReserva
+	err := a.enTenant(ctx, t, func(ctx context.Context, tx pgx.Tx) error {
+		s, err := sesionParaActualizar(ctx, tx, t, p.SesionID)
+		if err != nil {
+			return err
+		}
+		if err := s.IniciarMedios(); err != nil {
+			return err
+		}
+		var resultado string
+		var segundos int
+		var recortada bool
+		var creada, vence *time.Time
+		ahora := dominio.Instante(p.Ahora)
+		if err := tx.QueryRow(ctx, `SELECT resultado, segundos, recortada, creada_en, vence_en
+			FROM vc.reservar_cupo($1, $2, $3, $4, $5, $6)`, string(t), s.AsesorID, s.ID, dominio.MesCuota(ahora), ahora, p.SegundosMax).
+			Scan(&resultado, &segundos, &recortada, &creada, &vence); err != nil {
+			return err
+		}
+		switch resultado {
+		case "cuota_agotada":
+			return errores.Envolver(errores.CuotaAgotada, errors.New("vc.reservar_cupo: saldo efectivo < 60 s"))
+		case "simultaneas_agotadas":
+			return errores.Envolver(errores.SimultaneasAgotadas, errors.New("vc.reservar_cupo: sin simultánea libre"))
+		}
+		out.Reserva = dominio.Reserva{SesionID: s.ID, AsesorID: s.AsesorID, Mes: dominio.MesCuota(creada.UTC()), Segundos: segundos,
+			Recortada: recortada, CreadaEn: creada.UTC(), VenceEn: vence.UTC()}
+		switch resultado {
+		case "reutilizada":
+			out.Reutilizada = true
+		case "vencida":
+			// La llamada superó su límite: se cobró completa y la sesión se cierra.
+			out.Vencida = true
+			if err := s.Cerrar(motivoDeVencimiento(out.Reserva), ahora); err != nil {
+				return err
+			}
+			if err := revocarTokensMedios(ctx, tx, t, s.ID, ahora); err != nil {
+				return err
+			}
+		case "reservada":
+		default:
+			return fmt.Errorf("vc.reservar_cupo: resultado inesperado %q", resultado)
+		}
+		return actualizarSesion(ctx, tx, t, s)
+	})
+	return out, err
+}
+
+// motivoDeVencimiento: una reserva recortada por cuota vence por cuota; si no,
+// por duración máxima.
+func motivoDeVencimiento(r dominio.Reserva) dominio.MotivoCierre {
+	if r.Recortada {
+		return dominio.MotivoCuotaAgotada
+	}
+	return dominio.MotivoDuracionMaxima
+}
+
+// liberarCupo cobra la reserva de la sesión cerrada en la transacción del
+// cierre (H2): vc.liberar_cupo suma lo real a los contadores (idempotente).
+func liberarCupo(ctx context.Context, tx pgx.Tx, sesionID string, ahora time.Time) error {
+	_, err := tx.Exec(ctx, "SELECT vc.liberar_cupo($1, $2)", sesionID, dominio.Instante(ahora))
+	return err
 }
 
 // ObtenerDerivacion implementa almacen.Credenciales.
