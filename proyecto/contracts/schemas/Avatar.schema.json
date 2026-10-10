@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Avatar",
+  "description": "Avatar elegible (apariencia de trabajador constructor).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "avatar_id",
+    "nombre",
+    "modos",
+    "descripcion_accesible"
+  ],
+  "properties": {
+    "avatar_id": {
+      "type": "string",
+      "pattern": "^av_[a-z0-9_]{2,30}$"
+    },
+    "nombre": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "modos": {
+      "type": "array",
+      "items": {
+        "$ref": "ModoAvatar.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true
+    },
+    "descripcion_accesible": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    }
+  },
+  "examples": [
+    {
+      "avatar_id": "av_obrero_casco",
+      "nombre": "Juan",
+      "modos": [
+        "3d",
+        "clips"
+      ],
+      "descripcion_accesible": "Trabajador con casco amarillo y ropa de obra"
+    },
+    {
+      "avatar_id": "av_pintora",
+      "nombre": "Laura",
+      "modos": [
+        "3d"
+      ],
+      "descripcion_accesible": "Pintora con overol blanco"
+    }
+  ]
+}

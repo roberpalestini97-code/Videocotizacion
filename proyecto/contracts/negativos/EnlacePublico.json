@@ -1,0 +1,199 @@
+[
+  {
+    "esquema": "EnlacePublico",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+      "profesional": {
+        "nombre_visible": "Juan P.",
+        "oficios": [
+          "pintura"
+        ],
+        "zonas": [
+          "mar_chiquita"
+        ]
+      },
+      "avatares": [
+        {
+          "avatar_id": "av_obrero_casco",
+          "nombre": "Juan",
+          "modos": [
+            "3d",
+            "clips"
+          ],
+          "descripcion_accesible": "Trabajador con casco amarillo y ropa de obra"
+        }
+      ],
+      "aviso_privacidad": {
+        "version": "2026-10-08.1",
+        "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+      },
+      "camara_obligatoria": true,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      },
+      "asistente_automatico": true,
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "EnlacePublico",
+    "caso": "falta \"id_publico\"",
+    "falla_por": "required",
+    "instancia": {
+      "profesional": {
+        "nombre_visible": "Juan P.",
+        "oficios": [
+          "pintura"
+        ],
+        "zonas": [
+          "mar_chiquita"
+        ]
+      },
+      "avatares": [
+        {
+          "avatar_id": "av_obrero_casco",
+          "nombre": "Juan",
+          "modos": [
+            "3d",
+            "clips"
+          ],
+          "descripcion_accesible": "Trabajador con casco amarillo y ropa de obra"
+        }
+      ],
+      "aviso_privacidad": {
+        "version": "2026-10-08.1",
+        "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+      },
+      "camara_obligatoria": true,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      },
+      "asistente_automatico": true
+    }
+  },
+  {
+    "esquema": "EnlacePublico",
+    "caso": "falta \"profesional\"",
+    "falla_por": "required",
+    "instancia": {
+      "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+      "avatares": [
+        {
+          "avatar_id": "av_obrero_casco",
+          "nombre": "Juan",
+          "modos": [
+            "3d",
+            "clips"
+          ],
+          "descripcion_accesible": "Trabajador con casco amarillo y ropa de obra"
+        }
+      ],
+      "aviso_privacidad": {
+        "version": "2026-10-08.1",
+        "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+      },
+      "camara_obligatoria": true,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      },
+      "asistente_automatico": true
+    }
+  },
+  {
+    "esquema": "EnlacePublico",
+    "caso": "expone teléfono del profesional (R63)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+      "profesional": {
+        "nombre_visible": "Juan P.",
+        "oficios": [
+          "pintura"
+        ],
+        "zonas": [
+          "mar_chiquita"
+        ],
+        "telefono": "+5492235550101"
+      },
+      "avatares": [
+        {
+          "avatar_id": "av_obrero_casco",
+          "nombre": "Juan",
+          "modos": [
+            "3d",
+            "clips"
+          ],
+          "descripcion_accesible": "Trabajador con casco amarillo y ropa de obra"
+        }
+      ],
+      "aviso_privacidad": {
+        "version": "2026-10-08.1",
+        "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+      },
+      "camara_obligatoria": true,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      },
+      "asistente_automatico": true
+    }
+  },
+  {
+    "esquema": "EnlacePublico",
+    "caso": "cámara opcional",
+    "falla_por": "const",
+    "instancia": {
+      "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+      "profesional": {
+        "nombre_visible": "Juan P.",
+        "oficios": [
+          "pintura"
+        ],
+        "zonas": [
+          "mar_chiquita"
+        ]
+      },
+      "avatares": [
+        {
+          "avatar_id": "av_obrero_casco",
+          "nombre": "Juan",
+          "modos": [
+            "3d",
+            "clips"
+          ],
+          "descripcion_accesible": "Trabajador con casco amarillo y ropa de obra"
+        }
+      ],
+      "aviso_privacidad": {
+        "version": "2026-10-08.1",
+        "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+      },
+      "camara_obligatoria": false,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      },
+      "asistente_automatico": true
+    }
+  }
+]

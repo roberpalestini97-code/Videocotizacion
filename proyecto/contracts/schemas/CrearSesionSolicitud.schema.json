@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CrearSesionSolicitud",
+  "description": "Pedido de crearSesion. No acepta tenant_id (R3): el tenant sale de la credencial y del enlace.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "enlace",
+    "modo_avatar"
+  ],
+  "properties": {
+    "enlace": {
+      "$ref": "IdPublicoEnlace.schema.json"
+    },
+    "modo_avatar": {
+      "$ref": "ModoAvatar.schema.json"
+    },
+    "avatar_id": {
+      "type": "string",
+      "pattern": "^av_[a-z0-9_]{2,30}$"
+    },
+    "idioma": {
+      "type": "string",
+      "const": "es-AR"
+    },
+    "referencia_externa": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9._-]+$",
+      "description": "Referencia del tercero, sin datos personales (R28)."
+    }
+  },
+  "examples": [
+    {
+      "enlace": "RYZ4c3qAHifF6Rh4XEo3fG",
+      "modo_avatar": "3d",
+      "avatar_id": "av_obrero_casco"
+    },
+    {
+      "enlace": "WxoyJSebjQ2qgzlPxgXnjq",
+      "modo_avatar": "clips",
+      "idioma": "es-AR"
+    }
+  ]
+}

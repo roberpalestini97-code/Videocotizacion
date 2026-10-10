@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ListadoCotizaciones",
+  "description": "Página de \"Mis cotizaciones\" (paginación por cursor).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "ResumenCotizacion.schema.json"
+      },
+      "minItems": 0,
+      "maxItems": 100
+    },
+    "siguiente_cursor": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{16,200}$"
+    }
+  },
+  "examples": [
+    {
+      "items": [
+        {
+          "sesion_id": "ses_CT0CFF9WSKXF5C89H033AAEKVQ",
+          "creada_en": "2026-10-08T13:00:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "pintura",
+          "zona": "mar_chiquita",
+          "fuera_de_zona": false,
+          "contacto_disponible": true,
+          "resumen": "pintura en Mar Chiquita",
+          "total": {
+            "cotizacion_id": "cot_S5YHKWR4GFN4QEJAEMHWTDH0CE",
+            "total_centavos": 2312500,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-6X0B-5RD4NC"
+        },
+        {
+          "sesion_id": "ses_0NCA1Z4BJFKFFH4GBDK9N45TJR",
+          "creada_en": "2026-10-08T11:30:00Z",
+          "estado": "cerrada",
+          "motivo_cierre": "completada",
+          "oficio": "jardineria",
+          "zona": "santa_clara",
+          "fuera_de_zona": false,
+          "contacto_disponible": false,
+          "resumen": "jardineria en Santa Clara del Mar",
+          "total": {
+            "cotizacion_id": "cot_N673TX2ERF818D58BNBSH3VKHA",
+            "total_centavos": 13987656,
+            "moneda": "ARS"
+          },
+          "codigo_referencia": "VC-JFGD-X4DDYV"
+        }
+      ],
+      "siguiente_cursor": "sT8wj58x5xAIWhIXBYt3bgkz"
+    }
+  ]
+}

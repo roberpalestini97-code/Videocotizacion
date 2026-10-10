@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EncabezadoBinario",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Encabezado binario de 20 bytes de las tramas binarias (subida: audio y fotogramas; bajada: audio de respuesta), decodificado (ver eventos-sesion.md).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "magia",
+    "version",
+    "tipo",
+    "flags",
+    "seq",
+    "ts_ms",
+    "longitud"
+  ],
+  "properties": {
+    "magia": {
+      "type": "string",
+      "const": "VC"
+    },
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "audio_pcm16_16k",
+        "audio_opus",
+        "fotograma_jpeg",
+        "audio_respuesta_opus"
+      ]
+    },
+    "flags": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "longitud": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 131072
+    }
+  },
+  "examples": [
+    {
+      "magia": "VC",
+      "version": 1,
+      "tipo": "audio_pcm16_16k",
+      "flags": 0,
+      "seq": 0,
+      "ts_ms": 0,
+      "longitud": 640
+    },
+    {
+      "magia": "VC",
+      "version": 1,
+      "tipo": "fotograma_jpeg",
+      "flags": 0,
+      "seq": 2,
+      "ts_ms": 2000,
+      "longitud": 98304
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ErrorCampo",
+  "description": "Error de un campo concreto (JSON Pointer), sin eco del valor recibido.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "campo",
+    "problema"
+  ],
+  "properties": {
+    "campo": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^(/[^/]*)*$"
+    },
+    "problema": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    }
+  },
+  "examples": [
+    {
+      "campo": "/enlace",
+      "problema": "Formato inválido"
+    }
+  ]
+}

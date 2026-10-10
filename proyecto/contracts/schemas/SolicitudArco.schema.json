@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SolicitudArco",
+  "description": "Solicitud de acceso, rectificación o supresión del cliente final (R22–R24). Identificación con dos factores: código de referencia + contacto.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tipo",
+    "codigo_referencia",
+    "verificacion"
+  ],
+  "properties": {
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "acceso",
+        "rectificacion",
+        "supresion"
+      ]
+    },
+    "codigo_referencia": {
+      "$ref": "CodigoReferencia.schema.json"
+    },
+    "verificacion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "telefono": {
+          "$ref": "Telefono.schema.json"
+        },
+        "email": {
+          "$ref": "Email.schema.json"
+        }
+      },
+      "minProperties": 1
+    },
+    "detalle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    }
+  },
+  "examples": [
+    {
+      "tipo": "acceso",
+      "codigo_referencia": "VC-6X0B-5RD4NC",
+      "verificacion": {
+        "telefono": "+5492235552000"
+      }
+    },
+    {
+      "tipo": "rectificacion",
+      "codigo_referencia": "VC-JFGD-X4DDYV",
+      "verificacion": {
+        "email": "cliente1@correo.local"
+      },
+      "detalle": "El metraje anotado era 40 m², no 60 m²."
+    }
+  ]
+}

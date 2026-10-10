@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CodigoReferencia",
+  "description": "Código de referencia de la derivación a WhatsApp: no predecible (50 bits), sin datos personales (R50). Único por tenant.",
+  "type": "string",
+  "pattern": "^VC-[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{6}$",
+  "examples": [
+    "VC-JFGD-X4DDYV",
+    "VC-ABTP-61NNQ8"
+  ]
+}

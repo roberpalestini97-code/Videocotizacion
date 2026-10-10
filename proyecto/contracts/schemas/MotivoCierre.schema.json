@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MotivoCierre",
+  "description": "Motivo de cierre (R60 + ADR 0006, conciliados): cliente_cerro = cliente_colgo del ADR; error_interno + error_proveedor = \"error\" de R60.",
+  "type": "string",
+  "enum": [
+    "completada",
+    "cliente_cerro",
+    "sin_voz",
+    "sin_camara",
+    "sin_consentimiento",
+    "duracion_maxima",
+    "cuota_agotada",
+    "desafio_invalido",
+    "error_proveedor",
+    "error_interno"
+  ],
+  "examples": [
+    "completada",
+    "cliente_cerro",
+    "sin_voz",
+    "sin_camara",
+    "sin_consentimiento",
+    "duracion_maxima",
+    "cuota_agotada",
+    "desafio_invalido",
+    "error_proveedor",
+    "error_interno"
+  ]
+}

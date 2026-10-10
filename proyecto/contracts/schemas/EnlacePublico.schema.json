@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EnlacePublico",
+  "description": "Configuración pública del enlace opaco del profesional (R63: perfil público mínimo, sin teléfono ni apellido). Inexistente, revocado u otro tenant → mismo 404 (R64).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id_publico",
+    "profesional",
+    "avatares",
+    "aviso_privacidad",
+    "camara_obligatoria",
+    "fotograma",
+    "asistente_automatico"
+  ],
+  "properties": {
+    "id_publico": {
+      "$ref": "IdPublicoEnlace.schema.json"
+    },
+    "profesional": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nombre_visible",
+        "oficios",
+        "zonas"
+      ],
+      "properties": {
+        "nombre_visible": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60,
+          "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+        },
+        "oficios": {
+          "type": "array",
+          "items": {
+            "$ref": "Oficio.schema.json"
+          },
+          "minItems": 1,
+          "maxItems": 5,
+          "uniqueItems": true
+        },
+        "zonas": {
+          "type": "array",
+          "items": {
+            "$ref": "ZonaAtendida.schema.json"
+          },
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true
+        }
+      }
+    },
+    "avatares": {
+      "type": "array",
+      "items": {
+        "$ref": "Avatar.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 6
+    },
+    "aviso_privacidad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "url"
+      ],
+      "properties": {
+        "version": {
+          "$ref": "VersionAviso.schema.json"
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300,
+          "format": "uri",
+          "pattern": "^https://"
+        }
+      }
+    },
+    "camara_obligatoria": {
+      "type": "boolean",
+      "const": true
+    },
+    "fotograma": {
+      "$ref": "ReglaFotograma.schema.json"
+    },
+    "asistente_automatico": {
+      "type": "boolean",
+      "const": true,
+      "description": "Se avisa que atiende un asistente automático (R46)."
+    }
+  },
+  "examples": [
+    {
+      "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+      "profesional": {
+        "nombre_visible": "Juan P.",
+        "oficios": [
+          "pintura"
+        ],
+        "zonas": [
+          "mar_chiquita"
+        ]
+      },
+      "avatares": [
+        {
+          "avatar_id": "av_obrero_casco",
+          "nombre": "Juan",
+          "modos": [
+            "3d",
+            "clips"
+          ],
+          "descripcion_accesible": "Trabajador con casco amarillo y ropa de obra"
+        }
+      ],
+      "aviso_privacidad": {
+        "version": "2026-10-08.1",
+        "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"
+      },
+      "camara_obligatoria": true,
+      "fotograma": {
+        "formato": "image/jpeg",
+        "lado_max_px": 1024,
+        "bytes_max": 131072,
+        "intervalo_min_ms": 3000,
+        "max_por_sesion": 400
+      },
+      "asistente_automatico": true
+    }
+  ]
+}

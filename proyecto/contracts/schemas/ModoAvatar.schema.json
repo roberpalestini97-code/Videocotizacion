@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ModoAvatar",
+  "description": "Modo del avatar (BRIEF 1): 3D en vivo con visemas o clips pregrabados.",
+  "type": "string",
+  "enum": [
+    "3d",
+    "clips"
+  ],
+  "examples": [
+    "3d",
+    "clips"
+  ]
+}

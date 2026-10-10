@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evento_pizarron_corregir",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Cliente → servidor: el cliente corrige un dato del pizarrón (R48).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "tipo",
+    "seq",
+    "ts",
+    "datos"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "const": "pizarron.corregir"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts": {
+      "$ref": "../FechaHora.schema.json"
+    },
+    "datos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version_base",
+        "clave",
+        "valor"
+      ],
+      "properties": {
+        "version_base": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "clave": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]{2,60}$"
+        },
+        "valor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "pizarron.corregir",
+      "seq": 2,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "version_base": 3,
+        "clave": "superficie_m2",
+        "valor": "40 m²"
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "pizarron.corregir",
+      "seq": 3,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "version_base": 4,
+        "clave": "superficie_m2",
+        "valor": "41 m²"
+      }
+    }
+  ]
+}

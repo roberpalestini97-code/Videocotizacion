@@ -1,0 +1,20 @@
+[
+  {
+    "esquema": "CodigoReferencia",
+    "caso": "código corto",
+    "falla_por": "pattern",
+    "instancia": "VC-1234"
+  },
+  {
+    "esquema": "CodigoReferencia",
+    "caso": "código en minúsculas",
+    "falla_por": "pattern",
+    "instancia": "vc-abcd-efghjk"
+  },
+  {
+    "esquema": "CodigoReferencia",
+    "caso": "código con I/L/O/U ambiguas",
+    "falla_por": "pattern",
+    "instancia": "VC-ILOU-ABCDEF"
+  }
+]

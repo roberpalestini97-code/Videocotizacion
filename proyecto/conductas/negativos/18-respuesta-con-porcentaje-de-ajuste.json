@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "oficio": "pintura",
+  "trabajo": {
+    "tipo": "pintura_interior",
+    "descripcion": "Pintar la casa completa más adelante",
+    "complejidad": "media",
+    "requiere_planos": false,
+    "jornadas_estimadas": 4
+  },
+  "medidas": [],
+  "altura": {
+    "metros_max": 2.7,
+    "requiere_andamio": "no",
+    "medio": "escalera"
+  },
+  "estado_superficie": "regular",
+  "zona": {
+    "localidad": "mar_chiquita",
+    "fuera_de_zona": false
+  },
+  "urgencia": {
+    "nivel": "baja",
+    "senales": [
+      "arranca en unos meses"
+    ]
+  },
+  "tipo_cliente": "particular_primera_vez",
+  "plazo": {
+    "tipo": "mas_de_un_mes",
+    "sujeto_a_cambios": true
+  },
+  "faltantes": [],
+  "siguiente_paso": {
+    "accion": "preguntar",
+    "motivo": "La respuesta inventa un porcentaje de ajuste; eso lo escribe el sistema, no el modelo",
+    "campos": [
+      "plazo"
+    ]
+  },
+  "respuesta_hablada": "Como arranca en unos meses, el presupuesto puede ajustarse un porcentaje."
+}

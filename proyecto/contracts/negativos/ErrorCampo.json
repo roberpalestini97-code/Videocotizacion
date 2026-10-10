@@ -1,0 +1,28 @@
+[
+  {
+    "esquema": "ErrorCampo",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "campo": "/enlace",
+      "problema": "Formato inválido",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ErrorCampo",
+    "caso": "falta \"campo\"",
+    "falla_por": "required",
+    "instancia": {
+      "problema": "Formato inválido"
+    }
+  },
+  {
+    "esquema": "ErrorCampo",
+    "caso": "falta \"problema\"",
+    "falla_por": "required",
+    "instancia": {
+      "campo": "/enlace"
+    }
+  }
+]

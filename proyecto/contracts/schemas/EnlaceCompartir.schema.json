@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EnlaceCompartir",
+  "description": "Enlace opaco del profesional y texto listo para compartir.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id_publico",
+    "url",
+    "texto_compartir"
+  ],
+  "properties": {
+    "id_publico": {
+      "$ref": "IdPublicoEnlace.schema.json"
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^https://cotizar\\.[a-z0-9.-]+/c/[A-Za-z0-9_-]{22}$"
+    },
+    "texto_compartir": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 280,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "rotado_en": {
+      "$ref": "FechaHora.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+      "url": "https://cotizar.videocotizacion.local/c/RYZ4c3qAHifF6Rh4XEo3fG",
+      "texto_compartir": "Pedí tu presupuesto por videollamada: https://cotizar.videocotizacion.local/c/RYZ4c3qAHifF6Rh4XEo3fG"
+    }
+  ]
+}

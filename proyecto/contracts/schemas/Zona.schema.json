@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Zona",
+  "description": "Zona del trabajo. \"otra\" = fuera de zona: la cotización SÍ se emite, marcada (corrige T24).",
+  "type": "string",
+  "enum": [
+    "mar_chiquita",
+    "cobo",
+    "santa_clara",
+    "parque_lago",
+    "otra"
+  ],
+  "examples": [
+    "mar_chiquita",
+    "cobo",
+    "santa_clara",
+    "parque_lago",
+    "otra"
+  ]
+}

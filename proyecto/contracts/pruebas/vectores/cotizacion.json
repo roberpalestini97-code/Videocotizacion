@@ -1,0 +1,1913 @@
+[
+  {
+    "id": "V399",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización pintura en mar_chiquita",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_EQAYJZA4VR8D0NGFY1YVGDTN2G",
+        "sesion_id": "ses_WWPW6A2DRA2E1ZF8CG5XEVEBB6",
+        "emitida_en": "2026-10-08T15:00:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "mar_chiquita",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 38750,
+            "precio_unitario_centavos": 185700,
+            "importe_centavos": 71958750
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 39125,
+            "precio_unitario_centavos": 90707,
+            "importe_centavos": 35489114
+          }
+        ],
+        "total_centavos": 107447864,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V400",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización pintura en cobo",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_KDHPKX9Y8S3X4W4Y6HA1NDGCA5",
+        "sesion_id": "ses_QEWFA8Q0H9TYEK1YGG9BBZ2EE2",
+        "emitida_en": "2026-10-08T15:01:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 39125,
+            "precio_unitario_centavos": 185707,
+            "importe_centavos": 72657864
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 39500,
+            "precio_unitario_centavos": 90714,
+            "importe_centavos": 35832030
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_exterior",
+            "descripcion": "Pintura exterior acrílica",
+            "unidad": "m2",
+            "cantidad_centesimas": 39875,
+            "precio_unitario_centavos": 240721,
+            "importe_centavos": 95987499
+          }
+        ],
+        "total_centavos": 204477393,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V401",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización pintura en santa_clara",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_VYS23YH7D2TPTW57HR4CC8E7XA",
+        "sesion_id": "ses_3F4QJV38V7PB9BC47MKV660D12",
+        "emitida_en": "2026-10-08T15:02:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "santa_clara",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 39500,
+            "precio_unitario_centavos": 185714,
+            "importe_centavos": 73357030
+          }
+        ],
+        "total_centavos": 73357030,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V402",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización pintura en parque_lago",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_DC94NDG54QEYR4B0M637C2J2H9",
+        "sesion_id": "ses_GTX7XQAPQS2T84F7H4YDY3CFQK",
+        "emitida_en": "2026-10-08T15:03:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "parque_lago",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 39875,
+            "precio_unitario_centavos": 185721,
+            "importe_centavos": 74056249
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 40250,
+            "precio_unitario_centavos": 90728,
+            "importe_centavos": 36518020
+          }
+        ],
+        "total_centavos": 110574269,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V403",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15",
+      "T24"
+    ],
+    "descripcion": "cotización pintura en otra: fuera de zona SÍ se emite, marcada",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_SMR867E6CJ4QNPFZVFKHPN7AGK",
+        "sesion_id": "ses_W7YR7H36MQZ02QV51WCMTJSANQ",
+        "emitida_en": "2026-10-08T15:04:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 40250,
+            "precio_unitario_centavos": 185728,
+            "importe_centavos": 74755520
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 40625,
+            "precio_unitario_centavos": 90735,
+            "importe_centavos": 36861094
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_exterior",
+            "descripcion": "Pintura exterior acrílica",
+            "unidad": "m2",
+            "cantidad_centesimas": 41000,
+            "precio_unitario_centavos": 240742,
+            "importe_centavos": 98704220
+          },
+          {
+            "tipo": "traslado",
+            "codigo_tarea": "traslado_fuera_de_zona",
+            "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
+            "unidad": "global",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 1500104,
+            "importe_centavos": 1500104
+          }
+        ],
+        "total_centavos": 211820938,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V404",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización jardineria en mar_chiquita",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_T9BBYB8SXKTD2VHBC4P389WN2W",
+        "sesion_id": "ses_GY70C01TN9WWSXSG9SCGT9AF0H",
+        "emitida_en": "2026-10-08T15:05:00Z",
+        "moneda": "ARS",
+        "oficio": "jardineria",
+        "zona": "mar_chiquita",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "corte_cesped",
+            "descripcion": "Corte de césped y bordeado",
+            "unidad": "m2",
+            "cantidad_centesimas": 40625,
+            "precio_unitario_centavos": 30735,
+            "importe_centavos": 12486094
+          }
+        ],
+        "total_centavos": 12486094,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V405",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización jardineria en cobo",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_NE2WTE7SDNE76MVQZ50F0XVGCS",
+        "sesion_id": "ses_623SFKX2NTER65DQF1GFJG9SX2",
+        "emitida_en": "2026-10-08T15:06:00Z",
+        "moneda": "ARS",
+        "oficio": "jardineria",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "corte_cesped",
+            "descripcion": "Corte de césped y bordeado",
+            "unidad": "m2",
+            "cantidad_centesimas": 41000,
+            "precio_unitario_centavos": 30742,
+            "importe_centavos": 12604220
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "poda",
+            "descripcion": "Poda de árbol mediano",
+            "unidad": "unidad",
+            "cantidad_centesimas": 300,
+            "precio_unitario_centavos": 4500749,
+            "importe_centavos": 13502247
+          }
+        ],
+        "total_centavos": 26106467,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V406",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización jardineria en santa_clara",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_QVY4S3NF2XCDWS9QABRS4BSJG7",
+        "sesion_id": "ses_Y47KSDPPTQZR4TNAM7M9Q8D0E3",
+        "emitida_en": "2026-10-08T15:07:00Z",
+        "moneda": "ARS",
+        "oficio": "jardineria",
+        "zona": "santa_clara",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "corte_cesped",
+            "descripcion": "Corte de césped y bordeado",
+            "unidad": "m2",
+            "cantidad_centesimas": 41375,
+            "precio_unitario_centavos": 30749,
+            "importe_centavos": 12722399
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "poda",
+            "descripcion": "Poda de árbol mediano",
+            "unidad": "unidad",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 4500756,
+            "importe_centavos": 4500756
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "desmalezado",
+            "descripcion": "Desmalezado de terreno",
+            "unidad": "m2",
+            "cantidad_centesimas": 42125,
+            "precio_unitario_centavos": 50763,
+            "importe_centavos": 21383914
+          }
+        ],
+        "total_centavos": 38607069,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V407",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización jardineria en parque_lago",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_4K1VPACQ0BPM9XBFMM1VRJVPMC",
+        "sesion_id": "ses_R29VHVGBNCAS4R73JS8CVFP617",
+        "emitida_en": "2026-10-08T15:08:00Z",
+        "moneda": "ARS",
+        "oficio": "jardineria",
+        "zona": "parque_lago",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "corte_cesped",
+            "descripcion": "Corte de césped y bordeado",
+            "unidad": "m2",
+            "cantidad_centesimas": 41750,
+            "precio_unitario_centavos": 30756,
+            "importe_centavos": 12840630
+          }
+        ],
+        "total_centavos": 12840630,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V408",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15",
+      "T24"
+    ],
+    "descripcion": "cotización jardineria en otra: fuera de zona SÍ se emite, marcada",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_2ZJXAHNAVD17NV2FYKDTZG8X5K",
+        "sesion_id": "ses_H2EDKXYAY3E8NHBYHJ3C36GQPX",
+        "emitida_en": "2026-10-08T15:09:00Z",
+        "moneda": "ARS",
+        "oficio": "jardineria",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "corte_cesped",
+            "descripcion": "Corte de césped y bordeado",
+            "unidad": "m2",
+            "cantidad_centesimas": 42125,
+            "precio_unitario_centavos": 30763,
+            "importe_centavos": 12958914
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "poda",
+            "descripcion": "Poda de árbol mediano",
+            "unidad": "unidad",
+            "cantidad_centesimas": 300,
+            "precio_unitario_centavos": 4500770,
+            "importe_centavos": 13502310
+          },
+          {
+            "tipo": "traslado",
+            "codigo_tarea": "traslado_fuera_de_zona",
+            "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
+            "unidad": "global",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 1500109,
+            "importe_centavos": 1500109
+          }
+        ],
+        "total_centavos": 27961333,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V409",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización reparaciones en mar_chiquita",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_WSJS7YCNBGANW3EWEQPCSJEHKE",
+        "sesion_id": "ses_JRDG8PKQ46DPYZ470MD6XZQEB3",
+        "emitida_en": "2026-10-08T15:10:00Z",
+        "moneda": "ARS",
+        "oficio": "reparaciones",
+        "zona": "mar_chiquita",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "reparacion_general",
+            "descripcion": "Reparación general por hora",
+            "unidad": "hora",
+            "cantidad_centesimas": 300,
+            "precio_unitario_centavos": 1200770,
+            "importe_centavos": 3602310
+          }
+        ],
+        "total_centavos": 3602310,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V410",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización reparaciones en cobo",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_Y506T6DPRY4XV4AB6ZJY2AGPS0",
+        "sesion_id": "ses_D7PWESKRGPVCGHNC66QH7HHRZR",
+        "emitida_en": "2026-10-08T15:11:00Z",
+        "moneda": "ARS",
+        "oficio": "reparaciones",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "reparacion_general",
+            "descripcion": "Reparación general por hora",
+            "unidad": "hora",
+            "cantidad_centesimas": 400,
+            "precio_unitario_centavos": 1200777,
+            "importe_centavos": 4803108
+          }
+        ],
+        "total_centavos": 4803108,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V411",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización reparaciones en santa_clara",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_SHF92ANVNA68RNSJH4G1VM80RM",
+        "sesion_id": "ses_FK2CF6JZT9X5XQFK01Q4PK3YFR",
+        "emitida_en": "2026-10-08T15:12:00Z",
+        "moneda": "ARS",
+        "oficio": "reparaciones",
+        "zona": "santa_clara",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "reparacion_general",
+            "descripcion": "Reparación general por hora",
+            "unidad": "hora",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 1200784,
+            "importe_centavos": 1200784
+          }
+        ],
+        "total_centavos": 1200784,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V412",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización reparaciones en parque_lago",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_TVY4SBCNP99CTZCZ26H3GRR8XZ",
+        "sesion_id": "ses_6BM65NJF94B1731F1RNB34TD6G",
+        "emitida_en": "2026-10-08T15:13:00Z",
+        "moneda": "ARS",
+        "oficio": "reparaciones",
+        "zona": "parque_lago",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "reparacion_general",
+            "descripcion": "Reparación general por hora",
+            "unidad": "hora",
+            "cantidad_centesimas": 200,
+            "precio_unitario_centavos": 1200791,
+            "importe_centavos": 2401582
+          }
+        ],
+        "total_centavos": 2401582,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V413",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15",
+      "T24"
+    ],
+    "descripcion": "cotización reparaciones en otra: fuera de zona SÍ se emite, marcada",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_N6VW6ANSN7R7YMW6MY5HH7839D",
+        "sesion_id": "ses_NDRERYKPD8EVJC6JW2Q76KBW16",
+        "emitida_en": "2026-10-08T15:14:00Z",
+        "moneda": "ARS",
+        "oficio": "reparaciones",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "reparacion_general",
+            "descripcion": "Reparación general por hora",
+            "unidad": "hora",
+            "cantidad_centesimas": 300,
+            "precio_unitario_centavos": 1200798,
+            "importe_centavos": 3602394
+          },
+          {
+            "tipo": "traslado",
+            "codigo_tarea": "traslado_fuera_de_zona",
+            "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
+            "unidad": "global",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 1500114,
+            "importe_centavos": 1500114
+          }
+        ],
+        "total_centavos": 5102508,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V414",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización mantenimiento en mar_chiquita",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_JSTS7CBB6C7HARGK4FDSD6B0KM",
+        "sesion_id": "ses_PSWWTNTJP0ZEQT973CB3RNHRYP",
+        "emitida_en": "2026-10-08T15:15:00Z",
+        "moneda": "ARS",
+        "oficio": "mantenimiento",
+        "zona": "mar_chiquita",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "visita_mantenimiento",
+            "descripcion": "Visita de mantenimiento",
+            "unidad": "visita",
+            "cantidad_centesimas": 400,
+            "precio_unitario_centavos": 3000805,
+            "importe_centavos": 12003220
+          }
+        ],
+        "total_centavos": 12003220,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V415",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización mantenimiento en cobo",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_DH2KVHCFD0DP768259ES09X9Z7",
+        "sesion_id": "ses_3KKXVT2X5G83NTWSGT577SAV8P",
+        "emitida_en": "2026-10-08T15:16:00Z",
+        "moneda": "ARS",
+        "oficio": "mantenimiento",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "visita_mantenimiento",
+            "descripcion": "Visita de mantenimiento",
+            "unidad": "visita",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 3000812,
+            "importe_centavos": 3000812
+          }
+        ],
+        "total_centavos": 3000812,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V416",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización mantenimiento en santa_clara",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_6XRJ9G6M6Q6NB07MP4BTBBYGRV",
+        "sesion_id": "ses_6XZTTK1ATN8BKQ8EN7R10QA1HD",
+        "emitida_en": "2026-10-08T15:17:00Z",
+        "moneda": "ARS",
+        "oficio": "mantenimiento",
+        "zona": "santa_clara",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "visita_mantenimiento",
+            "descripcion": "Visita de mantenimiento",
+            "unidad": "visita",
+            "cantidad_centesimas": 200,
+            "precio_unitario_centavos": 3000819,
+            "importe_centavos": 6001638
+          }
+        ],
+        "total_centavos": 6001638,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V417",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización mantenimiento en parque_lago",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_6GK21GC9ETKSMDKJYM4FKQKJSB",
+        "sesion_id": "ses_9RRSG67MQPQ8KV942QESN5FDDK",
+        "emitida_en": "2026-10-08T15:18:00Z",
+        "moneda": "ARS",
+        "oficio": "mantenimiento",
+        "zona": "parque_lago",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "visita_mantenimiento",
+            "descripcion": "Visita de mantenimiento",
+            "unidad": "visita",
+            "cantidad_centesimas": 300,
+            "precio_unitario_centavos": 3000826,
+            "importe_centavos": 9002478
+          }
+        ],
+        "total_centavos": 9002478,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V418",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15",
+      "T24"
+    ],
+    "descripcion": "cotización mantenimiento en otra: fuera de zona SÍ se emite, marcada",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_PG4BS6AKX8CCC0ZJ195FZ07K5N",
+        "sesion_id": "ses_T3AJ293BCQ3V995J0VJJDC4B6K",
+        "emitida_en": "2026-10-08T15:19:00Z",
+        "moneda": "ARS",
+        "oficio": "mantenimiento",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "visita_mantenimiento",
+            "descripcion": "Visita de mantenimiento",
+            "unidad": "visita",
+            "cantidad_centesimas": 400,
+            "precio_unitario_centavos": 3000833,
+            "importe_centavos": 12003332
+          },
+          {
+            "tipo": "traslado",
+            "codigo_tarea": "traslado_fuera_de_zona",
+            "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
+            "unidad": "global",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 1500119,
+            "importe_centavos": 1500119
+          }
+        ],
+        "total_centavos": 13503451,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V419",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización limpieza en mar_chiquita",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_GYXX1A1MXZH7BEZ8AA9Z9C93MP",
+        "sesion_id": "ses_WC934G7E9A2NPMNXCBJCY3D6B1",
+        "emitida_en": "2026-10-08T15:20:00Z",
+        "moneda": "ARS",
+        "oficio": "limpieza",
+        "zona": "mar_chiquita",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "limpieza_final_obra",
+            "descripcion": "Limpieza final de obra",
+            "unidad": "m2",
+            "cantidad_centesimas": 46250,
+            "precio_unitario_centavos": 110840,
+            "importe_centavos": 51263500
+          }
+        ],
+        "total_centavos": 51263500,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V420",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización limpieza en cobo",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_C4VWX7ETTJX3MM3RXWFWZ8MG2K",
+        "sesion_id": "ses_SVH21BDP0GM9AZMENAZDM06PKR",
+        "emitida_en": "2026-10-08T15:21:00Z",
+        "moneda": "ARS",
+        "oficio": "limpieza",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "limpieza_final_obra",
+            "descripcion": "Limpieza final de obra",
+            "unidad": "m2",
+            "cantidad_centesimas": 46625,
+            "precio_unitario_centavos": 110847,
+            "importe_centavos": 51682414
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "limpieza_terreno",
+            "descripcion": "Limpieza de terreno",
+            "unidad": "m2",
+            "cantidad_centesimas": 47000,
+            "precio_unitario_centavos": 40854,
+            "importe_centavos": 19201380
+          }
+        ],
+        "total_centavos": 70883794,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V421",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización limpieza en santa_clara",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_6WFZ6HJ4PTMJEE7C3WTVT4EHXK",
+        "sesion_id": "ses_JFZQ38B63XXCY78FW2F9D21ZK5",
+        "emitida_en": "2026-10-08T15:22:00Z",
+        "moneda": "ARS",
+        "oficio": "limpieza",
+        "zona": "santa_clara",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "limpieza_final_obra",
+            "descripcion": "Limpieza final de obra",
+            "unidad": "m2",
+            "cantidad_centesimas": 47000,
+            "precio_unitario_centavos": 110854,
+            "importe_centavos": 52101380
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "limpieza_terreno",
+            "descripcion": "Limpieza de terreno",
+            "unidad": "m2",
+            "cantidad_centesimas": 47375,
+            "precio_unitario_centavos": 40861,
+            "importe_centavos": 19357899
+          }
+        ],
+        "total_centavos": 71459279,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V422",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "cotización limpieza en parque_lago",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_MZBM7KVC0A341S6RDQCY5A5TET",
+        "sesion_id": "ses_10AAEA72YA5ZFKG9E0JXMJ4GA5",
+        "emitida_en": "2026-10-08T15:23:00Z",
+        "moneda": "ARS",
+        "oficio": "limpieza",
+        "zona": "parque_lago",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "limpieza_final_obra",
+            "descripcion": "Limpieza final de obra",
+            "unidad": "m2",
+            "cantidad_centesimas": 47375,
+            "precio_unitario_centavos": 110861,
+            "importe_centavos": 52520399
+          }
+        ],
+        "total_centavos": 52520399,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V423",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15",
+      "T24"
+    ],
+    "descripcion": "cotización limpieza en otra: fuera de zona SÍ se emite, marcada",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_8RQSD73WTQQMCG162PTBYAM3JS",
+        "sesion_id": "ses_KVS1Z001CXQY2X5N1HZT90CZP0",
+        "emitida_en": "2026-10-08T15:24:00Z",
+        "moneda": "ARS",
+        "oficio": "limpieza",
+        "zona": "otra",
+        "fuera_de_zona": true,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "limpieza_final_obra",
+            "descripcion": "Limpieza final de obra",
+            "unidad": "m2",
+            "cantidad_centesimas": 47750,
+            "precio_unitario_centavos": 110868,
+            "importe_centavos": 52939470
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "limpieza_terreno",
+            "descripcion": "Limpieza de terreno",
+            "unidad": "m2",
+            "cantidad_centesimas": 48125,
+            "precio_unitario_centavos": 40875,
+            "importe_centavos": 19671094
+          },
+          {
+            "tipo": "traslado",
+            "codigo_tarea": "traslado_fuera_de_zona",
+            "descripcion": "Traslado fuera de zona (a confirmar por el asesor)",
+            "unidad": "global",
+            "cantidad_centesimas": 100,
+            "precio_unitario_centavos": 1500124,
+            "importe_centavos": 1500124
+          }
+        ],
+        "total_centavos": 74110688,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      }
+    }
+  },
+  {
+    "id": "V424",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "total distinto de la suma de ítems",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_Y88R02KJEXQ49G2TDW4P01RH8E",
+        "sesion_id": "ses_SVR3G3ZHD3HE383EZY3TJJE05V",
+        "emitida_en": "2026-10-08T13:27:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 3875,
+            "precio_unitario_centavos": 185049,
+            "importe_centavos": 7170649
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 4250,
+            "precio_unitario_centavos": 90056,
+            "importe_centavos": 3827380
+          }
+        ],
+        "total_centavos": 10998030,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V425",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "R15"
+    ],
+    "descripcion": "importe de ítem mal redondeado",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_Y88R02KJEXQ49G2TDW4P01RH8E",
+        "sesion_id": "ses_SVR3G3ZHD3HE383EZY3TJJE05V",
+        "emitida_en": "2026-10-08T13:27:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 3875,
+            "precio_unitario_centavos": 185049,
+            "importe_centavos": 7170650
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 4250,
+            "precio_unitario_centavos": 90056,
+            "importe_centavos": 3827380
+          }
+        ],
+        "total_centavos": 10998030,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V426",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "T24"
+    ],
+    "descripcion": "fuera de zona sin marca",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_Y88R02KJEXQ49G2TDW4P01RH8E",
+        "sesion_id": "ses_SVR3G3ZHD3HE383EZY3TJJE05V",
+        "emitida_en": "2026-10-08T13:27:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "otra",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 3875,
+            "precio_unitario_centavos": 185049,
+            "importe_centavos": 7170649
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 4250,
+            "precio_unitario_centavos": 90056,
+            "importe_centavos": 3827380
+          }
+        ],
+        "total_centavos": 10998029,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V427",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "O04"
+    ],
+    "descripcion": "monto con decimales",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_Y88R02KJEXQ49G2TDW4P01RH8E",
+        "sesion_id": "ses_SVR3G3ZHD3HE383EZY3TJJE05V",
+        "emitida_en": "2026-10-08T13:27:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 3875,
+            "precio_unitario_centavos": 185049,
+            "importe_centavos": 7170649
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 4250,
+            "precio_unitario_centavos": 90056,
+            "importe_centavos": 3827380
+          }
+        ],
+        "total_centavos": 10998029.5,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V428",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "O04"
+    ],
+    "descripcion": "precio unitario negativo",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "cotizacion_id": "cot_Y88R02KJEXQ49G2TDW4P01RH8E",
+        "sesion_id": "ses_SVR3G3ZHD3HE383EZY3TJJE05V",
+        "emitida_en": "2026-10-08T13:27:00Z",
+        "moneda": "ARS",
+        "oficio": "pintura",
+        "zona": "cobo",
+        "fuera_de_zona": false,
+        "items": [
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "pintura_interior",
+            "descripcion": "Pintura interior látex, dos manos",
+            "unidad": "m2",
+            "cantidad_centesimas": 3875,
+            "precio_unitario_centavos": -100,
+            "importe_centavos": 7170649
+          },
+          {
+            "tipo": "mano_de_obra",
+            "codigo_tarea": "preparacion_superficie",
+            "descripcion": "Lijado y enduido de paredes",
+            "unidad": "m2",
+            "cantidad_centesimas": 4250,
+            "precio_unitario_centavos": 90056,
+            "importe_centavos": 3827380
+          }
+        ],
+        "total_centavos": 10998029,
+        "orientativa": true,
+        "leyenda": "Presupuesto orientativo: el profesional lo confirma al ver el trabajo.",
+        "tarifas": {
+          "version": "2026.1",
+          "estado": "referencia_publica_sin_validar"
+        },
+        "validez_dias": 15
+      },
+      "conforme": false
+    }
+  },
+  {
+    "id": "V429",
+    "categoria": "cotizacion",
+    "requisitos": [
+      "T24"
+    ],
+    "descripcion": "evento final: cotización fuera de zona emitida con derivación",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+        "estado": "cerrada",
+        "motivo_cierre": "completada",
+        "cerrada_en": "2026-10-08T13:15:00Z",
+        "duracion_s": 300,
+        "cotizacion_id": "cot_G50QWTY32RSF4ZV0JDJ6D0RMSS",
+        "derivacion": {
+          "codigo_referencia": "VC-6X0B-5RD4NC",
+          "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+          "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+          "generada_en": "2026-10-08T13:25:00Z"
+        }
+      }
+    }
+  }
+]

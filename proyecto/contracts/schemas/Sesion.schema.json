@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sesion",
+  "description": "Lectura de una sesión por id (tenant con clave secreta o el propio cliente con token de sesión).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sesion_id",
+    "estado",
+    "modo_avatar",
+    "creada_en",
+    "duracion_s"
+  ],
+  "properties": {
+    "sesion_id": {
+      "$ref": "IdSesion.schema.json"
+    },
+    "estado": {
+      "$ref": "EstadoSesion.schema.json"
+    },
+    "modo_avatar": {
+      "$ref": "ModoAvatar.schema.json"
+    },
+    "creada_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "consentida_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "cerrada_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "motivo_cierre": {
+      "$ref": "MotivoCierre.schema.json"
+    },
+    "duracion_s": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 86400
+    },
+    "cotizacion_id": {
+      "$ref": "IdCotizacion.schema.json"
+    }
+  },
+  "if": {
+    "type": "object",
+    "properties": {
+      "estado": {
+        "const": "cerrada"
+      }
+    },
+    "required": [
+      "estado"
+    ]
+  },
+  "then": {
+    "type": "object",
+    "properties": {
+      "cerrada_en": true,
+      "motivo_cierre": true
+    },
+    "required": [
+      "cerrada_en",
+      "motivo_cierre"
+    ]
+  },
+  "else": {
+    "type": "object",
+    "not": {
+      "type": "object",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "cerrada_en": true
+          },
+          "required": [
+            "cerrada_en"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "motivo_cierre": true
+          },
+          "required": [
+            "motivo_cierre"
+          ]
+        }
+      ]
+    }
+  },
+  "examples": [
+    {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "estado": "creada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "duracion_s": 0
+    },
+    {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "estado": "cerrada",
+      "modo_avatar": "3d",
+      "creada_en": "2026-10-08T13:00:00Z",
+      "duracion_s": 600,
+      "consentida_en": "2026-10-08T13:01:00Z",
+      "cerrada_en": "2026-10-08T13:15:00Z",
+      "motivo_cierre": "completada",
+      "cotizacion_id": "cot_9DQCFQZZ7H1RQ0CKK4EQF7C54A"
+    }
+  ]
+}

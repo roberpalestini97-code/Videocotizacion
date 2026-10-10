@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "ai-avatar-video": {
+      "source": "qu-skills/skills",
+      "sourceType": "github",
+      "skillPath": "tools/video/ai-avatar-video/SKILL.md",
+      "computedHash": "a751b3173df4e4745b27741a19f0fbfc7740851b51170bc7849f15a62964f6ec"
+    }
+  }
+}

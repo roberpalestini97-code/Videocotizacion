@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReautenticacionOtorgada",
+  "description": "Ventana de reautenticación (≤5 min).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "valida_hasta",
+    "valida_s"
+  ],
+  "properties": {
+    "valida_hasta": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "valida_s": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 300
+    }
+  },
+  "examples": [
+    {
+      "valida_hasta": "2026-10-08T13:05:00Z",
+      "valida_s": 300
+    }
+  ]
+}

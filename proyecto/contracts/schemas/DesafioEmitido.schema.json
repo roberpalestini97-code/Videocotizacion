@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DesafioEmitido",
+  "description": "Desafío anti-bots (R53): un solo uso, vence en ≤120 s, ligado a clave pública + Origin. Mecanismo PROVISORIO (P7).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "desafio",
+    "mecanismo",
+    "dificultad_bits",
+    "vence_en",
+    "vence_en_s",
+    "provisorio"
+  ],
+  "properties": {
+    "desafio": {
+      "type": "string",
+      "pattern": "^dsf_[A-Za-z0-9_-]{43}$"
+    },
+    "mecanismo": {
+      "type": "string",
+      "enum": [
+        "prueba_de_trabajo_sha256"
+      ]
+    },
+    "dificultad_bits": {
+      "type": "integer",
+      "minimum": 8,
+      "maximum": 32
+    },
+    "vence_en": {
+      "$ref": "FechaHora.schema.json"
+    },
+    "vence_en_s": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 120
+    },
+    "provisorio": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "examples": [
+    {
+      "desafio": "dsf_KNUl317y39WaG4rBFjMfm4OxyKdm1uaWKlYzmaQcNNz",
+      "mecanismo": "prueba_de_trabajo_sha256",
+      "dificultad_bits": 16,
+      "vence_en": "2026-10-08T13:02:00Z",
+      "vence_en_s": 120,
+      "provisorio": true
+    }
+  ]
+}

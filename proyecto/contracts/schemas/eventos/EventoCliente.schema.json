@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EventoCliente",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Unión de eventos cliente → servidor.",
+  "oneOf": [
+    {
+      "$ref": "Evento_sesion_autenticar.schema.json"
+    },
+    {
+      "$ref": "Evento_texto_enviar.schema.json"
+    },
+    {
+      "$ref": "Evento_pizarron_corregir.schema.json"
+    },
+    {
+      "$ref": "Evento_sesion_cerrar.schema.json"
+    }
+  ],
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "sesion.autenticar",
+      "seq": 0,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "token_medios": "vc_med_xfPOtNSkPoyQuG8-Hp-vvmkKqCHw8sBFoy1kvqQCEC6"
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "pizarron.corregir",
+      "seq": 2,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "version_base": 3,
+        "clave": "superficie_m2",
+        "valor": "40 m²"
+      }
+    }
+  ]
+}

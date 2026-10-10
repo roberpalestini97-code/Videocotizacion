@@ -1,0 +1,11 @@
+# Secretos y estado local: nunca al repositorio.
+.env
+.env.*
+!.env.example
+secrets/
+pg-ca-privada/
+# Archivos estáticos desplegados (el panel y el avatar los copia el despliegue; se versionan solo los .gitkeep).
+estatico/panel/*
+estatico/avatar/*
+!estatico/panel/.gitkeep
+!estatico/avatar/.gitkeep

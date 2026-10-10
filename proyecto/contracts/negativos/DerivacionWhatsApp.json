@@ -1,0 +1,56 @@
+[
+  {
+    "esquema": "DerivacionWhatsApp",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "codigo_referencia": "VC-6X0B-5RD4NC",
+      "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+      "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+      "generada_en": "2026-10-08T13:25:00Z",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "DerivacionWhatsApp",
+    "caso": "falta \"codigo_referencia\"",
+    "falla_por": "required",
+    "instancia": {
+      "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+      "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+      "generada_en": "2026-10-08T13:25:00Z"
+    }
+  },
+  {
+    "esquema": "DerivacionWhatsApp",
+    "caso": "falta \"url_wa_me\"",
+    "falla_por": "required",
+    "instancia": {
+      "codigo_referencia": "VC-6X0B-5RD4NC",
+      "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+      "generada_en": "2026-10-08T13:25:00Z"
+    }
+  },
+  {
+    "esquema": "DerivacionWhatsApp",
+    "caso": "url sin https",
+    "falla_por": "pattern",
+    "instancia": {
+      "codigo_referencia": "VC-6X0B-5RD4NC",
+      "url_wa_me": "http://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+      "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+      "generada_en": "2026-10-08T13:25:00Z"
+    }
+  },
+  {
+    "esquema": "DerivacionWhatsApp",
+    "caso": "url con espacios",
+    "falla_por": "pattern",
+    "instancia": {
+      "codigo_referencia": "VC-6X0B-5RD4NC",
+      "url_wa_me": "https://wa.me/5492235550101?text=hola mundo",
+      "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+      "generada_en": "2026-10-08T13:25:00Z"
+    }
+  }
+]

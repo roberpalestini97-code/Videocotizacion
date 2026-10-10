@@ -1,0 +1,17 @@
+[
+  {
+    "esquema": "CambioContrasenaSolicitud",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "contrasena_nueva": "otra-frase-bien-larga-0",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "CambioContrasenaSolicitud",
+    "caso": "falta \"contrasena_nueva\"",
+    "falla_por": "required",
+    "instancia": {}
+  }
+]

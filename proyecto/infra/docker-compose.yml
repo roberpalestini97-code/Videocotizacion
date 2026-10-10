@@ -1,0 +1,209 @@
+# VideoCotización · una sola VM (T11). Ver README.md.
+# Capas: caddy (único con puertos publicados) -> api (Go) -> db (PostgreSQL 16, red interna sin salida).
+# NO PROBADO: ningún contenedor se levantó (no hay daemon de Docker donde se escribió); las etiquetas
+# de imagen no están verificadas contra el registro y no hay digests fijados (ver README, "No probado").
+name: videocotizacion
+
+# Endurecimiento común a todos los servicios.
+x-endurecido: &endurecido
+  restart: unless-stopped
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  init: true
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "5"
+
+# La API y el paso de migración usan la misma imagen (comandos distintos: `servir` y `migrar`).
+x-imagen-api: &imagen-api
+  build:
+    context: ..
+    dockerfile: infra/docker/api.Dockerfile
+  image: videocotizacion-api:${VC_VERSION:-dev}
+
+services:
+  db:
+    <<: *endurecido
+    image: postgres:16.15-alpine
+    # TLS obligatorio (hostssl en pg_hba.conf), TLS >= 1.2, SCRAM. Los certificados salen de scripts/generar-certs-postgres.sh.
+    command:
+      - postgres
+      - -c
+      - ssl=on
+      - -c
+      - ssl_cert_file=/etc/vc/pg/server.crt
+      - -c
+      - ssl_key_file=/etc/vc/pg/server.key
+      - -c
+      - ssl_min_protocol_version=TLSv1.2
+      - -c
+      - hba_file=/etc/postgresql/pg_hba.conf
+      - -c
+      - password_encryption=scram-sha-256
+      - -c
+      - max_connections=60
+      - -c
+      - shared_buffers=256MB
+      - -c
+      - log_statement=none
+      - -c
+      - log_connections=on
+      - -c
+      - log_disconnections=on
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: ${PG_SUPERUSER_PASSWORD:?completar PG_SUPERUSER_PASSWORD en .env}
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --data-checksums"
+      # Las leen postgres/init/01-roles.sh (solo en la primera inicialización del volumen).
+      VC_DUENO_PASSWORD: ${VC_DUENO_PASSWORD:?completar VC_DUENO_PASSWORD en .env}
+      VC_API_PASSWORD: ${VC_API_PASSWORD:?completar VC_API_PASSWORD en .env}
+      VC_DB_NAME: ${VC_DB_NAME:-videocotizacion}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+      - ./postgres/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - ./secrets/pg/server.crt:/etc/vc/pg/server.crt:ro
+      - ./secrets/pg/server.key:/etc/vc/pg/server.key:ro
+    tmpfs:
+      - /tmp:size=64m
+      - /run/postgresql:mode=1777
+    # La imagen arranca como root para ajustar permisos del volumen y baja a "postgres": necesita estas capacidades.
+    cap_add: [CHOWN, DAC_OVERRIDE, FOWNER, SETGID, SETUID]
+    shm_size: 128mb
+    stop_grace_period: 30s
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -q -h /run/postgresql -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: ${DB_CPUS:-1.0}
+          memory: ${DB_MEM_LIMIT:-1g}
+          pids: 200
+    networks: [datos]
+
+  # Paso de migración: rol DUEÑO, corre y termina. La API no arranca hasta que termine bien.
+  migrar:
+    <<: [*endurecido, *imagen-api]
+    restart: "no"
+    command: ["migrar"]
+    environment:
+      VC_DB_URL: postgres://vc_dueno:${VC_DUENO_PASSWORD:?completar VC_DUENO_PASSWORD en .env}@db:5432/${VC_DB_NAME:-videocotizacion}?sslmode=verify-full&sslrootcert=/etc/vc/pg/ca.crt
+    volumes:
+      - ./secrets/pg/ca.crt:/etc/vc/pg/ca.crt:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+          pids: 100
+    networks: [datos]
+
+  api:
+    <<: [*endurecido, *imagen-api]
+    command: ["servir"]
+    environment:
+      ENTORNO: produccion
+      VC_DIRECCION: ":8080"
+      # Rol SIN privilegios (vc_api, sin BYPASSRLS). Nunca el dueño.
+      VC_DB_URL: postgres://vc_api:${VC_API_PASSWORD:?completar VC_API_PASSWORD en .env}@db:5432/${VC_DB_NAME:-videocotizacion}?sslmode=verify-full&sslrootcert=/etc/vc/pg/ca.crt
+      VC_CLAVE_HMAC: ${VC_CLAVE_HMAC:?completar VC_CLAVE_HMAC en .env}
+      VC_CLAVE_DESAFIO: ${VC_CLAVE_DESAFIO:?completar VC_CLAVE_DESAFIO en .env}
+      VC_CLAVE_CIFRADO_TOTP: ${VC_CLAVE_CIFRADO_TOTP:?completar VC_CLAVE_CIFRADO_TOTP en .env}
+      VC_PROVEEDOR_STT: ${VC_PROVEEDOR_STT:-}
+      VC_PROVEEDOR_LLM: ${VC_PROVEEDOR_LLM:-}
+      VC_PROVEEDOR_TTS: ${VC_PROVEEDOR_TTS:-}
+      VC_STT_API_KEY: ${VC_STT_API_KEY:-}
+      VC_LLM_API_KEY: ${VC_LLM_API_KEY:-}
+      VC_TTS_API_KEY: ${VC_TTS_API_KEY:-}
+      # Go respeta el tope de memoria del contenedor (un poco por debajo de API_MEM_LIMIT).
+      GOMEMLIMIT: 640MiB
+    expose: ["8080"]
+    volumes:
+      - ./secrets/pg/ca.crt:/etc/vc/pg/ca.crt:ro
+    tmpfs:
+      - /tmp:size=32m
+    depends_on:
+      db:
+        condition: service_healthy
+      migrar:
+        condition: service_completed_successfully
+    healthcheck:
+      # La imagen no tiene shell: el healthcheck es un binario propio (infra/docker/healthcheck).
+      # Usa una ruta pública del contrato; es de vida, no de preparación (no mira la base: pendiente, ver README).
+      test: ["CMD", "/healthcheck", "http://127.0.0.1:8080/v1/version"]
+      interval: 15s
+      timeout: 5s
+      retries: 4
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: ${API_CPUS:-1.5}
+          memory: ${API_MEM_LIMIT:-768m}
+          pids: 300
+    networks: [datos, frontal]
+
+  caddy:
+    <<: *endurecido
+    image: caddy:2.11.4-alpine
+    # Único servicio con puertos publicados. 443/udp es HTTP/3.
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMINIO: ${DOMINIO:?completar DOMINIO en .env}
+      ACME_EMAIL: ${ACME_EMAIL:?completar ACME_EMAIL en .env}
+      ORIGEN_FRONT: ${ORIGEN_FRONT:?completar ORIGEN_FRONT en .env}
+      CADDY_OPCION_GLOBAL: ${CADDY_OPCION_GLOBAL:-}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./estatico/panel:/srv/panel:ro
+      - ./estatico/avatar:/srv/avatar:ro
+      # Certificados y clave de cuenta ACME: hay que respaldarlos (pendiente T29).
+      - caddy_data:/data
+      - caddy_config:/config
+    tmpfs:
+      - /tmp:size=32m
+    # Solo puede abrir los puertos 80 y 443.
+    cap_add: [NET_BIND_SERVICE]
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      # API de administración de Caddy, solo en el loopback del contenedor (no se publica).
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:2019/config/"]
+      interval: 15s
+      timeout: 5s
+      retries: 4
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: ${PROXY_CPUS:-0.5}
+          memory: ${PROXY_MEM_LIMIT:-256m}
+          pids: 200
+    networks: [frontal]
+
+networks:
+  # La base vive acá y nada más: internal = sin salida a Internet ni acceso desde afuera.
+  datos:
+    internal: true
+  # Caddy <-> api. La api también necesita salida a los proveedores de IA (filtrar a nivel firewall de la VM; ver README).
+  frontal: {}
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

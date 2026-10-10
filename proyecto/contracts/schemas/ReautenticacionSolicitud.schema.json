@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReautenticacionSolicitud",
+  "description": "Reautenticación (R39): contraseña + TOTP.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contrasena",
+    "codigo_totp"
+  ],
+  "properties": {
+    "contrasena": {
+      "type": "string",
+      "minLength": 12,
+      "maxLength": 256,
+      "writeOnly": true
+    },
+    "codigo_totp": {
+      "type": "string",
+      "pattern": "^[0-9]{6}$"
+    }
+  },
+  "examples": [
+    {
+      "contrasena": "una-frase-larga-de-prueba-0",
+      "codigo_totp": "654321"
+    }
+  ]
+}

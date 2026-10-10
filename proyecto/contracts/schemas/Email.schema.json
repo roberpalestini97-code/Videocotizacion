@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Email",
+  "description": "Correo electrónico.",
+  "type": "string",
+  "format": "email",
+  "maxLength": 254,
+  "examples": [
+    "juan@asesores.local"
+  ]
+}

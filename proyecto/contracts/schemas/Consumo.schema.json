@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Consumo",
+  "description": "Consumo y topes (BRIEF 7, R56, R59). Sin montos: no expone costos de proveedores ni de otros tenants (R52).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ambito",
+    "periodo",
+    "segundos_usados",
+    "segundos_tope",
+    "simultaneas_en_curso",
+    "simultaneas_tope",
+    "alerta",
+    "diario",
+    "actualizado_en"
+  ],
+  "properties": {
+    "ambito": {
+      "type": "string",
+      "enum": [
+        "tenant",
+        "asesor"
+      ]
+    },
+    "periodo": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+    },
+    "segundos_usados": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000
+    },
+    "segundos_tope": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000
+    },
+    "simultaneas_en_curso": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000
+    },
+    "simultaneas_tope": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000
+    },
+    "alerta": {
+      "type": "string",
+      "enum": [
+        "ninguna",
+        "p50",
+        "p80",
+        "p100"
+      ]
+    },
+    "diario": {
+      "type": "array",
+      "items": {
+        "$ref": "ConsumoDiario.schema.json"
+      },
+      "minItems": 0,
+      "maxItems": 31
+    },
+    "actualizado_en": {
+      "$ref": "FechaHora.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "ambito": "tenant",
+      "periodo": "2026-10",
+      "segundos_usados": 30000,
+      "segundos_tope": 30000,
+      "simultaneas_en_curso": 3,
+      "simultaneas_tope": 5,
+      "alerta": "p100",
+      "diario": [
+        {
+          "fecha": "2026-10-08",
+          "segundos": 1800,
+          "sesiones": 3,
+          "cotizaciones_emitidas": 2
+        },
+        {
+          "fecha": "2026-10-07",
+          "segundos": 1837,
+          "sesiones": 4,
+          "cotizaciones_emitidas": 3
+        },
+        {
+          "fecha": "2026-10-06",
+          "segundos": 1874,
+          "sesiones": 5,
+          "cotizaciones_emitidas": 4
+        }
+      ],
+      "actualizado_en": "2026-10-08T13:05:00Z"
+    }
+  ]
+}

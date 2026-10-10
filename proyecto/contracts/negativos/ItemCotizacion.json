@@ -1,0 +1,85 @@
+[
+  {
+    "esquema": "ItemCotizacion",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "tipo": "mano_de_obra",
+      "codigo_tarea": "pintura_interior",
+      "descripcion": "Pintura interior látex, dos manos",
+      "unidad": "m2",
+      "cantidad_centesimas": 1250,
+      "precio_unitario_centavos": 185000,
+      "importe_centavos": 2312500,
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ItemCotizacion",
+    "caso": "falta \"tipo\"",
+    "falla_por": "required",
+    "instancia": {
+      "codigo_tarea": "pintura_interior",
+      "descripcion": "Pintura interior látex, dos manos",
+      "unidad": "m2",
+      "cantidad_centesimas": 1250,
+      "precio_unitario_centavos": 185000,
+      "importe_centavos": 2312500
+    }
+  },
+  {
+    "esquema": "ItemCotizacion",
+    "caso": "falta \"codigo_tarea\"",
+    "falla_por": "required",
+    "instancia": {
+      "tipo": "mano_de_obra",
+      "descripcion": "Pintura interior látex, dos manos",
+      "unidad": "m2",
+      "cantidad_centesimas": 1250,
+      "precio_unitario_centavos": 185000,
+      "importe_centavos": 2312500
+    }
+  },
+  {
+    "esquema": "ItemCotizacion",
+    "caso": "cantidad float en ítem",
+    "falla_por": "type",
+    "instancia": {
+      "tipo": "mano_de_obra",
+      "codigo_tarea": "pintura_interior",
+      "descripcion": "Pintura interior látex, dos manos",
+      "unidad": "m2",
+      "cantidad_centesimas": 12.5,
+      "precio_unitario_centavos": 185000,
+      "importe_centavos": 2312500
+    }
+  },
+  {
+    "esquema": "ItemCotizacion",
+    "caso": "importe con decimales",
+    "falla_por": "type",
+    "instancia": {
+      "tipo": "mano_de_obra",
+      "codigo_tarea": "pintura_interior",
+      "descripcion": "Pintura interior látex, dos manos",
+      "unidad": "m2",
+      "cantidad_centesimas": 1250,
+      "precio_unitario_centavos": 185000,
+      "importe_centavos": 100.25
+    }
+  },
+  {
+    "esquema": "ItemCotizacion",
+    "caso": "descripción con HTML",
+    "falla_por": "pattern",
+    "instancia": {
+      "tipo": "mano_de_obra",
+      "codigo_tarea": "pintura_interior",
+      "descripcion": "<b>oferta</b>",
+      "unidad": "m2",
+      "cantidad_centesimas": 1250,
+      "precio_unitario_centavos": 185000,
+      "importe_centavos": 2312500
+    }
+  }
+]

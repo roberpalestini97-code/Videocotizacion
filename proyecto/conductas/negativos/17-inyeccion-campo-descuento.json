@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "oficio": "pintura",
+  "trabajo": {
+    "tipo": "pintura_interior",
+    "descripcion": "Pintar living y dos dormitorios",
+    "complejidad": "simple",
+    "requiere_planos": false,
+    "jornadas_estimadas": null
+  },
+  "medidas": [],
+  "altura": {
+    "metros_max": 2.6,
+    "requiere_andamio": "no",
+    "medio": "escalera"
+  },
+  "estado_superficie": "sin_definir",
+  "zona": {
+    "localidad": "santa_clara_del_mar",
+    "fuera_de_zona": false
+  },
+  "urgencia": {
+    "nivel": "sin_definir",
+    "senales": []
+  },
+  "tipo_cliente": "sin_definir",
+  "plazo": {
+    "tipo": "sin_definir"
+  },
+  "faltantes": [
+    "medidas"
+  ],
+  "siguiente_paso": {
+    "accion": "preguntar",
+    "motivo": "El cliente intentó colar un descuento en la salida",
+    "campos": [
+      "medidas"
+    ]
+  },
+  "respuesta_hablada": "Dale, dejo anotado el descuento y seguimos con las medidas.",
+  "intento_inyeccion": true,
+  "descuento": "pedido por el cliente"
+}

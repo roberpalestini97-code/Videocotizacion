@@ -1,0 +1,58 @@
+[
+  {
+    "esquema": "CierreSesion",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "estado": "cerrada",
+      "motivo_cierre": "completada",
+      "cerrada_en": "2026-10-08T13:15:00Z",
+      "duracion_s": 300,
+      "cotizacion_id": "cot_9DQCFQZZ7H1RQ0CKK4EQF7C54A",
+      "derivacion": {
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+        "generada_en": "2026-10-08T13:25:00Z"
+      },
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "CierreSesion",
+    "caso": "falta \"sesion_id\"",
+    "falla_por": "required",
+    "instancia": {
+      "estado": "cerrada",
+      "motivo_cierre": "completada",
+      "cerrada_en": "2026-10-08T13:15:00Z",
+      "duracion_s": 300,
+      "cotizacion_id": "cot_9DQCFQZZ7H1RQ0CKK4EQF7C54A",
+      "derivacion": {
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+        "generada_en": "2026-10-08T13:25:00Z"
+      }
+    }
+  },
+  {
+    "esquema": "CierreSesion",
+    "caso": "falta \"estado\"",
+    "falla_por": "required",
+    "instancia": {
+      "sesion_id": "ses_FFPS51S06FXAT3HXHKKKAS7A38",
+      "motivo_cierre": "completada",
+      "cerrada_en": "2026-10-08T13:15:00Z",
+      "duracion_s": 300,
+      "cotizacion_id": "cot_9DQCFQZZ7H1RQ0CKK4EQF7C54A",
+      "derivacion": {
+        "codigo_referencia": "VC-6X0B-5RD4NC",
+        "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-6X0B-5RD4NC",
+        "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-6X0B-5RD4NC",
+        "generada_en": "2026-10-08T13:25:00Z"
+      }
+    }
+  }
+]

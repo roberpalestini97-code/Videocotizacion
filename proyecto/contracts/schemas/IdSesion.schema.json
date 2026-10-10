@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IdSesion",
+  "description": "Id opaco de sesión de videocotización: prefijo \"ses_\" + 26 caracteres Crockford aleatorios (≥128 bits). R7.",
+  "type": "string",
+  "pattern": "^ses_[0-9A-HJKMNP-TV-Z]{26}$",
+  "examples": [
+    "ses_SX2NE9K3Z89ZMZHZHV6ZR2J79H",
+    "ses_27MSYZJHMWMQA3D5Y4N74QMWKX"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evento_sesion_cerrar",
+  "description": "NO CONGELADO (borrador vc-eventos.borrador.1). Cliente → servidor: el cliente corta.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "v",
+    "tipo",
+    "seq",
+    "ts",
+    "datos"
+  ],
+  "properties": {
+    "v": {
+      "type": "integer",
+      "const": 1
+    },
+    "tipo": {
+      "type": "string",
+      "const": "sesion.cerrar"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295
+    },
+    "ts": {
+      "$ref": "../FechaHora.schema.json"
+    },
+    "datos": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "motivo"
+      ],
+      "properties": {
+        "motivo": {
+          "type": "string",
+          "const": "cliente_cerro"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "v": 1,
+      "tipo": "sesion.cerrar",
+      "seq": 10,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "motivo": "cliente_cerro"
+      }
+    },
+    {
+      "v": 1,
+      "tipo": "sesion.cerrar",
+      "seq": 11,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "motivo": "cliente_cerro"
+      }
+    }
+  ]
+}

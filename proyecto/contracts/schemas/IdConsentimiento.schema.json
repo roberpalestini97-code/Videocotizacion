@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IdConsentimiento",
+  "description": "Id opaco de consentimiento registrado (solo-anexar): prefijo \"cns_\" + 26 caracteres Crockford aleatorios (≥128 bits). R7.",
+  "type": "string",
+  "pattern": "^cns_[0-9A-HJKMNP-TV-Z]{26}$",
+  "examples": [
+    "cns_VZ0RPKKMGFKXQVXDC2EP0WAFF3"
+  ]
+}

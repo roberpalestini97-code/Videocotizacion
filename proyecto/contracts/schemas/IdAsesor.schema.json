@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IdAsesor",
+  "description": "Id opaco de asesor/profesional del panel: prefijo \"ase_\" + 26 caracteres Crockford aleatorios (≥128 bits). R7.",
+  "type": "string",
+  "pattern": "^ase_[0-9A-HJKMNP-TV-Z]{26}$",
+  "examples": [
+    "ase_3JQ9QRPYDHR9HN9R6SQDKPSSW5"
+  ]
+}

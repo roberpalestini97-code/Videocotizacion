@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DatosExtraidos",
+  "description": "Datos de la consulta ya validados y normalizados por Go a partir de la salida del LLM (R42, R48). Sin montos (O03) ni campos sobre personas (R47).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "oficio",
+    "zona",
+    "fuera_de_zona",
+    "faltantes",
+    "corregido_por_cliente"
+  ],
+  "properties": {
+    "oficio": {
+      "$ref": "Oficio.schema.json"
+    },
+    "tarea": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]{3,60}$"
+    },
+    "zona": {
+      "$ref": "Zona.schema.json"
+    },
+    "fuera_de_zona": {
+      "type": "boolean"
+    },
+    "superficie_centesimas_m2": {
+      "$ref": "CantidadCentesimas.schema.json"
+    },
+    "cantidad_unidades": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "interior_exterior": {
+      "type": "string",
+      "enum": [
+        "interior",
+        "exterior",
+        "ambos",
+        "no_aplica"
+      ]
+    },
+    "altura": {
+      "type": "string",
+      "enum": [
+        "planta_baja",
+        "hasta_3m",
+        "entre_3_y_6m",
+        "mas_de_6m",
+        "no_aplica"
+      ]
+    },
+    "estado_superficie": {
+      "type": "string",
+      "enum": [
+        "bueno",
+        "regular",
+        "malo",
+        "con_humedad",
+        "descascarado",
+        "con_hongos",
+        "no_aplica",
+        "sin_definir"
+      ]
+    },
+    "urgencia": {
+      "type": "string",
+      "enum": [
+        "baja",
+        "media",
+        "alta",
+        "sin_definir"
+      ]
+    },
+    "plazo": {
+      "type": "string",
+      "enum": [
+        "inmediato",
+        "esta_semana",
+        "este_mes",
+        "mas_de_un_mes",
+        "flexible",
+        "sin_definir"
+      ]
+    },
+    "observaciones": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "faltantes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_]{2,60}$"
+      },
+      "minItems": 0,
+      "maxItems": 20,
+      "uniqueItems": true
+    },
+    "corregido_por_cliente": {
+      "type": "boolean"
+    }
+  },
+  "examples": [
+    {
+      "oficio": "pintura",
+      "zona": "cobo",
+      "fuera_de_zona": false,
+      "faltantes": [],
+      "corregido_por_cliente": true,
+      "tarea": "pintura_interior",
+      "superficie_centesimas_m2": 1625,
+      "interior_exterior": "exterior",
+      "altura": "hasta_3m",
+      "estado_superficie": "regular",
+      "urgencia": "media",
+      "plazo": "esta_semana",
+      "observaciones": "El cliente mostró manchas de humedad en la pared norte."
+    }
+  ]
+}

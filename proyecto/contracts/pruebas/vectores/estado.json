@@ -1,0 +1,390 @@
+[
+  {
+    "id": "V388",
+    "categoria": "estado",
+    "requisitos": [
+      "R10",
+      "R60"
+    ],
+    "descripcion": "consentimiento repetido",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "consentida",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "estado_invalido"
+    }
+  },
+  {
+    "id": "V389",
+    "categoria": "estado",
+    "requisitos": [
+      "R10",
+      "R60"
+    ],
+    "descripcion": "consentimiento en sesión cerrada",
+    "operacion": "registrarConsentimiento",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_camara_y_microfono": true,
+        "acepta_tratamiento": true,
+        "declara_mayor_de_18": true,
+        "informado_asistente_automatico": true
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "sesion_cerrada"
+    }
+  },
+  {
+    "id": "V390",
+    "categoria": "estado",
+    "requisitos": [
+      "R10",
+      "R60"
+    ],
+    "descripcion": "token de medios en sesión cerrada",
+    "operacion": "emitirTokenMedios",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cupo": {
+        "cuota": "disponible",
+        "simultaneas": "disponibles"
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "sesion_cerrada",
+      "costo_cero": true
+    }
+  },
+  {
+    "id": "V391",
+    "categoria": "estado",
+    "requisitos": [
+      "R10",
+      "R60"
+    ],
+    "descripcion": "cerrar dos veces",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "cliente_cerro"
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "sesion_cerrada"
+    }
+  },
+  {
+    "id": "V392",
+    "categoria": "estado",
+    "requisitos": [
+      "R10",
+      "R60"
+    ],
+    "descripcion": "cotización antes del final (precio solo al final)",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": false
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "cotizacion_no_emitida"
+    }
+  },
+  {
+    "id": "V393",
+    "categoria": "estado",
+    "requisitos": [
+      "R10",
+      "R60"
+    ],
+    "descripcion": "sesión cerrada sin presupuesto (sin_voz)",
+    "operacion": "leerCotizacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": false
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "cotizacion_no_emitida"
+    }
+  },
+  {
+    "id": "V394",
+    "categoria": "estado",
+    "requisitos": [
+      "R10",
+      "R60"
+    ],
+    "descripcion": "derivación antes del cierre",
+    "operacion": "leerDerivacion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "en_curso",
+        "cotizacion_emitida": true
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "estado_invalido"
+    }
+  },
+  {
+    "id": "V395",
+    "categoria": "estado",
+    "requisitos": [
+      "R10",
+      "R60"
+    ],
+    "descripcion": "contacto antes de la conversación",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "estado_invalido"
+    }
+  },
+  {
+    "id": "V396",
+    "categoria": "estado",
+    "requisitos": [
+      "R10",
+      "R60"
+    ],
+    "descripcion": "contacto repetido",
+    "operacion": "registrarContacto",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "cerrada",
+        "cotizacion_emitida": true,
+        "contacto_registrado": true
+      },
+      "cuerpo": {
+        "nombre": "Marta",
+        "consentimiento": {
+          "aviso_version": "2026-10-08.1",
+          "acepta_ser_contactado": true,
+          "finalidad": "que_el_profesional_te_contacte"
+        },
+        "telefono": "+5492235551000"
+      }
+    },
+    "esperado": {
+      "status": 409,
+      "codigo": "contacto_ya_registrado"
+    }
+  },
+  {
+    "id": "V397",
+    "categoria": "estado",
+    "requisitos": [
+      "R45"
+    ],
+    "descripcion": "rechazo del consentimiento: cierre con sin_consentimiento y alternativa WhatsApp",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "sin_consentimiento"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_2XE46W7BTQXY4CMYYPNRVS8Q86",
+        "estado": "cerrada",
+        "motivo_cierre": "sin_consentimiento",
+        "cerrada_en": "2026-10-08T13:15:00Z",
+        "duracion_s": 0,
+        "derivacion": {
+          "codigo_referencia": "VC-JY95-3RHGKB",
+          "url_wa_me": "https://wa.me/5492235550102?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-JY95-3RHGKB",
+          "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-JY95-3RHGKB",
+          "generada_en": "2026-10-08T13:29:00Z"
+        }
+      }
+    }
+  },
+  {
+    "id": "V398",
+    "categoria": "estado",
+    "requisitos": [
+      "R45"
+    ],
+    "descripcion": "sin cámara: cierre con sin_camara y alternativa WhatsApp",
+    "operacion": "cerrarSesion",
+    "solicitud": {
+      "credencial": {
+        "tipo": "sesion",
+        "tenant": "A",
+        "sujeto": "ses_A1"
+      },
+      "origin": "ausente",
+      "recurso": {
+        "tenant": "A",
+        "existe": true,
+        "sujeto": "ses_A1",
+        "estado": "creada",
+        "cotizacion_emitida": true
+      },
+      "cuerpo": {
+        "motivo": "sin_camara"
+      }
+    },
+    "esperado": {
+      "status": 200,
+      "cuerpo": {
+        "sesion_id": "ses_W0JF1HAKEBZYPS0YTDTXMNF5M3",
+        "estado": "cerrada",
+        "motivo_cierre": "sin_camara",
+        "cerrada_en": "2026-10-08T13:15:00Z",
+        "duracion_s": 0,
+        "derivacion": {
+          "codigo_referencia": "VC-RP7C-E5RAF5",
+          "url_wa_me": "https://wa.me/5492235550101?text=Hola%2C%20quiero%20seguir%20con%20mi%20videocotizaci%C3%B3n%20VC-RP7C-E5RAF5",
+          "texto_prellenado": "Hola, quiero seguir con mi videocotización VC-RP7C-E5RAF5",
+          "generada_en": "2026-10-08T13:28:00Z"
+        }
+      }
+    }
+  }
+]

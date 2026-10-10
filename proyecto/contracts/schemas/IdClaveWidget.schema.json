@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IdClaveWidget",
+  "description": "Id opaco de clave pública del widget (id de gestión, no el secreto): prefijo \"cpw_\" + 26 caracteres Crockford aleatorios (≥128 bits). R7.",
+  "type": "string",
+  "pattern": "^cpw_[0-9A-HJKMNP-TV-Z]{26}$",
+  "examples": [
+    "cpw_ZKWA18CB675A5VQR44CQD0NDXA"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "videocotizacion-panel-asesor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Panel del asesor de VideoCotización (SPA React + TypeScript + Vite). Perfil, Mis cotizaciones y Registros.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vite --mode mock",
+    "dev:api": "vite --mode development",
+    "build": "tsc --noEmit && vite build && node scripts/verificar-dist.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:cobertura": "vitest run --coverage",
+    "contrato": "node scripts/generar-contrato.mjs",
+    "contrato:verificar": "node scripts/generar-contrato.mjs --verificar",
+    "verificar:dist": "node scripts/verificar-dist.mjs",
+    "todo": "npm run contrato:verificar && npm run typecheck && npm run lint && npm run test && npm run build"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/jest-axe": "^3.5.9",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-v8": "^5.0.3",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "eslint": "^9.39.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^16.0.0",
+    "jest-axe": "^11.0.0",
+    "jsdom": "^26.1.0",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.71.1",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.3"
+  }
+}

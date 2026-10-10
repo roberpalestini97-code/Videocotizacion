@@ -1,0 +1,46 @@
+[
+  {
+    "esquema": "eventos/Evento_transcripcion_final",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "v": 1,
+      "tipo": "transcripcion.final",
+      "seq": 2,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 1,
+        "texto": "Quiero pintar el living y el comedor."
+      },
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "eventos/Evento_transcripcion_final",
+    "caso": "falta \"v\"",
+    "falla_por": "required",
+    "instancia": {
+      "tipo": "transcripcion.final",
+      "seq": 2,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 1,
+        "texto": "Quiero pintar el living y el comedor."
+      }
+    }
+  },
+  {
+    "esquema": "eventos/Evento_transcripcion_final",
+    "caso": "falta \"tipo\"",
+    "falla_por": "required",
+    "instancia": {
+      "v": 1,
+      "seq": 2,
+      "ts": "2026-10-08T13:01:00Z",
+      "datos": {
+        "turno": 1,
+        "texto": "Quiero pintar el living y el comedor."
+      }
+    }
+  }
+]

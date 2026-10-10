@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IdRegistro",
+  "description": "Id opaco de fila del registro de lecturas: prefijo \"reg_\" + 26 caracteres Crockford aleatorios (≥128 bits). R7.",
+  "type": "string",
+  "pattern": "^reg_[0-9A-HJKMNP-TV-Z]{26}$",
+  "examples": [
+    "reg_4C5GRPHASN3K3ETR76NMDDTFP6"
+  ]
+}

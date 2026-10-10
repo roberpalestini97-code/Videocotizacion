@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AvisoPrivacidad",
+  "description": "Aviso de privacidad versionado (R11). El texto y los incisos se validan con abogado.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "vigente_desde",
+    "url",
+    "resumen",
+    "incisos",
+    "a_validar_con_abogado"
+  ],
+  "properties": {
+    "version": {
+      "$ref": "VersionAviso.schema.json"
+    },
+    "vigente_desde": {
+      "type": "string",
+      "format": "date"
+    },
+    "url": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "resumen": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 600,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "incisos": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "finalidad",
+          "destinatarios",
+          "responsable",
+          "obligatoriedad",
+          "consecuencias",
+          "derechos_arco",
+          "transferencia_internacional",
+          "autoridad_de_control"
+        ]
+      },
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true
+    },
+    "a_validar_con_abogado": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "examples": [
+    {
+      "version": "2026-10-08.1",
+      "vigente_desde": "2026-10-08",
+      "url": "https://cotizar.videocotizacion.local/privacidad/2026-10-08.1",
+      "resumen": "Usamos tu imagen y tu voz solo durante la llamada para cotizar el trabajo; no guardamos fotogramas ni audio.",
+      "incisos": [
+        "finalidad",
+        "destinatarios",
+        "responsable",
+        "obligatoriedad",
+        "consecuencias",
+        "derechos_arco",
+        "transferencia_internacional",
+        "autoridad_de_control"
+      ],
+      "a_validar_con_abogado": true
+    }
+  ]
+}

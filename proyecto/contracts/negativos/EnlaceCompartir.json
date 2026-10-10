@@ -1,0 +1,31 @@
+[
+  {
+    "esquema": "EnlaceCompartir",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+      "url": "https://cotizar.videocotizacion.local/c/RYZ4c3qAHifF6Rh4XEo3fG",
+      "texto_compartir": "Pedí tu presupuesto por videollamada: https://cotizar.videocotizacion.local/c/RYZ4c3qAHifF6Rh4XEo3fG",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "EnlaceCompartir",
+    "caso": "falta \"id_publico\"",
+    "falla_por": "required",
+    "instancia": {
+      "url": "https://cotizar.videocotizacion.local/c/RYZ4c3qAHifF6Rh4XEo3fG",
+      "texto_compartir": "Pedí tu presupuesto por videollamada: https://cotizar.videocotizacion.local/c/RYZ4c3qAHifF6Rh4XEo3fG"
+    }
+  },
+  {
+    "esquema": "EnlaceCompartir",
+    "caso": "falta \"url\"",
+    "falla_por": "required",
+    "instancia": {
+      "id_publico": "RYZ4c3qAHifF6Rh4XEo3fG",
+      "texto_compartir": "Pedí tu presupuesto por videollamada: https://cotizar.videocotizacion.local/c/RYZ4c3qAHifF6Rh4XEo3fG"
+    }
+  }
+]

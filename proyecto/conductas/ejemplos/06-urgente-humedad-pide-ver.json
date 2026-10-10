@@ -1,0 +1,48 @@
+{
+  "version": "1.0",
+  "oficio": "pintura",
+  "trabajo": {
+    "tipo": "impermeabilizacion_techo",
+    "descripcion": "Filtración en techo de losa sobre el dormitorio",
+    "complejidad": "media"
+  },
+  "medidas": [],
+  "altura": {
+    "metros_max": 3.5,
+    "requiere_andamio": "no",
+    "medio": "escalera"
+  },
+  "estado_superficie": "con_humedad",
+  "zona": {
+    "localidad": "santa_clara_del_mar",
+    "fuera_de_zona": false
+  },
+  "urgencia": {
+    "nivel": "alta",
+    "senales": [
+      "se le llueve el cuarto",
+      "pronóstico de lluvia",
+      "habla rápido"
+    ]
+  },
+  "tipo_cliente": "particular_primera_vez",
+  "plazo": {
+    "tipo": "inmediato"
+  },
+  "faltantes": [
+    "medidas",
+    "fotos"
+  ],
+  "siguiente_paso": {
+    "accion": "pedir_ver",
+    "motivo": "Ver la mancha y el estado de la losa antes de estimar",
+    "campos": [
+      "estado_superficie",
+      "medidas"
+    ]
+  },
+  "respuesta_hablada": "Entiendo que es urgente, vamos rápido. ¿Me mostrás con la cámara la mancha del techo? Así veo el estado y te digo qué conviene.",
+  "dudas_cliente": [
+    "Si la membrana aguanta el invierno"
+  ]
+}

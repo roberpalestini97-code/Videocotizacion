@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Origin",
+  "description": "Origin exacto permitido para una clave pública: https, sin comodines, sin ruta ni barra final (R55).",
+  "type": "string",
+  "maxLength": 253,
+  "pattern": "^https://([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,63}(:[0-9]{1,5})?$",
+  "examples": [
+    "https://cotizar.videocotizacion.local",
+    "https://socio.ejemplo.local:8443"
+  ]
+}

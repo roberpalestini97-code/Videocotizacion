@@ -1,0 +1,18 @@
+# BuildKit usa este archivo (junto a api.Dockerfile) como .dockerignore del contexto = raíz del repo.
+# Deniega todo y habilita solo lo que la imagen necesita.
+*
+!backend
+!infra/docker/healthcheck
+!conductas/prompts
+!conductas/prompts/**
+!tarifas/tarifas-2026.json
+# Nunca al contexto de build, aunque estén dentro de lo habilitado:
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/*.crt
+**/secrets
+**/.git
+**/*_test.go
+**/testdata

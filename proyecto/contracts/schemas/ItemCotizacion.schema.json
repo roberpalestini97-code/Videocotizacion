@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ItemCotizacion",
+  "description": "Ítem del presupuesto. importe_centavos = (cantidad_centesimas × precio_unitario_centavos + 50) div 100 (redondeo mitad hacia arriba, enteros). Calculado por Go desde tarifas, nunca por el LLM.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tipo",
+    "codigo_tarea",
+    "descripcion",
+    "unidad",
+    "cantidad_centesimas",
+    "precio_unitario_centavos",
+    "importe_centavos"
+  ],
+  "properties": {
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "mano_de_obra",
+        "traslado",
+        "recargo"
+      ]
+    },
+    "codigo_tarea": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]{3,60}$"
+    },
+    "descripcion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "unidad": {
+      "$ref": "UnidadMedida.schema.json"
+    },
+    "cantidad_centesimas": {
+      "$ref": "CantidadCentesimas.schema.json"
+    },
+    "precio_unitario_centavos": {
+      "$ref": "Centavos.schema.json"
+    },
+    "importe_centavos": {
+      "$ref": "Centavos.schema.json"
+    }
+  },
+  "examples": [
+    {
+      "tipo": "mano_de_obra",
+      "codigo_tarea": "pintura_interior",
+      "descripcion": "Pintura interior látex, dos manos",
+      "unidad": "m2",
+      "cantidad_centesimas": 1250,
+      "precio_unitario_centavos": 185000,
+      "importe_centavos": 2312500
+    }
+  ]
+}

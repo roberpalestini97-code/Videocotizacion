@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PerfilActualizacion",
+  "description": "Cambios parciales del perfil (al menos uno). Email y contraseña se cambian por rutas con reautenticación.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [],
+  "properties": {
+    "nombre_visible": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "pattern": "^[^<>\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F]*$"
+    },
+    "whatsapp": {
+      "$ref": "Telefono.schema.json"
+    },
+    "oficios": {
+      "type": "array",
+      "items": {
+        "$ref": "Oficio.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true
+    },
+    "zonas": {
+      "type": "array",
+      "items": {
+        "$ref": "ZonaAtendida.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true
+    }
+  },
+  "minProperties": 1,
+  "examples": [
+    {
+      "nombre_visible": "Juan Pérez"
+    }
+  ]
+}

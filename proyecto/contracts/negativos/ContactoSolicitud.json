@@ -1,0 +1,94 @@
+[
+  {
+    "esquema": "ContactoSolicitud",
+    "caso": "campo extra tenant_id (R3)",
+    "falla_por": "additionalProperties",
+    "instancia": {
+      "nombre": "Marta",
+      "consentimiento": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_ser_contactado": true,
+        "finalidad": "que_el_profesional_te_contacte"
+      },
+      "telefono": "+5492235551000",
+      "tenant_id": "7f1c2d4e-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "esquema": "ContactoSolicitud",
+    "caso": "falta \"nombre\"",
+    "falla_por": "required",
+    "instancia": {
+      "consentimiento": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_ser_contactado": true,
+        "finalidad": "que_el_profesional_te_contacte"
+      },
+      "telefono": "+5492235551000"
+    }
+  },
+  {
+    "esquema": "ContactoSolicitud",
+    "caso": "falta \"consentimiento\"",
+    "falla_por": "required",
+    "instancia": {
+      "nombre": "Marta",
+      "telefono": "+5492235551000"
+    }
+  },
+  {
+    "esquema": "ContactoSolicitud",
+    "caso": "sin teléfono ni email",
+    "falla_por": "anyOf",
+    "instancia": {
+      "nombre": "Marta",
+      "consentimiento": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_ser_contactado": true,
+        "finalidad": "que_el_profesional_te_contacte"
+      }
+    }
+  },
+  {
+    "esquema": "ContactoSolicitud",
+    "caso": "consentimiento premarcado falso",
+    "falla_por": "const",
+    "instancia": {
+      "nombre": "Marta",
+      "consentimiento": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_ser_contactado": false,
+        "finalidad": "que_el_profesional_te_contacte"
+      },
+      "telefono": "+5492235551000"
+    }
+  },
+  {
+    "esquema": "ContactoSolicitud",
+    "caso": "finalidad de publicidad",
+    "falla_por": "const",
+    "instancia": {
+      "nombre": "Marta",
+      "consentimiento": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_ser_contactado": true,
+        "finalidad": "publicidad"
+      },
+      "telefono": "+5492235551000"
+    }
+  },
+  {
+    "esquema": "ContactoSolicitud",
+    "caso": "teléfono sin formato E.164",
+    "falla_por": "pattern",
+    "instancia": {
+      "nombre": "Marta",
+      "consentimiento": {
+        "aviso_version": "2026-10-08.1",
+        "acepta_ser_contactado": true,
+        "finalidad": "que_el_profesional_te_contacte"
+      },
+      "telefono": "223 555-1234"
+    }
+  }
+]
