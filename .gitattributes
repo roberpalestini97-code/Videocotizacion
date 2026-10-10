@@ -1,0 +1,20 @@
+# Fines de línea: LF en el repo y en el checkout, también en Windows.
+# Los hashes de prompts (conducta_{oficio}@sha256) y las migraciones no pueden
+# depender de core.autocrlf.
+* text=auto eol=lf
+
+*.go   text eol=lf
+*.sql  text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+*.ts   text eol=lf
+*.tsx  text eol=lf
+*.mjs  text eol=lf
+*.js   text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
+
+*.zip  binary
+*.png  binary
+*.jpg  binary
+*.webp binary
