@@ -1,6 +1,6 @@
 # VideoCotización
 
-Monorepo del producto **VideoCotización**: API vendible con cotización en videollamada, avatar y panel.
+Presupuestos reales en vivo — monorepo del producto **VideoCotización**: API vendible con cotización en videollamada, avatar y panel.
 
 Origen del tablero y del backend en Claude; continuación del desarrollo en **Cursor y Claude** sobre esta misma copia local (`Documents/videocotizacion`).
 

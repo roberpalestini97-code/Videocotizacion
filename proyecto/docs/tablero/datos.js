@@ -569,6 +569,10 @@ window.TABLERO = {
   ],
   "log": [
     {
+      "ts": "2026-10-10T15:10:00-03:00",
+      "texto": "Repo GitHub Videocotizacion: raíz Documents/videocotizacion; AGENTS.md (2 harness, rama+PR); rama chore/repo-inicial pusheada."
+    },
+    {
       "ts": "2026-10-10T01:55:00-03:00",
       "texto": "T04/T11: cotizador.AbrirDesdeRutasHabituales (arranque + WS tests); TestMapaDatosExtraidosEjemplosConductas (12 ejemplos T06)."
     },
