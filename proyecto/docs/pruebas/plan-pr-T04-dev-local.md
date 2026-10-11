@@ -5,6 +5,7 @@
 ```powershell
 # Desde videocotizacion/
 powershell -File proyecto/scripts/verificar-repo.ps1
+cd real-time-quote-bot; npm run contrato:verificar
 ```
 
 ## Dev local manual (Rober)

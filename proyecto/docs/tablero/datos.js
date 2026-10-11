@@ -9,7 +9,7 @@ window.TABLERO = {
     "phaseIndex": 3,
     "verificacion_repo": {
       "fecha": "2026-10-11T03:55",
-      "rama": "T04-dev-local-semillalocal (4 commits vs main, PR pendiente merge Rober)",
+      "rama": "T04-dev-local-semillalocal (5+ commits vs main, PR pendiente merge Rober)",
       "entorno": "Windows; verificar-repo.ps1 exit code en todos los pasos",
       "postgres_prueba": "PG_PRUEBA_URL si definida",
       "backend_go_test": "verificar-repo 2026-10-11 ~2 min: go test ./... ok (semillalocal incl.)",
@@ -18,8 +18,8 @@ window.TABLERO = {
       "contrato_validar": "0 fallas",
       "contrato_vectores": "506 ok",
       "contrato_referencias_prompts": "6 slugs; anclas LF y prueba CRLF=LF",
-      "lovable_contrato_verificar": "openapi.d.ts ok",
-      "no_probado": "redocly/spectral; docker build/up; cambios Lovable en working tree sin contrato:verificar en esta corrida",
+      "lovable_contrato_verificar": "npm run contrato:verificar ok (rama PR T04, 2026-10-11)",
+      "no_probado": "redocly/spectral; docker build/up; E2E videollamada contra backend local",
       "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh"
     },
     "pendiente_goal": [
@@ -572,6 +572,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-11T03:58:00-03:00",
+      "texto": "T41/T04 PR: npm run contrato:verificar ok en real-time-quote-bot; plan-pr ampliado."
+    },
     {
       "ts": "2026-10-11T03:55:00-03:00",
       "texto": "Gate verificar-repo en rama PR T04-dev-local-semillalocal: Go+conductas+506+compose ok (~2 min)."
