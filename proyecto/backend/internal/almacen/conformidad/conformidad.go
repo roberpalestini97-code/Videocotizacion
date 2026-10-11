@@ -44,6 +44,7 @@ func Correr(t *testing.T, a almacen.Completo) {
 		{"claves_y_enlaces", probarClavesYEnlaces},
 		{"tokens_de_sesion", probarTokensSesion},
 		{"cupo_de_medios", probarCupoMedios},
+		{"cupo_concurrente", probarCupoConcurrente},
 		{"corte_de_limites", probarCorteDeLimites},
 		{"contacto", probarContacto},
 		{"exportacion_de_cuenta", probarExportacionCuenta},
@@ -906,6 +907,56 @@ func probarCupoMedios(t *testing.T, a almacen.Completo) {
 	igual(t, leida.Estado, dominio.EstadoConsentida, "no cambia si el mes está agotado")
 	_, err = a.BuscarTokenPorHash(ctx(), hashGasto[:])
 	exigirCodigo(t, err, errores.NoEncontrado, "no se emite token si el mes está agotado")
+}
+
+// probarCupoConcurrente: 20 reservas a la vez sobre un tope de 5 simultáneas
+// entran exactamente 5 (sin carrera check-then-act); el resto es cuota_agotada
+// y no deja HMAC guardado.
+func probarCupoConcurrente(t *testing.T, a almacen.Completo) {
+	const n, tope = 20, 5
+	tn := tenantConTope(t, a, tope, 30000)
+	as := NuevoAsesor(t, a, tn.ID)
+	ses := make([]dominio.Sesion, n)
+	hashes := make([][32]byte, n)
+	for i := range ses {
+		ses[i] = consentirSesion(t, a, tn.ID, NuevaSesion(t, a, tn.ID, as.ID, Base, 30))
+		sinError(t, leerHash(hashes[i][:]), "hash")
+	}
+	var wg sync.WaitGroup
+	var entraron, rechazadas atomic.Int32
+	largada := make(chan struct{})
+	errs := make(chan error, n)
+	for i := range ses {
+		wg.Add(1)
+		go func(i int) {
+			defer wg.Done()
+			<-largada
+			_, err := a.ReservarTokenMedios(ctx(), tn.ID, ses[i].ID, hashes[i][:], Base)
+			switch {
+			case err == nil:
+				entraron.Add(1)
+			case errores.Es(err, errores.CuotaAgotada):
+				rechazadas.Add(1)
+				if _, err := a.BuscarTokenPorHash(ctx(), hashes[i][:]); !errores.Es(err, errores.NoEncontrado) {
+					errs <- fmt.Errorf("rechazo con HMAC guardado: %v", err)
+				}
+			default:
+				errs <- err
+			}
+		}(i)
+	}
+	close(largada)
+	wg.Wait()
+	close(errs)
+	for err := range errs {
+		t.Fatalf("reserva concurrente: %v", err)
+	}
+	if entraron.Load() != tope || rechazadas.Load() != n-tope {
+		t.Fatalf("entraron %d y rechazadas %d; se esperaba %d y %d", entraron.Load(), rechazadas.Load(), tope, n-tope)
+	}
+	c, err := a.ConsumoDelAsesor(ctx(), tn.ID, as.ID, Base)
+	sinError(t, err, "consumo")
+	igual(t, c.SimultaneasEnCurso, tope, "en curso")
 }
 
 func probarCorteDeLimites(t *testing.T, a almacen.Completo) {
