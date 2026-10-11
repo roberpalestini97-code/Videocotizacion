@@ -17,6 +17,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"videocotizacion/backend/internal/arranque"
@@ -25,14 +26,32 @@ import (
 
 const uso = "uso: api servir | api migrar | api retencion"
 
+// nivelLog lee LOG_NIVEL (debug, info, warn, error). Vacío es info.
+func nivelLog(getenv config.Getenv) slog.Level {
+	switch strings.ToLower(strings.TrimSpace(getenv("LOG_NIVEL"))) {
+	case "debug":
+		return slog.LevelDebug
+	case "warn":
+		return slog.LevelWarn
+	case "error":
+		return slog.LevelError
+	default:
+		return slog.LevelInfo
+	}
+}
+
 func main() {
 	ctx, cancelar := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer cancelar()
+	if err := config.CargarArchivoEnv(".env"); err != nil {
+		fmt.Fprintln(os.Stderr, "no se pudo leer .env")
+		os.Exit(1)
+	}
 	os.Exit(ejecutar(ctx, os.Args[1:], os.Getenv, os.Stderr))
 }
 
 func ejecutar(ctx context.Context, args []string, getenv config.Getenv, salida io.Writer) int {
-	log := slog.New(slog.NewJSONHandler(salida, nil))
+	log := slog.New(slog.NewJSONHandler(salida, &slog.HandlerOptions{Level: nivelLog(getenv)}))
 	if len(args) != 1 {
 		_, _ = fmt.Fprintln(salida, uso) // si falla stderr no hay a quién avisar
 		return 2

@@ -26,11 +26,28 @@ const (
 )
 
 var (
-	reID           = regexp.MustCompile(`^[a-z]{3}_[0-9A-HJKMNP-TV-Z]{26}$`)
-	reIDPublico    = regexp.MustCompile(`^[A-Za-z0-9_-]{22}$`)
-	rePrefijoClave = regexp.MustCompile(`^vc_(sec|pub)_[A-Za-z0-9_-]{4}$`)
-	reOrigin       = regexp.MustCompile(`^https://([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}(:[0-9]{1,5})?$`)
+	reID             = regexp.MustCompile(`^[a-z]{3}_[0-9A-HJKMNP-TV-Z]{26}$`)
+	reIDPublico      = regexp.MustCompile(`^[A-Za-z0-9_-]{22}$`)
+	rePrefijoClave   = regexp.MustCompile(`^vc_(sec|pub)_[A-Za-z0-9_-]{4}$`)
+	reOrigin         = regexp.MustCompile(`^https://([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}(:[0-9]{1,5})?$`)
+	reOriginLoopback = regexp.MustCompile(`^http://(localhost|127\.0\.0\.1)(:[0-9]{1,5})?$`)
 )
+
+// permitirOriginLoopback lo enciende el arranque fuera de producción, para
+// que la semilla local pueda guardar http://localhost. En producción queda
+// apagado: un Origin de loopback no pasa la validación.
+var permitirOriginLoopback bool
+
+// PermitirOriginLoopback habilita http://localhost y http://127.0.0.1 en la
+// validación de Origin. El proceso de producción no lo llama.
+func PermitirOriginLoopback(v bool) { permitirOriginLoopback = v }
+
+func originValido(o string) bool {
+	if reOrigin.MatchString(o) {
+		return true
+	}
+	return permitirOriginLoopback && reOriginLoopback.MatchString(o)
+}
 
 // leerAleatorio se puede reemplazar en pruebas para simular fallas de entropía.
 var leerAleatorio = rand.Read

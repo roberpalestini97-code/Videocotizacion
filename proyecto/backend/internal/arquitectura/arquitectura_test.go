@@ -52,12 +52,14 @@ var permitidos = map[string][]string{
 	// Apoyo de pruebas (los importan solo archivos _test.go).
 	"internal/almacen/pgprueba":    {"internal/migrador", "internal/secreto", "migrations", "pgx"},
 	"internal/almacen/conformidad": {"internal/almacen", "internal/dominio", "internal/errores"},
+	"internal/semillalocal":        {"internal/almacen", "internal/claves", "internal/dominio"},
 	// Cableado.
 	"internal/arranque": {
 		"internal/almacen", "internal/almacen/memoria", "internal/almacen/postgres", "internal/config",
 		"internal/cotizador", "internal/migrador", "internal/prompts", "internal/proveedores", "internal/proveedores/falsos",
 		"internal/proveedores/navegador", "internal/proveedores/enlace", "internal/proveedores/gemini", "internal/reloj",
-		"internal/retencion", "internal/salud", "internal/servidor", "internal/meta", "internal/rutas", "internal/desafio", "migrations", "pgx",
+		"internal/retencion", "internal/salud", "internal/servidor", "internal/meta", "internal/rutas", "internal/desafio",
+		"internal/semillalocal", "migrations", "pgx",
 	},
 	"cmd/api":               {"internal/arranque", "internal/config"},
 	"internal/arquitectura": {},

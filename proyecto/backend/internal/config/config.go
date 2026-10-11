@@ -96,6 +96,7 @@ type Config struct {
 	EncabezadosMax     int
 
 	RetencionIntervalo time.Duration // cada cuánto corre el borrado programado (0 = no corre en `servir`)
+	SemillaLocal       bool          // SEMILLA_LOCAL=1: tenant de demo en memoria, solo fuera de producción
 }
 
 // Getenv permite inyectar el entorno en pruebas (os.Getenv en producción).
@@ -121,6 +122,7 @@ func Cargar(getenv Getenv, cmd Comando) (Config, error) {
 		CuerpoMaxBytes:     int64(l.entero("HTTP_CUERPO_MAX_BYTES", 64<<10, 1<<10, 8<<20)),
 		EncabezadosMax:     l.entero("HTTP_ENCABEZADOS_MAX_BYTES", 16<<10, 4<<10, 1<<20),
 		RetencionIntervalo: l.duracion("RETENCION_INTERVALO", 24*time.Hour),
+		SemillaLocal:       l.flag("SEMILLA_LOCAL"),
 		Proveedores: Proveedores{
 			STT:      l.texto("PROVEEDOR_STT", ""),
 			LLM:      l.texto("PROVEEDOR_LLM", ""),
@@ -190,6 +192,12 @@ func (c Config) validar(cmd Comando) []error {
 	}
 	if prod {
 		errs = append(errs, exigirTLS("DB_URL", c.DBURL)...)
+	}
+	if c.SemillaLocal && prod {
+		errs = append(errs, errors.New("producción no puede usar SEMILLA_LOCAL"))
+	}
+	if c.SemillaLocal && c.Almacen != AlmacenMemoria && (cmd == Servir || cmd == Retencion) {
+		errs = append(errs, errors.New("SEMILLA_LOCAL solo funciona con ALMACEN=memoria"))
 	}
 	if cmd == Servir {
 		if prod && c.ClaveHMAC.Vacio() {
@@ -323,6 +331,18 @@ func (c Config) LogValue() slog.Value {
 type lector struct {
 	getenv Getenv
 	errs   []error
+}
+
+func (l *lector) flag(clave string) bool {
+	switch strings.ToLower(strings.TrimSpace(l.getenv(clave))) {
+	case "", "0", "false", "no":
+		return false
+	case "1", "true", "si":
+		return true
+	default:
+		l.errs = append(l.errs, fmt.Errorf("%s debe ser 1 o 0", clave))
+		return false
+	}
 }
 
 func (l *lector) texto(clave, defecto string) string {

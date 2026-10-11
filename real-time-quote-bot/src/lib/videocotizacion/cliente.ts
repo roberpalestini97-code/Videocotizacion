@@ -162,8 +162,13 @@ export class ClienteVC {
     });
   }
 
-  emitirTokenMedios(sesionId: string, token: string): Promise<TokenMedios> {
-    return this.pedir({ metodo: "POST", ruta: this.rutaSesion(sesionId, "/token-medios"), token });
+  async emitirTokenMedios(sesionId: string, token: string): Promise<TokenMedios> {
+    const tok = await this.pedir<TokenMedios>({
+      metodo: "POST",
+      ruta: this.rutaSesion(sesionId, "/token-medios"),
+      token,
+    });
+    return { ...tok, ws_url: socketEnLoopback(this.apiBase, tok.ws_url) };
   }
 
   cerrarSesion(sesionId: string, token: string, c: CierreSolicitud): Promise<CierreSesion> {
@@ -182,6 +187,31 @@ export class ClienteVC {
   leerDerivacion(sesionId: string, token: string): Promise<DerivacionWhatsApp> {
     return this.pedir({ metodo: "GET", ruta: this.rutaSesion(sesionId, "/derivacion"), token });
   }
+}
+
+/**
+ * El contrato exige wss:// (hoy el backend responde un host fijo).
+ * Si la API es loopback, el socket se abre contra ese mismo host en ws://.
+ * Un apiBase público no se reescribe.
+ */
+export function socketEnLoopback(apiBase: string, wsUrl: string): string {
+  let api: URL;
+  try {
+    api = new URL(apiBase);
+  } catch {
+    return wsUrl;
+  }
+  if (!["localhost", "127.0.0.1", "[::1]"].includes(api.hostname)) return wsUrl;
+  let ws: URL;
+  try {
+    ws = new URL(wsUrl);
+  } catch {
+    return wsUrl;
+  }
+  if (ws.protocol !== "ws:" && ws.protocol !== "wss:") return wsUrl;
+  ws.protocol = api.protocol === "https:" ? "wss:" : "ws:";
+  ws.host = api.host;
+  return ws.toString();
 }
 
 /** La URL del socket tiene que ser wss://, salvo localhost (dev/mock). */

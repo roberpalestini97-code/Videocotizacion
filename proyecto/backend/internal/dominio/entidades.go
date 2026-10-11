@@ -237,7 +237,7 @@ func origenesDeSesion(s Sesion) []error {
 		errs = append(errs, invalido("/origenes", "a lo sumo 20"))
 	}
 	for _, o := range s.Origenes {
-		if !reOrigin.MatchString(o) {
+		if !originValido(o) {
 			errs = append(errs, invalido("/origenes", "Origin inválido"))
 		}
 	}

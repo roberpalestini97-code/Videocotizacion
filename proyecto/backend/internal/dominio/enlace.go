@@ -67,7 +67,7 @@ func (c ClaveAPI) Validar() error {
 		errs = append(errs, invalido("/origenes", "la clave pública lleva de 1 a 20 Origin; la secreta ninguno"))
 	}
 	for _, o := range c.Origenes {
-		if !reOrigin.MatchString(o) {
+		if !originValido(o) {
 			errs = append(errs, invalido("/origenes", "Origin inválido"))
 		}
 	}

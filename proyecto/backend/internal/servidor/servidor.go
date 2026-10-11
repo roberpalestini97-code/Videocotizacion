@@ -10,6 +10,7 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	"regexp"
 	"strconv"
 	"time"
 
@@ -30,6 +31,9 @@ type Opciones struct {
 	Log   *slog.Logger
 	// Extra registra rutas de negocio (T04b) detrás de los mismos intermediarios.
 	Extra func(*http.ServeMux)
+	// CORSLoopback responde el preflight del navegador solo para
+	// http://localhost y http://127.0.0.1. Producción lo deja en false.
+	CORSLoopback bool
 }
 
 // Nuevo crea el http.Server listo para ListenAndServe.
@@ -69,7 +73,34 @@ func Manejador(o Opciones, extra func(*http.ServeMux)) http.Handler {
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		EscribirError(w, r, registro(o), errores.Nuevo(errores.NoEncontrado))
 	})
-	return recuperar(registro(o), encabezadosSeguros(limitarCuerpo(o.CuerpoMaxBytes, registro(o), mux)))
+	return recuperar(registro(o), encabezadosSeguros(corsLoopback(o.CORSLoopback, limitarCuerpo(o.CuerpoMaxBytes, registro(o), mux))))
+}
+
+var reCORSLoopback = regexp.MustCompile(`^http://(localhost|127\.0\.0\.1)(:[0-9]{1,5})?$`)
+
+// corsLoopback agrega CORS solo si el Origin es loopback. Un Origin público
+// no recibe Access-Control-Allow-Origin.
+func corsLoopback(activo bool, next http.Handler) http.Handler {
+	if !activo {
+		return next
+	}
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		origin := r.Header.Get("Origin")
+		if reCORSLoopback.MatchString(origin) {
+			h := w.Header()
+			h.Set("Access-Control-Allow-Origin", origin)
+			h.Add("Vary", "Origin")
+			h.Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
+			h.Set("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept, X-VC-Clave-Publica, X-Desafio, Idempotency-Key, X-CSRF-Token")
+			h.Set("Access-Control-Expose-Headers", "Retry-After")
+			h.Set("Access-Control-Max-Age", "600")
+			if r.Method == http.MethodOptions {
+				w.WriteHeader(http.StatusNoContent)
+				return
+			}
+		}
+		next.ServeHTTP(w, r)
+	})
 }
 
 func registro(o Opciones) *slog.Logger {

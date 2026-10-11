@@ -8,19 +8,18 @@ window.TABLERO = {
   "meta": {
     "phaseIndex": 3,
     "verificacion_repo": {
-      "fecha": "2026-10-10T16:05",
-      "rama": "main (incluye fix/base-verde vía feat/T13-llm-orquestador)",
-      "entorno": "Linux, Go 1.24.7 sin proxy: go.mod alternativo fuera del repo con x/crypto, x/sys y coder/websocket tomados de GitHub por tag (no verificados contra sumdb)",
-      "postgres_prueba": "PostgreSQL 16.15 local (PG_PRUEBA_URL), roles de pgprueba NOSUPERUSER NOBYPASSRLS, TimeZone Etc/UTC",
-      "backend_gofmt": "gofmt -l vacío",
-      "backend_go_vet": "ok",
-      "backend_go_test": "go test -race -count=1 ./... ok con PG real, 0 SKIP (antes en Cursor los tests de PostgreSQL se omitían sin PG_PRUEBA_URL)",
+      "fecha": "2026-10-11T03:38",
+      "rama": "T04-dev-local-semillalocal (PR pendiente merge Rober)",
+      "entorno": "Windows; verificar-repo.ps1 con exit code si go test falla (LASTEXITCODE)",
+      "postgres_prueba": "PG_PRUEBA_URL si está definida (tests postgres en corrida ~22 min)",
+      "backend_go_test": "go test ./... ok (incl. arquitectura tras semillalocal)",
+      "infra_compose_config": "docker compose config ok",
       "conductas_verificar": "0 fallas (12+20)",
       "contrato_validar": "0 fallas",
       "contrato_vectores": "506 ok",
       "contrato_referencias_prompts": "6 slugs; anclas LF y prueba CRLF=LF",
       "lovable_contrato_verificar": "openapi.d.ts ok",
-      "no_probado": "redocly y spectral; scripts/verificar-repo.ps1 (no hay PowerShell); docker compose; checkout real en Windows con .gitattributes; revisión completa de internal/rutas",
+      "no_probado": "redocly/spectral; docker build/up; cambios Lovable en working tree sin contrato:verificar en esta corrida",
       "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh"
     },
     "pendiente_goal": [
@@ -197,7 +196,7 @@ window.TABLERO = {
       "agente": "go",
       "status": "en_curso",
       "rehacer": true,
-      "nota": "Parte a (T04a) hecha. WS: texto + audio PCM/Opus → turno → vc.respuestas_modelo; MaterialTurno/S4; cotizador.AbrirDesdeRutasHabituales (repo/tests/Docker). verificar-repo + compose config. Falta T13, revisión T04a/T43, prod sin falsos, docker build/up."
+      "nota": "Parte a (T04a) hecha. WS→turno→respuestas_modelo; MaterialTurno/S4. Dev local: SEMILLA_LOCAL + internal/semillalocal (G05), CORS loopback, dotenv, scripts/levantar-local.ps1. verificar-repo.ps1 ok (2026-10-11, main WIP sin PR). Falta T13 prod, revisión T04a/T43, docker build/up."
     },
     {
       "id": "T04a",
@@ -573,6 +572,22 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-11T03:45:00-03:00",
+      "texto": "T04: rama T04-dev-local-semillalocal → PR a main (semillalocal, dev local, gate verificar-repo)."
+    },
+    {
+      "ts": "2026-10-11T03:42:00-03:00",
+      "texto": "T04: verificar-repo.ps1 propaga LASTEXITCODE en todos los pasos; nota T04 tablero (semillalocal, dev local)."
+    },
+    {
+      "ts": "2026-10-11T03:38:00-03:00",
+      "texto": "Gate: verificar-repo.ps1 completo ok (Go+conductas+506+compose); main WIP sin commit."
+    },
+    {
+      "ts": "2026-10-11T03:05:00-03:00",
+      "texto": "T04: semillalocal extraído de arranque (G05); TestDependenciasEntrePaquetes verde; SEMILLA_LOCAL sin violar capas."
+    },
     {
       "ts": "2026-10-10T23:55:00-03:00",
       "texto": "T07 (av, rama T07-avatar-en-front): avatar 3D + clips enchufados en el front (AvatarVivo, fallback 2D). Chromium del IDE: modo=3d, canvas WebGL, casco procedural visible. No mergeado. T08 sigue midiendo en equipos reales."

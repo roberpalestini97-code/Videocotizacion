@@ -23,6 +23,7 @@ import (
 	"videocotizacion/backend/internal/almacen/postgres"
 	"videocotizacion/backend/internal/config"
 	"videocotizacion/backend/internal/meta"
+	"videocotizacion/backend/internal/semillalocal"
 	"videocotizacion/backend/internal/migrador"
 	"videocotizacion/backend/internal/prompts"
 	"videocotizacion/backend/internal/proveedores"
@@ -73,12 +74,21 @@ func Construir(ctx context.Context, cfg config.Config, log *slog.Logger) (*App, 
 	if err != nil {
 		return nil, err
 	}
+	if !cfg.EsProduccion() {
+		semillalocal.HabilitarDesarrollo()
+	}
+	if cfg.SemillaLocal {
+		if err := semillalocal.Sembrar(ctx, alm, cfg.ClaveHMAC.Revelar(), log); err != nil {
+			alm.Cerrar()
+			return nil, err
+		}
+	}
 	cot := AbrirCotizador(log)
 	app := &App{Config: cfg, Almacen: alm, Proveedores: prov, Reloj: reloj.Sistema{}, Log: log}
 	app.Servidor = servidor.Nuevo(servidor.Opciones{
 		Direccion: cfg.Direccion, LecturaEncabezados: cfg.LecturaEncabezados, Lectura: cfg.Lectura,
 		Escritura: cfg.Escritura, Inactividad: cfg.Inactividad, CuerpoMaxBytes: cfg.CuerpoMaxBytes,
-		EncabezadosMax: cfg.EncabezadosMax, Log: log,
+		EncabezadosMax: cfg.EncabezadosMax, Log: log, CORSLoopback: !cfg.EsProduccion(),
 		Listo: func(ctx context.Context) error {
 			return salud.Listo(ctx, 2*time.Second, salud.Comprobacion{Nombre: "almacen", Probar: alm.Ping})
 		},

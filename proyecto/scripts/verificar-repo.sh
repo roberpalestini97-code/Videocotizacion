@@ -5,7 +5,7 @@ raiz=$(CDPATH= cd -- "$(dirname "$0")/.." && pwd)
 cd "$raiz"
 
 echo "== backend: go test ./... =="
-(cd backend && go test ./...)
+(cd backend && go test ./...) || exit $?
 
 echo "== conductas: npm run verificar =="
 (cd conductas && npm run verificar)

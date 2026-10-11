@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { ClienteVC, urlSocketPermitida, urlWhatsAppPermitida } from "./cliente";
+import { ClienteVC, socketEnLoopback, urlSocketPermitida, urlWhatsAppPermitida } from "./cliente";
 import { leerConfig, validarConfig } from "./config";
 import { cerosIniciales, resolverDesafio } from "./desafio";
 import { ErrorVC, MENSAJES_ERROR, mensajeError } from "./errores";
@@ -199,6 +199,16 @@ describe("URLs permitidas", () => {
     expect(urlSocketPermitida("ws://localhost:8787/v1/sesiones/x/medios")).toBe(true);
     expect(urlSocketPermitida("ws://evil.test/x")).toBe(false);
     expect(urlSocketPermitida("javascript:alert(1)")).toBe(false);
+  });
+  it("en loopback el wss fijo del contrato apunta a la API local", () => {
+    const fijo = `wss://api.videocotizacion.local/v1/sesiones/${ID_SESION}/medios`;
+    expect(socketEnLoopback("http://127.0.0.1:8080", fijo)).toBe(
+      `ws://127.0.0.1:8080/v1/sesiones/${ID_SESION}/medios`,
+    );
+    expect(socketEnLoopback("https://api.ejemplo.test", fijo)).toBe(fijo);
+    expect(socketEnLoopback("http://localhost:8787", "ws://localhost:8787/v1/sesiones/x/medios")).toBe(
+      "ws://localhost:8787/v1/sesiones/x/medios",
+    );
   });
   it("solo se abre un wa.me del contrato", () => {
     expect(urlWhatsAppPermitida("https://wa.me/5492236000000?text=VC-AB12-CD34EF")).toBe(true);

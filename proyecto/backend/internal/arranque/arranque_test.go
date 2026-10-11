@@ -21,6 +21,7 @@ import (
 	"videocotizacion/backend/internal/proveedores"
 	"videocotizacion/backend/internal/proveedores/falsos"
 	"videocotizacion/backend/internal/secreto"
+	"videocotizacion/backend/internal/semillalocal"
 )
 
 func cfgDesarrollo() config.Config {
@@ -248,5 +249,25 @@ func TestProduccionCableaReales(t *testing.T) {
 	c.Gemini.Clave = secreto.Secreto{}
 	if _, err := construirProveedores(c); err == nil {
 		t.Fatal("gemini sin clave")
+	}
+}
+
+func TestSemillaLocal(t *testing.T) {
+	c := cfgDesarrollo()
+	c.SemillaLocal = true
+	c.ClaveHMAC = secreto.Nuevo("clave-de-prueba-de-32-bytes-minimo")
+	c.RetencionIntervalo = 0
+	app, err := Construir(context.Background(), c, silencioso())
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { app.Almacen.Cerrar() })
+	en, err := app.Almacen.LeerEnlace(context.Background(), semillalocal.IDTenant, semillalocal.EnlacePublico)
+	if err != nil || en.AsesorID != semillalocal.IDAsesor {
+		t.Fatalf("enlace: %v %+v", err, en)
+	}
+	hall, err := app.Almacen.BuscarClavePorHash(context.Background(), claves.HMAC(c.ClaveHMAC.Revelar(), semillalocal.ClavePublica))
+	if err != nil || hall.TenantID != semillalocal.IDTenant || len(hall.Origenes) == 0 {
+		t.Fatalf("clave: %v %+v", err, hall)
 	}
 }
