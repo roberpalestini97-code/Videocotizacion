@@ -1,6 +1,6 @@
 # Levanta el entorno local de desarrollo (no es un build de producción).
 # Abre tres ventanas de PowerShell: backend, videollamada y panel.
-# El backend lee proyecto/backend/.env. El front lee real-time-quote-bot/.env.local.
+# El backend lee proyecto/backend/.env (plantilla: backend/.env.example). El front lee real-time-quote-bot/.env.local.
 # El panel arranca en modo simulado (npm run dev): no comparte datos con el backend.
 #
 # Uso, desde cualquier carpeta:

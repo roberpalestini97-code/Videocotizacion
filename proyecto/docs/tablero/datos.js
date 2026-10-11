@@ -573,6 +573,10 @@ window.TABLERO = {
   ],
   "log": [
     {
+      "ts": "2026-10-11T03:48:00-03:00",
+      "texto": "T04: backend/.env.example (SEMILLA_LOCAL, falsos); push en rama T04-dev-local-semillalocal."
+    },
+    {
       "ts": "2026-10-11T03:45:00-03:00",
       "texto": "T04: rama T04-dev-local-semillalocal → PR a main (semillalocal, dev local, gate verificar-repo)."
     },
