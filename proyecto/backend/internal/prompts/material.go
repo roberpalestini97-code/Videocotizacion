@@ -1,7 +1,6 @@
 package prompts
 
 import (
-	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 
@@ -54,6 +53,5 @@ func referenciaPorSlug(slug string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	sum := sha256.Sum256([]byte(cuerpo))
-	return fmt.Sprintf("conducta_%s@%x", slug, sum[:6]), nil
+	return fmt.Sprintf("conducta_%s@%s", slug, hashCanonico(cuerpo)), nil
 }

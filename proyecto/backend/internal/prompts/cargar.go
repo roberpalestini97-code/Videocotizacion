@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"videocotizacion/backend/internal/dominio"
 )
@@ -23,7 +24,9 @@ func cuerpoMarkdown(slug string) (string, error) {
 		p := filepath.Join(raiz, "prompts", nombre)
 		b, err := os.ReadFile(p)
 		if err == nil {
-			return string(b), nil
+			// Fin de línea normalizado a LF: el LLM recibe el mismo texto en
+			// Windows (checkout CRLF) y en Linux.
+			return strings.ReplaceAll(string(b), "\r\n", "\n"), nil
 		}
 	}
 	return "", fmt.Errorf("prompts: no encontré %s en conductas/prompts", nombre)

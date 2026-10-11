@@ -12,7 +12,10 @@ const cache = new Map();
 export function referenciaPrompt(oficio) {
   if (!cache.has(oficio)) {
     const cuerpo = readFileSync(join(DIR, `${oficio}.md`), 'utf8');
-    const h = createHash('sha256').update(cuerpo).digest('hex').slice(0, 12);
+    // Forma canónica CRLF (igual que hashCanonico en Go): las anclas publicadas se
+    // calcularon con checkout CRLF en Windows; así no dependen del SO ni de autocrlf.
+    const canonico = cuerpo.replace(/\r\n/g, '\n').replace(/\n/g, '\r\n');
+    const h = createHash('sha256').update(canonico).digest('hex').slice(0, 12);
     cache.set(oficio, `conducta_${oficio}@${h}`);
   }
   return cache.get(oficio);

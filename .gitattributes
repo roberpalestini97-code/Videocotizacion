@@ -1,0 +1,5 @@
+# Fin de línea LF en el repo y en el checkout (Linux y Windows), salvo scripts de PowerShell.
+# Las referencias conducta_{oficio}@hash no dependen de esto (forma canónica en prompts), pero
+# evita diffs fantasma y que gofmt/linters vean CRLF en Windows.
+* text=auto eol=lf
+*.ps1 text eol=crlf

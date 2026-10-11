@@ -46,3 +46,13 @@ func TestReferenciaAnclaPaisajismoT06(t *testing.T) {
 	}
 }
 
+func TestHashCanonicoIndependienteDelFinDeLinea(t *testing.T) {
+	lf := "versión: prompts.1\nlinea dos\n"
+	crlf := "versión: prompts.1\r\nlinea dos\r\n"
+	if hashCanonico(lf) != hashCanonico(crlf) {
+		t.Fatalf("LF %s != CRLF %s", hashCanonico(lf), hashCanonico(crlf))
+	}
+	if hashCanonico(lf) == hashCanonico("versión: prompts.1\nlinea 2\n") {
+		t.Fatal("contenido distinto debe dar hash distinto")
+	}
+}

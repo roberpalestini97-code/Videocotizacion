@@ -3,6 +3,7 @@ package prompts
 import (
 	"crypto/sha256"
 	"fmt"
+	"strings"
 
 	"videocotizacion/backend/internal/dominio"
 )
@@ -17,6 +18,16 @@ func ReferenciaContrato(o dominio.Oficio) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	sum := sha256.Sum256([]byte(cuerpo))
-	return fmt.Sprintf("conducta_%s@%x", o, sum[:6]), nil
+	return fmt.Sprintf("conducta_%s@%s", o, hashCanonico(cuerpo)), nil
+}
+
+// hashCanonico es sha256[0:12] del markdown con fin de línea CRLF. Las anclas
+// publicadas en el contrato (openapi, vectores, T41) se calcularon en Windows
+// con checkout CRLF; fijar CRLF como forma canónica las conserva y hace que la
+// referencia no dependa del sistema operativo ni de core.autocrlf.
+// Misma regla en contracts/fuente/prompts.mjs.
+func hashCanonico(cuerpo string) string {
+	lf := strings.ReplaceAll(cuerpo, "\r\n", "\n")
+	sum := sha256.Sum256([]byte(strings.ReplaceAll(lf, "\n", "\r\n")))
+	return fmt.Sprintf("%x", sum[:6])
 }
