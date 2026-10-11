@@ -8,11 +8,11 @@ window.TABLERO = {
   "meta": {
     "phaseIndex": 3,
     "verificacion_repo": {
-      "fecha": "2026-10-11T03:55",
-      "rama": "T04-dev-local-semillalocal (5+ commits vs main, PR pendiente merge Rober)",
+      "fecha": "2026-10-11T04:05",
+      "rama": "T04-dev-local-semillalocal (+8 commits sobre main@97dcf66 T07, PR pendiente merge Rober)",
       "entorno": "Windows; verificar-repo.ps1 exit code en todos los pasos",
       "postgres_prueba": "PG_PRUEBA_URL si definida",
-      "backend_go_test": "verificar-repo 2026-10-11 ~2 min: go test ./... ok (semillalocal incl.)",
+      "backend_go_test": "verificar-repo 2026-10-11: Go+conductas+506+Lovable+compose ok",
       "infra_compose_config": "docker compose config ok",
       "conductas_verificar": "0 fallas (12+20)",
       "contrato_validar": "0 fallas",
@@ -572,6 +572,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-11T04:05:00-03:00",
+      "texto": "Gate unificado verificar-repo (Lovable incl.) ok; PR T04 apilada sobre main T07 sin conflictos."
+    },
     {
       "ts": "2026-10-11T04:00:00-03:00",
       "texto": "T41: verificar-repo incluye npm run contrato:verificar (real-time-quote-bot en monorepo)."
