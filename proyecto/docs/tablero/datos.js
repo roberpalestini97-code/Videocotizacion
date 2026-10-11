@@ -9,7 +9,7 @@ window.TABLERO = {
     "phaseIndex": 3,
     "verificacion_repo": {
       "fecha": "2026-10-10T16:05",
-      "rama": "fix/base-verde (sin mergear; falta revisión independiente)",
+      "rama": "main (incluye fix/base-verde vía feat/T13-llm-orquestador)",
       "entorno": "Linux, Go 1.24.7 sin proxy: go.mod alternativo fuera del repo con x/crypto, x/sys y coder/websocket tomados de GitHub por tag (no verificados contra sumdb)",
       "postgres_prueba": "PostgreSQL 16.15 local (PG_PRUEBA_URL), roles de pgprueba NOSUPERUSER NOBYPASSRLS, TimeZone Etc/UTC",
       "backend_gofmt": "gofmt -l vacío",
@@ -24,7 +24,7 @@ window.TABLERO = {
       "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh"
     },
     "pendiente_goal": [
-      "T13: probar Gemini con clave real (solo datos ficticios) y medir límites/latencia; revisión independiente de feat/T13-llm-orquestador",
+      "T13: medición de límites/latencia de Gemini; revisión independiente de T13/T25 (ya en main)",
       "T04a/T43: revisión independiente PostgreSQL/RLS",
       "T05/T06/T40/T41: revisiones cruzadas y visto Rober",
       "T11: levantar compose y validar imagen api (prompts+tarifas en distroless)"
@@ -130,7 +130,7 @@ window.TABLERO = {
       "consultor": "Opus 5.5",
       "rol": "Frontend",
       "estado": "trabajando",
-      "actual": "T09 · en revisión"
+      "actual": "T10 · en revisión"
     },
     {
       "id": "ops",
@@ -251,9 +251,9 @@ window.TABLERO = {
       "id": "T10",
       "titulo": "Integrar sesión, consentimiento y avatar en el front, con reconexión",
       "agente": "fe",
-      "status": "pendiente",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": "av es coautor y el consultor es Opus 5.5."
+      "nota": "2026-10-10 (fe, mergeado a main, SIN revisar: quien escribe no revisa). El botón «Iniciar VideoCotización» habla con el contrato: enlace /c/<id_publico> → desafío (prueba de trabajo SHA-256) + crearSesion → consentimiento ANTES de cámara/micrófono → token de medios → WebSocket → texto del cliente (reconocimiento de voz del navegador es-AR) y fotogramas JPEG ≤1024 px/≤128 KiB cada 3 s (sin guardar) → avatar (Voz + AvatarPuerto, placeholder 2D) + pizarrón en vivo → precio solo al final (cotizacion.emitida) → wa.me con código de referencia. Reconexión con backoff, cerrarSesion y errores del catálogo en español. Reemplaza src/lib/asesor-api. PROBADO: npm ci; contrato:verificar ok; typecheck; lint (0 errores); build; vitest 145 pruebas (cliente, máquina de estados, reconexión, muestreo con límites, pizarrón, errores, controlador, conformidad con los JSON Schema del contrato contra el servidor falso); E2E Playwright en Chromium con cámara/mic FALSOS contra servidor mock HTTP+WS (scripts/e2e-videocotizacion.mjs, 47 verificaciones, 21 capturas en docs/fe/capturas/): flujo completo, consentimiento previo (getUserMedia=0 hasta aceptar), rechazo → sin_consentimiento, cámara denegada → sin_camara sin seguir, cuota agotada, desafío inválido, enlace inexistente, simultáneas agotadas, reconexión del socket (token nuevo, pizarrón conservado), sin_voz, cortar + derivación, fotogramas medidos en el servidor falso. NO PROBADO: backend real (Go) ni CORS real; LLM real; voz real (SpeechRecognition/speechSynthesis: en headless no hay voces ni reconocimiento, se probó la entrada por texto); cámara y micrófono reales; Firefox/Safari/Edge; móvil real (solo viewport 390x844 emulado en Chromium); lector de pantalla; desafío con la dificultad real (el mock usa 8 bits, el backend 16); wss:// con TLS (el mock usa ws://localhost). Huecos del contrato en docs/fe/huecos-T10.md (sin rango min–max, sin contacto del profesional en 429, sin «fuera de alcance», CORS, qué cuenta como voz para sin_voz, etc.). Pendiente: avatar de la tarea 5 detrás de AvatarPuerto, UI para corregir el pizarrón, contacto opcional, revisión cruzada. av es coautor y el consultor es Opus 5.5."
     },
     {
       "id": "T11",
@@ -277,7 +277,7 @@ window.TABLERO = {
       "agente": "ops",
       "status": "en_revision",
       "rehacer": false,
-      "nota": "2026-10-10 (go, rama feat/T13-llm-orquestador, sin mergear): decisión de Rober aplicada: STT y TTS en el navegador (PROVEEDOR_STT/TTS=navegador, adaptadores nulos), LLM Gemini REST con clave gratuita (PROVEEDOR_LLM=gemini, modelo por defecto gemini-3.5-flash-lite verificado en ai.google.dev), WhatsApp por enlace wa.me (PROVEEDOR_WHATSAPP=enlace). Doc docs/ia/gemini.md (clave, variables, límites, aviso: con nivel gratuito Google usa los datos para mejorar productos → solo datos ficticios; clientes reales = plan pago u otro proveedor + abogado, Ley 25.326). PROBADO: httptest que imita generateContent (éxito, 429/5xx con reintento, 4xx, JSON inválido, cortada, bloqueada, enorme, cancelación, monto inyectado), contrato de seguridad (la clave no aparece en errores/logs/formatos), config/arranque H4. NO PROBADO: la API real (no hay clave; el entorno no llega a googleapis), límites reales del nivel gratuito, latencia y tokens por turno con imagen, costo por minuto (sigue P-gasto y P-pago-exterior). infra/ usa nombres VC_PROVEEDOR_* que la API no lee (hueco H10). Falta revisión independiente."
+      "nota": "2026-10-10 (go): STT/TTS=navegador, LLM=gemini (gemini-3.5-flash-lite), WhatsApp=enlace. Mergeado a main. Cursor probó generateContent real con datos ficticios (3.5-flash-lite y 3.1-flash-lite OK). Doc docs/ia/gemini.md. Falta revisión independiente, costo por minuto y plan pago para clientes reales."
     },
     {
       "id": "T14",
@@ -373,7 +373,7 @@ window.TABLERO = {
       "agente": "go",
       "status": "en_revision",
       "rehacer": false,
-      "nota": "2026-10-10 (go, rama feat/T13-llm-orquestador, sin mergear): turno de punta a punta: texto (+2 fotogramas más recientes, solo en memoria) → prompt por oficio → Extractor con datos previos → validación COMPLETA en Go del esquema 1.0 (cotizador.ValidarSalidaLLM; 12 ejemplos ok, 20 negativos fallan) con 1 reintento y plantilla → filtro de montos → pizarrón ampliado sin montos → avatar.respuesta + visemas del texto (voz del navegador) → precio en Go solo al emitir → cotizacion.emitida + sesion.cerrada (1000). Derivación y cierre por derivar_whatsapp, fuera_de_alcance, sin tarifa, cerrar, cuota del proveedor (429), tope de turnos y sin_voz (con aviso). intento_inyeccion marcado por el modelo o por heurística de Go; el precio no cambia (prueba). P3: turno numerado desde respuestas_modelo (límite declarado: intentos fallidos previos a un reinicio no cuentan para el tope). P4: si falla guardar respuesta o cotización → error y sin precio. PROBADO: go test -race ./... con PG real 0 SKIP, incluida TestSesionDePuntaAPuntaConPostgresYGemini (crear → consentir → token → WS → fotograma → 3 turnos con inyección → cotización → derivación; payload al proveedor sin ids/teléfono/código). NO PROBADO: modelo real, navegadores reales, latencia; pizarron.corregir sin implementar. Huecos del contrato en docs/review/T13-huecos-del-contrato.md (H1–H11). Falta revisión independiente."
+      "nota": "2026-10-10 (go, mergeado a main): turno de punta a punta: texto (+2 fotogramas más recientes, solo en memoria) → prompt por oficio → Extractor con datos previos → validación COMPLETA en Go del esquema 1.0 (cotizador.ValidarSalidaLLM; 12 ejemplos ok, 20 negativos fallan) con 1 reintento y plantilla → filtro de montos → pizarrón ampliado sin montos → avatar.respuesta + visemas del texto (voz del navegador) → precio en Go solo al emitir → cotizacion.emitida + sesion.cerrada (1000). Derivación y cierre por derivar_whatsapp, fuera_de_alcance, sin tarifa, cerrar, cuota del proveedor (429), tope de turnos y sin_voz (con aviso). intento_inyeccion marcado por el modelo o por heurística de Go; el precio no cambia (prueba). P3: turno numerado desde respuestas_modelo (límite declarado: intentos fallidos previos a un reinicio no cuentan para el tope). P4: si falla guardar respuesta o cotización → error y sin precio. PROBADO: go test -race ./... con PG real 0 SKIP, incluida TestSesionDePuntaAPuntaConPostgresYGemini (crear → consentir → token → WS → fotograma → 3 turnos con inyección → cotización → derivación; payload al proveedor sin ids/teléfono/código). NO PROBADO: modelo real, navegadores reales, latencia; pizarron.corregir sin implementar. Huecos del contrato en docs/review/T13-huecos-del-contrato.md (H1–H11). Falta revisión independiente."
     },
     {
       "id": "T26",
@@ -574,12 +574,20 @@ window.TABLERO = {
   ],
   "log": [
     {
+      "ts": "2026-10-10T23:05:00-03:00",
+      "texto": "Cursor mergeó a main (pedido de Rober): feat/T13-llm-orquestador (base-verde + Gemini + T25) y feat/T10-front-contrato. No se mergearon T13-adaptador-gemini ni fix/base-verde-linux (se solapan y están más cortas). Gemini vivo ok con datos ficticios."
+    },
+    {
       "ts": "2026-10-10T16:58:00-03:00",
-      "texto": "T13/T25 (go, feat/T13-llm-orquestador): adaptadores gemini/navegador/enlace + config/arranque; orquestador de turno completo con validación en Go, derivación, sin_voz, tope de turnos y P3/P4; docs/ia/gemini.md y docs/review/T13-huecos-del-contrato.md. gofmt vacío, go vet ok, go test -race -count=1 ./... ok con PG 16.15 real, 0 SKIP. No probado: API real de Gemini (sin clave), navegadores, latencia."
+      "texto": "T13/T25 (go): adaptadores gemini/navegador/enlace + orquestador de turno completo. go test -race con PG real. Cursor después probó la API real de Gemini con datos ficticios."
+    },
+    {
+      "ts": "2026-10-10T16:40:00-03:00",
+      "texto": "T10 (fe): front conectado al contrato (enlace → desafío → sesión → consentimiento → medios por WebSocket → pizarrón → presupuesto final → WhatsApp). vitest 145 ok, E2E Chromium con cámara falsa 47/47. NO probado: backend real, voz y cámara reales."
     },
     {
       "ts": "2026-10-10T16:05:00-03:00",
-      "texto": "fix/base-verde (agente go): hash de prompts normaliza CRLF→LF (Go y prompts.mjs; anclas nuevas, p. ej. conducta_paisajismo@0e78ce0e816c) y .gitattributes eol=lf; migrador revierte 0015..0001 en orden inverso; migración 0015 (política dueno_lee_handshake solo por delegación, sin sesiones_por_creacion, respuestas_modelo.salida json); gofmt. go test -race con PG real verde, 0 SKIP. Hallazgos en docs/review/BASE-main-hallazgos.md. Falta revisión independiente."
+      "texto": "fix/base-verde: hash de prompts CRLF→LF, .gitattributes eol=lf, migrador 0015..0001, migración 0015. Incluido en el merge de feat/T13-llm-orquestador."
     },
     {
       "ts": "2026-10-10T15:10:00-03:00",

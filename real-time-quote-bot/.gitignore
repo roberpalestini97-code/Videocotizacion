@@ -30,3 +30,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Variables locales (la plantilla .env.example sí se versiona)
+.env
+.env.*
+!.env.example
+
+# Capturas temporales de pruebas
+test-results/

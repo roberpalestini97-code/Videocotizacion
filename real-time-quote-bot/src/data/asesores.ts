@@ -60,17 +60,30 @@ export const asesores: Asesor[] = [
         texto:
           "¡Hola! Soy Marta. Mostrame con la cámara el ambiente que querés pintar y te armo el presupuesto en el momento.",
       },
-      { de: "cliente", texto: "Quiero pintar la sala, son unos 20 m².", dato: { etiqueta: "Superficie", valor: "20 m²" } },
+      {
+        de: "cliente",
+        texto: "Quiero pintar la sala, son unos 20 m².",
+        dato: { etiqueta: "Superficie", valor: "20 m²" },
+      },
       {
         de: "asesor",
-        texto: "Veo humedad en el zócalo y dos manos necesarias sobre el tono actual. ¿La pared está fisurada?",
+        texto:
+          "Veo humedad en el zócalo y dos manos necesarias sobre el tono actual. ¿La pared está fisurada?",
         dato: { etiqueta: "Preparación", valor: "Sellado de humedad" },
       },
-      { de: "cliente", texto: "Sí, hay unas fisuras finas cerca de la ventana.", dato: { etiqueta: "Esfuerzo", valor: "Medio · 1,5 jornadas" } },
+      {
+        de: "cliente",
+        texto: "Sí, hay unas fisuras finas cerca de la ventana.",
+        dato: { etiqueta: "Esfuerzo", valor: "Medio · 1,5 jornadas" },
+      },
       {
         de: "asesor",
         texto: "Listo. Con enduido, sellador y dos manos de látex premium el trabajo queda en:",
-        presupuesto: { total: "$185.400", detalle: "Materiales + mano de obra", plazo: "2 días de obra" },
+        presupuesto: {
+          total: "$185.400",
+          detalle: "Materiales + mano de obra",
+          plazo: "2 días de obra",
+        },
       },
     ],
   },
@@ -93,19 +106,32 @@ export const asesores: Asesor[] = [
     guion: [
       {
         de: "asesor",
-        texto: "¡Hola! Soy Diego. Recorré el jardín con la cámara así mido el trabajo y el mantenimiento que necesita.",
+        texto:
+          "¡Hola! Soy Diego. Recorré el jardín con la cámara así mido el trabajo y el mantenimiento que necesita.",
       },
-      { de: "cliente", texto: "Es un fondo de 120 m², hace tres meses que no se corta.", dato: { etiqueta: "Superficie", valor: "120 m²" } },
+      {
+        de: "cliente",
+        texto: "Es un fondo de 120 m², hace tres meses que no se corta.",
+        dato: { etiqueta: "Superficie", valor: "120 m²" },
+      },
       {
         de: "asesor",
         texto: "Veo pasto alto y dos árboles para poda de altura. Eso suma retiro de residuos.",
         dato: { etiqueta: "Retiro", valor: "3 bolsones" },
       },
-      { de: "cliente", texto: "Sí, y quisiera dejarlo con mantenimiento mensual.", dato: { etiqueta: "Recurrencia", valor: "Mensual" } },
+      {
+        de: "cliente",
+        texto: "Sí, y quisiera dejarlo con mantenimiento mensual.",
+        dato: { etiqueta: "Recurrencia", valor: "Mensual" },
+      },
       {
         de: "asesor",
         texto: "Te dejo puesta a punto inicial más abono mensual:",
-        presupuesto: { total: "$96.800", detalle: "Puesta a punto + primer mes", plazo: "1 jornada" },
+        presupuesto: {
+          total: "$96.800",
+          detalle: "Puesta a punto + primer mes",
+          plazo: "1 jornada",
+        },
       },
     ],
   },
@@ -128,15 +154,25 @@ export const asesores: Asesor[] = [
     guion: [
       {
         de: "asesor",
-        texto: "¡Hola! Soy Lucía. Mostrame los ambientes y te digo cuántas personas y horas lleva dejarlo impecable.",
+        texto:
+          "¡Hola! Soy Lucía. Mostrame los ambientes y te digo cuántas personas y horas lleva dejarlo impecable.",
       },
-      { de: "cliente", texto: "Es un depto de 3 ambientes después de una obra.", dato: { etiqueta: "Tipo", valor: "Post obra" } },
+      {
+        de: "cliente",
+        texto: "Es un depto de 3 ambientes después de una obra.",
+        dato: { etiqueta: "Tipo", valor: "Post obra" },
+      },
       {
         de: "asesor",
-        texto: "Veo polvo fino en carpinterías y restos de cemento en pisos: eso pide productos específicos.",
+        texto:
+          "Veo polvo fino en carpinterías y restos de cemento en pisos: eso pide productos específicos.",
         dato: { etiqueta: "Insumos", valor: "Línea post obra" },
       },
-      { de: "cliente", texto: "Necesito que quede para mudarme el viernes.", dato: { etiqueta: "Plazo", valor: "Antes del viernes" } },
+      {
+        de: "cliente",
+        texto: "Necesito que quede para mudarme el viernes.",
+        dato: { etiqueta: "Plazo", valor: "Antes del viernes" },
+      },
       {
         de: "asesor",
         texto: "Con dos personas durante una jornada completa queda listo:",

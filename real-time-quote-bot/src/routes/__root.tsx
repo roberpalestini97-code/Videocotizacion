@@ -80,7 +80,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "VideoCotización" },
       {
         name: "description",
-        content: "Cotizá mano de obra por videollamada con un asesor que evalúa el trabajo en vivo.",
+        content:
+          "Cotizá mano de obra por videollamada con un asesor que evalúa el trabajo en vivo.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

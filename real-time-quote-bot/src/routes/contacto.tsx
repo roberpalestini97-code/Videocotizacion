@@ -13,7 +13,10 @@ export const Route = createFileRoute("/contacto")({
           "Dejanos tu consulta o pedí que te llamemos para coordinar el trabajo después de la videocotización.",
       },
       { property: "og:title", content: "Contacto · VideoCotización" },
-      { property: "og:description", content: "Escribinos o pedí que te llamemos para coordinar el trabajo." },
+      {
+        property: "og:description",
+        content: "Escribinos o pedí que te llamemos para coordinar el trabajo.",
+      },
     ],
   }),
   component: Contacto,
@@ -35,8 +38,8 @@ function Contacto() {
           <div className="animate-rise rounded-3xl border border-black/5 bg-card p-5 text-center">
             <p className="font-display text-base font-semibold">¡Gracias! Te llamamos en breve.</p>
             <p className="mt-2 text-xs leading-relaxed text-ink/60">
-              En el mockup no se envía nada todavía. Cuando conectemos el backend, esta consulta va a
-              quedar registrada junto al presupuesto de la videollamada.
+              En el mockup no se envía nada todavía. Cuando conectemos el backend, esta consulta va
+              a quedar registrada junto al presupuesto de la videollamada.
             </p>
             <button
               onClick={() => setEnviado(false)}
@@ -102,7 +105,9 @@ function Campo({
 }) {
   return (
     <label className="block">
-      <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/45">{label}</span>
+      <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/45">
+        {label}
+      </span>
       <input
         required
         type={type}
