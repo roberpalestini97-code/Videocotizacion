@@ -1,6 +1,6 @@
 /**
- * Puerto del avatar. La tarea 5 va a enchufar acá el avatar 3D en vivo (visemas)
- * o el de clips pregrabados; hoy hay un placeholder 2D con las fotos de src/assets.
+ * Puerto del avatar. AvatarVivo enchufa el 3D (visemas) o los clips pregrabados;
+ * si no hay WebGL (o falla el motor) cae al placeholder 2D de src/assets.
  *
  * Contrato de uso (el flujo no sabe qué avatar hay detrás):
  *   montar() → hablar(turno) [+ aplicarVisemas(turno, items)] → callar() → desmontar()
@@ -11,7 +11,16 @@ export type TurnoAvatar = { turno: number; texto: string; clipId?: string };
 
 export type EstadoAvatar = { hablando: boolean; visema: Visema; turno: number | null };
 
-export type ConfigAvatar = { avatarId: string; nombre: string; foto: string; descripcion: string };
+export type ModoAvatarPreferido = "placeholder-2d" | "3d" | "clips";
+
+export type ConfigAvatar = {
+  avatarId: string;
+  nombre: string;
+  foto: string;
+  descripcion: string;
+  /** Lo que pidió la sesión / el catálogo. AvatarVivo puede degradar. */
+  modoPreferido?: ModoAvatarPreferido;
+};
 
 export interface AvatarPuerto {
   readonly modo: "placeholder-2d" | "3d" | "clips";

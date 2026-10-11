@@ -163,7 +163,7 @@ export class ReconocedorNavegador implements Reconocedor {
       }
     };
     r.onerror = (ev) => {
-      if (ev.error === "no-speech" || ev.error === "aborted") return;
+      if (ev.error === "no-speech" || ev.error === "aborted" || ev.error === "network") return;
       if (ev.error === "not-allowed" || ev.error === "service-not-allowed") this.activo = false;
       this.cb?.onError?.(ev.error);
     };

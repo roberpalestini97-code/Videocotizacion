@@ -7,3 +7,4 @@ package-lock.json
 bun.lock
 routeTree.gen.ts
 src/lib/api-contrato/generado
+src/lib/avatar-motor

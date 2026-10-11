@@ -97,7 +97,7 @@ window.TABLERO = {
       "consultor": "Sonnet 5.5",
       "rol": "Avatar 3D",
       "estado": "trabajando",
-      "actual": "T07 · en revisión"
+      "actual": "T07 en el front · en revisión"
     },
     {
       "id": "seg",
@@ -229,7 +229,7 @@ window.TABLERO = {
       "agente": "av",
       "status": "en_revision",
       "rehacer": true,
-      "nota": "Spike descartable en avatar-spike. Verificado de nuevo: 95 pruebas pasan y tsc sin errores. NUNCA corrió en un navegador: no hay fps ni sincronía medidos. Falta revisión de otro agente. Supone avatar en el navegador (P1 sin confirmar)."
+      "nota": "2026-10-10 (av, rama T07-avatar-en-front, SIN revisar: quien escribe no revisa). El motor del spike (Avatar3D + AvatarClips + visemas/clips) está copiado en real-time-quote-bot/src/lib/avatar-motor y enchufado detrás de AvatarPuerto: AvatarVivo hace 3d → ErrorSinWebGL → clips → placeholder 2D. Reloj: performance.now (speechSynthesis, sin AudioContext). Visemas del servidor pisan el respaldo desde texto. three@0.180.0. PROBADO: vitest AvatarVivo 6/6 (cascada y visemas pendientes); eslint de los archivos tocados 0; Chromium del IDE contra mock: data-avatar-modo=3d, canvas WebGL 533×354 (CSS 686×456), modelo procedural (casco + chaleco) visible en la llamada, saludo del asesor en el chat. NO PROBADO: E2E Playwright completo (47 checks) en esta rama; fps serio (rAF en pestaña de fondo dio 1); sync boca↔voz real; GLB T30; clips grabados; Firefox/Safari/móvil. T08 sigue midiendo en equipos reales. Falta revisión de otro agente."
     },
     {
       "id": "T08",
@@ -237,7 +237,7 @@ window.TABLERO = {
       "agente": "qa",
       "status": "bloqueada",
       "rehacer": false,
-      "nota": "Hay que medir en dispositivos reales (la notebook de Rober, Android de gama baja y media, un iPhone viejo). El entorno de Claude no tiene navegador ni GPU. El protocolo de medición está en docs/avatar/spike-resultados.md."
+      "nota": "Sigue bloqueada para decisión: hace falta medir en la notebook de Rober, Android de gama baja/media y un iPhone viejo (protocolo en docs/avatar/spike-resultados.md). 2026-10-10: en Chromium del IDE el 3D ya corre en el front (canvas WebGL, modo=3d, modelo procedural visible). Eso no reemplaza T08."
     },
     {
       "id": "T09",
@@ -253,7 +253,7 @@ window.TABLERO = {
       "agente": "fe",
       "status": "en_revision",
       "rehacer": false,
-      "nota": "2026-10-10 (fe, mergeado a main, SIN revisar: quien escribe no revisa). El botón «Iniciar VideoCotización» habla con el contrato: enlace /c/<id_publico> → desafío (prueba de trabajo SHA-256) + crearSesion → consentimiento ANTES de cámara/micrófono → token de medios → WebSocket → texto del cliente (reconocimiento de voz del navegador es-AR) y fotogramas JPEG ≤1024 px/≤128 KiB cada 3 s (sin guardar) → avatar (Voz + AvatarPuerto, placeholder 2D) + pizarrón en vivo → precio solo al final (cotizacion.emitida) → wa.me con código de referencia. Reconexión con backoff, cerrarSesion y errores del catálogo en español. Reemplaza src/lib/asesor-api. PROBADO: npm ci; contrato:verificar ok; typecheck; lint (0 errores); build; vitest 145 pruebas (cliente, máquina de estados, reconexión, muestreo con límites, pizarrón, errores, controlador, conformidad con los JSON Schema del contrato contra el servidor falso); E2E Playwright en Chromium con cámara/mic FALSOS contra servidor mock HTTP+WS (scripts/e2e-videocotizacion.mjs, 47 verificaciones, 21 capturas en docs/fe/capturas/): flujo completo, consentimiento previo (getUserMedia=0 hasta aceptar), rechazo → sin_consentimiento, cámara denegada → sin_camara sin seguir, cuota agotada, desafío inválido, enlace inexistente, simultáneas agotadas, reconexión del socket (token nuevo, pizarrón conservado), sin_voz, cortar + derivación, fotogramas medidos en el servidor falso. NO PROBADO: backend real (Go) ni CORS real; LLM real; voz real (SpeechRecognition/speechSynthesis: en headless no hay voces ni reconocimiento, se probó la entrada por texto); cámara y micrófono reales; Firefox/Safari/Edge; móvil real (solo viewport 390x844 emulado en Chromium); lector de pantalla; desafío con la dificultad real (el mock usa 8 bits, el backend 16); wss:// con TLS (el mock usa ws://localhost). Huecos del contrato en docs/fe/huecos-T10.md (sin rango min–max, sin contacto del profesional en 429, sin «fuera de alcance», CORS, qué cuenta como voz para sin_voz, etc.). Pendiente: avatar de la tarea 5 detrás de AvatarPuerto, UI para corregir el pizarrón, contacto opcional, revisión cruzada. av es coautor y el consultor es Opus 5.5."
+      "nota": "2026-10-10 (fe, mergeado a main, SIN revisar: quien escribe no revisa). El botón «Iniciar VideoCotización» habla con el contrato: enlace /c/<id_publico> → desafío (prueba de trabajo SHA-256) + crearSesion → consentimiento ANTES de cámara/micrófono → token de medios → WebSocket → texto del cliente (reconocimiento de voz del navegador es-AR) y fotogramas JPEG ≤1024 px/≤128 KiB cada 3 s (sin guardar) → avatar (Voz + AvatarPuerto, placeholder 2D) + pizarrón en vivo → precio solo al final (cotizacion.emitida) → wa.me con código de referencia. Reconexión con backoff, cerrarSesion y errores del catálogo en español. Reemplaza src/lib/asesor-api. PROBADO: npm ci; contrato:verificar ok; typecheck; lint (0 errores); build; vitest 145 pruebas (cliente, máquina de estados, reconexión, muestreo con límites, pizarrón, errores, controlador, conformidad con los JSON Schema del contrato contra el servidor falso); E2E Playwright en Chromium con cámara/mic FALSOS contra servidor mock HTTP+WS (scripts/e2e-videocotizacion.mjs, 47 verificaciones, 21 capturas en docs/fe/capturas/): flujo completo, consentimiento previo (getUserMedia=0 hasta aceptar), rechazo → sin_consentimiento, cámara denegada → sin_camara sin seguir, cuota agotada, desafío inválido, enlace inexistente, simultáneas agotadas, reconexión del socket (token nuevo, pizarrón conservado), sin_voz, cortar + derivación, fotogramas medidos en el servidor falso. NO PROBADO: backend real (Go) ni CORS real; LLM real; voz real (SpeechRecognition/speechSynthesis: en headless no hay voces ni reconocimiento, se probó la entrada por texto); cámara y micrófono reales; Firefox/Safari/Edge; móvil real (solo viewport 390x844 emulado en Chromium); lector de pantalla; desafío con la dificultad real (el mock usa 8 bits, el backend 16); wss:// con TLS (el mock usa ws://localhost). Huecos del contrato en docs/fe/huecos-T10.md (sin rango min–max, sin contacto del profesional en 429, sin «fuera de alcance», CORS, qué cuenta como voz para sin_voz, etc.). Pendiente: UI para corregir el pizarrón, contacto opcional, revisión cruzada. Avatar 3D/clips detrás de AvatarPuerto: ver T07 (rama T07-avatar-en-front). av es coautor y el consultor es Opus 5.5."
     },
     {
       "id": "T11",
@@ -573,6 +573,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-10T23:55:00-03:00",
+      "texto": "T07 (av, rama T07-avatar-en-front): avatar 3D + clips enchufados en el front (AvatarVivo, fallback 2D). Chromium del IDE: modo=3d, canvas WebGL, casco procedural visible. No mergeado. T08 sigue midiendo en equipos reales."
+    },
     {
       "ts": "2026-10-10T23:05:00-03:00",
       "texto": "Cursor mergeó a main (pedido de Rober): feat/T13-llm-orquestador (base-verde + Gemini + T25) y feat/T10-front-contrato. No se mergearon T13-adaptador-gemini ni fix/base-verde-linux (se solapan y están más cortas). Gemini vivo ok con datos ficticios."

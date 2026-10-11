@@ -1,5 +1,6 @@
 /** Arma el controlador con las implementaciones reales del navegador. Solo se llama en el cliente. */
-import { AvatarPlaceholder2D, type AvatarPuerto } from "./avatar";
+import type { AvatarPuerto } from "./avatar";
+import { crearAvatarVivo } from "./avatar-vivo-navegador";
 import { ClienteVC } from "./cliente";
 import { leerConfig } from "./config";
 import { ControladorVC } from "./controlador";
@@ -62,6 +63,6 @@ export function crearControlador(entorno: Entorno): ControladorVC {
     },
     voz: new VozNavegador("es-AR"),
     reconocedor: new ReconocedorNavegador("es-AR"),
-    avatar: entorno.avatar ?? new AvatarPlaceholder2D(),
+    avatar: entorno.avatar ?? crearAvatarVivo(),
   });
 }

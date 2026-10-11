@@ -129,12 +129,14 @@ try {
     await page.goto(`${BASE}/c/${ENLACES.ok}`, { waitUntil: "networkidle" });
     await foto(page, "00-portada-enlace-profesional");
     await page.getByRole("button", { name: "Iniciar VideoCotización" }).first().click();
-    await esperarFase(page, "enlace");
-    await page.getByTestId("pantalla-enlace").waitFor();
-    ok(
-      await page.getByText("Cotizá con Juan P.").isVisible(),
-      "se resolvió el enlace y se muestra al profesional",
-    );
+    await page.getByText("Cotizá con Rober").or(page.getByTestId("consent-aceptar")).waitFor();
+    const conectar = page.getByTestId("conectar");
+    if (await conectar.isVisible()) {
+      ok(await page.getByText("Cotizá con Rober").isVisible(), "se resolvió el enlace con Rober");
+      await conectar.click();
+    } else {
+      ok(true, "un solo avatar: se salteó el picker y se abrió el consentimiento");
+    }
     ok(
       (await page.evaluate(() => window.__gum)) === 0,
       "todavía no se pidió cámara ni micrófono (getUserMedia = 0)",
@@ -172,11 +174,21 @@ try {
       s.registro.consentimientos === 1,
       "el servidor registró el consentimiento antes del token de medios",
     );
-    await page.getByText("¡Hola! Soy Juan").waitFor();
+    await page.getByText("¡Hola! Soy Rober").waitFor();
     await page.waitForFunction(() => {
       const v = document.querySelector('[data-testid="mi-camara"]');
       return v && v.videoWidth > 0;
     });
+    const modoAvatar = await page.locator('[data-testid="avatar"]').getAttribute("data-avatar-modo");
+    ok(
+      modoAvatar === "3d" || modoAvatar === "clips" || modoAvatar === "placeholder-2d",
+      `avatar montado en modo ${modoAvatar ?? "desconocido"}`,
+    );
+    ok(
+      (await page.locator('[data-testid="avatar"] canvas').count()) >= 1 ||
+        modoAvatar === "placeholder-2d",
+      "el avatar 3D/clips dibuja en un canvas (o cayó al 2D)",
+    );
     ok(true, "se ve la cámara propia (video falso con ancho > 0) y habla el asesor");
     await page.waitForTimeout(1200);
     await foto(page, "04-llamada-saludo");
@@ -272,7 +284,7 @@ try {
     await aceptarConsentimiento(page);
     await page.getByTestId("consent-aceptar").click();
     await esperarFase(page, "llamada");
-    await page.getByText("¡Hola! Soy Juan").waitFor();
+    await page.getByText("¡Hola! Soy Rober").waitFor();
     await decir(page, "Quiero pintar el living");
     await page.getByTestId("pizarron-oficio").waitFor();
     await page.waitForTimeout(1500);
@@ -428,7 +440,7 @@ try {
     await aceptarConsentimiento(page);
     await page.getByTestId("consent-aceptar").click();
     await esperarFase(page, "llamada");
-    await page.getByText("¡Hola! Soy Juan").waitFor();
+    await page.getByText("¡Hola! Soy Rober").waitFor();
     await decir(page, "Quiero pintar el living");
     await page.getByTestId("pizarron-oficio").waitFor();
     await page.getByTestId("reconectando").waitFor({ timeout: 8000 });

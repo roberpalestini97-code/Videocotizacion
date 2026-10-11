@@ -221,6 +221,7 @@ export class ControladorVC {
         ...(primero ? { avatarId: primero.avatar_id } : {}),
       });
       this.ir({ t: "ENLACE_OK" });
+      if (enlace.avatares.length === 1 && this.vigente(g)) await this.continuar();
     } catch (e) {
       if (this.vigente(g)) this.fallar(e);
     }
@@ -352,7 +353,7 @@ export class ControladorVC {
     await this.finalizar("sin_camara");
   }
 
-  /** El avatar enchufado (placeholder 2D o el de la tarea 5): la UI lo monta en su contenedor. */
+  /** El avatar enchufado (3D, clips o placeholder 2D): la UI lo monta en su contenedor. */
   get avatarPuerto(): AvatarPuerto {
     return this.d.avatar;
   }
@@ -500,7 +501,8 @@ export class ControladorVC {
       onParcial: (t) => this.set({ parcial: t }),
       onFinal: (t) => this.enviarTexto(t),
       onError: (codigo) => {
-        if (codigo === "not-allowed" || codigo === "service-not-allowed" || codigo === "network") {
+        // "network" lo dispara Chromium sin la API de Google: se reintenta, no se apaga la escucha.
+        if (codigo === "not-allowed" || codigo === "service-not-allowed") {
           this.set({
             escuchando: false,
             reconocimientoDisponible: false,

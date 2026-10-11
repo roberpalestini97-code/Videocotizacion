@@ -19,17 +19,25 @@ type EntornoVite = Record<string, string | boolean | undefined>;
 
 const API_MOCK = "http://localhost:8787";
 const CLAVE_MOCK = "vc_pub_mock_local_no_es_secreta";
+/** Mismo id que el flujo feliz de scripts/mock-servidor-vc.mjs. */
+const ENLACE_MOCK = "mock_ok_______________";
 
 function texto(v: string | boolean | undefined): string {
   return typeof v === "string" ? v.trim() : "";
 }
 
+function flag(v: string | boolean | undefined): boolean {
+  if (v === true) return true;
+  return ["1", "true", "si"].includes(texto(v).toLowerCase());
+}
+
 export function leerConfig(env: EntornoVite = import.meta.env as EntornoVite): ConfigVC {
-  const mock = ["1", "true", "si"].includes(texto(env["VITE_VC_MOCK"]).toLowerCase());
+  const mock = flag(env["VITE_VC_MOCK"]);
   const apiBase = (texto(env["VITE_VC_API_BASE"]) || (mock ? API_MOCK : "")).replace(/\/+$/, "");
   const clavePublica = texto(env["VITE_VC_CLAVE_PUBLICA"]) || (mock ? CLAVE_MOCK : "");
-  const enlace = texto(env["VITE_VC_ENLACE_DEMO"]);
-  return { apiBase, clavePublica, mock, enlaceDemo: enlace || undefined };
+  const local = /localhost:8787|127\.0\.0\.1:8787/.test(apiBase);
+  const enlace = texto(env["VITE_VC_ENLACE_DEMO"]) || (mock || local ? ENLACE_MOCK : "");
+  return { apiBase, clavePublica, mock: mock || local, enlaceDemo: enlace || undefined };
 }
 
 /** Devuelve el motivo por el que la configuración no sirve, o null si está completa. */

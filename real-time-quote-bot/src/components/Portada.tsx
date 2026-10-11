@@ -23,9 +23,9 @@ export function Portada({ idPublico }: { idPublico?: string | undefined }) {
           alt="Profesional de oficio en su taller"
           width={1088}
           height={1600}
-          className="absolute inset-0 size-full object-cover"
+          className="pointer-events-none absolute inset-0 size-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/35 to-ink" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/35 to-ink" />
 
         <div className="relative z-10 flex items-center justify-between px-5 pt-5">
           <div className="flex items-center gap-2">

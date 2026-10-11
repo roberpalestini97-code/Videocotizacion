@@ -51,6 +51,10 @@ describe("config", () => {
     expect(c.clavePublica.startsWith("vc_pub_")).toBe(true);
     expect(c.enlaceDemo).toBe("abc");
   });
+  it("modo mock sin enlace usa el flujo feliz del servidor falso", () => {
+    expect(leerConfig({ VITE_VC_MOCK: "true" }).enlaceDemo).toBe("mock_ok_______________");
+    expect(leerConfig({ VITE_VC_MOCK: true }).enlaceDemo).toBe("mock_ok_______________");
+  });
   it("sin variables y sin mock la config es inválida", () => {
     expect(validarConfig(leerConfig({}))).toMatch(/VITE_VC_API_BASE/);
     expect(validarConfig(leerConfig({ VITE_VC_API_BASE: "https://a.test" }))).toMatch(

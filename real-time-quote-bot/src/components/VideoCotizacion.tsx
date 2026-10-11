@@ -44,7 +44,7 @@ export function VideoCotizacion({
   onCerrar: () => void;
   /** Enlace opaco del profesional (/c/<id_publico>). */
   idPublico?: string | undefined;
-  /** Para enchufar el avatar de la tarea 5; por defecto, placeholder 2D. */
+  /** Para enchufar un avatar de prueba; por defecto, 3D → clips → 2D. */
   avatar?: AvatarPuerto;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -66,7 +66,7 @@ export function VideoCotizacion({
 
   // abrir / cerrar
   useEffect(() => {
-    if (abierto) void ctl.abrir(idPublico ?? leerConfig().enlaceDemo);
+    if (abierto) void ctl.abrir(idPublico || leerConfig().enlaceDemo);
     else void ctl.cerrarVentana();
   }, [abierto, idPublico, ctl]);
   useEffect(() => () => ctl.destruir(), [ctl]);
@@ -79,11 +79,17 @@ export function VideoCotizacion({
     if (!enPantallaLlamada || !cont || !avatarElegido) return;
     const puerto = ctl.avatarPuerto;
     const indice = s.enlace?.avatares.indexOf(avatarElegido) ?? 0;
+    const modoPreferido = avatarElegido.modos.includes("3d")
+      ? "3d"
+      : avatarElegido.modos.includes("clips")
+        ? "clips"
+        : "placeholder-2d";
     puerto.montar(cont, {
       avatarId: avatarElegido.avatar_id,
       nombre: avatarElegido.nombre,
       foto: fotoDeAvatar(avatarElegido.avatar_id, indice),
       descripcion: avatarElegido.descripcion_accesible,
+      modoPreferido,
     });
     return () => puerto.desmontar();
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -180,7 +180,7 @@ const GUION = [
     ],
   },
 ];
-const SALUDO = "¡Hola! Soy Juan, el asistente de Juan P. Contame: ¿qué trabajo necesitás cotizar?";
+const SALUDO = "¡Hola! Soy Rober. Contame: ¿qué trabajo necesitás cotizar?";
 
 function cotizacionMock(sesionId) {
   return {
@@ -342,22 +342,16 @@ export function iniciarMock({
         return responder(req, res, 200, {
           id_publico: m[1],
           profesional: {
-            nombre_visible: "Juan P.",
+            nombre_visible: "Rober",
             oficios: ["pintura"],
             zonas: ["mar_chiquita", "cobo"],
           },
           avatares: [
             {
               avatar_id: "av_obrero_casco",
-              nombre: "Juan",
+              nombre: "Rober",
               modos: ["3d", "clips"],
               descripcion_accesible: "Trabajador con casco amarillo y ropa de obra",
-            },
-            {
-              avatar_id: "av_obrera_gorra",
-              nombre: "Marta",
-              modos: ["3d"],
-              descripcion_accesible: "Trabajadora con gorra y ropa de obra",
             },
           ],
           aviso_privacidad: AVISO,
