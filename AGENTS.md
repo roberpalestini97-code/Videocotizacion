@@ -59,6 +59,7 @@ Rober revisa y mergea el PR.
 ```powershell
 # Desde la raíz del repo (videocotizacion/)
 powershell -File proyecto/scripts/verificar-repo.ps1
+# (incluye Go, conductas, contrato 506, Lovable contrato:verificar si existe real-time-quote-bot/, compose config)
 cd proyecto/backend; go test ./...
 cd proyecto/conductas; npm run verificar
 cd proyecto/contracts/verificacion; npm run validar
