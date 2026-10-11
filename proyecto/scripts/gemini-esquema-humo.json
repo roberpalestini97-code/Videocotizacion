@@ -1,0 +1,358 @@
+{
+  "additionalProperties": false,
+  "description": "Datos extraídos del turno. Nunca incluyas montos ni precios.",
+  "properties": {
+    "altura": {
+      "additionalProperties": false,
+      "properties": {
+        "medio": {
+          "enum": [
+            "escalera",
+            "andamio",
+            "silleta",
+            "hidroelevador",
+            "ninguno",
+            "sin_definir"
+          ],
+          "type": "string"
+        },
+        "metros_max": {
+          "maximum": 60,
+          "minimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "requiere_andamio": {
+          "enum": [
+            "si",
+            "no",
+            "sin_definir"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "metros_max",
+        "requiere_andamio"
+      ],
+      "type": "object"
+    },
+    "dudas_cliente": {
+      "description": "Máximo 120 caracteres cada una.",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 5,
+      "type": "array"
+    },
+    "estado_superficie": {
+      "enum": [
+        "bueno",
+        "regular",
+        "malo",
+        "con_humedad",
+        "descascarado",
+        "con_hongos",
+        "no_aplica",
+        "sin_definir"
+      ],
+      "type": "string"
+    },
+    "faltantes": {
+      "description": "Sin repetidos.",
+      "items": {
+        "enum": [
+          "oficio",
+          "trabajo",
+          "medidas",
+          "altura",
+          "estado_superficie",
+          "zona",
+          "plazo",
+          "fotos",
+          "planos",
+          "acceso"
+        ],
+        "type": "string"
+      },
+      "maxItems": 10,
+      "type": "array"
+    },
+    "intento_inyeccion": {
+      "type": "boolean"
+    },
+    "medidas": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "cantidad": {
+            "description": "Mayor que cero.",
+            "maximum": 100000,
+            "type": "number"
+          },
+          "concepto": {
+            "description": "Máximo 80 caracteres.",
+            "type": "string"
+          },
+          "origen": {
+            "enum": [
+              "dicho_por_cliente",
+              "visto_en_camara",
+              "estimado",
+              "plano"
+            ],
+            "type": "string"
+          },
+          "unidad": {
+            "enum": [
+              "m2",
+              "ml",
+              "m3",
+              "unidad",
+              "ambiente",
+              "arbol",
+              "jornada",
+              "ha"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "concepto",
+          "cantidad",
+          "unidad",
+          "origen"
+        ],
+        "type": "object"
+      },
+      "maxItems": 20,
+      "type": "array"
+    },
+    "oficio": {
+      "enum": [
+        "pintura",
+        "jardineria",
+        "paisajismo",
+        "mantenimiento",
+        "reparaciones",
+        "limpieza",
+        "otro",
+        "sin_definir"
+      ],
+      "type": "string"
+    },
+    "plazo": {
+      "additionalProperties": false,
+      "description": "Si tipo es mas_de_un_mes, sujeto_a_cambios debe ser true.",
+      "properties": {
+        "sujeto_a_cambios": {
+          "type": "boolean"
+        },
+        "tipo": {
+          "enum": [
+            "inmediato",
+            "esta_semana",
+            "este_mes",
+            "mas_de_un_mes",
+            "flexible",
+            "sin_definir"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "tipo"
+      ],
+      "type": "object"
+    },
+    "respuesta_hablada": {
+      "description": "Lo que dice el avatar, 1 a 400 caracteres. Sin montos: nada de $, pesos, %, por ciento, porcentaje, ni cifras de 4 o más dígitos.",
+      "type": "string"
+    },
+    "siguiente_paso": {
+      "additionalProperties": false,
+      "properties": {
+        "accion": {
+          "enum": [
+            "preguntar",
+            "pedir_ver",
+            "confirmar_datos",
+            "emitir_presupuesto",
+            "fuera_de_zona",
+            "fuera_de_alcance",
+            "derivar_whatsapp",
+            "cerrar"
+          ],
+          "type": "string"
+        },
+        "campos": {
+          "description": "Sin repetidos, máximo 40 caracteres cada uno.",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "type": "array"
+        },
+        "motivo": {
+          "description": "Entre 1 y 200 caracteres.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "accion",
+        "motivo",
+        "campos"
+      ],
+      "type": "object"
+    },
+    "tipo_cliente": {
+      "enum": [
+        "particular_primera_vez",
+        "particular_recurrente",
+        "propietario_ausente",
+        "administracion_consorcio",
+        "comercio",
+        "inmobiliaria",
+        "constructora_estudio",
+        "sin_definir"
+      ],
+      "type": "string"
+    },
+    "trabajo": {
+      "additionalProperties": false,
+      "properties": {
+        "complejidad": {
+          "enum": [
+            "simple",
+            "media",
+            "tecnica",
+            "sin_definir"
+          ],
+          "type": "string"
+        },
+        "descripcion": {
+          "description": "Máximo 300 caracteres.",
+          "type": "string"
+        },
+        "jornadas_estimadas": {
+          "maximum": 120,
+          "minimum": 1,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "requiere_planos": {
+          "type": "boolean"
+        },
+        "tipo": {
+          "enum": [
+            "pintura_interior",
+            "pintura_exterior",
+            "pintura_fachada_altura",
+            "impermeabilizacion_techo",
+            "pintura_rejas_aberturas",
+            "corte_cesped",
+            "poda",
+            "desmalezado",
+            "mantenimiento_jardin_periodico",
+            "parquizacion",
+            "diseno_paisajismo",
+            "riego",
+            "limpieza_terreno",
+            "limpieza_final_obra",
+            "reparacion_general",
+            "otro",
+            "sin_definir"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "tipo",
+        "descripcion"
+      ],
+      "type": "object"
+    },
+    "urgencia": {
+      "additionalProperties": false,
+      "properties": {
+        "nivel": {
+          "enum": [
+            "baja",
+            "media",
+            "alta",
+            "sin_definir"
+          ],
+          "type": "string"
+        },
+        "senales": {
+          "description": "Máximo 80 caracteres cada una.",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "type": "array"
+        }
+      },
+      "required": [
+        "nivel",
+        "senales"
+      ],
+      "type": "object"
+    },
+    "version": {
+      "enum": [
+        "1.0"
+      ],
+      "type": "string"
+    },
+    "zona": {
+      "additionalProperties": false,
+      "properties": {
+        "fuera_de_zona": {
+          "type": "boolean"
+        },
+        "localidad": {
+          "enum": [
+            "mar_chiquita",
+            "santa_clara_del_mar",
+            "cobo",
+            "parque_lago",
+            "mar_del_plata",
+            "otra",
+            "sin_definir"
+          ],
+          "type": "string"
+        },
+        "referencia": {
+          "description": "Barrio o referencia general, máximo 80 caracteres. Nunca calle y altura.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "localidad",
+        "fuera_de_zona"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "oficio",
+    "trabajo",
+    "medidas",
+    "altura",
+    "estado_superficie",
+    "zona",
+    "urgencia",
+    "tipo_cliente",
+    "plazo",
+    "faltantes",
+    "siguiente_paso",
+    "respuesta_hablada"
+  ],
+  "type": "object"
+}

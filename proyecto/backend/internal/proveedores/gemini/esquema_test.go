@@ -120,3 +120,27 @@ func TestEsquemaUsaSoloPalabrasSoportadas(t *testing.T) {
 		t.Error("campo precio en el esquema")
 	}
 }
+
+// scripts/gemini-esquema-humo.json lo usan probar-gemini.sh y .ps1; no puede
+// quedar desfasado del esquema que manda el adaptador. Para regenerarlo:
+// GENERAR_ESQUEMA_HUMO=1 go test ./internal/proveedores/gemini -run EsquemaHumo
+func TestEsquemaHumoActualizado(t *testing.T) {
+	const ruta = "../../../../scripts/gemini-esquema-humo.json"
+	b, err := json.MarshalIndent(esquemaGemini(), "", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	b = append(b, '\n')
+	if os.Getenv("GENERAR_ESQUEMA_HUMO") == "1" {
+		if err := os.WriteFile(ruta, b, 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	actual, err := os.ReadFile(ruta)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(actual) != string(b) {
+		t.Fatal("scripts/gemini-esquema-humo.json desactualizado: correr con GENERAR_ESQUEMA_HUMO=1")
+	}
+}

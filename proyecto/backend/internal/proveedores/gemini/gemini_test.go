@@ -417,7 +417,9 @@ func TestPedidosInvalidos(t *testing.T) {
 		"jpeg gigante": func(p *proveedores.PedidoExtraccion) {
 			p.Fotogramas = [][]byte{append([]byte{0xFF, 0xD8}, make([]byte, 200<<10)...)}
 		},
-		"demasiados":       func(p *proveedores.PedidoExtraccion) { p.Fotogramas = make([][]byte, 9) },
+		"demasiados": func(p *proveedores.PedidoExtraccion) {
+			p.Fotogramas = [][]byte{jpegMin, jpegMin, jpegMin, jpegMin, jpegMin, jpegMin, jpegMin, jpegMin, jpegMin}
+		},
 		"transcripción XL": func(p *proveedores.PedidoExtraccion) { p.Transcripcion = strings.Repeat("a", 40<<10) },
 	}
 	for n, mut := range casos {

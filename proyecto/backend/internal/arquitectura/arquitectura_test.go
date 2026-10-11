@@ -42,6 +42,7 @@ var permitidos = map[string][]string{
 	"internal/config":    {"internal/secreto"},
 	// Adaptadores.
 	"internal/proveedores/falsos": {"internal/errores", "internal/proveedores"},
+	"internal/proveedores/gemini": {"internal/proveedores", "internal/secreto"},
 	"internal/almacen/memoria":    {"internal/almacen", "internal/dominio", "internal/errores"},
 	"internal/almacen/postgres":   {"internal/almacen", "internal/dominio", "internal/errores", "internal/secreto", "pgx"},
 	"internal/migrador":           {"pgx"},
@@ -52,7 +53,7 @@ var permitidos = map[string][]string{
 	// Cableado.
 	"internal/arranque": {
 		"internal/almacen", "internal/almacen/memoria", "internal/almacen/postgres", "internal/config",
-		"internal/cotizador", "internal/migrador", "internal/proveedores", "internal/proveedores/falsos", "internal/reloj",
+		"internal/cotizador", "internal/migrador", "internal/proveedores", "internal/proveedores/falsos", "internal/proveedores/gemini", "internal/reloj",
 		"internal/retencion", "internal/salud", "internal/servidor", "internal/meta", "internal/rutas", "internal/desafio", "migrations", "pgx",
 	},
 	"cmd/api":               {"internal/arranque", "internal/config"},
