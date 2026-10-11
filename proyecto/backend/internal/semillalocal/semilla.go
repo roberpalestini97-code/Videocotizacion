@@ -41,6 +41,7 @@ func Sembrar(ctx context.Context, a almacen.Completo, claveHMAC string, log *slo
 	if claveHMAC == "" {
 		return fmt.Errorf("semilla local: falta CLAVE_HMAC")
 	}
+	HabilitarDesarrollo()
 	ahora := time.Now().UTC()
 	tn := dominio.Tenant{
 		ID: IDTenant, Nombre: "Demo local", SimultaneasTope: 5, SegundosMesTope: 30000,

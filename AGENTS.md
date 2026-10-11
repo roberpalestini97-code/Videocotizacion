@@ -49,6 +49,11 @@ Rober revisa y mergea el PR.
 - Evitar **force push**, **rebase/amend/squash** de commits ya publicados en la rama conectada a Lovable.
 - Si Lovable sigue apuntando al repo antiguo `real-time-quote-bot`, coordinar con Rober la reconexión al monorepo o mantener sync manual hasta migrar el remoto en Lovable.
 
+## Desarrollo local (Windows)
+
+1. Copiar `proyecto/backend/.env.example` → `proyecto/backend/.env` y `real-time-quote-bot/.env.example` → `.env.local` (valores demo en comentarios del front).
+2. `powershell -File proyecto/scripts/levantar-local.ps1` — backend + videollamada + panel (semilla `SEMILLA_LOCAL=1` → `internal/semillalocal`).
+
 ## Comandos útiles
 
 ```powershell
