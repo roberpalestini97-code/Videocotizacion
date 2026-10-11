@@ -132,7 +132,7 @@ func (a *Almacen) CrearTenant(ctx context.Context, t dominio.Tenant) error {
 		tenant: t, asesores: map[string]dominio.Asesor{}, sesiones: map[string]dominio.Sesion{},
 		consentimientos: map[string]dominio.Consentimiento{}, contactos: map[string]dominio.Contacto{},
 		cotizaciones: map[string]dominio.Cotizacion{}, respuestasModelo: map[string][]dominio.RespuestaModelo{},
-		claves:       map[string]dominio.ClaveAPI{}, enlaces: map[string]dominio.Enlace{},
+		claves: map[string]dominio.ClaveAPI{}, enlaces: map[string]dominio.Enlace{},
 		tokens:               map[string]dominio.TokenSesion{},
 		contrasenas:          map[string]dominio.ContrasenaAsesor{},
 		ingresos:             map[string]dominio.IngresoPanel{},

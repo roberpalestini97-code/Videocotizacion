@@ -7,13 +7,13 @@ import (
 )
 
 var etiquetaFaltante = map[string]string{
-	"medidas":            "Medidas",
-	"estado_superficie":  "Estado de pared",
-	"altura":             "Altura",
-	"zona":               "Zona",
-	"tipo_trabajo":       "Tipo de trabajo",
-	"plazo":              "Plazo",
-	"urgencia":           "Urgencia",
+	"medidas":           "Medidas",
+	"estado_superficie": "Estado de pared",
+	"altura":            "Altura",
+	"zona":              "Zona",
+	"tipo_trabajo":      "Tipo de trabajo",
+	"plazo":             "Plazo",
+	"urgencia":          "Urgencia",
 }
 
 // pizarronDesdeSalida arma campos sin montos (ADR 0006). version sube por turno.
