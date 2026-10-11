@@ -4,9 +4,11 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -356,9 +358,19 @@ func TestRLSConSQLDirecto(t *testing.T) {
 			t.Fatal(err)
 		}
 		defer func() { _ = d.Close(ctx) }()
-		var n int
-		if err := d.QueryRow(ctx, "SELECT count(*) FROM vc.sesiones").Scan(&n); err != nil || n != 0 {
-			t.Fatalf("el dueño sin tenant ve %d sesiones (%v): falta FORCE", n, err)
+		// vc_dueno no es superusuario (pgprueba lo crea NOSUPERUSER NOBYPASSRLS,
+		// como en producción). En vc.sesiones tiene a propósito la política de
+		// solo lectura dueno_lee_handshake (0004, para vc.buscar_sesion_medios);
+		// donde no hay política para el dueño, FORCE lo deja sin filas.
+		for _, tabla := range []string{"vc.cotizaciones", "vc.consentimientos"} {
+			var n int
+			if err := d.QueryRow(ctx, "SELECT count(*) FROM "+tabla).Scan(&n); err != nil || n != 0 {
+				t.Fatalf("el dueño sin tenant ve %d filas de %s (%v): falta FORCE", n, tabla, err)
+			}
+		}
+		tag, err := d.Exec(ctx, "UPDATE vc.sesiones SET estado = estado")
+		if err != nil || tag.RowsAffected() != 0 {
+			t.Fatalf("el dueño sin tenant modificó %d sesiones (%v): falta FORCE", tag.RowsAffected(), err)
 		}
 	})
 
@@ -535,7 +547,13 @@ func TestPlanDelListadoUsaElIndice(t *testing.T) {
 	}
 	defer a.Cerrar()
 	tn := conformidad.NuevoTenant(t, a)
-	as := conformidad.NuevoAsesor(t, a, tn.ID)
+	// Varios asesores por tenant, como en producción: con uno solo asesor_id no
+	// filtra nada y el planificador elige con razón sesiones_por_creacion.
+	asesores := make([]string, 20)
+	for i := range asesores {
+		asesores[i] = conformidad.NuevoAsesor(t, a, tn.ID).ID
+	}
+	as := struct{ ID string }{asesores[0]}
 	ctx := context.Background()
 	conn, err := pgx.Connect(ctx, base.URLAPI.Revelar())
 	if err != nil {
@@ -551,9 +569,9 @@ func TestPlanDelListadoUsaElIndice(t *testing.T) {
 		t.Fatal(err)
 	}
 	if _, err := tx.Exec(ctx, `INSERT INTO vc.sesiones (tenant_id, sesion_id, asesor_id, estado, modo_avatar, creada_en, borrar_despues_de)
-		SELECT $1, 'ses_' || upper(lpad(to_hex(g), 26, '0')), $2, 'creada', '3d',
+		SELECT $1, 'ses_' || upper(lpad(to_hex(g), 26, '0')), ($2::text[])[1 + g % 20], 'creada', '3d',
 		       timestamptz '2026-01-01' + g * interval '1 minute', timestamptz '2027-01-01'
-		FROM generate_series(1, 5000) g`, string(tn.ID), as.ID); err != nil {
+		FROM generate_series(1, 5000) g`, string(tn.ID), asesores); err != nil {
 		t.Fatal(err)
 	}
 	if err := tx.Commit(ctx); err != nil {
@@ -615,7 +633,8 @@ func TestRespuestasModeloPostgres(t *testing.T) {
 		t.Fatalf("turno duplicado: %v", err)
 	}
 	list, err := a.ListarRespuestasModeloDeSesion(ctx, tn.ID, s.ID)
-	if err != nil || len(list) != 1 || list[0].Turno != 1 || string(list[0].SalidaJSON) != string(salida) {
+	// jsonb normaliza espacios y orden de claves: se compara el JSON, no los bytes.
+	if err != nil || len(list) != 1 || list[0].Turno != 1 || !mismoJSON(t, list[0].SalidaJSON, salida) {
 		t.Fatalf("listar: %+v %v", list, err)
 	}
 	if _, err := a.ListarRespuestasModeloDeSesion(ctx, tn.ID, "ses_ZZZZZZZZZZZZZZZZZZZZZZZZZZ"); !errores.Es(err, errores.NoEncontrado) {
@@ -625,4 +644,16 @@ func TestRespuestasModeloPostgres(t *testing.T) {
 	if _, err := a.ListarRespuestasModeloDeSesion(ctx, tb.ID, s.ID); !errores.Es(err, errores.NoEncontrado) {
 		t.Fatalf("otro tenant no debe ver respuestas: %v", err)
 	}
+}
+
+func mismoJSON(t *testing.T, a, b []byte) bool {
+	t.Helper()
+	var x, y any
+	if err := json.Unmarshal(a, &x); err != nil {
+		t.Fatalf("JSON guardado inválido: %v", err)
+	}
+	if err := json.Unmarshal(b, &y); err != nil {
+		t.Fatal(err)
+	}
+	return reflect.DeepEqual(x, y)
 }
