@@ -8,14 +8,17 @@ window.TABLERO = {
   "meta": {
     "phaseIndex": 3,
     "verificacion_repo": {
-      "fecha": "2026-10-10T01:55",
-      "backend_go_test": "ok",
-      "conductas_verificar": "0 fallas (12+20)",
-      "contrato_validar": "0 fallas",
-      "contrato_vectores": "506 ok",
-      "contrato_referencias_prompts": "6 slugs T06 alineados con Go",
-      "lovable_contrato_verificar": "openapi.d.ts ok",
-      "infra_compose_config": "docker compose config (env de prueba; no levanta contenedores)",
+      "fecha": "2026-10-11",
+      "entorno": "Linux, Go 1.24.7, con PostgreSQL 16 real (PG_PRUEBA_URL local, vc_dueno/vc_api NOSUPERUSER NOBYPASSRLS); rama fix/base-verde-linux",
+      "backend_go_test": "go test -race -count=1 ./... : 21 paquetes ok, 234 PASS, 0 FAIL, 0 SKIP (con PostgreSQL real)",
+      "backend_go_vet_gofmt": "go vet ok; gofmt -l vacío",
+      "conductas_verificar": "npm ci + verificar: 0 fallas (12 ejemplos + 20 negativos)",
+      "contrato_validar": "npm ci + validar: 0 fallas (749 ejemplos, 308 negativos)",
+      "contrato_vectores": "506 ok, 0 fallas",
+      "contrato_referencias_prompts": "6 slugs ok; hash canónico CRLF, igual con checkout LF o CRLF",
+      "lovable_contrato_verificar": "no corrido en esta verificación",
+      "infra_compose_config": "no corrido (sin docker en este entorno)",
+      "nota_anterior": "El 'ok' del 2026-10-10 era sin PostgreSQL (pruebas omitidas) y en Windows (CRLF).",
       "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh"
     },
     "pendiente_goal": [
@@ -568,6 +571,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-11T12:00:00-03:00",
+      "texto": "fix/base-verde-linux (Claude, agente go): go test -race verde en Linux con PostgreSQL real. Causas: hash de prompts dependía del fin de línea (anclas calculadas con CRLF; ahora forma canónica CRLF en Go y prompts.mjs + .gitattributes LF); pruebas PG desalineadas (política dueno_lee_handshake de 0004, plan con un solo asesor, jsonb normaliza); 0001.revertir dejaba 0002..N registradas (ahora frena). gofmt de 4 archivos. Prueba nueva cupo_concurrente (20 reservas, tope 5). Revisión de seguridad en docs/review/base-main-hallazgos.md (4 altas, sin corregir)."
+    },
     {
       "ts": "2026-10-10T15:10:00-03:00",
       "texto": "Repo GitHub Videocotizacion: raíz Documents/videocotizacion; AGENTS.md (2 harness, rama+PR); rama chore/repo-inicial pusheada."
