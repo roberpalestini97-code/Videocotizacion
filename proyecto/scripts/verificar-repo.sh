@@ -13,6 +13,14 @@ echo "== conductas: npm run verificar =="
 echo "== contrato: validar + referencias-prompts + vectores =="
 (cd contracts/verificacion && npm run validar && npm run referencias-prompts && npm run vectores)
 
+lovable=$(CDPATH= cd -- "$(dirname "$0")/../.." && pwd)/real-time-quote-bot
+if [ -f "$lovable/package.json" ]; then
+  echo "== lovable: npm run contrato:verificar =="
+  (cd "$lovable" && npm run contrato:verificar)
+else
+  echo "== lovable: contrato:verificar (omitido: no hay real-time-quote-bot) =="
+fi
+
 if command -v docker >/dev/null 2>&1; then
   echo "== infra: docker compose config =="
   (

@@ -26,6 +26,16 @@ Invoke-NativeChecked { npm run referencias-prompts }
 Invoke-NativeChecked { npm run vectores }
 Pop-Location
 
+$lovable = Join-Path (Split-Path -Parent $raiz) "real-time-quote-bot"
+if (Test-Path (Join-Path $lovable "package.json")) {
+    Write-Host "== lovable: npm run contrato:verificar =="
+    Push-Location $lovable
+    Invoke-NativeChecked { npm run contrato:verificar }
+    Pop-Location
+} else {
+    Write-Host "== lovable: contrato:verificar (omitido: no hay real-time-quote-bot en monorepo) =="
+}
+
 if (Get-Command docker -ErrorAction SilentlyContinue) {
     Write-Host "== infra: docker compose config =="
     Push-Location infra

@@ -20,7 +20,7 @@ window.TABLERO = {
       "contrato_referencias_prompts": "6 slugs; anclas LF y prueba CRLF=LF",
       "lovable_contrato_verificar": "npm run contrato:verificar ok (rama PR T04, 2026-10-11)",
       "no_probado": "redocly/spectral; docker build/up; E2E videollamada contra backend local",
-      "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh"
+      "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh (+ lovable contrato:verificar si monorepo)"
     },
     "pendiente_goal": [
       "T13: medición de límites/latencia de Gemini; revisión independiente de T13/T25 (ya en main)",
@@ -572,6 +572,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-11T04:00:00-03:00",
+      "texto": "T41: verificar-repo incluye npm run contrato:verificar (real-time-quote-bot en monorepo)."
+    },
     {
       "ts": "2026-10-11T03:58:00-03:00",
       "texto": "T41/T04 PR: npm run contrato:verificar ok en real-time-quote-bot; plan-pr ampliado."
