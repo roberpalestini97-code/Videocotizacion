@@ -42,13 +42,24 @@ const (
 	AlmacenPostgres = "postgres"
 )
 
-// ProveedorFalso es el único valor de proveedor implementado hoy. Los reales
-// se agregan cuando se elijan (T13); cualquier otro valor es un error.
-const ProveedorFalso = "falso"
+// Valores de proveedor implementados. Hoy el único real es Gemini para el LLM
+// (T13a); el resto de los puertos admite solo "falso". Cualquier otro valor es
+// un error.
+const (
+	ProveedorFalso  = "falso"
+	ProveedorGemini = "gemini"
+)
 
 // Proveedores elegidos por puerto (ADR 0003: PROVEEDOR_STT=..., etc.).
 type Proveedores struct {
 	STT, LLM, TTS, WhatsApp string
+}
+
+// Gemini agrupa lo del adaptador de Gemini (T13a).
+type Gemini struct {
+	Clave   secreto.Secreto // GEMINI_API_KEY; nunca se imprime
+	Modelo  string          // GEMINI_MODELO; vacío = el del adaptador
+	URLBase string          // GEMINI_URL_BASE; solo pruebas, prohibido en producción
 }
 
 // Config es la configuración validada.
@@ -62,6 +73,7 @@ type Config struct {
 	DBConexMax  int32
 	DBTimeout   time.Duration // tiempo límite por operación contra la base (G03)
 	Proveedores Proveedores
+	Gemini      Gemini // solo se usa con PROVEEDOR_LLM=gemini
 
 	LecturaEncabezados time.Duration
 	Lectura            time.Duration
@@ -102,6 +114,11 @@ func Cargar(getenv Getenv, cmd Comando) (Config, error) {
 			LLM:      l.texto("PROVEEDOR_LLM", ""),
 			TTS:      l.texto("PROVEEDOR_TTS", ""),
 			WhatsApp: l.texto("PROVEEDOR_WHATSAPP", ""),
+		},
+		Gemini: Gemini{
+			Clave:   secreto.Nuevo(strings.TrimSpace(getenv("GEMINI_API_KEY"))),
+			Modelo:  l.texto("GEMINI_MODELO", ""),
+			URLBase: l.texto("GEMINI_URL_BASE", ""),
 		},
 	}
 	errs := l.errs
@@ -181,8 +198,18 @@ func (c Config) validarProveedores(prod bool) []error {
 			errs = append(errs, fmt.Errorf("falta %s", p.variable))
 		case p.valor == ProveedorFalso && prod:
 			errs = append(errs, fmt.Errorf("producción no puede usar %s=falso", p.variable))
+		case p.valor == ProveedorGemini && p.variable == "PROVEEDOR_LLM":
+			// admitido; sus requisitos se validan abajo
 		case p.valor != ProveedorFalso:
 			errs = append(errs, fmt.Errorf("%s=%q: adaptador real no implementado todavía (T13)", p.variable, p.valor))
+		}
+	}
+	if c.Proveedores.LLM == ProveedorGemini {
+		if c.Gemini.Clave.Vacio() {
+			errs = append(errs, errors.New("PROVEEDOR_LLM=gemini exige GEMINI_API_KEY"))
+		}
+		if prod && c.Gemini.URLBase != "" {
+			errs = append(errs, errors.New("GEMINI_URL_BASE es solo para pruebas: no se admite en producción"))
 		}
 	}
 	return errs
@@ -239,6 +266,8 @@ func (c Config) LogValue() slog.Value {
 		slog.Any("clave_hmac", c.ClaveHMAC),
 		slog.String("proveedores", fmt.Sprintf("stt=%s llm=%s tts=%s whatsapp=%s",
 			c.Proveedores.STT, c.Proveedores.LLM, c.Proveedores.TTS, c.Proveedores.WhatsApp)),
+		slog.Any("gemini_api_key", c.Gemini.Clave),
+		slog.String("gemini_modelo", c.Gemini.Modelo),
 		slog.Int64("cuerpo_max_bytes", c.CuerpoMaxBytes),
 		slog.Duration("retencion_intervalo", c.RetencionIntervalo),
 	)

@@ -26,6 +26,7 @@ import (
 	"videocotizacion/backend/internal/migrador"
 	"videocotizacion/backend/internal/proveedores"
 	"videocotizacion/backend/internal/proveedores/falsos"
+	"videocotizacion/backend/internal/proveedores/gemini"
 	"videocotizacion/backend/internal/reloj"
 	"videocotizacion/backend/internal/retencion"
 	"videocotizacion/backend/internal/rutas"
@@ -52,7 +53,7 @@ type App struct {
 
 // Construir arma la App. Valida producción ANTES de abrir conexiones.
 func Construir(ctx context.Context, cfg config.Config, log *slog.Logger) (*App, error) {
-	prov, err := construirProveedores(cfg)
+	prov, err := construirProveedores(cfg, log)
 	if err != nil {
 		return nil, err
 	}
@@ -109,16 +110,25 @@ func AbrirAlmacen(ctx context.Context, cfg config.Config) (almacen.Completo, err
 	}
 }
 
-func construirProveedores(cfg config.Config) (proveedores.Conjunto, error) {
+func construirProveedores(cfg config.Config, log *slog.Logger) (proveedores.Conjunto, error) {
 	var c proveedores.Conjunto
 	for _, p := range []struct {
 		nombre, valor string
 		falso         func()
+		real          func() error // adaptador real, si el puerto ya tiene uno (hoy solo el LLM)
 	}{
-		{"PROVEEDOR_STT", cfg.Proveedores.STT, func() { c.Transcriptor = &falsos.Transcriptor{Texto: "turno de voz de prueba"} }},
-		{"PROVEEDOR_LLM", cfg.Proveedores.LLM, func() { c.Extractor = &falsos.Extractor{JSON: string(devSalidaLLM)} }},
-		{"PROVEEDOR_TTS", cfg.Proveedores.TTS, func() { c.Sintetizador = &falsos.Sintetizador{} }},
-		{"PROVEEDOR_WHATSAPP", cfg.Proveedores.WhatsApp, func() { c.Mensajeria = &falsos.Mensajeria{} }},
+		{"PROVEEDOR_STT", cfg.Proveedores.STT, func() { c.Transcriptor = &falsos.Transcriptor{Texto: "turno de voz de prueba"} }, nil},
+		{"PROVEEDOR_LLM", cfg.Proveedores.LLM, func() { c.Extractor = &falsos.Extractor{JSON: string(devSalidaLLM)} },
+			func() error {
+				e, err := gemini.Nuevo(gemini.Opciones{Clave: cfg.Gemini.Clave, Modelo: cfg.Gemini.Modelo, URLBase: cfg.Gemini.URLBase, Log: log})
+				if err != nil {
+					return err
+				}
+				c.Extractor = e
+				return nil
+			}},
+		{"PROVEEDOR_TTS", cfg.Proveedores.TTS, func() { c.Sintetizador = &falsos.Sintetizador{} }, nil},
+		{"PROVEEDOR_WHATSAPP", cfg.Proveedores.WhatsApp, func() { c.Mensajeria = &falsos.Mensajeria{} }, nil},
 	} {
 		switch p.valor {
 		case config.ProveedorFalso:
@@ -127,6 +137,12 @@ func construirProveedores(cfg config.Config) (proveedores.Conjunto, error) {
 			}
 			p.falso()
 		default:
+			if p.valor == config.ProveedorGemini && p.real != nil {
+				if err := p.real(); err != nil {
+					return c, fmt.Errorf("%s=gemini: %w", p.nombre, err)
+				}
+				continue
+			}
 			return c, fmt.Errorf("%s=%q: adaptador real no implementado todavía (T13)", p.nombre, p.valor)
 		}
 	}
