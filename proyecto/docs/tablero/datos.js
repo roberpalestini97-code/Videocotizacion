@@ -8,11 +8,11 @@ window.TABLERO = {
   "meta": {
     "phaseIndex": 3,
     "verificacion_repo": {
-      "fecha": "2026-10-11T03:52",
-      "rama": "T04-dev-local-semillalocal (3 commits vs main: 595e4cc..7f0222f, PR pendiente merge Rober)",
-      "entorno": "Windows; verificar-repo.ps1 con exit code si go test falla (LASTEXITCODE)",
-      "postgres_prueba": "PG_PRUEBA_URL si está definida (tests postgres en corrida ~22 min)",
-      "backend_go_test": "go test ./... ok; internal/semillalocal TestSembrarEnMemoria",
+      "fecha": "2026-10-11T03:55",
+      "rama": "T04-dev-local-semillalocal (4 commits vs main, PR pendiente merge Rober)",
+      "entorno": "Windows; verificar-repo.ps1 exit code en todos los pasos",
+      "postgres_prueba": "PG_PRUEBA_URL si definida",
+      "backend_go_test": "verificar-repo 2026-10-11 ~2 min: go test ./... ok (semillalocal incl.)",
       "infra_compose_config": "docker compose config ok",
       "conductas_verificar": "0 fallas (12+20)",
       "contrato_validar": "0 fallas",
@@ -572,6 +572,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-11T03:55:00-03:00",
+      "texto": "Gate verificar-repo en rama PR T04-dev-local-semillalocal: Go+conductas+506+compose ok (~2 min)."
+    },
     {
       "ts": "2026-10-11T03:52:00-03:00",
       "texto": "T04: TestSembrarEnMemoria; Sembrar habilita loopback; PR rama 3 commits (dev local + .env.example + test)."
