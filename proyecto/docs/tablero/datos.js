@@ -8,11 +8,11 @@ window.TABLERO = {
   "meta": {
     "phaseIndex": 3,
     "verificacion_repo": {
-      "fecha": "2026-10-11T03:38",
-      "rama": "T04-dev-local-semillalocal (PR pendiente merge Rober)",
+      "fecha": "2026-10-11T03:52",
+      "rama": "T04-dev-local-semillalocal (3 commits vs main: 595e4cc..7f0222f, PR pendiente merge Rober)",
       "entorno": "Windows; verificar-repo.ps1 con exit code si go test falla (LASTEXITCODE)",
       "postgres_prueba": "PG_PRUEBA_URL si está definida (tests postgres en corrida ~22 min)",
-      "backend_go_test": "go test ./... ok (incl. arquitectura tras semillalocal)",
+      "backend_go_test": "go test ./... ok; internal/semillalocal TestSembrarEnMemoria",
       "infra_compose_config": "docker compose config ok",
       "conductas_verificar": "0 fallas (12+20)",
       "contrato_validar": "0 fallas",
@@ -572,6 +572,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-11T03:52:00-03:00",
+      "texto": "T04: TestSembrarEnMemoria; Sembrar habilita loopback; PR rama 3 commits (dev local + .env.example + test)."
+    },
     {
       "ts": "2026-10-11T03:48:00-03:00",
       "texto": "T04: backend/.env.example (SEMILLA_LOCAL, falsos); push en rama T04-dev-local-semillalocal."
