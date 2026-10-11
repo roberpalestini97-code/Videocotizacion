@@ -91,13 +91,29 @@ func TestAplicarContraPostgres(t *testing.T) {
 		t.Fatal("un binario sin la migración 0001 debía detectar que la base es más nueva")
 	}
 
-	// Reversión manual y vuelta a aplicar desde cero.
-	rev, err := os.ReadFile(filepath.Join("..", "..", "migrations", "0001_esquema_inicial.revertir.sql"))
-	if err != nil {
-		t.Fatal(err)
+	// Reversión manual y vuelta a aplicar desde cero: como haría un operador,
+	// de la última migración a la primera. Revertir solo 0001 deja registradas
+	// 0002..N cuyos objetos borró el DROP SCHEMA CASCADE; 0001.revertir lo
+	// rechaza (ver migrations/0001_esquema_inicial.revertir.sql).
+	revertir := func(nombre string) error {
+		rev, err := os.ReadFile(filepath.Join("..", "..", "migrations", nombre+".revertir.sql"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if _, err = dueno.Exec(ctx, string(rev)); err != nil {
+			// El script abre BEGIN: si falla, la conexión queda en una
+			// transacción abortada (lo mismo que psql sin ON_ERROR_ROLLBACK).
+			_, _ = dueno.Exec(ctx, "ROLLBACK")
+		}
+		return err
 	}
-	if _, err := dueno.Exec(ctx, string(rev)); err != nil {
-		t.Fatalf("reversión: %v", err)
+	if err := revertir(ms[0].Version + "_" + ms[0].Nombre); err == nil || !strings.Contains(err.Error(), "revertí antes") {
+		t.Fatalf("revertir 0001 con migraciones posteriores aplicadas debía frenar: %v", err)
+	}
+	for i := len(ms) - 1; i >= 0; i-- {
+		if err := revertir(ms[i].Version + "_" + ms[i].Nombre); err != nil {
+			t.Fatalf("reversión de %s: %v", ms[i].Version, err)
+		}
 	}
 	var existe bool
 	if err := dueno.QueryRow(ctx, "SELECT to_regnamespace('vc') IS NOT NULL").Scan(&existe); err != nil || existe {
