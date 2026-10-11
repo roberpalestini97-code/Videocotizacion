@@ -23,7 +23,8 @@ window.TABLERO = {
       "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh (+ lovable contrato:verificar si monorepo)"
     },
     "pendiente_goal": [
-      "T13: medición de límites/latencia de Gemini; revisión independiente de T13/T25 (ya en main)",
+      "Merge PR T04-dev-local-semillalocal → main (Rober); texto en docs/pruebas/texto-pr-T04-dev-local.md",
+      "T13: medición de límites/latencia de Gemini; revisión independiente de T13/T25",
       "T04a/T43: revisión independiente PostgreSQL/RLS",
       "T05/T06/T40/T41: revisiones cruzadas y visto Rober",
       "T11: levantar compose y validar imagen api (prompts+tarifas en distroless)"
