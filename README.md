@@ -2,6 +2,8 @@
 
 Presupuestos reales en vivo — monorepo del producto **VideoCotización**: API vendible con cotización en videollamada, avatar y panel.
 
+**Máquina nueva:** [ENTORNO.md](./ENTORNO.md). Ahí está qué instalar (Node 22, Go 1.24+), los `.env` que hay que crear (la clave de Gemini no está en el repo) y cómo levantar backend, videollamada y panel.
+
 Origen del tablero y del backend en Claude; continuación del desarrollo en **Cursor y Claude** sobre esta misma copia local (`Documents/videocotizacion`).
 
 ## Contenido

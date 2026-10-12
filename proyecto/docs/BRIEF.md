@@ -36,3 +36,5 @@ Visto a los enums de conductas; estilo del panel; cómo paga los servicios de IA
 
 ## Estructura del repo
 `docs/adr`, `docs/review`, `docs/seguridad`, `contracts/`, `backend/`, `panel-asesor/`, `conductas/`, `tarifas/`, `avatar-spike/`, `infra/`. El historial de decisiones por tarea está en `docs/respaldo-tablero.md` (leerlo antes de empezar).
+
+Máquina nueva (instalación, `.env` y arranque de las tres apps): `ENTORNO.md` en la raíz del monorepo, un nivel arriba de esta carpeta `proyecto/`.

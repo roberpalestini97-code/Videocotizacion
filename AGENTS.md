@@ -51,8 +51,17 @@ Rober revisa y mergea el PR.
 
 ## Desarrollo local (Windows)
 
-1. Copiar `proyecto/backend/.env.example` → `proyecto/backend/.env` y `real-time-quote-bot/.env.example` → `.env.local` (valores demo en comentarios del front).
-2. `powershell -File proyecto/scripts/levantar-local.ps1` — backend + videollamada + panel (semilla `SEMILLA_LOCAL=1` → `internal/semillalocal`).
+Guía completa, para un clone en una máquina nueva: **[ENTORNO.md](./ENTORNO.md)**.
+
+Resumen (el detalle y los valores están en esa guía y en las plantillas):
+
+1. Instalar Git, Node.js 22+, Go 1.24+ y Chrome o Edge.
+2. `Copy-Item proyecto\backend\.env.example proyecto\backend\.env` y completar `GEMINI_API_KEY` (no está en el repo).
+3. `Copy-Item real-time-quote-bot\.env.example real-time-quote-bot\.env.local` (valores públicos ya completos).
+4. `npm ci` en `real-time-quote-bot`, `proyecto/panel-asesor`, `proyecto/conductas` y `proyecto/contracts/verificacion`. `go mod download` en `proyecto/backend`.
+5. `powershell -File proyecto/scripts/levantar-local.ps1` — backend + videollamada + panel (semilla `SEMILLA_LOCAL=1` → `internal/semillalocal`).
+
+No commitear `backend/.env` ni `real-time-quote-bot/.env.local`.
 
 ## Comandos útiles
 

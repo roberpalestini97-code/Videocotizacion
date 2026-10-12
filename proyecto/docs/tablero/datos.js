@@ -8,8 +8,8 @@ window.TABLERO = {
   "meta": {
     "phaseIndex": 3,
     "verificacion_repo": {
-      "fecha": "2026-10-11T04:05",
-      "rama": "T04-dev-local-semillalocal (+8 commits sobre main@97dcf66 T07, PR pendiente merge Rober)",
+      "fecha": "2026-10-11T07:15",
+      "rama": "T04-dev-local-semillalocal (+10 commits sobre main@97dcf66 T07, PR pendiente merge Rober)",
       "entorno": "Windows; verificar-repo.ps1 exit code en todos los pasos",
       "postgres_prueba": "PG_PRUEBA_URL si definida",
       "backend_go_test": "verificar-repo 2026-10-11: Go+conductas+506+Lovable+compose ok",
@@ -19,8 +19,14 @@ window.TABLERO = {
       "contrato_vectores": "506 ok",
       "contrato_referencias_prompts": "6 slugs; anclas LF y prueba CRLF=LF",
       "lovable_contrato_verificar": "npm run contrato:verificar ok (rama PR T04, 2026-10-11)",
-      "no_probado": "redocly/spectral; docker build/up; E2E videollamada contra backend local",
+      "no_probado": "redocly/spectral; docker build/up; presupuesto emitido en la llamada (Gemini suelto respondió 200; el backend se reinició a las 15:04 con esa clave)",
       "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh (+ lovable contrato:verificar si monorepo)"
+    },
+    "corte_gratis": {
+      "definicion": "App gratis de uso propio: la videollamada cotiza con voz del navegador, Gemini en nivel gratuito (solo datos ficticios) y tarifas provisorias. No incluye API vendible, modelo 3D propio ni panel conectado al backend.",
+      "probado_2026_10_11": "Navegador contra backend ya levantado: /c/demoLocalVideocotiz001 → consentimiento → llamada en vivo, avatar data-avatar-modo=3d, cámara y texto. El turno respondió proveedor_no_disponible.",
+      "falta_para_cotizar": "La clave de AI Studio responde 200. Backend reiniciado 15:04 en 127.0.0.1:8080 con llm=gemini y gemini-3.5-flash-lite. Hay que volver a abrir la llamada: la sesión anterior murió con el proceso de las 03:22.",
+      "no_hace_falta_cerrar": "Las 21 tareas en revisión no bloquean esta demo. Siguen en revisión porque quien escribe no se revisa a sí mismo."
     },
     "pendiente_goal": [
       "Merge PR T04-dev-local-semillalocal → main (Rober); texto en docs/pruebas/texto-pr-T04-dev-local.md",
@@ -197,7 +203,7 @@ window.TABLERO = {
       "agente": "go",
       "status": "en_curso",
       "rehacer": true,
-      "nota": "Parte a (T04a) hecha. WS→turno→respuestas_modelo; MaterialTurno/S4. Dev local: SEMILLA_LOCAL + internal/semillalocal (G05), CORS loopback, dotenv, scripts/levantar-local.ps1. verificar-repo.ps1 ok (2026-10-11, main WIP sin PR). Falta T13 prod, revisión T04a/T43, docker build/up."
+      "nota": "Parte a (T04a) hecha. WS→turno→respuestas_modelo; MaterialTurno/S4. Dev local: SEMILLA_LOCAL + internal/semillalocal (G05), CORS loopback, dotenv, scripts/levantar-local.ps1. verificar-repo.ps1 ok (2026-10-11); PR T04-dev-local-semillalocal pendiente merge. Falta T13 prod, revisión T04a/T43, docker build/up."
     },
     {
       "id": "T04a",
@@ -573,6 +579,18 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-11T23:55:00-03:00",
+      "texto": "ENTORNO.md en la raíz: máquina nueva (Node 22, Go 1.24+, .env.example del backend con Gemini, .env.example del front ya apuntando a la semilla). La clave GEMINI_API_KEY sigue fuera del repo. Panel .env.mock versionado (solo VITE_USAR_MOCK=1)."
+    },
+    {
+      "ts": "2026-10-11T14:30:00-03:00",
+      "texto": "Corte app gratis: llamada local verificada (consentimiento, avatar 3d, cámara, texto). La clave de AI Studio responde 200; el api de las 03:22 no la había recargado. Las 21 en revisión no se marcan hechas."
+    },
+    {
+      "ts": "2026-10-11T07:15:00-03:00",
+      "texto": "Cursor: fetch — main sigue en 97dcf66 (PR T04 sin merge); verificar-repo ok; docker build bloqueado (daemon apagado)."
+    },
     {
       "ts": "2026-10-11T04:05:00-03:00",
       "texto": "Gate unificado verificar-repo (Lovable incl.) ok; PR T04 apilada sobre main T07 sin conflictos."

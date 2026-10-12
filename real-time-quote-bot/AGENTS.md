@@ -8,3 +8,9 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Monorepo
+
+Este directorio es el front de videollamada dentro de `Videocotizacion`. No se clona solo para desarrollar contra el backend.
+
+Para una máquina nueva (qué instalar, `.env` del backend, `.env.local` de este front y cómo levantar las tres apps) leer `../ENTORNO.md` en la raíz del monorepo. Plantilla de este paquete: `.env.example` → copiar a `.env.local`.

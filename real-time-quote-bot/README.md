@@ -18,13 +18,18 @@ Continue developing this project in the [Lovable editor](https://lovable.dev/pro
 - **Stay in sync**: every change made in Lovable is committed straight to this repository.
 - **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
-## Development
+## Desarrollo local
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Este front vive en el monorepo [Videocotizacion](https://github.com/roberpalestini97-code/Videocotizacion), carpeta `real-time-quote-bot/`. No se levanta solo: habla con el backend Go.
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+Guía para una máquina nueva (Node 22, Go, `.env` y los tres procesos): [`../ENTORNO.md`](../ENTORNO.md).
+
+```powershell
+# Desde la raíz del monorepo, después de crear .env.local desde .env.example:
+npm ci --prefix real-time-quote-bot
+powershell -File proyecto\scripts\levantar-local.ps1
 ```
+
+Videollamada: http://127.0.0.1:5173/c/demoLocalVideocotiz001
+
+`.env.local` (no se versiona) apunta al backend en `http://127.0.0.1:8080` con la clave pública de la semilla local. La clave de Gemini va solo en `proyecto/backend/.env`.

@@ -2,6 +2,8 @@
 **/.env
 **/.env.*
 !**/.env.example
+# El panel en modo simulado solo trae VITE_USAR_MOCK=1 (no es un secreto).
+!proyecto/panel-asesor/.env.mock
 **/secrets/
 **/*.pem
 **/*.key

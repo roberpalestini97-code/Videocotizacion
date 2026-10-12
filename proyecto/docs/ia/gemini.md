@@ -41,6 +41,10 @@ Por eso:
    de Gemini (y por IP si la VM tiene IP fija), no subirla al repo, no ponerla en el navegador
    (siempre detrás del backend, como acá) y poner alertas de facturación si algún día se activa el pago.
 
+## Entorno de la máquina de desarrollo
+
+Los valores con los que levantamos backend y videollamada, y cómo crearlos en un clone nuevo, están en `ENTORNO.md` (raíz del monorepo) y en `backend/.env.example`. La clave no se commitea: va en `GEMINI_API_KEY` dentro de `backend/.env`.
+
 ## Variables
 
 | Variable | Obligatoria | Valor |
@@ -84,12 +88,18 @@ proyectos nuevos, y la de precios lo lista con nivel gratuito. Alternativa más 
   cliente marcado como dato y no como instrucción, la corrección de Go si es el reintento, y hasta 4
   fotogramas JPEG como `inlineData` base64 (el WebSocket manda los 2 más recientes; cada imagen va una
   sola vez y no se guarda).
-- `generationConfig`: `responseMimeType: application/json`, `responseSchema` derivado de
+- `generationConfig`: `responseMimeType: application/json`, `responseJsonSchema` derivado de
   `conductas/esquema-salida-llm.schema.json`, `temperature` 0.2, `maxOutputTokens` 2048, 1 candidato.
-- El `responseSchema` es el subconjunto OpenAPI de Gemini: se conservan tipos, `nullable`, `enum`
-  (`const` → enum de un valor), requeridos, `items`, `min/maxItems`, `minimum/maximum` y
-  `propertyOrdering`; se descartan `additionalProperties`, `not/pattern`, `if/then`, `uniqueItems`,
-  `exclusiveMinimum`, `min/maxLength` y `default`. **El esquema del proveedor no es garantía**: Go vuelve a
+  `responseSchema` (OpenAPI) lo rechaza `gemini-3.5-flash-lite` con HTTP 400 (`INVALID_ARGUMENT`),
+  que el turno ve como `proveedor_no_disponible` y el avatar no llega a hablar.
+  El esquema completo también devuelve 400: la suma de los enums pasa el tope del modelo.
+  `tipo_cliente` (no cambia el precio) viaja como `string` con los valores en la descripción;
+  Go sigue exigiendo el enum.
+- El `responseJsonSchema` es JSON Schema (tipos en minúscula): se conservan `type`, `enum`
+  (`const` → enum de un valor), `additionalProperties`, requeridos, `items`, `min/maxItems`,
+  `minimum/maximum` y `propertyOrdering`; `["tipo","null"]` pasa a `anyOf`. Se descartan
+  `not/pattern`, `if/then`, `uniqueItems`, `exclusiveMinimum`, `min/maxLength` y `default`.
+  **El esquema del proveedor no es garantía**: Go vuelve a
   validar todo con `cotizador.ValidarSalidaLLM` (campos desconocidos como `precio`/`monto`/`descuento`
   se rechazan; montos en `respuesta_hablada` se reemplazan por plantilla). Si no valida: 1 reintento con
   una corrección fija; si vuelve a fallar, el avatar contesta con plantilla y no se guarda nada.
@@ -103,10 +113,9 @@ proyectos nuevos, y la de precios lo lista con nivel gratuito. Alternativa más 
 
 ## A verificar con la clave real (no probado)
 
-- Que `generateContent` siga aceptando `responseSchema` tal como lo arma el adaptador (la documentación
-  nueva de salida estructurada muestra la Interactions API con `response_format`; la referencia de
-  `generateContent` sigue vigente pero no se pudo leer la sección de `GenerationConfig`). Si devuelve 400,
-  probar `responseJsonSchema` o la Interactions API: es un cambio acotado al adaptador.
+- `responseJsonSchema` se verificó el 2026-10-11 contra `gemini-3.5-flash-lite`: un esquema chico
+  devuelve HTTP 200 y `finishReason: STOP`. `responseSchema` y `responseFormat.text.mimeType=application/json`
+  devuelven HTTP 400.
 - Límites reales del nivel gratuito (RPM, TPM, RPD): **no figuran en la documentación**; se ven en AI
   Studio ("View your active rate limits") y cambian por modelo y cuenta. RPD se reinicia a medianoche del
   Pacífico. Medir cuántos turnos por día alcanzan antes de una demo.
