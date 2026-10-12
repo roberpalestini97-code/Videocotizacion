@@ -51,7 +51,7 @@ func main() {
 }
 
 func ejecutar(ctx context.Context, args []string, getenv config.Getenv, salida io.Writer) int {
-	log := slog.New(slog.NewJSONHandler(salida, &slog.HandlerOptions{Level: nivelLog(getenv)}))
+	log := slog.New(nuevoRegistro(salida, nivelLog(getenv), getenv("ENTORNO")))
 	if len(args) != 1 {
 		_, _ = fmt.Fprintln(salida, uso) // si falla stderr no hay a quién avisar
 		return 2

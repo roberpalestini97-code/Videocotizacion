@@ -116,16 +116,17 @@ func TestExtraerExitoArmaElPedidoREST(t *testing.T) {
 				}
 			}
 			GenerationConfig struct {
-				ResponseMimeType string
-				ResponseSchema   map[string]any
-				CandidateCount   int
+				ResponseMimeType   string
+				ResponseJsonSchema map[string]any
+				ResponseSchema     map[string]any
+				CandidateCount     int
 			}
 		}
 		if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
 			t.Error(err)
 		}
 		if p.SystemInstruction.Parts[0].Text != "Sos el asistente de pintura." || p.GenerationConfig.ResponseMimeType != "application/json" ||
-			p.GenerationConfig.ResponseSchema["type"] != "OBJECT" || p.GenerationConfig.CandidateCount != 1 {
+			p.GenerationConfig.ResponseJsonSchema["type"] != "object" || p.GenerationConfig.ResponseSchema != nil || p.GenerationConfig.CandidateCount != 1 {
 			t.Errorf("pedido: %+v", p)
 		}
 		partes := p.Contents[0].Parts
@@ -341,25 +342,33 @@ func TestLaClaveNoApareceEnErroresNiLogs(t *testing.T) {
 func TestEsquemaDerivadoDelDeConductas(t *testing.T) {
 	esq := esquema(t)
 	raw, _ := json.Marshal(esq)
-	for _, prohibido := range []string{`"additionalProperties"`, `"not"`, `"pattern"`, `"if"`, `"then"`, `"uniqueItems"`, `"exclusiveMinimum"`, `"const"`, `"$schema"`, `"default"`, `"precio`, `"monto`, `"descuento`} {
+	for _, prohibido := range []string{`"not"`, `"pattern"`, `"if"`, `"then"`, `"uniqueItems"`, `"exclusiveMinimum"`, `"const"`, `"$schema"`, `"nullable"`, `"default"`, `"minLength"`, `"maxLength"`, `"precio`, `"monto`, `"descuento`} {
 		if bytes.Contains(raw, []byte(prohibido)) {
-			t.Errorf("el responseSchema contiene %s", prohibido)
+			t.Errorf("el responseJsonSchema contiene %s", prohibido)
 		}
+	}
+	if esq["additionalProperties"] != false || esq["type"] != "object" {
+		t.Fatalf("raíz: %+v", esq["type"])
 	}
 	props := esq["properties"].(map[string]any)
 	if len(props) != 15 || len(esq["required"].([]string)) != 13 {
 		t.Fatalf("propiedades %d requeridas %d", len(props), len(esq["required"].([]string)))
 	}
 	alt := props["altura"].(map[string]any)["properties"].(map[string]any)["metros_max"].(map[string]any)
-	if alt["type"] != "NUMBER" || alt["nullable"] != true {
+	anyOf, _ := alt["anyOf"].([]any)
+	if len(anyOf) != 2 || anyOf[0].(map[string]any)["type"] != "number" || anyOf[1].(map[string]any)["type"] != "null" {
 		t.Fatalf("metros_max: %+v", alt)
 	}
 	ver := props["version"].(map[string]any)
-	if ver["type"] != "STRING" || fmt.Sprint(ver["enum"]) != "[1.0]" {
+	if ver["type"] != "string" || fmt.Sprint(ver["enum"]) != "[1.0]" {
 		t.Fatalf("version: %+v", ver)
 	}
 	acc := props["siguiente_paso"].(map[string]any)["properties"].(map[string]any)["accion"].(map[string]any)
 	if len(acc["enum"].([]string)) != 8 {
 		t.Fatalf("accion: %+v", acc)
+	}
+	tc := props["tipo_cliente"].(map[string]any)
+	if _, ok := tc["enum"]; ok || tc["type"] != "string" || !strings.Contains(fmt.Sprint(tc["description"]), "particular_primera_vez") {
+		t.Fatalf("tipo_cliente tiene que ir como texto, el enum no entra en el tope de Gemini: %+v", tc)
 	}
 }

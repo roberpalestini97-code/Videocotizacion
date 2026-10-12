@@ -23,7 +23,6 @@ import (
 	"videocotizacion/backend/internal/almacen/postgres"
 	"videocotizacion/backend/internal/config"
 	"videocotizacion/backend/internal/meta"
-	"videocotizacion/backend/internal/semillalocal"
 	"videocotizacion/backend/internal/migrador"
 	"videocotizacion/backend/internal/prompts"
 	"videocotizacion/backend/internal/proveedores"
@@ -35,6 +34,7 @@ import (
 	"videocotizacion/backend/internal/retencion"
 	"videocotizacion/backend/internal/rutas"
 	"videocotizacion/backend/internal/salud"
+	"videocotizacion/backend/internal/semillalocal"
 	"videocotizacion/backend/internal/servidor"
 	"videocotizacion/backend/migrations"
 )
@@ -157,7 +157,7 @@ func construirProveedores(cfg config.Config) (proveedores.Conjunto, error) {
 	return c, nil
 }
 
-// abrirGemini deriva el responseSchema del esquema versionado en conductas/
+// abrirGemini deriva el responseJsonSchema del esquema versionado en conductas/
 // (ADR 0003 §4) y arma el adaptador. No llama a la red.
 func abrirGemini(g config.Gemini) (proveedores.Extractor, error) {
 	raw, err := prompts.EsquemaSalidaJSON()

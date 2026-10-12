@@ -8,16 +8,18 @@ import (
 	"strings"
 )
 
-// EsquemaDesdeJSONSchema deriva el responseSchema de generateContent (subconjunto
-// OpenAPI 3.0 de Gemini) desde conductas/esquema-salida-llm.schema.json.
+// EsquemaDesdeJSONSchema deriva el responseJsonSchema de generateContent
+// desde conductas/esquema-salida-llm.schema.json.
 //
-// Se conservan: type (en mayúsculas), nullable (desde ["x","null"]), enum
+// Gemini 3 acepta JSON Schema en responseJsonSchema (tipos en minúscula) y
+// rechaza el responseSchema OpenAPI con HTTP 400. Se conservan: type, enum
 // (const se pasa a enum de un valor), description, properties, required,
-// items, minItems, maxItems, minimum, maximum y propertyOrdering (requeridos
-// primero, en el orden del esquema). Se DESCARTAN, porque el subconjunto de
-// Gemini no los garantiza: additionalProperties, not/pattern, if/then,
-// uniqueItems, exclusiveMinimum, minLength/maxLength, default, $schema, $id y
-// title. Todo eso lo vuelve a exigir Go con cotizador.ValidarSalidaLLM.
+// additionalProperties, items, minItems, maxItems, minimum, maximum y
+// propertyOrdering (requeridos primero). Una unión ["x","null"] pasa a
+// anyOf. Se DESCARTAN, porque este dialecto no los aplica: not/pattern,
+// if/then, uniqueItems, exclusiveMinimum, minLength/maxLength, default,
+// $schema, $id y title. Todo eso lo vuelve a exigir Go con
+// cotizador.ValidarSalidaLLM.
 func EsquemaDesdeJSONSchema(raw []byte) (map[string]any, error) {
 	var nodo map[string]any
 	if err := json.Unmarshal(raw, &nodo); err != nil {
@@ -27,10 +29,32 @@ func EsquemaDesdeJSONSchema(raw []byte) (map[string]any, error) {
 	if err != nil {
 		return nil, err
 	}
-	if out["type"] != "OBJECT" {
+	if out["type"] != "object" {
 		return nil, errors.New("gemini: la raíz del esquema tiene que ser un objeto")
 	}
+	// El esquema completo, con todos los enums, lo rechaza gemini-3.5-flash-lite
+	// (HTTP 400). tipo_cliente no cambia el precio: el enum pasa a la
+	// descripción y Go lo vuelve a exigir en ValidarSalidaLLM.
+	if err := aliviarEnumTipoCliente(out); err != nil {
+		return nil, err
+	}
 	return out, nil
+}
+
+func aliviarEnumTipoCliente(out map[string]any) error {
+	props, _ := out["properties"].(map[string]any)
+	tc, _ := props["tipo_cliente"].(map[string]any)
+	vals, _ := tc["enum"].([]string)
+	if len(vals) == 0 {
+		return errors.New("gemini: tipo_cliente sin enum")
+	}
+	desc, _ := tc["description"].(string)
+	if desc != "" && !strings.HasSuffix(desc, " ") {
+		desc += " "
+	}
+	desc += "Uno de: " + strings.Join(vals, ", ") + "."
+	props["tipo_cliente"] = map[string]any{"type": "string", "description": desc}
+	return nil
 }
 
 func convertir(n map[string]any, ruta string) (map[string]any, error) {
@@ -42,9 +66,8 @@ func convertir(n map[string]any, ruta string) (map[string]any, error) {
 	if err != nil {
 		return nil, err
 	}
-	out["type"] = tipo
-	if nulo {
-		out["nullable"] = true
+	if ap, ok := n["additionalProperties"].(bool); ok {
+		out["additionalProperties"] = ap
 	}
 	if c, ok := n["const"]; ok {
 		s, ok := c.(string)
@@ -103,13 +126,23 @@ func convertir(n map[string]any, ruta string) (map[string]any, error) {
 		}
 		out["propertyOrdering"] = ordenPropiedades(props, req)
 	}
+	out["type"] = tipo
+	if nulo {
+		desc, tiene := out["description"]
+		delete(out, "description")
+		env := map[string]any{"anyOf": []any{out, map[string]any{"type": "null"}}}
+		if tiene {
+			env["description"] = desc
+		}
+		return env, nil
+	}
 	return out, nil
 }
 
 func tipoDe(n map[string]any, ruta string) (string, bool, error) {
 	switch t := n["type"].(type) {
 	case string:
-		return strings.ToUpper(t), false, nil
+		return strings.ToLower(t), false, nil
 	case []any:
 		var tipo string
 		nulo := false
@@ -119,7 +152,7 @@ func tipoDe(n map[string]any, ruta string) (string, bool, error) {
 			case s == "null":
 				nulo = true
 			case tipo == "":
-				tipo = strings.ToUpper(s)
+				tipo = strings.ToLower(s)
 			default:
 				return "", false, fmt.Errorf("gemini: %s: unión de tipos no soportada", rutaO(ruta))
 			}
@@ -131,13 +164,13 @@ func tipoDe(n map[string]any, ruta string) (string, bool, error) {
 	case nil:
 		// enum/const sin type: en este esquema siempre son textos.
 		if _, ok := n["enum"]; ok {
-			return "STRING", false, nil
+			return "string", false, nil
 		}
 		if _, ok := n["const"]; ok {
-			return "STRING", false, nil
+			return "string", false, nil
 		}
 		if _, ok := n["properties"]; ok {
-			return "OBJECT", false, nil
+			return "object", false, nil
 		}
 	}
 	return "", false, fmt.Errorf("gemini: %s: sin tipo", rutaO(ruta))

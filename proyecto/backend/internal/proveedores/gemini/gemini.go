@@ -2,9 +2,10 @@
 // models.generateContent de la API Generative Language de Google (AI Studio),
 // solo con net/http (T13). La clave va SIEMPRE en el encabezado
 // x-goog-api-key: nunca en la URL, en errores ni en logs (el paquete no
-// loguea). La salida se pide en JSON con responseSchema, pero el esquema del
-// proveedor no es garantía: el orquestador la re-valida con
-// cotizador.ValidarSalidaLLM.
+// loguea). La salida se pide en JSON con responseJsonSchema (JSON Schema).
+// responseSchema (subconjunto OpenAPI) lo rechaza gemini-3.5-flash-lite con
+// HTTP 400. El esquema del proveedor no es garantía: el orquestador la
+// re-valida con cotizador.ValidarSalidaLLM.
 //
 // Con el nivel gratuito Google puede usar lo enviado para mejorar sus
 // productos (ver docs/ia/gemini.md): con clave gratuita, solo datos ficticios.
@@ -74,7 +75,7 @@ type Opciones struct {
 	Clave           secreto.Secreto
 	Modelo          string         // "" = ModeloPorDefecto
 	URLBase         string         // "" = URLBasePorDefecto; http solo en loopback (pruebas)
-	Esquema         map[string]any // responseSchema (EsquemaDesdeJSONSchema)
+	Esquema         map[string]any // responseJsonSchema (EsquemaDesdeJSONSchema)
 	Timeout         time.Duration  // por intento
 	Reintentos      int            // solo 429 y 5xx; -1 = sin reintentos
 	EsperaBase      time.Duration  // backoff exponencial con jitter
@@ -114,7 +115,7 @@ func Nuevo(op Opciones) (*Extractor, error) {
 		return nil, errors.New("gemini: la URL base tiene que ser https")
 	}
 	if op.Esquema == nil {
-		return nil, errors.New("gemini: falta el responseSchema")
+		return nil, errors.New("gemini: falta el responseJsonSchema")
 	}
 	if op.Timeout <= 0 {
 		op.Timeout = TimeoutPorDefecto
@@ -283,11 +284,11 @@ type pedido struct {
 	SystemInstruction contenido   `json:"systemInstruction"`
 	Contents          []contenido `json:"contents"`
 	GenerationConfig  struct {
-		ResponseMimeType string         `json:"responseMimeType"`
-		ResponseSchema   map[string]any `json:"responseSchema"`
-		Temperature      float64        `json:"temperature"`
-		MaxOutputTokens  int            `json:"maxOutputTokens"`
-		CandidateCount   int            `json:"candidateCount"`
+		ResponseMimeType   string         `json:"responseMimeType"`
+		ResponseJsonSchema map[string]any `json:"responseJsonSchema"`
+		Temperature        float64        `json:"temperature"`
+		MaxOutputTokens    int            `json:"maxOutputTokens"`
+		CandidateCount     int            `json:"candidateCount"`
 	} `json:"generationConfig"`
 }
 
@@ -331,7 +332,7 @@ func (e *Extractor) cuerpoPedido(p proveedores.PedidoExtraccion) pedido {
 	}
 	b.Contents = []contenido{{Role: "user", Parts: partes}}
 	b.GenerationConfig.ResponseMimeType = tipoJSON
-	b.GenerationConfig.ResponseSchema = e.op.Esquema
+	b.GenerationConfig.ResponseJsonSchema = e.op.Esquema
 	b.GenerationConfig.Temperature = e.op.Temperatura
 	b.GenerationConfig.MaxOutputTokens = e.op.MaxTokensSalida
 	b.GenerationConfig.CandidateCount = 1

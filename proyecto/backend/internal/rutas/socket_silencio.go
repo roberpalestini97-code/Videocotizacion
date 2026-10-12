@@ -12,8 +12,9 @@ import (
 // vigilante corta la sesión si el cliente no manda nada durante sin_voz_s
 // (eventos-sesion.md §2): a los 2/3 del plazo manda sesion.aviso
 // sin_voz_proximo y al vencer cierra con sin_voz y la derivación. Con la voz
-// en el navegador, "voz detectada" es cualquier mensaje del cliente. El reloj
-// se pausa mientras se procesa un turno. Un vigilante nil no hace nada.
+// en el navegador, un texto.enviar (chat o voz reconocida) es voz detectada:
+// cualquier mensaje del cliente reinicia el plazo. El reloj se pausa mientras
+// se procesa un turno. Un vigilante nil no hace nada.
 type vigilante struct {
 	mu            sync.Mutex
 	aviso, cierre *time.Timer

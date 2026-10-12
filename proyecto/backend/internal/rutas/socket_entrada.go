@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/binary"
 	"encoding/json"
+	"errors"
 	"image/jpeg"
 	"net/http"
 	"strings"
@@ -156,6 +157,11 @@ func (h *enlace) ejecutarTurnoConTexto(ctx context.Context, tenant dominio.Tenan
 	if ses.Estado == dominio.EstadoCerrada {
 		return respuestaMedios{msgs: [][]byte{eventoCodigo(siguienteSeq(seq), errores.SesionCerrada)}, cerrar: true}
 	}
+	// Un mensaje de chat (o el texto ya reconocido) es voz para el corte por
+	// silencio: si no hay reconocimiento pero el cliente escribe, la sesión sigue.
+	if err := h.almacen.MarcarVoz(ctx, tenant, sesionID, h.ahoraDePanel()); err != nil && !errores.Es(err, errores.EstadoInvalido) {
+		h.log.Warn("marcar voz del turno", "sesion", sesionID, "codigo", string(errores.CodigoDe(err)))
+	}
 	resps, err := h.almacen.ListarRespuestasModeloDeSesion(ctx, tenant, sesionID)
 	if err != nil {
 		return soloMensajes(eventoCodigo(siguienteSeq(seq), errores.ErrorInterno))
@@ -179,11 +185,10 @@ func (h *enlace) ejecutarTurnoConTexto(ctx context.Context, tenant dominio.Tenan
 		Prov: h.prov, Sesion: &ses, Cot: h.cot, Ahora: h.ahoraDePanel(),
 	})
 	if err != nil {
-		h.log.Warn("turno sin respuesta del proveedor", "sesion", sesionID, "turno", n, "codigo", string(errores.CodigoDe(err)))
+		h.log.Warn("turno sin respuesta del proveedor", "sesion", sesionID, "turno", n, "codigo", string(errores.CodigoDe(err)), "detalle", detalleProveedor(err))
 		return soloMensajes(eventoErrorProveedor(siguienteSeq(seq), err))
 	}
-	h.log.Info("turno", "sesion", sesionID, "turno", n, "marcas", sal.Marcas,
-		"tokens_entrada", sal.TokensEntrada, "tokens_salida", sal.TokensSalida, "cotizacion", sal.Cotizacion != nil)
+	h.log.Info("turno", camposTurno(sesionID, n, sal)...)
 	if len(sal.SalidaLLM) > 0 {
 		if n, err = h.guardarRespuesta(ctx, tenant, sesionID, n, sal.SalidaLLM); err != nil {
 			h.log.Error("guardar respuesta del modelo", "sesion", sesionID, "codigo", string(errores.CodigoDe(err)))
@@ -571,6 +576,58 @@ func eventoCodigo(seq int, cod errores.Codigo) []byte {
 		"codigo":  string(cod),
 		"mensaje": errores.Buscar(cod).Mensaje,
 	})
+}
+
+// camposTurno junta lo que se puede leer del turno sin texto del cliente ni
+// de la respuesta hablada (R28): decisión, enums y conteos.
+func camposTurno(sesionID string, n int, sal turno.TextoSalida) []any {
+	args := []any{
+		"sesion", sesionID, "turno", n, "marcas", sal.Marcas,
+		"tokens_entrada", sal.TokensEntrada, "tokens_salida", sal.TokensSalida,
+		"cotizacion", sal.Cotizacion != nil,
+	}
+	if sal.Cierre != nil {
+		args = append(args, "cierra", sal.Cierre.Causa, "motivo", string(sal.Cierre.Motivo))
+	}
+	if len(sal.SalidaLLM) == 0 {
+		return args
+	}
+	var p struct {
+		Oficio  string `json:"oficio"`
+		Trabajo struct {
+			Tipo string `json:"tipo"`
+		} `json:"trabajo"`
+		Zona struct {
+			Localidad   string `json:"localidad"`
+			FueraDeZona bool   `json:"fuera_de_zona"`
+		} `json:"zona"`
+		Faltantes     []string `json:"faltantes"`
+		SiguientePaso struct {
+			Accion string   `json:"accion"`
+			Campos []string `json:"campos"`
+		} `json:"siguiente_paso"`
+		Plazo struct {
+			Tipo string `json:"tipo"`
+		} `json:"plazo"`
+		Medidas []struct{} `json:"medidas"`
+	}
+	if json.Unmarshal(sal.SalidaLLM, &p) != nil {
+		return args
+	}
+	return append(args,
+		"oficio", p.Oficio, "trabajo", p.Trabajo.Tipo,
+		"zona", p.Zona.Localidad, "fuera_de_zona", p.Zona.FueraDeZona,
+		"accion", p.SiguientePaso.Accion, "faltantes", p.Faltantes, "campos", p.SiguientePaso.Campos,
+		"plazo", p.Plazo.Tipo, "medidas", len(p.Medidas),
+	)
+}
+
+func detalleProveedor(err error) string {
+	var e *errores.Error
+	if errors.As(err, &e) {
+		return e.Detalle()
+	}
+	return ""
 }
 
 func eventoErrorProveedor(seq int, err error) []byte {
