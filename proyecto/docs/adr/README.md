@@ -14,6 +14,7 @@ que los revise un modelo distinto del autor, con seg como co-revisor (equivalent
 | [0004](0004-persistencia-postgresql-rls.md) | PostgreSQL 16 con RLS forzada, roles y retención | Propuesto | backend, infra |
 | [0005](0005-multi-cliente-api-vendible.md) | Multi-cliente y API vendible: tenants, claves, cuotas | Propuesto | backend, contracts, panel |
 | [0006](0006-video-pizarron-whatsapp-panel.md) | Video, pizarrón, WhatsApp, enlace opaco, panel y antiabuso | Propuesto | todos |
+| [0007](0007-motor-cotizacion-escalable.md) | Motor de cotización escalable (reglas en JSON) y personalizable por capas | Propuesto | backend, tarifas, conductas |
 
 Formato de cada ADR: Estado, Contexto, Decisión, Alternativas, Consecuencias, Verificación y
 Supuestos. Sin precios inventados. Lo legal (Ley 25.326) va como "a validar con abogado".

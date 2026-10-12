@@ -1,6 +1,10 @@
 # Gates locales alineados con meta.verificacion_repo del tablero.
 $ErrorActionPreference = "Stop"
 $raiz = Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot "resolver-go-en-path.ps1")
+if (-not (Agregar-GoAlPathSiFalta)) {
+    throw "No está go en el PATH ni en Program Files\Go\bin. Instalá Go (winget install GoLang.Go) y reiniciá la terminal."
+}
 Set-Location $raiz
 
 function Invoke-NativeChecked {

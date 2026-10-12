@@ -61,7 +61,8 @@ var permitidos = map[string][]string{
 		"internal/retencion", "internal/salud", "internal/servidor", "internal/meta", "internal/rutas", "internal/desafio",
 		"internal/semillalocal", "migrations", "pgx",
 	},
-	"cmd/api":               {"internal/arranque", "internal/config"},
+	"cmd/api":          {"internal/arranque", "internal/config"},
+	"cmd/medir-gemini": {"internal/cotizador", "internal/dominio", "internal/prompts", "internal/proveedores", "internal/proveedores/gemini", "internal/secreto"},
 	"internal/arquitectura": {},
 }
 

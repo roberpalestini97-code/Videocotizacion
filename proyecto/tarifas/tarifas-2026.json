@@ -1265,5 +1265,214 @@
         }
       ]
     }
-  ]
+  ],
+  "motor_cotizacion": {
+    "version": "0.1.0",
+    "capas_precio": {
+      "orden_futuro": [
+        "overlay_profesional",
+        "tarifario_base"
+      ],
+      "overlay_profesional": {
+        "estado": "disenado_no_implementado",
+        "nota": "Puntos tipo presupuesto_profesional por tenant; prioridad sobre rangos de portales cuando existan (ADR 0007)."
+      }
+    },
+    "localidades": {
+      "mar_chiquita": "mar_chiquita",
+      "cobo": "cobo",
+      "santa_clara_del_mar": "santa_clara",
+      "parque_lago": "parque_lago",
+      "mar_del_plata": "otra",
+      "otra": "otra"
+    },
+    "coherencia_mano_obra_2026": {
+      "referencia_jornal_uocra_oficial_id": "uocra_oficial",
+      "nota": "Piso salarial de convenio Zona A (sep-oct 2026), no precio al cliente. Los rendimientos son orientativos hasta validacion con pintor/jardinero (tarifas/README.md).",
+      "rendimientos_referenciales": [
+        {
+          "tarea_id": "pintura_interior_latex_2_manos",
+          "m2_por_jornal_8h_min": 25,
+          "m2_por_jornal_8h_max": 45,
+          "fuente_narrativa": "Rango tipico citado en portales y UTN para pintura interior; no es dato oficial de la costa."
+        }
+      ]
+    },
+    "reglas_trabajo": [
+      {
+        "trabajo_tipo": "pintura_interior",
+        "oficio_contrato": "pintura",
+        "resolver": "fija",
+        "tarea_id": "pintura_interior_latex_2_manos",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "pintura_exterior",
+        "oficio_contrato": "pintura",
+        "resolver": "fija",
+        "tarea_id": "pintura_exterior_fachada",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "pintura_fachada_altura",
+        "oficio_contrato": "pintura",
+        "resolver": "medio_altura",
+        "medios_sin_precio": [
+          "silleta",
+          "hidroelevador"
+        ],
+        "tarea_si_medio_sin_precio": "pintura_altura_edificio_balancin_soga",
+        "tarea_default": "pintura_exterior_fachada",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "impermeabilizacion_techo",
+        "oficio_contrato": "pintura",
+        "resolver": "fija",
+        "tarea_id": "pintura_impermeabilizacion_techo_membrana",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "pintura_rejas_aberturas",
+        "oficio_contrato": "pintura",
+        "resolver": "fija",
+        "tarea_id": "pintura_rejas_portones",
+        "medidas_sumar": [
+          "unidad"
+        ]
+      },
+      {
+        "trabajo_tipo": "corte_cesped",
+        "oficio_contrato": "jardineria",
+        "resolver": "umbral_m2",
+        "umbral_centesimas": 10000,
+        "tarea_si_menor_igual": "jardin_corte_cesped_chico_hasta_100m2",
+        "tarea_si_mayor": "jardin_corte_cesped_por_m2",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "poda",
+        "oficio_contrato": "jardineria",
+        "resolver": "fija",
+        "tarea_id": "jardin_poda_arbol_chico_mediano",
+        "medidas_sumar": [
+          "unidad",
+          "arbol"
+        ]
+      },
+      {
+        "trabajo_tipo": "desmalezado",
+        "oficio_contrato": "jardineria",
+        "resolver": "fija",
+        "tarea_id": "jardin_desmalezado_terreno",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "mantenimiento_jardin_periodico",
+        "oficio_contrato": "jardineria",
+        "resolver": "fija",
+        "tarea_id": "jardin_mantenimiento_mensual_chico"
+      },
+      {
+        "trabajo_tipo": "parquizacion",
+        "oficio_contrato": "jardineria",
+        "resolver": "fija",
+        "tarea_id": "jardin_parquizacion_diseno",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "diseno_paisajismo",
+        "oficio_contrato": "jardineria",
+        "resolver": "fija",
+        "tarea_id": "jardin_parquizacion_diseno",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "riego",
+        "oficio_contrato": "jardineria",
+        "resolver": "fija",
+        "tarea_id": "jardin_riego_automatico_instalacion"
+      },
+      {
+        "trabajo_tipo": "limpieza_terreno",
+        "oficio_contrato": "limpieza",
+        "resolver": "fija",
+        "tarea_id": "jardin_desmalezado_terreno",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "limpieza_final_obra",
+        "oficio_contrato": "limpieza",
+        "resolver": "fija",
+        "tarea_id": "limp_fin_de_obra",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "enduido_completo",
+        "oficio_contrato": "pintura",
+        "resolver": "fija",
+        "tarea_id": "pintura_interior_latex_2_manos",
+        "medidas_sumar": [
+          "m2"
+        ],
+        "nota": "Proxy hasta tarifa enduido; entrevistas P-tarifas"
+      },
+      {
+        "trabajo_tipo": "tratamiento_hongos",
+        "oficio_contrato": "pintura",
+        "resolver": "fija",
+        "tarea_id": "pintura_interior_latex_2_manos",
+        "medidas_sumar": [
+          "m2"
+        ],
+        "nota": "Proxy incluye prep básica; validar con campo"
+      },
+      {
+        "trabajo_tipo": "hidrolavado",
+        "oficio_contrato": "limpieza",
+        "resolver": "fija",
+        "tarea_id": "limp_fin_de_obra",
+        "medidas_sumar": [
+          "m2"
+        ],
+        "nota": "Proxy limpieza exterior; P-tarifas"
+      },
+      {
+        "trabajo_tipo": "colocacion_cesped",
+        "oficio_contrato": "jardineria",
+        "resolver": "fija",
+        "tarea_id": "jardin_parquizacion_diseno",
+        "medidas_sumar": [
+          "m2"
+        ]
+      },
+      {
+        "trabajo_tipo": "cercos_vivos",
+        "oficio_contrato": "jardineria",
+        "resolver": "fija",
+        "tarea_id": "jardin_poda_arbustos_cercos",
+        "nota": "Proxy poda/mantenimiento cerco; P-tarifas"
+      }
+    ]
+  }
 }

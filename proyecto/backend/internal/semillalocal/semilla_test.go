@@ -28,4 +28,12 @@ func TestSembrarEnMemoria(t *testing.T) {
 	if err != nil || hall.TenantID != IDTenant {
 		t.Fatalf("clave: %v %+v", err, hall)
 	}
+	ch, err := a.BuscarContrasenaPorEmail(context.Background(), EmailPanelLocal)
+	if err != nil || ch.AsesorID != IDAsesor || !ch.ContrasenaAsesor.Coincide(ContrasenaPanelLocal) {
+		t.Fatalf("panel contraseña: %v %+v", err, ch)
+	}
+	recs, err := a.ListarCodigosRecuperacion(context.Background(), IDTenant, IDAsesor)
+	if err != nil || len(recs) != 1 || recs[0].Usado {
+		t.Fatalf("panel recuperación: %v %+v", err, recs)
+	}
 }

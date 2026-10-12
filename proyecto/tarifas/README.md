@@ -11,6 +11,7 @@ Consultado el 2026-10-08. Archivos:
 ## Qué contiene
 
 - 47 tareas en 4 oficios (pintura, jardinería, reparaciones, limpieza). 34 tienen rango de precio y 13 están en `null` con el motivo en `motivo_null`. Los `null` son a propósito: no hay fuente pública clara y no se inventó nada.
+- `motor_cotizacion`: reglas declarativas trabajo→tarea, localidades y notas de coherencia con mano de obra 2026 (ADR 0007). Go las interpreta al cargar el JSON; la personalización por profesional queda diseñada en `capas_precio` para una fase posterior.
 - Montos en **ARS, centavos `int64`**, sin floats. Cada tarea con precio trae `min_centavos`, `max_centavos`, `confianza` y los `puntos` (qué dijo cada fuente, para qué zona).
 - `fuentes`: URL, publicador, fecha de publicación y fecha de consulta de cada una.
 - `factores_ajuste`: recargos en puntos básicos enteros (`2000` = +20%). Solo **altura de más de 2,60 m** (+20% a 30%) y **materiales si los pone el profesional** (+25% a 40%) tienen valor. **Zona de la costa, urgencia, humedad/enduido, temporada y traslado están en `null`** porque no hay fuente.

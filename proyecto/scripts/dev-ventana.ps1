@@ -8,9 +8,13 @@ param(
 $ErrorActionPreference = "Stop"
 $proyecto = Split-Path -Parent $PSScriptRoot
 $repo = Split-Path -Parent $proyecto
+. (Join-Path $PSScriptRoot "resolver-go-en-path.ps1")
 
 switch ($Rol) {
     "backend" {
+        if (-not (Agregar-GoAlPathSiFalta)) {
+            throw "No está go en el PATH ni en Program Files\Go\bin. Instalá Go (winget install GoLang.Go) y reiniciá la terminal."
+        }
         $Host.UI.RawUI.WindowTitle = "VC backend"
         Set-Location -LiteralPath (Join-Path $proyecto "backend")
         Write-Host "== VC backend (go run, LOG_NIVEL=debug, lee .env) ==" -ForegroundColor Cyan
@@ -27,9 +31,11 @@ switch ($Rol) {
         & node ".\node_modules\vite\bin\vite.js" dev --host 127.0.0.1 --port 5173 --strictPort
     }
     "panel" {
-        $Host.UI.RawUI.WindowTitle = "VC panel (simulado)"
+        $Host.UI.RawUI.WindowTitle = "VC panel (API real)"
         Set-Location -LiteralPath (Join-Path $proyecto "panel-asesor")
-        Write-Host "== VC panel simulado (vite --mode mock) ==" -ForegroundColor Cyan
-        & node ".\node_modules\vite\bin\vite.js" --mode mock --host 127.0.0.1 --port 5174 --strictPort
+        $env:VC_API = "http://127.0.0.1:8080"
+        Write-Host "== VC panel contra backend (vite dev:api, proxy /v1) ==" -ForegroundColor Cyan
+        Write-Host "Login: demo@videocotizacion.local  recuperacion DEMO-LOCA-2026 (ver docs/fe/panel-backend-local.md)" -ForegroundColor DarkGray
+        & npm run dev:api -- --host 127.0.0.1 --port 5174 --strictPort
     }
 }

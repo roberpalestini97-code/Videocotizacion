@@ -23,6 +23,8 @@ type Tarifario struct {
 	UsoEnProduccion bool
 	tareas          map[string]Tarea
 	factores        []Factor
+	reglasTrabajo   map[string]reglaMotor
+	localidadesLLM  map[string]dominio.Zona
 }
 
 // Tarea es un precio por unidad como rango. Precio nil = sin fuente (no se
@@ -86,6 +88,7 @@ type archivoTarifas struct {
 		MinBps  *int64   `json:"min_bps"`
 		MaxBps  *int64   `json:"max_bps"`
 	} `json:"factores_ajuste"`
+	Motor *motorCotizacionArchivo `json:"motor_cotizacion"`
 }
 
 var (
@@ -160,9 +163,15 @@ func CargarTarifario(r io.Reader) (*Tarifario, error) {
 	if len(t.tareas) == 0 {
 		mal("sin tareas")
 	}
+	reglas, loc, errMotor := construirReglasMotor(a.Motor)
+	if errMotor != nil {
+		mal("%v", errMotor)
+	}
 	if len(errs) > 0 {
 		return nil, fmt.Errorf("%w: %w", ErrTarifarioInvalido, errors.Join(errs...))
 	}
+	t.reglasTrabajo = reglas
+	t.localidadesLLM = loc
 	return t, nil
 }
 

@@ -61,17 +61,6 @@ const (
 	LeyendaFueraZona = "Presupuesto orientativo fuera de zona: el profesional confirma traslado y precio final."
 )
 
-// localidades: zona.localidad del LLM → Zona del contrato. mar_del_plata y
-// otra quedan fuera de zona y SE EMITEN marcadas (corrección de T24).
-var localidades = map[string]dominio.Zona{
-	"mar_chiquita":        dominio.ZonaMarChiquita,
-	"cobo":                dominio.ZonaCobo,
-	"santa_clara_del_mar": dominio.ZonaSantaClara,
-	"parque_lago":         dominio.ZonaParqueLago,
-	"mar_del_plata":       dominio.ZonaOtra,
-	"otra":                dominio.ZonaOtra,
-}
-
 // unidadesContrato: unidad del tarifario → UnidadMedida del contrato.
 // "mes" y "m2_mes" no existen en el contrato: esas tareas no se cotizan solas.
 var unidadesContrato = map[string]dominio.Unidad{
@@ -80,66 +69,18 @@ var unidadesContrato = map[string]dominio.Unidad{
 	"jornal": dominio.UnidadJornada, "hora": dominio.UnidadHora,
 }
 
-// regla asocia un trabajo.tipo del LLM con una tarea del tarifario.
-// Tabla provisoria para el tarifario 0.1.0; la valida cot (T26).
-type regla struct {
-	oficio  dominio.Oficio
-	tarea   func(p Pedido) (string, error)
-	medidas []string // unidades del LLM que suman la cantidad (si la tarea es por m2/ml/unidad)
-}
-
-func fija(id string) func(Pedido) (string, error) {
-	return func(Pedido) (string, error) { return id, nil }
-}
-
-var reglas = map[string]regla{
-	"pintura_interior": {dominio.OficioPintura, fija("pintura_interior_latex_2_manos"), []string{"m2"}},
-	"pintura_exterior": {dominio.OficioPintura, fija("pintura_exterior_fachada"), []string{"m2"}},
-	// Con silleta o hidroelevador es trabajo en altura de edificio: sin precio público.
-	"pintura_fachada_altura": {dominio.OficioPintura, func(p Pedido) (string, error) {
-		if p.MedioAltura == "silleta" || p.MedioAltura == "hidroelevador" {
-			return "pintura_altura_edificio_balancin_soga", nil
-		}
-		return "pintura_exterior_fachada", nil
-	}, []string{"m2"}},
-	"impermeabilizacion_techo": {dominio.OficioPintura, fija("pintura_impermeabilizacion_techo_membrana"), []string{"m2"}},
-	"pintura_rejas_aberturas":  {dominio.OficioPintura, fija("pintura_rejas_portones"), []string{"unidad"}},
-	"corte_cesped": {dominio.OficioJardineria, func(p Pedido) (string, error) {
-		m2 := sumar(p.Medidas, []string{"m2"})
-		switch {
-		case m2 == 0:
-			return "", ErrFaltanMedidas
-		case m2 <= 100*100:
-			return "jardin_corte_cesped_chico_hasta_100m2", nil
-		default:
-			return "jardin_corte_cesped_por_m2", nil
-		}
-	}, []string{"m2"}},
-	"poda":                           {dominio.OficioJardineria, fija("jardin_poda_arbol_chico_mediano"), []string{"unidad", "arbol"}},
-	"desmalezado":                    {dominio.OficioJardineria, fija("jardin_desmalezado_terreno"), []string{"m2"}},
-	"mantenimiento_jardin_periodico": {dominio.OficioJardineria, fija("jardin_mantenimiento_mensual_chico"), nil},
-	"parquizacion":                   {dominio.OficioJardineria, fija("jardin_parquizacion_diseno"), []string{"m2"}},
-	"diseno_paisajismo":              {dominio.OficioJardineria, fija("jardin_parquizacion_diseno"), []string{"m2"}},
-	"riego":                          {dominio.OficioJardineria, fija("jardin_riego_automatico_instalacion"), nil},
-	"limpieza_terreno":               {dominio.OficioLimpieza, fija("jardin_desmalezado_terreno"), []string{"m2"}},
-	"limpieza_final_obra":            {dominio.OficioLimpieza, fija("limp_fin_de_obra"), []string{"m2"}},
-}
-
 // Cotizar calcula la cotización de una sesión. Devuelve cotizacion_no_emitida
 // (con causa ErrSinTarifa, ErrFaltanMedidas, ...) cuando Go no puede dar precio.
 func (c *Cotizador) Cotizar(s dominio.Sesion, p Pedido, ahora time.Time) (dominio.Cotizacion, error) {
-	zona, ok := localidades[p.Localidad]
+	zona, ok := c.tarifario.zonaLocalidad(p.Localidad)
 	if !ok {
 		return dominio.Cotizacion{}, noEmitida(ErrFaltaZona)
 	}
-	r, ok := reglas[p.TipoTrabajo]
-	if !ok {
-		return dominio.Cotizacion{}, noEmitida(fmt.Errorf("%w: %s", ErrTrabajoNoCotizable, p.TipoTrabajo))
-	}
-	idTarea, err := r.tarea(p)
+	oficio, idTarea, medidasRegla, err := c.tarifario.resolverTrabajo(p)
 	if err != nil {
 		return dominio.Cotizacion{}, noEmitida(err)
 	}
+	_ = oficio
 	tarea, ok := c.tarifario.Tarea(idTarea)
 	if !ok {
 		return dominio.Cotizacion{}, noEmitida(fmt.Errorf("%w: %s no está en el tarifario", ErrTrabajoNoCotizable, idTarea))
@@ -150,7 +91,7 @@ func (c *Cotizador) Cotizar(s dominio.Sesion, p Pedido, ahora time.Time) (domini
 	}
 	cantidad := int64(100) // 1,00 para tareas por visita o por trabajo
 	if unidad == dominio.UnidadM2 || unidad == dominio.UnidadML || unidad == dominio.UnidadUnidad {
-		cantidad = sumar(p.Medidas, r.medidas)
+		cantidad = sumar(p.Medidas, medidasRegla)
 	}
 	if cantidad < 1 || cantidad > dominio.MaxCantidadCentesimas {
 		return dominio.Cotizacion{}, noEmitida(ErrFaltanMedidas)
@@ -165,7 +106,7 @@ func (c *Cotizador) Cotizar(s dominio.Sesion, p Pedido, ahora time.Time) (domini
 		return dominio.Cotizacion{}, err
 	}
 	items = append(items, recargos...)
-	return c.armar(s, r.oficio, zona, items, ahora)
+	return c.armar(s, oficio, zona, items, ahora)
 }
 
 // recargos aplica los factores con valor cuya condición Go sabe evaluar. Hoy

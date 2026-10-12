@@ -2153,7 +2153,7 @@ export interface components {
             oficio: "pintura" | "jardineria" | "paisajismo" | "mantenimiento" | "reparaciones" | "limpieza" | "otro" | "sin_definir";
             trabajo: {
                 /** @enum {unknown} */
-                tipo: "pintura_interior" | "pintura_exterior" | "pintura_fachada_altura" | "impermeabilizacion_techo" | "pintura_rejas_aberturas" | "corte_cesped" | "poda" | "desmalezado" | "mantenimiento_jardin_periodico" | "parquizacion" | "diseno_paisajismo" | "riego" | "limpieza_terreno" | "limpieza_final_obra" | "reparacion_general" | "otro" | "sin_definir";
+                tipo: "pintura_interior" | "pintura_exterior" | "pintura_fachada_altura" | "impermeabilizacion_techo" | "pintura_rejas_aberturas" | "enduido_completo" | "tratamiento_hongos" | "hidrolavado" | "corte_cesped" | "poda" | "desmalezado" | "mantenimiento_jardin_periodico" | "parquizacion" | "diseno_paisajismo" | "riego" | "colocacion_cesped" | "cercos_vivos" | "limpieza_terreno" | "limpieza_final_obra" | "reparacion_general" | "otro" | "sin_definir";
                 descripcion: string;
                 /** @default false */
                 requiere_planos: boolean;
@@ -2183,7 +2183,7 @@ export interface components {
                 medio: "escalera" | "andamio" | "silleta" | "hidroelevador" | "ninguno" | "sin_definir";
             };
             /** @enum {unknown} */
-            estado_superficie: "bueno" | "regular" | "malo" | "con_humedad" | "descascarado" | "con_hongos" | "no_aplica" | "sin_definir";
+            estado_superficie: "bueno" | "regular" | "malo" | "con_humedad" | "descascarado" | "con_hongos" | "con_salitre" | "no_aplica" | "sin_definir";
             zona: {
                 /** @enum {unknown} */
                 localidad: "mar_chiquita" | "santa_clara_del_mar" | "cobo" | "parque_lago" | "mar_del_plata" | "otra" | "sin_definir";

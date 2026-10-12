@@ -95,15 +95,10 @@ VITE_VC_ENLACE_DEMO=demoLocalVideocotiz001
 
 Son públicos a propósito (van en el navegador). La clave secreta `vc_sec_…` no va en el front.
 
-### 3. Panel — no hay que crear nada
+### 3. Panel — mock o API real
 
-`proyecto/panel-asesor/.env.mock` ya está en el repo (`VITE_USAR_MOCK=1`). `npm run dev` y el script de arranque usan `--mode mock`.
-
-Login de esa simulación:
-
-- `admin@asesores.local` o `juan@asesores.local`
-- contraseña `frase-larga-de-demo-0`
-- código `123456`
+- **Mock** (sin backend): `cd proyecto/panel-asesor && npm run dev` — usa `.env.mock` (`VITE_USAR_MOCK=1`). Login: `admin@asesores.local` o `juan@asesores.local`, contraseña `frase-larga-de-demo-0`, TOTP `123456`. No lista llamadas reales.
+- **API real** (recomendado con `levantar-local.ps1`): el script abre el panel con `npm run dev:api` (proxy `/v1` → backend). Login semilla: `demo@videocotizacion.local`, misma contraseña, segundo paso código de recuperación `DEMO-LOCA-2026`. Tras una videollamada en `demoLocalVideocotiz001`, **Mis cotizaciones** debe mostrar la sesión. Detalle: `proyecto/docs/fe/panel-backend-local.md`.
 
 ## Instalar dependencias
 
@@ -167,7 +162,10 @@ Con las dependencias instaladas, desde la raíz:
 
 ```powershell
 powershell -File proyecto\scripts\verificar-repo.ps1
+powershell -File proyecto\scripts\verificar-corte-local.ps1
 ```
+
+El segundo script valida tarifas/motor T26 y panel semilla T44 sin correr todo el backend E2E.
 
 Corre tests de Go, `npm run verificar` en conductas, la validación del contrato y, si existe el front, `npm run contrato:verificar`. Si Docker está instalado y el daemon anda, también `docker compose config`. Sin Docker, ese paso se omite.
 

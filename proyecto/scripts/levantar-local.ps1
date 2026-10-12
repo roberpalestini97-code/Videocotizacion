@@ -12,6 +12,7 @@ $repo = Split-Path -Parent $proyecto
 $backend = Join-Path $proyecto "backend"
 $front = Join-Path $repo "real-time-quote-bot"
 $panel = Join-Path $proyecto "panel-asesor"
+. (Join-Path $PSScriptRoot "resolver-go-en-path.ps1")
 
 function Leer-EnvSinValores([string]$ruta) {
     $claves = @{}
@@ -62,7 +63,9 @@ foreach ($par in @(
     )) {
     if (-not (Test-Path -LiteralPath $par.Ruta)) { throw "Falta $($par.Que)." }
 }
-if (-not (Get-Command go -ErrorAction SilentlyContinue)) { throw "No está go en el PATH." }
+if (-not (Agregar-GoAlPathSiFalta)) {
+    throw "No está go en el PATH ni en Program Files\Go\bin. Instalá Go (winget install GoLang.Go) y reiniciá la terminal."
+}
 if (-not (Get-Command npm -ErrorAction SilentlyContinue)) { throw "No está npm en el PATH." }
 
 function Cerrar-SiEsDeEsteRepo([int]$puerto) {
@@ -104,8 +107,10 @@ Write-Host ""
 Write-Host "Se abrieron tres ventanas. La primera vez Go compila y tarda un poco; no es un build de producción." -ForegroundColor Green
 Write-Host "Backend     http://127.0.0.1:8080/salud     (lee backend/.env, LOG_NIVEL=debug)"
 Write-Host "Videollamada http://127.0.0.1:5173/c/demoLocalVideocotiz001"
-Write-Host "Panel       http://127.0.0.1:5174          (simulado: no usa el backend ni el .env de la API)"
+Write-Host "Panel       http://127.0.0.1:5174          (API real vía proxy; misma semilla que la videollamada)"
 Write-Host ""
-Write-Host "Panel simulado: admin@asesores.local o juan@asesores.local"
-Write-Host "  contraseña frase-larga-de-demo-0    código 123456"
-Write-Host "Ese panel no ve las llamadas reales. Para enchufarlo al backend hace falta un asesor con contraseña y TOTP en la base; la semilla local todavía no lo crea."
+Write-Host "Panel (semilla local): demo@videocotizacion.local"
+Write-Host "  contraseña frase-larga-de-demo-0"
+Write-Host "  segundo paso: codigo de recuperacion DEMO-LOCA-2026"
+Write-Host "Tras una llamada en /c/demoLocalVideocotiz001, Mis cotizaciones debe listar la sesion."
+Write-Host "Mock aislado: cd proyecto/panel-asesor && npm run dev  (docs/fe/panel-backend-local.md)"

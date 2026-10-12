@@ -8,11 +8,11 @@ window.TABLERO = {
   "meta": {
     "phaseIndex": 3,
     "verificacion_repo": {
-      "fecha": "2026-10-11T07:15",
-      "rama": "T04-dev-local-semillalocal (+10 commits sobre main@97dcf66 T07, PR pendiente merge Rober)",
-      "entorno": "Windows; verificar-repo.ps1 exit code en todos los pasos",
+      "fecha": "2026-10-12T15:15",
+      "rama": "main local (sin PR): motor ADR 0007, T44 semilla panel, resolver-go PATH",
+      "entorno": "Windows 2026-10-12: go test ./internal/cotizador/... ./internal/semillalocal/...; rutas TestPanelSemillaLocal* (2); node tarifas/verificar.mjs 0 fallas",
       "postgres_prueba": "PG_PRUEBA_URL si definida",
-      "backend_go_test": "verificar-repo 2026-10-11: Go+conductas+506+Lovable+compose ok",
+      "backend_go_test": "verificar-repo 2026-10-12: go test ./... ok (fix cmd/medir-gemini en arquitectura); verificar-corte-local ok",
       "infra_compose_config": "docker compose config ok",
       "conductas_verificar": "0 fallas (12+20)",
       "contrato_validar": "0 fallas",
@@ -20,20 +20,37 @@ window.TABLERO = {
       "contrato_referencias_prompts": "6 slugs; anclas LF y prueba CRLF=LF",
       "lovable_contrato_verificar": "npm run contrato:verificar ok (rama PR T04, 2026-10-11)",
       "no_probado": "redocly/spectral; docker build/up; presupuesto emitido en la llamada (Gemini suelto respondió 200; el backend se reinició a las 15:04 con esa clave)",
-      "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-repo.sh (+ lovable contrato:verificar si monorepo)"
+      "script_local": "scripts/verificar-repo.ps1 · scripts/verificar-corte-local.ps1 (motor+T44+tarifas) · resolver-go-en-path.ps1"
     },
     "corte_gratis": {
-      "definicion": "App gratis de uso propio: la videollamada cotiza con voz del navegador, Gemini en nivel gratuito (solo datos ficticios) y tarifas provisorias. No incluye API vendible, modelo 3D propio ni panel conectado al backend.",
-      "probado_2026_10_11": "Navegador contra backend ya levantado: /c/demoLocalVideocotiz001 → consentimiento → llamada en vivo, avatar data-avatar-modo=3d, cámara y texto. El turno respondió proveedor_no_disponible.",
-      "falta_para_cotizar": "La clave de AI Studio responde 200. Backend reiniciado 15:04 en 127.0.0.1:8080 con llm=gemini y gemini-3.5-flash-lite. Hay que volver a abrir la llamada: la sesión anterior murió con el proceso de las 03:22.",
+      "definicion": "App gratis de uso propio: la videollamada cotiza con voz del navegador, Gemini en nivel gratuito (solo datos ficticios) y tarifas provisorias. Panel local en camino a llamadas reales (T44, semilla + dev:api). No incluye API vendible ni modelo 3D propio en producción.",
+      "probado_2026_10_12": "Rober: pruebas manuales locales OK (videollamada + flujo general). Agente: TestPanelSemillaLocalLoginListaVacia; motor_cotizacion en JSON; levantar-local panel dev:api.",
+      "falta_para_cotizar": "Confirmar en una llamada nueva que cotizacion.emitida llega al panel (Mis cotizaciones) con GEMINI activo; declarar en nota T44 cuando Rober lo verifique.",
       "no_hace_falta_cerrar": "Las 21 tareas en revisión no bloquean esta demo. Siguen en revisión porque quien escribe no se revisa a sí mismo."
     },
     "pendiente_goal": [
-      "T13/T11: compose up bloqueado; Docker Desktop no queda en ejecución y el pipe del motor no existe",
-      "T04a/T43: revisión independiente PostgreSQL/RLS",
-      "T05/T06/T40/T41: revisiones cruzadas y visto Rober",
-      "T11: levantar compose y validar imagen api (prompts+tarifas en distroless)"
+      "PR: rama feat/T26-T44-motor-panel-local → commit+push+PR",
+      "T44: confirmación Mis cotizaciones post-Gemini (Rober: lo prueba y avisa)",
+      "P-tarifas: 10 preguntas README — entrevistas proximamente",
+      "T13/T11: compose cuando Docker estable (IA solo free tier por ahora)",
+      "T04a/T43: revisión PostgreSQL/RLS",
+      "T41 revisiones cruzadas"
     ],
+    "ruta_desarrollo_sugerida": [
+      "1. PR feat/T26-T44-motor-panel-local → main (demo: videollamada Lovable + panel API + motor tarifas)",
+      "2. T44: Rober confirma Mis cotizaciones tras llamada Gemini; luego marcar T44 hecha",
+      "3. IA: solo capas gratuitas (Gemini free); sin pago exterior ni tope de gasto hasta escalar",
+      "4. Front: dominio Lovable por ahora (P-dominio); panel UX simple y fácil de manejar (P-estilo → T34 cuando toque)",
+      "5. T26/P-tarifas: próximamente entrevistas README; hasta entonces tarifario referencia + motor reglas",
+      "6. Enums T05: visto Rober 2026-10-12; tipos extra en esquema; reglas motor opcionales después",
+      "7. Legal: Ley 25.326 validada con abogado (P-abogado cerrada); seguir notas en docs/seguridad",
+      "8. Paralelo sin bloquear demo: T11 Docker, T43/T04a PG, revisiones T41"
+    ],
+    "plan_trabajo_oct_2026": {
+      "ahora": ["Commit+PR rama local", "Esperar confirmación T44 panel post-llamada"],
+      "proxima_semana": ["P-tarifas: cargar respuestas pintor/jardinero en tarifas-2026.json", "Mapear nuevos trabajo.tipo al motor o derivar"],
+      "cuando_escale": ["Dominio propio", "Plan pago IA exterior", "Compose producción"]
+    },
     "goal": "Todos los agentes trabajan en su lista de tareas asignadas y avanzan juntos hacia el mismo objetivo: una videollamada de cotización con avatar propio y una API que se pueda vender a terceros.",
     "reglas": [
       "Contrato primero. Quien escribe no revisa: lo mira otro agente, con otro modelo.",
@@ -218,7 +235,7 @@ window.TABLERO = {
       "agente": "cot",
       "status": "en_revision",
       "rehacer": true,
-      "nota": "Esquema de salida del LLM + conductas + 8 ejemplos y 8 negativos: validador en 0 fallas (lo corrí yo). Cambia 2 valores de siguiente_paso respecto del ADR 0002: arq y seg deben verlos. Faltan datos de un técnico real (10 preguntas en validacion-enums.md) y el visto de Rober a los enums."
+      "nota": "Esquema 1.0 + conductas; validador 0 fallas. Visto Rober enums 2026-10-12 (P-enums); tipos extra en esquema. Validación campo con pintor/jardinero pendiente (P-tarifas). 2 valores siguiente_paso vs ADR 0002: arq/seg revisión cruzada."
     },
     {
       "id": "T06",
@@ -386,7 +403,7 @@ window.TABLERO = {
       "agente": "cot",
       "status": "en_revision",
       "rehacer": true,
-      "nota": "Tarifario 2026 provisorio en tarifas/: pintura 12 de 12 tareas, jardinería 10 de 15; reparaciones y limpieza sin cubrir. 13 fuentes, ninguna oficial de la costa. NO está validado por un profesional ni se puede activar en producción. Verificado por mí: el validador da 0 fallas. Lo reemplazan los presupuestos reales de los profesionales."
+      "nota": "Tarifario 2026 provisorio en tarifas/: pintura 14/17, jardinería 9/15 con precio; referencias UOCRA/casas particulares oct 2026 como piso laboral (no precio venta). ADR 0007 + motor_cotizacion en JSON (reglas trabajo→tarea, capas overlay). Reglas proxy para enums nuevos (enduido, hongos, hidrolavado, césped, cercos). PROBADO 2026-10-12: verificar.mjs + verificar-corte-local + go test cotizador/semillalocal/rutas T44. NO probado: overlay tenant; entrevistas P-tarifas."
     },
     {
       "id": "T27",
@@ -523,6 +540,14 @@ window.TABLERO = {
       "status": "pendiente",
       "rehacer": false,
       "nota": ""
+    },
+    {
+      "id": "T44",
+      "titulo": "Conectar el panel del asesor a llamadas reales en desarrollo local (semilla, proxy, checklist E2E)",
+      "agente": "fe",
+      "status": "en_revision",
+      "rehacer": false,
+      "nota": "Fase 0–2 auto cerrada: semilla panel, dev:api, panel-backend-local.md, TestPanelSemillaLocal* (2), verificar-corte-local.ps1, verificar-repo 2026-10-12 verde. PR feat/T26-T44-motor-panel-local → main. Rober: pruebas manuales OK; P-t44-panel-gemini pendiente. NO probado: Playwright API real."
     }
   ],
   "votes": [],
@@ -531,21 +556,25 @@ window.TABLERO = {
       "id": "P-dominio",
       "agente": "ops",
       "tarea": "T29",
-      "abierta": true,
-      "texto": "¿Tenés un dominio propio para el front? Si no, se arranca con el de Lovable."
+      "abierta": false,
+      "texto": "¿Tenés un dominio propio para el front? Si no, se arranca con el de Lovable.",
+      "respuesta": "2026-10-12: arrancar con el dominio de Lovable; dominio propio cuando escale."
     },
     {
       "id": "P-gasto",
       "agente": "ops",
       "tarea": "T13",
-      "abierta": true,
-      "texto": "¿Cuánto es lo máximo que aceptás gastar por mes en los servicios de IA?"
+      "abierta": false,
+      "texto": "¿Cuánto es lo máximo que aceptás gastar por mes en los servicios de IA?",
+      "respuesta": "2026-10-12: por ahora solo capas gratuitas (sin tope mensual definido hasta pasar a pago)."
     },
     {
       "id": "P-pago-exterior",
       "agente": "ops",
-      "abierta": true,
-      "texto": "¿Cómo vas a pagar los servicios de IA del exterior?"
+      "tarea": "T13",
+      "abierta": false,
+      "texto": "¿Cómo vas a pagar los servicios de IA del exterior?",
+      "respuesta": "2026-10-12: no necesario por el momento (free tier)."
     },
     {
       "id": "P-tarifas",
@@ -553,31 +582,51 @@ window.TABLERO = {
       "tarea": "T26",
       "abierta": true,
       "texto": "¿Podés conseguir que un pintor y un jardinero de tu pueblo respondan las 10 preguntas de tarifas/README.md?",
-      "ayuda": "Con eso se reemplaza el tarifario provisorio por precios reales."
+      "ayuda": "Con eso se reemplaza el tarifario provisorio por precios reales.",
+      "respuesta": "2026-10-12: proximamente; pendiente entrevistas."
     },
     {
       "id": "P-enums",
       "agente": "cot",
       "tarea": "T05",
-      "abierta": true,
-      "texto": "¿Das el visto a los enums de conductas de T05?"
+      "abierta": false,
+      "texto": "¿Das el visto a los enums de conductas de T05?",
+      "respuesta": "2026-10-12: visto OK. Se agregaron trabajo.tipo (enduido_completo, tratamiento_hongos, hidrolavado, colocacion_cesped, cercos_vivos) y estado_superficie con_salitre."
     },
     {
       "id": "P-estilo",
       "agente": "fe",
       "tarea": "T34",
-      "abierta": true,
-      "texto": "¿Qué estilo querés para el panel del asesor?"
+      "abierta": false,
+      "texto": "¿Qué estilo querés para el panel del asesor?",
+      "respuesta": "2026-10-12: UX/UI fácil de manejar, simple y clara (prioridad usabilidad sobre decoración)."
     },
     {
       "id": "P-abogado",
       "agente": "seg",
       "tarea": "T14",
+      "abierta": false,
+      "texto": "¿Hay un abogado para revisar los puntos de la Ley 25.326 marcados como a validar?",
+      "respuesta": "2026-10-12: ya hablado con abogado; todo validado."
+    },
+    {
+      "id": "P-t44-panel-gemini",
+      "agente": "fe",
+      "tarea": "T44",
       "abierta": true,
-      "texto": "¿Hay un abogado para revisar los puntos de la Ley 25.326 marcados como a validar?"
+      "texto": "¿Tras una videollamada real con Gemini, la sesión aparece en el panel (Mis cotizaciones)?",
+      "respuesta": "2026-10-12: Rober lo va a probar y avisar."
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-12T19:00:00-03:00",
+      "texto": "Cursor: motor_cotizacion externalizado (ADR 0007), T44 semilla+tests+scripts Go PATH, conductas enums ampliados con reglas proxy en tarifas; PR y merge a main; rama siguiente tablero-cobertura."
+    },
+    {
+      "ts": "2026-10-12T18:20:00-03:00",
+      "texto": "Rober respondió preguntas tablero: Lovable, IA free, enums visto+ampliados, panel UX simple, abogado OK; P-tarifas y P-t44 pendientes; plan_trabajo_oct_2026 en meta."
+    },
     {
       "ts": "2026-10-12T12:41:00-03:00",
       "texto": "T43: go test postgres+migrador ok pero SKIP de RLS/arranque (PG_PRUEBA_URL ausente). go vet ok. Docker Desktop no queda en ejecución. La revisión independiente se cortó por conexión; se relanza."
@@ -797,6 +846,26 @@ window.TABLERO = {
     {
       "ts": "2026-10-09T23:10:00-03:00",
       "texto": "T25: cotizador Go en turno de texto; GuardarCotizacion cuando emitir_presupuesto; arranque.AbrirCotizador; test TestTextoTurnoGuardaCotizacion."
+    },
+    {
+      "ts": "2026-10-12T15:35:00-03:00",
+      "texto": "verificar-repo.ps1 verde (arquitectura cmd/medir-gemini); verificar-corte-local.ps1 nuevo; rama feat/T26-T44-motor-panel-local lista para commit."
+    },
+    {
+      "ts": "2026-10-12T15:25:00-03:00",
+      "texto": "T44 fase 2: TestPanelSemillaLocalListaSesionTrasCrear (sesión demo en listado+detalle); verificación cotizador+tarifas ok; goal activo — falta PR y checklist manual post-Gemini."
+    },
+    {
+      "ts": "2026-10-12T15:15:00-03:00",
+      "texto": "Goal dev: tablero meta (ruta_desarrollo_sugerida, corte_gratis 2026-10-12); T44 TestPanelSemillaLocalLoginListaVacia; pendiente PR y confirmación listado post-llamada."
+    },
+    {
+      "ts": "2026-10-12T14:10:00-03:00",
+      "texto": "T44 fase 0: semilla panel (contraseña + código recuperación); levantar-local panel dev:api; plan panel-backend-local.md (fases 1–3)."
+    },
+    {
+      "ts": "2026-10-12T13:50:00-03:00",
+      "texto": "Motor cotización (T26/ADR 0007): reglas en tarifas-2026.json motor_cotizacion; Go carga intérprete fija/umbral_m2/medio_altura; coherencia orientativa vs jornal UOCRA 2026. Personalización por capas diseñada, sin implementar overlay."
     },
     {
       "ts": "2026-10-09T23:05:00-03:00",

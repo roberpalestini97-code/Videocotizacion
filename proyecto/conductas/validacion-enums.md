@@ -4,9 +4,9 @@ Estado: **pendiente**. Ninguna respuesta todavía. Los enums de `esquema-salida-
 los propuso cot sin datos de campo.
 
 ## Visto de Rober
-- [ ] Rober revisó los enums (`oficio`, `trabajo.tipo`, `unidad`, `estado_superficie`,
-      `zona.localidad`, `tipo_cliente`, `plazo.tipo`, `siguiente_paso.accion`) — **pendiente** (P5).
-- Fecha: ____ · Comentarios: ____
+- [x] Rober revisó los enums (`oficio`, `trabajo.tipo`, `unidad`, `estado_superficie`,
+      `zona.localidad`, `tipo_cliente`, `plazo.tipo`, `siguiente_paso.accion`) — **2026-10-12** (P-enums).
+- Comentarios: visto general OK; agente agregó `trabajo.tipo` (enduido_completo, tratamiento_hongos, hidrolavado, colocacion_cesped, cercos_vivos) y `estado_superficie.con_salitre` según preguntas técnicas de abajo. Validación con pintor/jardinero sigue pendiente (P-tarifas).
 
 ## 10 preguntas para un pintor y un jardinero de la zona
 1. ¿Qué trabajos te piden más seguido que no están en la lista de `trabajo.tipo`? (p. ej.

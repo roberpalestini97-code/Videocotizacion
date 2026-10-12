@@ -71,10 +71,14 @@ func Sembrar(ctx context.Context, a almacen.Completo, claveHMAC string, log *slo
 	}); err != nil {
 		return fmt.Errorf("semilla local: %w", err)
 	}
+	if err := sembrarCredencialesPanel(ctx, a, claveHMAC); err != nil {
+		return err
+	}
 	log.Info("semilla local lista",
 		"enlace", EnlacePublico,
 		"clave_publica", ClavePublica,
 		"origenes", origenes,
+		"panel_email", EmailPanelLocal,
 	)
 	return nil
 }

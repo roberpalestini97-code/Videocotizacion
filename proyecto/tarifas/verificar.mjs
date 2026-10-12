@@ -101,6 +101,26 @@ for (const r of d.referencias_salariales_convenio ?? []) {
   }
 }
 
+const motor = d.motor_cotizacion;
+if (motor) {
+  if (motor.version !== '0.1.0') falla(`motor_cotizacion.version debe ser 0.1.0 (es ${JSON.stringify(motor.version)})`);
+  const reglas = motor.reglas_trabajo ?? [];
+  if (reglas.length < 14) falla(`motor_cotizacion: se esperan al menos 14 reglas_trabajo, hay ${reglas.length}`);
+  const tipos = new Set();
+  const RES = new Set(['fija', 'umbral_m2', 'medio_altura']);
+  for (const [i, r] of reglas.entries()) {
+    const w = `motor_cotizacion.reglas_trabajo[${i}]`;
+    if (vacio(r.trabajo_tipo)) falla(`${w}: falta trabajo_tipo`);
+    if (tipos.has(r.trabajo_tipo)) falla(`${w}: trabajo_tipo repetido ${r.trabajo_tipo}`);
+    tipos.add(r.trabajo_tipo);
+    if (!RES.has(r.resolver)) falla(`${w}: resolver invalido (${r.resolver})`);
+    if (vacio(r.oficio_contrato)) falla(`${w}: falta oficio_contrato`);
+  }
+  for (const [slug, zona] of Object.entries(motor.localidades ?? {})) {
+    if (vacio(slug) || vacio(zona)) falla('motor_cotizacion.localidades: claves y valores no vacios');
+  }
+}
+
 for (const f of d.factores_ajuste ?? []) {
   unico(f.id, 'factor');
   const w = `factor ${f.id}`;
