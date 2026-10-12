@@ -8,8 +8,8 @@ window.TABLERO = {
   "meta": {
     "phaseIndex": 3,
     "verificacion_repo": {
-      "fecha": "2026-10-12T15:15",
-      "rama": "main local (sin PR): motor ADR 0007, T44 semilla panel, resolver-go PATH",
+      "fecha": "2026-10-12T19:35",
+      "rama": "main @ 11cedd3 (T26/T44 merge); feat/tablero-cobertura-oct2026 en curso",
       "entorno": "Windows 2026-10-12: go test ./internal/cotizador/... ./internal/semillalocal/...; rutas TestPanelSemillaLocal* (2); node tarifas/verificar.mjs 0 fallas",
       "postgres_prueba": "PG_PRUEBA_URL si definida",
       "backend_go_test": "verificar-repo 2026-10-12: go test ./... ok (fix cmd/medir-gemini en arquitectura); verificar-corte-local ok",
@@ -29,7 +29,7 @@ window.TABLERO = {
       "no_hace_falta_cerrar": "Las 21 tareas en revisión no bloquean esta demo. Siguen en revisión porque quien escribe no se revisa a sí mismo."
     },
     "pendiente_goal": [
-      "PR: rama feat/T26-T44-motor-panel-local → commit+push+PR",
+      "Rama feat/tablero-cobertura-oct2026: T42 checklist panel, T11 compose-smoke, estabilidad tests",
       "T44: confirmación Mis cotizaciones post-Gemini (Rober: lo prueba y avisa)",
       "P-tarifas: 10 preguntas README — entrevistas proximamente",
       "T13/T11: compose cuando Docker estable (IA solo free tier por ahora)",
@@ -47,8 +47,8 @@ window.TABLERO = {
       "8. Paralelo sin bloquear demo: T11 Docker, T43/T04a PG, revisiones T41"
     ],
     "plan_trabajo_oct_2026": {
-      "ahora": ["Commit+PR rama local", "Esperar confirmación T44 panel post-llamada"],
-      "proxima_semana": ["P-tarifas: cargar respuestas pintor/jardinero en tarifas-2026.json", "Mapear nuevos trabajo.tipo al motor o derivar"],
+      "ahora": ["T42 verificación panel + T11 compose-smoke", "Esperar confirmación T44 panel post-llamada"],
+      "proxima_semana": ["P-tarifas: cargar respuestas pintor/jardinero en tarifas-2026.json", "T43/T04a PG con PG_PRUEBA_URL"],
       "cuando_escale": ["Dominio propio", "Plan pago IA exterior", "Compose producción"]
     },
     "goal": "Todos los agentes trabajan en su lista de tareas asignadas y avanzan juntos hacia el mismo objetivo: una videollamada de cotización con avatar propio y una API que se pueda vender a terceros.",
@@ -283,7 +283,7 @@ window.TABLERO = {
       "agente": "ops",
       "status": "en_revision",
       "rehacer": true,
-      "nota": "Compose, Caddyfile y scripts en infra/. api.Dockerfile copia conductas/prompts y tarifas-2026.json (WORKDIR /). 2026-10-12: el servicio api usa los nombres que lee config.go (PROVEEDOR_*, DB_URL, CLAVE_HMAC, GEMINI_API_KEY_FILE). verificar-repo incluye docker compose config (sin levantar). docker build y compose up NO probados (daemon)."
+      "nota": "Compose, Caddyfile y scripts en infra/. api.Dockerfile copia conductas/prompts y tarifas-2026.json (WORKDIR /). 2026-10-12: config.go alineado en compose; verificar-repo y scripts/compose-smoke.ps1 (docker info + compose config). docker build y compose up NO probados (daemon)."
     },
     {
       "id": "T12",
@@ -529,9 +529,9 @@ window.TABLERO = {
       "id": "T42",
       "titulo": "Adaptar el panel al contrato 0.1.3: SesionDetalle, contacto_disponible, catálogo de etiquetas, códigos 401, consumo diario",
       "agente": "fe",
-      "status": "pendiente",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": ""
+      "nota": "Paridad 0.1.3 ya implementada en T38/T39 (Detalle SesionDetalle, contacto_disponible vía state del listado, consumo diario Mi cuenta, 401 reautenticacion vs sesión). PROBADO 2026-10-12: npm test panel 238 tests (fix waitFor foco h1); NO probado: contrato 0.1.3 contra backend real post-merge T44."
     },
     {
       "id": "T43",
@@ -619,6 +619,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-12T19:35:00-03:00",
+      "texto": "main @ 11cedd3 (T26/T44); rama feat/tablero-cobertura-oct2026: T42 en revisión, compose-smoke.ps1, test foco DetalleCotizacion."
+    },
     {
       "ts": "2026-10-12T19:00:00-03:00",
       "texto": "Cursor: motor_cotizacion externalizado (ADR 0007), T44 semilla+tests+scripts Go PATH, conductas enums ampliados con reglas proxy en tarifas; PR y merge a main; rama siguiente tablero-cobertura."
