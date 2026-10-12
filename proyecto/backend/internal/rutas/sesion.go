@@ -25,7 +25,9 @@ const (
 	vigenciaTokenSesion = 3600 * time.Second
 	// Valores provisorios de la respuesta (P8). R60 los usa en el barrido de la lectura.
 	// R65 y R66 los usan para descartar texto y fotogramas en el socket.
-	sinVozProvisorioS         = 20
+	// sin_voz_s = 45: la voz la reproduce el navegador después del turno. Con 20 s
+	// el aviso (a los 2/3) caía mientras el avatar todavía hablaba (revisión T13/T25, H6).
+	sinVozProvisorioS         = 45
 	duracionMaximaProvisoriaS = 900
 	caracteresMaxPorTurno     = 500
 	turnosLLMMax              = 60

@@ -29,8 +29,7 @@ window.TABLERO = {
       "no_hace_falta_cerrar": "Las 21 tareas en revisión no bloquean esta demo. Siguen en revisión porque quien escribe no se revisa a sí mismo."
     },
     "pendiente_goal": [
-      "Merge PR T04-dev-local-semillalocal → main (Rober); texto en docs/pruebas/texto-pr-T04-dev-local.md",
-      "T13: medición de límites/latencia de Gemini; revisión independiente de T13/T25",
+      "T13/T11: compose up bloqueado; Docker Desktop no queda en ejecución y el pipe del motor no existe",
       "T04a/T43: revisión independiente PostgreSQL/RLS",
       "T05/T06/T40/T41: revisiones cruzadas y visto Rober",
       "T11: levantar compose y validar imagen api (prompts+tarifas en distroless)"
@@ -203,7 +202,7 @@ window.TABLERO = {
       "agente": "go",
       "status": "en_curso",
       "rehacer": true,
-      "nota": "Parte a (T04a) hecha. WS→turno→respuestas_modelo; MaterialTurno/S4. Dev local: SEMILLA_LOCAL + internal/semillalocal (G05), CORS loopback, dotenv, scripts/levantar-local.ps1. verificar-repo.ps1 ok (2026-10-11); PR T04-dev-local-semillalocal pendiente merge. Falta T13 prod, revisión T04a/T43, docker build/up."
+      "nota": "Parte a (T04a) hecha. WS→turno→respuestas_modelo; MaterialTurno/S4. Dev local: SEMILLA_LOCAL + internal/semillalocal (G05), CORS loopback, dotenv, scripts/levantar-local.ps1. origin/main y la rama T04-dev-local-semillalocal coinciden en b188b7c (2026-10-12). Falta revisión T04a/T43, docker build/up y el plan pago de T13."
     },
     {
       "id": "T04a",
@@ -267,7 +266,7 @@ window.TABLERO = {
       "agente": "ops",
       "status": "en_revision",
       "rehacer": true,
-      "nota": "Compose, Caddyfile y scripts en infra/. api.Dockerfile copia conductas/prompts y tarifas-2026.json (WORKDIR /). verificar-repo incluye docker compose config (sin levantar). docker build NO probado (daemon inactivo). Falta compose up y validar Caddyfile en runtime."
+      "nota": "Compose, Caddyfile y scripts en infra/. api.Dockerfile copia conductas/prompts y tarifas-2026.json (WORKDIR /). 2026-10-12: el servicio api usa los nombres que lee config.go (PROVEEDOR_*, DB_URL, CLAVE_HMAC, GEMINI_API_KEY_FILE). verificar-repo incluye docker compose config (sin levantar). docker build y compose up NO probados (daemon)."
     },
     {
       "id": "T12",
@@ -283,7 +282,7 @@ window.TABLERO = {
       "agente": "ops",
       "status": "en_revision",
       "rehacer": false,
-      "nota": "2026-10-10 (go): STT/TTS=navegador, LLM=gemini (gemini-3.5-flash-lite), WhatsApp=enlace. Mergeado a main. Cursor probó generateContent real con datos ficticios (3.5-flash-lite y 3.1-flash-lite OK). Doc docs/ia/gemini.md. Falta revisión independiente, costo por minuto y plan pago para clientes reales."
+      "nota": "2026-10-12: medición en docs/ia/gemini.md. Revisión independiente APROBADA CON CAMBIOS. Aplicado: sin_voz_s 20→45; compose con PROVEEDOR_* , DB_URL, CLAVE_HMAC y GEMINI_API_KEY_FILE. No probado: compose up ni -race (sin cgo). P-gasto y plan pago siguen abiertos. Informe docs/review/T13-T25-revision-independiente.md."
     },
     {
       "id": "T14",
@@ -579,6 +578,26 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-12T12:41:00-03:00",
+      "texto": "T43: go test postgres+migrador ok pero SKIP de RLS/arranque (PG_PRUEBA_URL ausente). go vet ok. Docker Desktop no queda en ejecución. La revisión independiente se cortó por conexión; se relanza."
+    },
+    {
+      "ts": "2026-10-12T08:47:00-03:00",
+      "texto": "docker info falló: no existe el pipe dockerDesktopLinuxEngine. Se lanzó Docker Desktop.exe. compose up sigue sin probar. Arrancó revisión T43 (otro modelo)."
+    },
+    {
+      "ts": "2026-10-12T01:15:00-03:00",
+      "texto": "T13/T25: sin_voz_s provisorio 45 s. Compose api/migrar alineados a config.go (PROVEEDOR_*, DB_URL, GEMINI_API_KEY_FILE). Sin compose up."
+    },
+    {
+      "ts": "2026-10-12T01:10:00-03:00",
+      "texto": "Revisión independiente T13/T25: APROBADA CON CAMBIOS (docs/review/T13-T25-revision-independiente.md). Aritmética de costo exacta. Obligatorios: sin_voz_s y nombres de variables Gemini en compose. T13 sigue en revisión."
+    },
+    {
+      "ts": "2026-10-12T00:50:00-03:00",
+      "texto": "T13: medición Gemini real (cmd/medir-gemini, 5/5 válidos) y costo por minuto en docs/ia/gemini.md. main y T04-dev-local-semillalocal en b188b7c. RPM/RPD sin número público. T13 sigue en revisión."
+    },
     {
       "ts": "2026-10-11T23:55:00-03:00",
       "texto": "ENTORNO.md en la raíz: máquina nueva (Node 22, Go 1.24+, .env.example del backend con Gemini, .env.example del front ya apuntando a la semilla). La clave GEMINI_API_KEY sigue fuera del repo. Panel .env.mock versionado (solo VITE_USAR_MOCK=1)."

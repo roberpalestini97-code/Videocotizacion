@@ -335,7 +335,7 @@ func exigirCreada(t *testing.T, f *fixSesion, rr *httptest.ResponseRecorder) res
 	if !c.Consentimiento.Requerido || c.Consentimiento.Version != versionAviso || c.Consentimiento.URL != urlAviso {
 		t.Fatalf("consentimiento: %+v", c.Consentimiento)
 	}
-	if c.Limites.SinVoz != 20 || c.Limites.Duracion != 900 || c.Limites.Caracteres != 500 || c.Limites.Turnos != 60 ||
+	if c.Limites.SinVoz != sinVozProvisorioS || c.Limites.Duracion != 900 || c.Limites.Caracteres != 500 || c.Limites.Turnos != 60 ||
 		c.Limites.Fotograma.Formato != "image/jpeg" || c.Limites.Fotograma.Lado != 1024 ||
 		c.Limites.Fotograma.Bytes != 131072 || c.Limites.Fotograma.Intervalo != 3000 || c.Limites.Fotograma.Max != 400 {
 		t.Fatalf("límites: %+v", c.Limites)
