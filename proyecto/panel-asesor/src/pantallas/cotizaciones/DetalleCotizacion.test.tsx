@@ -37,7 +37,9 @@ describe('Detalle de una cotización', () => {
     await abrirDetalle(fila, s);
     const titulo = screen.getByRole('heading', { level: 1 });
     expect(titulo.textContent).toBe(`Consulta del ${formatearFechaHora(fila.detalle.creada_en)}`);
-    expect(titulo).toHaveFocus();
+    await waitFor(() => {
+      expect(titulo).toHaveFocus();
+    });
     expect(screen.getByRole('link', { name: '← Volver a Mis cotizaciones' })).toHaveAttribute('href', '/cotizaciones');
     expect(document.title).toBe('Detalle de la consulta · Panel del asesor');
   });
