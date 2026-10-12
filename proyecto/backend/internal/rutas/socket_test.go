@@ -203,7 +203,7 @@ func exigirLista(t *testing.T, conn *websocket.Conn, sesionID, token string) {
 	}
 	f := ev.Datos.Limites.Fotograma
 	if ev.V != 1 || ev.Tipo != "sesion.lista" || ev.Seq != 1 || ev.Datos.SesionID != sesionID ||
-		ev.Datos.Limites.SinVoz != 20 || ev.Datos.Limites.Duracion != 900 ||
+		ev.Datos.Limites.SinVoz != sinVozProvisorioS || ev.Datos.Limites.Duracion != 900 ||
 		ev.Datos.Limites.Caracteres != 500 || ev.Datos.Limites.Turnos != 60 ||
 		f.Formato != "image/jpeg" || f.Lado != 1024 || f.Bytes != 131072 || f.Intervalo != 3000 || f.Max != 400 {
 		t.Fatalf("evento: %+v", ev)

@@ -95,7 +95,7 @@ services:
     restart: "no"
     command: ["migrar"]
     environment:
-      VC_DB_URL: postgres://vc_dueno:${VC_DUENO_PASSWORD:?completar VC_DUENO_PASSWORD en .env}@db:5432/${VC_DB_NAME:-videocotizacion}?sslmode=verify-full&sslrootcert=/etc/vc/pg/ca.crt
+      DB_URL_DUENO: postgres://vc_dueno:${VC_DUENO_PASSWORD:?completar VC_DUENO_PASSWORD en .env}@db:5432/${VC_DB_NAME:-videocotizacion}?sslmode=verify-full&sslrootcert=/etc/vc/pg/ca.crt
     volumes:
       - ./secrets/pg/ca.crt:/etc/vc/pg/ca.crt:ro
     depends_on:
@@ -114,23 +114,24 @@ services:
     command: ["servir"]
     environment:
       ENTORNO: produccion
-      VC_DIRECCION: ":8080"
+      DIRECCION: ":8080"
+      ALMACEN: postgres
       # Rol SIN privilegios (vc_api, sin BYPASSRLS). Nunca el dueño.
-      VC_DB_URL: postgres://vc_api:${VC_API_PASSWORD:?completar VC_API_PASSWORD en .env}@db:5432/${VC_DB_NAME:-videocotizacion}?sslmode=verify-full&sslrootcert=/etc/vc/pg/ca.crt
-      VC_CLAVE_HMAC: ${VC_CLAVE_HMAC:?completar VC_CLAVE_HMAC en .env}
-      VC_CLAVE_DESAFIO: ${VC_CLAVE_DESAFIO:?completar VC_CLAVE_DESAFIO en .env}
-      VC_CLAVE_CIFRADO_TOTP: ${VC_CLAVE_CIFRADO_TOTP:?completar VC_CLAVE_CIFRADO_TOTP en .env}
-      VC_PROVEEDOR_STT: ${VC_PROVEEDOR_STT:-}
-      VC_PROVEEDOR_LLM: ${VC_PROVEEDOR_LLM:-}
-      VC_PROVEEDOR_TTS: ${VC_PROVEEDOR_TTS:-}
-      VC_STT_API_KEY: ${VC_STT_API_KEY:-}
-      VC_LLM_API_KEY: ${VC_LLM_API_KEY:-}
-      VC_TTS_API_KEY: ${VC_TTS_API_KEY:-}
+      DB_URL: postgres://vc_api:${VC_API_PASSWORD:?completar VC_API_PASSWORD en .env}@db:5432/${VC_DB_NAME:-videocotizacion}?sslmode=verify-full&sslrootcert=/etc/vc/pg/ca.crt
+      CLAVE_HMAC: ${VC_CLAVE_HMAC:?completar VC_CLAVE_HMAC en .env}
+      # Voz en el navegador; el LLM es Gemini; WhatsApp es un enlace wa.me (T13).
+      PROVEEDOR_STT: ${PROVEEDOR_STT:-navegador}
+      PROVEEDOR_TTS: ${PROVEEDOR_TTS:-navegador}
+      PROVEEDOR_LLM: ${PROVEEDOR_LLM:-gemini}
+      PROVEEDOR_WHATSAPP: ${PROVEEDOR_WHATSAPP:-enlace}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.5-flash-lite}
+      GEMINI_API_KEY_FILE: /run/secrets/gemini_api_key
       # Go respeta el tope de memoria del contenedor (un poco por debajo de API_MEM_LIMIT).
       GOMEMLIMIT: 640MiB
     expose: ["8080"]
     volumes:
       - ./secrets/pg/ca.crt:/etc/vc/pg/ca.crt:ro
+      - ./secrets/gemini_api_key:/run/secrets/gemini_api_key:ro
     tmpfs:
       - /tmp:size=32m
     depends_on:

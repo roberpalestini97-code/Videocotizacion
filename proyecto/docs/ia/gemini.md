@@ -1,7 +1,8 @@
 # LLM con clave gratuita: Google Gemini (T13)
 
-Estado: adaptador implementado y probado **solo contra un servidor falso** (`httptest`). No se llamó
-nunca a la API real (no hay clave y el entorno de desarrollo no llega a `generativelanguage.googleapis.com`).
+Estado: adaptador en `internal/proveedores/gemini`. Las pruebas automáticas usan un servidor falso
+(`httptest`). Con la clave de AI Studio (fuera del repo) se midió la API real el 2026-10-12: ver
+«Medición» y «Costo por minuto». Nivel gratuito: solo datos ficticios.
 
 Decisión de Rober (2026-10-10): el cliente habla con el navegador (reconocimiento de voz es-AR del
 navegador) y el navegador sintetiza la voz del avatar; el servidor NO hace STT ni TTS. El LLM es
@@ -68,8 +69,9 @@ PROVEEDOR_LLM=gemini GEMINI_API_KEY_FILE=$HOME/.config/vc/gemini.key \
 go run ./cmd/api servir
 ```
 
-Ojo: `infra/docker-compose.yml` y `infra/.env.example` todavía usan nombres `VC_PROVEEDOR_*` /
-`VC_LLM_API_KEY` que la API no lee (pendiente de ops, anotado en `docs/review/T13-huecos-del-contrato.md`).
+Ojo: la clave en Docker va en `infra/secrets/gemini_api_key` (no se versiona) y el compose
+la monta como `GEMINI_API_KEY_FILE`. El contenedor recibe `PROVEEDOR_STT=navegador`,
+`PROVEEDOR_TTS=navegador`, `PROVEEDOR_LLM=gemini` y `PROVEEDOR_WHATSAPP=enlace`.
 
 ## Modelo por defecto (verificado 2026-10-10)
 
@@ -111,14 +113,79 @@ proyectos nuevos, y la de precios lo lista con nivel gratuito. Alternativa más 
 - Consumo: `usageMetadata.promptTokenCount` (entrada) y `candidatesTokenCount + thoughtsTokenCount`
   (salida) por turno (`TextoSalida.Tokens*`, en el log del turno) y acumulado (`Extractor.Consumo()`).
 
-## A verificar con la clave real (no probado)
+## Arquitectura (proveedores elegidos)
 
-- `responseJsonSchema` se verificó el 2026-10-11 contra `gemini-3.5-flash-lite`: un esquema chico
-  devuelve HTTP 200 y `finishReason: STOP`. `responseSchema` y `responseFormat.text.mimeType=application/json`
-  devuelven HTTP 400.
-- Límites reales del nivel gratuito (RPM, TPM, RPD): **no figuran en la documentación**; se ven en AI
-  Studio ("View your active rate limits") y cambian por modelo y cuenta. RPD se reinicia a medianoche del
-  Pacífico. Medir cuántos turnos por día alcanzan antes de una demo.
-- Latencia por turno con 2 fotogramas, tokens reales por turno (imagen incluida) y si el modelo "piensa"
-  por defecto (sube `thoughtsTokenCount`); no se configuró `thinkingConfig`.
-- Calidad en español rioplatense con los 12 ejemplos de `conductas/` (correr un guion con la clave).
+Una VM corre la API Go, PostgreSQL y el proxy (Compose, T11). El navegador del cliente hace el
+reconocimiento de voz (es-AR) y la síntesis del avatar: el servidor no paga STT ni TTS. El único
+modelo de pago posible es Gemini, llamado por REST desde el backend (la clave no sale al navegador).
+WhatsApp es un enlace `wa.me`, sin API de Meta. Cambiar de LLM es otro adaptador de
+`proveedores.Extractor` (ADR 0003).
+
+## Medición 2026-10-12
+
+Comando: `go run ./cmd/medir-gemini` desde `proyecto/backend` (lee `GEMINI_API_KEY` de `.env`, no la
+imprime). Usa el adaptador de producción: prompt `conductas/prompts/pintura.md`, `responseJsonSchema`
+derivado del esquema 1.0, temperatura 0.2, sin reintentos, timeout 60 s. Textos y fotos son ficticios
+(pared lisa, sin personas). Cada salida pasó `cotizador.ValidarSalidaLLM`.
+
+`tokens_salida` es `candidatesTokenCount + thoughtsTokenCount` (el adaptador no los separa; no hay
+`thinkingConfig`).
+
+| Caso | Latencia | Tokens entrada | Tokens salida | JSON válido |
+|---|---:|---:|---:|---|
+| texto 1 | 4546 ms | 640 | 421 | sí |
+| texto 2 | 2595 ms | 626 | 473 | sí |
+| texto 3 | 1944 ms | 631 | 343 | sí |
+| texto + 2 JPEG 64×48 | 2757 ms | 2757 | 326 | sí |
+| texto + 1 JPEG 960×540 (8753 bytes) | 2553 ms | 1729 | 388 | sí |
+
+Una pasada anterior el mismo día, solo texto, también 3/3 válidas (1994–3699 ms; entrada 626–640).
+La latencia de texto de esta tabla va de 1,9 s a 4,5 s. Cada pedido se midió sin
+`DatosPrevios`: en una llamada real, del segundo turno en adelante el JSON ya validado
+viaja otra vez (unos cientos de tokens de entrada más por turno).
+
+Un fotograma de 960×540 sumó unos 1100 tokens de entrada respecto del texto solo (~630). Dos
+fotogramas chicos sumaron unos 2100. El turno real manda como máximo 2 JPEG de hasta 1024 px.
+
+## Costo por minuto
+
+Fuente de precios: https://ai.google.dev/gemini-api/docs/pricing , consultada el 2026-10-12.
+`gemini-3.5-flash-lite`, columna Standard del plan pago: **0,30 USD / 1 M tokens de entrada**
+(texto, imagen, video o audio) y **2,50 USD / 1 M de salida**, thoughts incluidos. El nivel gratuito
+figura «Free of charge» y «Used to improve our products: Yes». Batch y Flex salen más baratos en esa
+página; este adaptador no usa Batch.
+
+STT, TTS y el enlace de WhatsApp: **0 USD** de proveedor.
+
+Costo de un turno en plan pago Standard, con los tokens de la tabla:
+
+| Caso | USD por turno |
+|---|---:|
+| texto (promedio 632 entrada, 412 salida) | 0,00122 |
+| 2 fotogramas (2757 / 326) | 0,00164 |
+| 1 fotograma 960×540 (1729 / 388) | 0,00149 |
+
+La llamada no se cobra por minuto de audio. El costo por minuto es turnos por minuto × costo del turno.
+Supuesto de una cotización corta (no medido en una llamada completa): 4 turnos con 2 fotogramas en 3
+minutos → 4 × 0,00164 = **0,0066 USD por llamada**, **0,0022 USD por minuto**. Rango con estos tokens:
+
+- 1 turno de solo texto por minuto: **0,0012 USD/min**
+- 2 turnos con 2 fotogramas por minuto: **0,0033 USD/min**
+
+Ejemplo: 100 llamadas de ese supuesto son unos 0,66 USD de Gemini. El tope mensual lo define Rober
+(pregunta P-gasto, todavía abierta). Pasar a plan pago (Tier 1 en
+https://ai.google.dev/gemini-api/docs/rate-limits , tope de facturación 250 USD) hace falta antes de
+clientes reales, porque el nivel gratuito permite que Google use el contenido para mejorar sus productos.
+
+## Límites que siguen sin número
+
+RPM, TPM y RPD del proyecto **no están** en la documentación pública (misma página de rate limits,
+«Last updated 2026-10-09 UTC»): se ven en AI Studio y cambian por modelo y cuenta. RPD se reinicia a
+medianoche del Pacífico. No se disparó una ráfaga hasta el 429 para no gastar la cuota del día.
+El nivel gratuito no tiene tope de gasto por 10 minutos; Tier 1 pago sí (10 USD / 10 min, según esa página).
+
+## A verificar todavía
+
+- Los 12 ejemplos de `conductas/` contra el modelo real (rúbrica de T17).
+- El techo de RPM/RPD de esta cuenta, leído en AI Studio (no adivinado).
+- Revisión independiente de T13 y T25 (quien mide no se revisa).
