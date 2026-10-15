@@ -68,9 +68,30 @@ export function modeloDesdeEscena(raiz: THREE.Object3D): ModeloAvatar {
   };
 }
 
+/**
+ * Normaliza una URL de Ready Player Me (`https://models.readyplayer.me/<id>.glb`):
+ * si no trae `morphTargets`, le agrega los visemas de Oculus + ARKit (necesarios para el
+ * lip-sync) y un atlas de texturas liviano. Para cualquier otra URL la devuelve igual.
+ * Así el usuario pega el link "pelado" del avatar y el lip-sync funciona solo.
+ */
+export function normalizarUrlRPM(url: string): string {
+  if (!url) return url;
+  let u: URL;
+  try {
+    u = new URL(url);
+  } catch {
+    return url; // relativa o inválida: no tocar
+  }
+  if (!/(^|\.)readyplayer\.me$/i.test(u.hostname) || !/\.glb$/i.test(u.pathname)) return url;
+  if (!u.searchParams.has('morphTargets')) u.searchParams.set('morphTargets', 'Oculus Visemes,ARKit');
+  if (!u.searchParams.has('textureAtlas')) u.searchParams.set('textureAtlas', '1024');
+  if (!u.searchParams.has('lod')) u.searchParams.set('lod', '1');
+  return u.toString();
+}
+
 /** Carga un GLB desde URL (mismo origen o CORS) y lo envuelve como ModeloAvatar. */
 export async function cargarModeloGLB(url: string): Promise<ModeloAvatar> {
-  const gltf = await new GLTFLoader().loadAsync(url);
+  const gltf = await new GLTFLoader().loadAsync(normalizarUrlRPM(url));
   const modelo = modeloDesdeEscena(gltf.scene);
   if (modelo.mallasVisemas.length === 0) {
     modelo.liberar();

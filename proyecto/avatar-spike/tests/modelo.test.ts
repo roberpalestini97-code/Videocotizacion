@@ -6,7 +6,8 @@ import { Suavizador, factorSuavizado } from '../src/visemas/suavizado';
 import { FORMAS } from '../src/modelo/formas';
 import { aplicarPesos, articulacionMezclada, detectarEsquema, pesosArkit } from '../src/modelo/blendshapes';
 import { BOCA, agregarMorphsVisemas, crearModeloProcedural, deformarBoca, parpadeo } from '../src/modelo/procedural';
-import { modeloDesdeEscena } from '../src/modelo/glb';
+import { modeloDesdeEscena, normalizarUrlRPM } from '../src/modelo/glb';
+import { agregarCascoObra, buscarCabeza, encuadrarRetrato } from '../src/modelo/obrero';
 import { relacionPixeles } from '../src/Avatar3D';
 
 const solo = (v: (typeof VISEMAS)[number], w = 1) => {
@@ -149,6 +150,59 @@ describe('Modelo procedural (sin WebGL)', () => {
   it('envuelto como escena (camino GLB) encuentra las mismas mallas', () => {
     const m2 = modeloDesdeEscena(crearModeloProcedural().raiz);
     expect(m2.mallasVisemas.length).toBe(4);
+  });
+});
+
+describe('GLB Ready Player Me y decoración de obra', () => {
+  it('normalizarUrlRPM agrega morphTargets (visemas) a un link pelado de RPM', () => {
+    const u = new URL(normalizarUrlRPM('https://models.readyplayer.me/abc123.glb'));
+    expect(u.searchParams.get('morphTargets')).toBe('Oculus Visemes,ARKit');
+    expect(u.searchParams.get('textureAtlas')).toBe('1024');
+  });
+  it('normalizarUrlRPM respeta morphTargets ya presentes y no toca otras URLs', () => {
+    const conMT = 'https://models.readyplayer.me/abc.glb?morphTargets=ARKit';
+    expect(new URL(normalizarUrlRPM(conMT)).searchParams.get('morphTargets')).toBe('ARKit');
+    expect(normalizarUrlRPM('https://ejemplo.com/avatar.glb')).toBe('https://ejemplo.com/avatar.glb');
+    expect(normalizarUrlRPM('/local/avatar.glb')).toBe('/local/avatar.glb');
+    expect(normalizarUrlRPM('')).toBe('');
+  });
+  it('buscarCabeza encuentra el hueso Head (RPM/Mixamo), no HeadTop_End', () => {
+    const raiz = new THREE.Group();
+    const neck = new THREE.Bone();
+    neck.name = 'Neck';
+    const head = new THREE.Bone();
+    head.name = 'Head';
+    const top = new THREE.Bone();
+    top.name = 'HeadTop_End';
+    head.add(top);
+    neck.add(head);
+    raiz.add(neck);
+    expect(buscarCabeza(raiz)).toBe(head);
+    expect(buscarCabeza(new THREE.Group())).toBeNull();
+  });
+  it('agregarCascoObra cuelga el casco del hueso de la cabeza si existe', () => {
+    const raiz = new THREE.Group();
+    const head = new THREE.Bone();
+    head.name = 'Head';
+    raiz.add(head);
+    const casco = agregarCascoObra(raiz, { radioCabeza: 0.1 });
+    expect(casco.parent).toBe(head);
+    expect(casco.children.length).toBe(4); // calota, ala, cresta, banda
+    // sin hueso, cuelga de la raíz
+    const raiz2 = new THREE.Group();
+    expect(agregarCascoObra(raiz2).parent).toBe(raiz2);
+  });
+  it('encuadrarRetrato pone la cámara al frente (+Z) mirando la parte alta del modelo', () => {
+    const raiz = new THREE.Group();
+    const cuerpo = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.7, 0.3));
+    cuerpo.position.y = 0.85; // de 0 a 1.7
+    raiz.add(cuerpo);
+    const cam = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
+    const { mira, distancia } = encuadrarRetrato(raiz, cam);
+    expect(distancia).toBeGreaterThan(0);
+    expect(cam.position.z).toBeGreaterThan(0.15); // delante del modelo (max.z = 0.15)
+    expect(mira.y).toBeGreaterThan(1.2); // encuadra cabeza/hombros, no las piernas
+    expect(mira.y).toBeLessThanOrEqual(1.7);
   });
 });
 

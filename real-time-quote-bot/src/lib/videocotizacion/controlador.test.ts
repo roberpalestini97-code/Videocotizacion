@@ -374,7 +374,14 @@ describe("errores del catálogo con mensajes claros", () => {
     expect(a.c.getState().error?.codigo).toBe("enlace_ausente");
     expect(a.cliente.leerEnlace).not.toHaveBeenCalled();
     const b = armar({
-      config: { apiBase: "", clavePublica: "", mock: false, enlaceDemo: undefined },
+      config: {
+        apiBase: "",
+        clavePublica: "",
+        mock: false,
+        enlaceDemo: undefined,
+        avatarGlbUrl: undefined,
+        avatarCasco: true,
+      },
     });
     await b.c.abrir(ID_ENLACE);
     expect(b.c.getState().error?.codigo).toBe("config_incompleta");

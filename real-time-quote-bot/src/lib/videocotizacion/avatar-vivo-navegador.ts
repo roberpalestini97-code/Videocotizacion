@@ -5,6 +5,7 @@
 import { Avatar3D, ErrorSinWebGL } from "../avatar-motor/Avatar3D";
 import { AvatarClips } from "../avatar-motor/clips/AvatarClips";
 import { catalogoPlaceholder } from "../avatar-motor/clips/ColaClips";
+import { leerConfig } from "./config";
 import { AvatarVivo } from "./avatar-vivo";
 
 const CSS_ID = "vc-avatar-motor-css";
@@ -23,6 +24,7 @@ function asegurarEstilos(): void {
 }
 
 export function crearAvatarVivo(): AvatarVivo {
+  const cfg = leerConfig();
   return new AvatarVivo({
     intentar3d: (el, op) => {
       asegurarEstilos();
@@ -32,6 +34,11 @@ export function crearAvatarVivo(): AvatarVivo {
         alFrame: (info) => op.alFrame({ dominante: info.dominante }),
         calidad: "media",
         fpsMax: 30,
+        casco: cfg.avatarCasco,
+        ...(cfg.avatarGlbUrl ? { modeloUrl: cfg.avatarGlbUrl } : {}),
+        alCambiarModelo: (ok, detalle) => {
+          if (!ok && detalle) console.warn("[avatar] GLB no cargó, se usa el procedural:", detalle);
+        },
       });
       av.lienzo.style.display = "block";
       av.lienzo.style.width = "100%";

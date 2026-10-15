@@ -42,8 +42,20 @@ describe("config", () => {
       clavePublica: "vc_pub_a",
       mock: false,
       enlaceDemo: undefined,
+      avatarGlbUrl: undefined,
+      avatarCasco: true,
     });
     expect(validarConfig(c)).toBeNull();
+  });
+  it("avatar: lee la URL del GLB y el casco se puede apagar", () => {
+    const c = leerConfig({
+      VITE_VC_API_BASE: "https://a.test",
+      VITE_VC_CLAVE_PUBLICA: "vc_pub_a",
+      VITE_AVATAR_GLB_URL: "https://models.readyplayer.me/abc.glb",
+      VITE_AVATAR_CASCO: "0",
+    });
+    expect(c.avatarGlbUrl).toBe("https://models.readyplayer.me/abc.glb");
+    expect(c.avatarCasco).toBe(false);
   });
   it("modo mock completa con valores locales no secretos", () => {
     const c = leerConfig({ VITE_VC_MOCK: "1", VITE_VC_ENLACE_DEMO: "abc" });

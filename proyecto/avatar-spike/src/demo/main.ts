@@ -25,6 +25,10 @@ const $ = <T extends HTMLElement>(sel: string): T => {
 const parametros = new URLSearchParams(location.search);
 const calidad = (parametros.get('calidad') as Calidad) || 'media';
 const fpsMax = Number(parametros.get('fpsMax') ?? 0) || 0;
+// Preview de un GLB humano (Ready Player Me): demo.html?glb=https://models.readyplayer.me/ID.glb
+// &casco=0 para verlo sin casco. Arranca procedural y cambia al GLB al cargar.
+const glbUrl = parametros.get('glb') || undefined;
+const conCasco = !['0', 'false', 'no'].includes((parametros.get('casco') ?? '').toLowerCase());
 
 let ctx: AudioContext | null = null;
 const relojDemo: RelojAudio = {
@@ -52,6 +56,10 @@ function crearAvatar(): void {
       reloj: relojDemo,
       calidad,
       fpsMax,
+      modeloUrl: glbUrl,
+      casco: conCasco,
+      alCambiarModelo: (ok, detalle) =>
+        console.info(ok ? '[demo] GLB cargado' : '[demo] GLB falló, sigue el procedural', detalle ?? ''),
       alFrame: (info) => {
         if (ctx && ctx.state === 'running') pares.push([info.tFrameMs, info.tAudioMs]);
         if (info.turno !== null && info.tTurnoMs !== null && avatar) {

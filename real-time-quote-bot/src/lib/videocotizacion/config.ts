@@ -13,6 +13,13 @@ export type ConfigVC = {
   mock: boolean;
   /** Enlace opaco por defecto para la portada (/). Opcional. */
   enlaceDemo: string | undefined;
+  /**
+   * URL del GLB humano del avatar (Ready Player Me, etc.). Si está vacía se usa el modelo
+   * procedural. Para RPM alcanza el link "pelado": el front le agrega los visemas.
+   */
+  avatarGlbUrl: string | undefined;
+  /** Agregar casco de obra sobre el GLB. Por defecto true (identidad de obra). */
+  avatarCasco: boolean;
 };
 
 type EntornoVite = Record<string, string | boolean | undefined>;
@@ -37,7 +44,18 @@ export function leerConfig(env: EntornoVite = import.meta.env as EntornoVite): C
   const clavePublica = texto(env["VITE_VC_CLAVE_PUBLICA"]) || (mock ? CLAVE_MOCK : "");
   const local = /localhost:8787|127\.0\.0\.1:8787/.test(apiBase);
   const enlace = texto(env["VITE_VC_ENLACE_DEMO"]) || (mock || local ? ENLACE_MOCK : "");
-  return { apiBase, clavePublica, mock: mock || local, enlaceDemo: enlace || undefined };
+  const avatarGlbUrl = texto(env["VITE_AVATAR_GLB_URL"]) || undefined;
+  // El casco se agrega por defecto; se apaga con VITE_AVATAR_CASCO=0/false/no.
+  const cascoRaw = texto(env["VITE_AVATAR_CASCO"]).toLowerCase();
+  const avatarCasco = !["0", "false", "no"].includes(cascoRaw);
+  return {
+    apiBase,
+    clavePublica,
+    mock: mock || local,
+    enlaceDemo: enlace || undefined,
+    avatarGlbUrl,
+    avatarCasco,
+  };
 }
 
 /** Devuelve el motivo por el que la configuración no sirve, o null si está completa. */

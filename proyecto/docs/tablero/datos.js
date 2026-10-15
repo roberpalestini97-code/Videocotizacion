@@ -433,9 +433,9 @@ window.TABLERO = {
       "id": "T30",
       "titulo": "Modelo 3D propio con blendshapes de visemas, licencia, peso máximo y alternativa 2D",
       "agente": "av",
-      "status": "pendiente",
+      "status": "en_curso",
       "rehacer": false,
-      "nota": ""
+      "nota": "2026-10-15 (claude, rama claude/fervent-goldberg-snkq9h, SIN revisar): camino GLB realista enchufado en el front sin romper el procedural. Avatar3D arranca con el procedural y reemplaza en caliente por el GLB cuando carga (usarModelo), con fallback si la red/WebGL/visemas fallan. Nuevos real-time-quote-bot/src/lib/avatar-motor/modelo/glb.ts (loader + normalizarUrlRPM, que a un link pelado de Ready Player Me le agrega ?morphTargets=Oculus Visemes,ARKit para el lip-sync) y modelo/obrero.ts (casco de obra colgado del hueso Head + encuadrarRetrato cabeza/hombros). Luz de estudio PBR (RoomEnvironment+PMREM, ACES, key/fill/contraluz). Config: VITE_AVATAR_GLB_URL (vacío = procedural) y VITE_AVATAR_CASCO. Visemas vía ARKit ya estaban mapeados (blendshapes.pesosArkit). Preview en el spike: demo.html?glb=<url>&casco=0. Espejado en proyecto/avatar-spike (typecheck+tests). PROBADO: spike typecheck + vitest nuevos (normalizarUrlRPM, buscarCabeza, agregarCascoObra, encuadrarRetrato); front typecheck + 154 tests + build ok. FALTA de Rober: crear su avatar en readyplayer.me y pegar el .glb en VITE_AVATAR_GLB_URL. NO PROBADO: navegador real con un GLB real (los offsets del casco pueden necesitar ajuste fino con el avatar elegido); licencia/peso/alternativa 2D del modelo propio definitivo. Falta revisión de otro agente."
     },
     {
       "id": "T31",
@@ -619,6 +619,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-15T01:00:00-03:00",
+      "texto": "T30 (parcial, rama claude/fervent-goldberg-snkq9h): avatar GLB realista (Ready Player Me) cableado en el front. Avatar3D arranca procedural y cambia en caliente al GLB (visemas Oculus/ARKit, parpadeo), con fallback si falla. Nuevo modelo/glb.ts (normalizarUrlRPM: agrega ?morphTargets a un link pelado de RPM) y modelo/obrero.ts (casco de obra anclado al hueso Head + encuadre retrato cabeza/hombros). Luz de estudio PBR (RoomEnvironment/PMREM + ACES + key/fill/contraluz) para los dos modelos. Config VITE_AVATAR_GLB_URL / VITE_AVATAR_CASCO. PROBADO: spike typecheck + vitest (nuevos: normalizarUrlRPM, buscarCabeza, agregarCascoObra, encuadrarRetrato); front typecheck + 154 tests + build (three bundlea RoomEnvironment/GLTFLoader). Falta de Rober: pegar el link .glb de su avatar RPM; NO PROBADO en navegador real con un GLB real (offsets del casco pueden necesitar ajuste fino). Falla pre-existente ajena: spike tests/texto-audio 'sin clipping'."
+    },
     {
       "ts": "2026-10-12T19:35:00-03:00",
       "texto": "main @ 11cedd3 (T26/T44); rama feat/tablero-cobertura-oct2026: T42 en revisión, compose-smoke.ps1, test foco DetalleCotizacion."
