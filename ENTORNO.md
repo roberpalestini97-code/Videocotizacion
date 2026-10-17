@@ -9,7 +9,7 @@ Leela antes de instalar nada. Los archivos `.env` y `.env.local` **no están en 
 | Proceso | URL | De dónde sale la config |
 |---------|-----|-------------------------|
 | Backend | http://127.0.0.1:8080/salud | `proyecto/backend/.env` |
-| Videollamada | http://127.0.0.1:5173/c/demoLocalVideocotiz001 | `real-time-quote-bot/.env.local` |
+| Videollamada | http://127.0.0.1:5173/c/demoLocalVideocotiz001 (Laura; ver también 002/003 abajo) | `real-time-quote-bot/.env.local` |
 | Panel asesor (simulado) | http://127.0.0.1:5174 | `proyecto/panel-asesor/.env.mock` (ya viene en el repo) |
 
 El panel simulado **no ve** las llamadas del backend. Sirve para recorrer Perfil, cotizaciones y registros con datos de mentira.
@@ -65,7 +65,7 @@ PROVEEDOR_WHATSAPP=enlace
 SEMILLA_LOCAL=1
 LOG_NIVEL=debug
 GEMINI_API_KEY=<pegar la clave>
-GEMINI_MODEL=gemini-3.5-flash-lite
+GEMINI_MODEL=gemini-3.1-flash-lite
 ```
 
 `GEMINI_API_KEY` no se versiona. Pedila a Rober o creala en https://aistudio.google.com/apikey (cuenta de Google, mayor de 18). Con nivel gratuito, solo datos y personas ficticias: ver `proyecto/docs/ia/gemini.md`.
@@ -74,9 +74,13 @@ GEMINI_MODEL=gemini-3.5-flash-lite
 
 `SEMILLA_LOCAL=1` crea en memoria, al arrancar:
 
-- enlace `demoLocalVideocotiz001`
+- tres enlaces con avatar VALID 3D (ver `proyecto/docs/avatar/valid-avatars-glb.md`):
+  - `demoLocalVideocotiz001` → Laura / pintura
+  - `demoLocalVideocotiz002` → Tito / jardinería
+  - `demoLocalVideocotiz003` → Juan / mantenimiento
 - clave pública `vc_pub_local_demo_clave_publica_navegador`
 - orígenes permitidos: `localhost` y `127.0.0.1` en los puertos 5173, 5174 y 3000
+- panel API real: `demo@videocotizacion.local`, `demo2@…`, `demo3@…` (misma contraseña de semilla)
 
 ### 2. Videollamada — `real-time-quote-bot/.env.local`
 
