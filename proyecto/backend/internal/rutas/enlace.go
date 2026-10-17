@@ -75,6 +75,8 @@ type enlace struct {
 	clave   secreto.Secreto
 	log     *slog.Logger
 	libro   *desafio.Libro
+	// urlMedios es la base wss:// de ws_url (URL_MEDIOS); "" = baseMediosPorDefecto.
+	urlMedios string
 
 	idemMu sync.Mutex
 	idem   map[string]recuerdoIdem

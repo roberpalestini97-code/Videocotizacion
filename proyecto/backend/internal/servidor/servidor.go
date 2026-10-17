@@ -11,6 +11,7 @@ import (
 	"log/slog"
 	"net/http"
 	"regexp"
+	"slices"
 	"strconv"
 	"time"
 
@@ -34,6 +35,8 @@ type Opciones struct {
 	// CORSLoopback responde el preflight del navegador solo para
 	// http://localhost y http://127.0.0.1. Producción lo deja en false.
 	CORSLoopback bool
+	// CORSOrigenes son orígenes públicos exactos (ORIGENES_PUBLICOS) que también reciben CORS.
+	CORSOrigenes []string
 }
 
 // Nuevo crea el http.Server listo para ListenAndServe.
@@ -73,20 +76,27 @@ func Manejador(o Opciones, extra func(*http.ServeMux)) http.Handler {
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		EscribirError(w, r, registro(o), errores.Nuevo(errores.NoEncontrado))
 	})
-	return recuperar(registro(o), encabezadosSeguros(corsLoopback(o.CORSLoopback, limitarCuerpo(o.CuerpoMaxBytes, registro(o), mux))))
+	return recuperar(registro(o), encabezadosSeguros(corsLoopback(o.CORSLoopback, o.CORSOrigenes, limitarCuerpo(o.CuerpoMaxBytes, registro(o), mux))))
 }
 
 var reCORSLoopback = regexp.MustCompile(`^http://(localhost|127\.0\.0\.1)(:[0-9]{1,5})?$`)
 
-// corsLoopback agrega CORS solo si el Origin es loopback. Un Origin público
-// no recibe Access-Control-Allow-Origin.
-func corsLoopback(activo bool, next http.Handler) http.Handler {
-	if !activo {
+// corsLoopback agrega CORS si el Origin es loopback (con activo) o uno de
+// los orígenes públicos listados. Cualquier otro Origin no recibe
+// Access-Control-Allow-Origin.
+func corsLoopback(activo bool, publicos []string, next http.Handler) http.Handler {
+	if !activo && len(publicos) == 0 {
 		return next
+	}
+	permitido := func(o string) bool {
+		if activo && reCORSLoopback.MatchString(o) {
+			return true
+		}
+		return o != "" && slices.Contains(publicos, o)
 	}
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		origin := r.Header.Get("Origin")
-		if reCORSLoopback.MatchString(origin) {
+		if permitido(origin) {
 			h := w.Header()
 			h.Set("Access-Control-Allow-Origin", origin)
 			h.Add("Vary", "Origin")

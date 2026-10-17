@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 # Imagen de la API de VideoCotización (T11). El contexto de build es la raíz del repo (ver docker-compose.yml)
 # y el filtro de archivos está en api.Dockerfile.dockerignore (deniega todo salvo backend/ y el healthcheck).
-# NO PROBADO en CI local: incluye conductas/prompts (T06) y tarifas-2026.json para turno/cotizador en runtime.
+# NO PROBADO en CI local: incluye conductas/prompts (T06), el esquema de salida del LLM y tarifas-2026.json para turno/cotizador en runtime.
 
 ARG GO_VERSION=1.24.7
 ARG ALPINE_VERSION=3.22
@@ -37,6 +37,7 @@ LABEL org.opencontainers.image.title="videocotizacion-api" \
 COPY --from=compilar --chmod=0555 /out/api /api
 COPY --from=salud --chmod=0555 /out/healthcheck /healthcheck
 COPY conductas/prompts /conductas/prompts
+COPY conductas/esquema-salida-llm.schema.json /conductas/esquema-salida-llm.schema.json
 COPY tarifas/tarifas-2026.json /tarifas/tarifas-2026.json
 WORKDIR /
 USER 65532:65532

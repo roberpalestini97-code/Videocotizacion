@@ -1,0 +1,47 @@
+# Blueprint de Render: API Go de VideoCotización (demo). Los fronts van en Vercel (ver proyecto/docs/deploy.md).
+# Demo: ALMACEN=memoria + SEMILLA_LOCAL=1 (los datos se pierden en cada reinicio). Producción real = Postgres (T11).
+services:
+  - type: web
+    name: videocotizacion-api
+    runtime: docker
+    plan: free
+    region: oregon
+    rootDir: proyecto
+    dockerContext: .
+    dockerfilePath: ./infra/docker/api.Dockerfile
+    healthCheckPath: /v1/version
+    autoDeploy: true
+    envVars:
+      - key: ENTORNO
+        value: desarrollo
+      - key: ALMACEN
+        value: memoria
+      - key: SEMILLA_LOCAL
+        value: "1"
+      - key: DIRECCION
+        value: ":8080"
+      - key: PORT
+        value: "8080"
+      - key: CLAVE_HMAC
+        generateValue: true
+      - key: PROVEEDOR_STT
+        value: navegador
+      - key: PROVEEDOR_TTS
+        value: navegador
+      - key: PROVEEDOR_LLM
+        value: gemini
+      - key: PROVEEDOR_WHATSAPP
+        value: enlace
+      - key: GEMINI_MODEL
+        value: gemini-3.1-flash-lite
+      - key: GEMINI_TIMEOUT
+        value: 20s
+      - key: LOG_NIVEL
+        value: info
+      - key: ORIGENES_PUBLICOS
+        value: https://videocotizacion.vercel.app,https://videocotizacion-panel.vercel.app
+      - key: URL_MEDIOS
+        value: wss://videocotizacion-api.onrender.com
+      # Se carga a mano en el dashboard de Render (no se versiona).
+      - key: GEMINI_API_KEY
+        sync: false

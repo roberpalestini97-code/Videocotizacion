@@ -10,6 +10,7 @@ import (
 	"log/slog"
 	"net/url"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -106,7 +107,13 @@ type Config struct {
 	EncabezadosMax     int
 
 	RetencionIntervalo time.Duration // cada cuánto corre el borrado programado (0 = no corre en `servir`)
-	SemillaLocal       bool          // SEMILLA_LOCAL=1: tenant de demo en memoria, solo fuera de producción
+	// OrigenesPublicos (ORIGENES_PUBLICOS, separados por coma): orígenes https de los fronts
+	// desplegados. Reciben CORS y, con SEMILLA_LOCAL=1, se suman a la clave pública de la demo.
+	OrigenesPublicos []string
+	// URLMedios (URL_MEDIOS): base wss:// del socket de medios cuando la API está detrás de
+	// otro host (ej. wss://videocotizacion-api.onrender.com). Vacío = valor por defecto.
+	URLMedios    string
+	SemillaLocal bool // SEMILLA_LOCAL=1: tenant de demo en memoria, solo fuera de producción
 }
 
 // Getenv permite inyectar el entorno en pruebas (os.Getenv en producción).
@@ -133,6 +140,8 @@ func Cargar(getenv Getenv, cmd Comando) (Config, error) {
 		EncabezadosMax:     l.entero("HTTP_ENCABEZADOS_MAX_BYTES", 16<<10, 4<<10, 1<<20),
 		RetencionIntervalo: l.duracion("RETENCION_INTERVALO", 24*time.Hour),
 		SemillaLocal:       l.flag("SEMILLA_LOCAL"),
+		OrigenesPublicos:   l.lista("ORIGENES_PUBLICOS"),
+		URLMedios:          strings.TrimRight(l.texto("URL_MEDIOS", ""), "/"),
 		Proveedores: Proveedores{
 			STT:      l.texto("PROVEEDOR_STT", ""),
 			LLM:      l.texto("PROVEEDOR_LLM", ""),
@@ -210,6 +219,14 @@ func (c Config) validar(cmd Comando) []error {
 		errs = append(errs, errors.New("SEMILLA_LOCAL solo funciona con ALMACEN=memoria"))
 	}
 	if cmd == Servir {
+		for _, o := range c.OrigenesPublicos {
+			if !reOrigenPublico.MatchString(o) {
+				errs = append(errs, fmt.Errorf("ORIGENES_PUBLICOS: %q no es un origen https (sin ruta ni barra final)", o))
+			}
+		}
+		if c.URLMedios != "" && !reURLMedios.MatchString(c.URLMedios) {
+			errs = append(errs, errors.New("URL_MEDIOS tiene que ser wss://host[:puerto], sin ruta"))
+		}
 		if prod && c.ClaveHMAC.Vacio() {
 			errs = append(errs, errors.New("falta CLAVE_HMAC"))
 		}
@@ -342,6 +359,22 @@ func (c Config) LogValue() slog.Value {
 type lector struct {
 	getenv Getenv
 	errs   []error
+}
+
+var (
+	reOrigenPublico = regexp.MustCompile(`^https://[a-z0-9.-]+(:[0-9]{1,5})?$`)
+	reURLMedios     = regexp.MustCompile(`^wss://[a-z0-9.-]+(:[0-9]{1,5})?$`)
+)
+
+// lista lee valores separados por coma; ignora los vacíos.
+func (l *lector) lista(clave string) []string {
+	var out []string
+	for _, v := range strings.Split(l.getenv(clave), ",") {
+		if v = strings.TrimSpace(v); v != "" {
+			out = append(out, v)
+		}
+	}
+	return out
 }
 
 func (l *lector) flag(clave string) bool {

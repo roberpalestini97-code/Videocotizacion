@@ -20,7 +20,7 @@ const ENTRADAS: EntradaValidAvatar[] = [
 const POR_ID = new Map(ENTRADAS.map((e) => [e.avatarId, e]));
 
 function baseUrl(): string {
-  const env = typeof import.meta !== 'undefined' ? import.meta.env?.VITE_VALID_AVATARS_BASE : undefined;
+  const env = typeof import.meta !== 'undefined' ? import.meta.env?.['VITE_VALID_AVATARS_BASE'] : undefined;
   const raw = typeof env === 'string' && env.trim() ? env.trim() : BASE_DEFECTO;
   return raw.endsWith('/') ? raw : `${raw}/`;
 }

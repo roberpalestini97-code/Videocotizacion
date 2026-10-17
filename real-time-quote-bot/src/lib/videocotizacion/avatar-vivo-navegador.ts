@@ -26,7 +26,7 @@ function asegurarEstilos(): void {
 }
 
 function marcarModelo(el: HTMLElement, tipo: "procedural" | "glb" | "glb-pendiente"): void {
-  el.dataset.avatarModelo = tipo;
+  el.dataset['avatarModelo'] = tipo;
 }
 
 export function crearAvatarVivo(): AvatarVivo {
