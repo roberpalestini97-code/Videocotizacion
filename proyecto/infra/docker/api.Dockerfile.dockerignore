@@ -5,6 +5,7 @@
 !infra/docker/healthcheck
 !conductas/prompts
 !conductas/prompts/**
+!conductas/esquema-salida-llm.schema.json
 !tarifas/tarifas-2026.json
 # Nunca al contexto de build, aunque estén dentro de lo habilitado:
 **/.env
