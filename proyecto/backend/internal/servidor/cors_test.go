@@ -40,3 +40,20 @@ func TestCORSSoloLoopback(t *testing.T) {
 		t.Fatal("sin el flag no hay CORS")
 	}
 }
+
+func TestCORSOrigenesPublicos(t *testing.T) {
+	h := Manejador(Opciones{CuerpoMaxBytes: 1024, CORSOrigenes: []string{"https://videocotizacion.vercel.app"}, Log: slog.New(slog.DiscardHandler)}, nil)
+	for origin, quiere := range map[string]string{
+		"https://videocotizacion.vercel.app":      "https://videocotizacion.vercel.app",
+		"https://videocotizacion.vercel.app.evil": "",
+		"http://localhost:5173":                   "", // sin CORSLoopback no hay loopback
+	} {
+		r := httptest.NewRequest(http.MethodOptions, "/v1/sesiones", nil)
+		r.Header.Set("Origin", origin)
+		rr := httptest.NewRecorder()
+		h.ServeHTTP(rr, r)
+		if got := rr.Header().Get("Access-Control-Allow-Origin"); got != quiere {
+			t.Fatalf("%s: Allow-Origin=%q, quería %q", origin, got, quiere)
+		}
+	}
+}
