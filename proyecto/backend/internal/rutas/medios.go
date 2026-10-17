@@ -41,7 +41,7 @@ func (h *enlace) emitirTokenMedios(w http.ResponseWriter, r *http.Request) {
 	vence := dominio.Instante(ahora.Add(dominio.VigenciaTokenMedios))
 	escribirJSON(w, http.StatusCreated, map[string]any{
 		"token":             valor,
-		"ws_url":            "wss://api.videocotizacion.local/v1/sesiones/" + s.ID + "/medios",
+		"ws_url":            h.baseMedios() + "/v1/sesiones/" + s.ID + "/medios",
 		"vence_en":          vence.Format(time.RFC3339),
 		"vence_en_s":        int(dominio.VigenciaTokenMedios / time.Second),
 		"un_solo_uso":       true,
@@ -141,4 +141,18 @@ func decodificarCierre(raw []byte) (dominio.MotivoCierre, error) {
 		return "", errors.New("json con datos de más")
 	}
 	return s.Motivo, nil
+}
+
+// baseMediosPorDefecto es la base de ws_url si no hay URL_MEDIOS. En loopback
+// el front la reescribe al host de la API (cliente.ts, socketEnLoopback).
+const baseMediosPorDefecto = "wss://api.videocotizacion.local"
+
+// UsarURLMedios fija la base wss:// de ws_url (URL_MEDIOS). "" = por defecto.
+func (h *enlace) UsarURLMedios(base string) { h.urlMedios = base }
+
+func (h *enlace) baseMedios() string {
+	if h.urlMedios != "" {
+		return h.urlMedios
+	}
+	return baseMediosPorDefecto
 }

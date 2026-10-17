@@ -548,6 +548,14 @@ window.TABLERO = {
       "status": "en_revision",
       "rehacer": false,
       "nota": "Fase 0–2 auto cerrada: semilla panel, dev:api, panel-backend-local.md, TestPanelSemillaLocal* (2), verificar-corte-local.ps1, verificar-repo 2026-10-12 verde. PR feat/T26-T44-motor-panel-local → main. Rober: pruebas manuales OK; P-t44-panel-gemini pendiente. NO probado: Playwright API real."
+    },
+    {
+      "id": "T45",
+      "titulo": "Deploy demo: fronts en Vercel (videocotizacion + panel) y API Go en Render (WebSocket)",
+      "agente": "infra",
+      "status": "en_curso",
+      "rehacer": false,
+      "nota": "Rama feat/deploy-vercel-render. Backend: ORIGENES_PUBLICOS (CORS + origenes de la clave demo) y URL_MEDIOS (base wss de ws_url); tests config/servidor. render.yaml (memoria + SEMILLA_LOCAL, demo), panel-asesor/vercel.json (proxy /v1 mismo origen). Probado: go test paquetes tocados; build front con NITRO_PRESET=vercel. NO probado aun: deploy real, docker build en Render, llamada E2E publica."
     }
   ],
   "votes": [],
@@ -619,6 +627,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-17T03:30:00-03:00",
+      "texto": "Claude: T45 deploy demo Vercel (fronts) + Render (API Go con WebSocket; Vercel Functions no sirven WS). Rama feat/deploy-vercel-render."
+    },
     {
       "ts": "2026-10-12T19:35:00-03:00",
       "texto": "main @ 11cedd3 (T26/T44); rama feat/tablero-cobertura-oct2026: T42 en revisión, compose-smoke.ps1, test foco DetalleCotizacion."

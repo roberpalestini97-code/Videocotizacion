@@ -78,7 +78,7 @@ func Construir(ctx context.Context, cfg config.Config, log *slog.Logger) (*App, 
 		semillalocal.HabilitarDesarrollo()
 	}
 	if cfg.SemillaLocal {
-		if err := semillalocal.Sembrar(ctx, alm, cfg.ClaveHMAC.Revelar(), log); err != nil {
+		if err := semillalocal.SembrarConOrigenes(ctx, alm, cfg.ClaveHMAC.Revelar(), log, cfg.OrigenesPublicos); err != nil {
 			alm.Cerrar()
 			return nil, err
 		}
@@ -89,12 +89,13 @@ func Construir(ctx context.Context, cfg config.Config, log *slog.Logger) (*App, 
 		Direccion: cfg.Direccion, LecturaEncabezados: cfg.LecturaEncabezados, Lectura: cfg.Lectura,
 		Escritura: cfg.Escritura, Inactividad: cfg.Inactividad, CuerpoMaxBytes: cfg.CuerpoMaxBytes,
 		EncabezadosMax: cfg.EncabezadosMax, Log: log, CORSLoopback: !cfg.EsProduccion(),
+		CORSOrigenes: cfg.OrigenesPublicos,
 		Listo: func(ctx context.Context) error {
 			return salud.Listo(ctx, 2*time.Second, salud.Comprobacion{Nombre: "almacen", Probar: alm.Ping})
 		},
 		Extra: func(mux *http.ServeMux) {
 			meta.Registrar(mux)
-			rutas.Registrar(mux, alm, cfg.ClaveHMAC, log, app.Proveedores, cot)
+			rutas.Registrar(mux, alm, cfg.ClaveHMAC, log, app.Proveedores, cot).UsarURLMedios(cfg.URLMedios)
 		},
 	})
 	return app, nil

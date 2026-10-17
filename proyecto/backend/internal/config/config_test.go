@@ -214,3 +214,26 @@ func TestProduccionAceptaReales(t *testing.T) {
 		t.Fatal("producción con GEMINI_URL_BASE http")
 	}
 }
+
+func TestOrigenesPublicosYURLMedios(t *testing.T) {
+	e := base()
+	e["ORIGENES_PUBLICOS"] = " https://videocotizacion.vercel.app, ,https://panel.test:8443"
+	e["URL_MEDIOS"] = "wss://api.test/"
+	c, err := Cargar(entorno(e), Servir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(c.OrigenesPublicos) != 2 || c.OrigenesPublicos[1] != "https://panel.test:8443" || c.URLMedios != "wss://api.test" {
+		t.Fatalf("inesperado: %q %q", c.OrigenesPublicos, c.URLMedios)
+	}
+	for variable, valor := range map[string]string{
+		"ORIGENES_PUBLICOS": "http://inseguro.test",
+		"URL_MEDIOS":        "wss://api.test/v1",
+	} {
+		e := base()
+		e[variable] = valor
+		if _, err := Cargar(entorno(e), Servir); err == nil || !strings.Contains(err.Error(), variable) {
+			t.Fatalf("%s=%q debía fallar: %v", variable, valor, err)
+		}
+	}
+}

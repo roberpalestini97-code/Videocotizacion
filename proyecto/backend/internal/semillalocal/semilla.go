@@ -38,6 +38,13 @@ func HabilitarDesarrollo() {
 
 // Sembrar crea un profesional de pintura con enlace y clave pública fijos.
 func Sembrar(ctx context.Context, a almacen.Completo, claveHMAC string, log *slog.Logger) error {
+	return SembrarConOrigenes(ctx, a, claveHMAC, log, nil)
+}
+
+// SembrarConOrigenes es Sembrar con orígenes públicos extra en la clave de la
+// demo (ORIGENES_PUBLICOS: el front desplegado, p. ej. en Vercel).
+func SembrarConOrigenes(ctx context.Context, a almacen.Completo, claveHMAC string, log *slog.Logger, extra []string) error {
+	origenes := append(append([]string(nil), origenes...), extra...)
 	if claveHMAC == "" {
 		return fmt.Errorf("semilla local: falta CLAVE_HMAC")
 	}
@@ -62,7 +69,7 @@ func Sembrar(ctx context.Context, a almacen.Completo, claveHMAC string, log *slo
 	sum := claves.HMAC(claveHMAC, ClavePublica)
 	if err := a.GuardarClave(ctx, tn.ID, dominio.ClaveAPI{
 		ID: idClave, Tipo: dominio.ClavePublica, Hash: sum, Prefijo: prefijoClave,
-		Nombre: "demo local", Origenes: append([]string(nil), origenes...), CreadaEn: ahora,
+		Nombre: "demo local", Origenes: origenes, CreadaEn: ahora,
 	}); err != nil {
 		return fmt.Errorf("semilla local: %w", err)
 	}
