@@ -14,12 +14,16 @@ import (
 // Datos públicos de la demo local (SEMILLA_LOCAL=1, almacén en memoria).
 // No son secretos: la clave del widget es pública y el enlace va en la URL.
 const (
-	ClavePublica  = "vc_pub_local_demo_clave_publica_navegador"
-	EnlacePublico = "demoLocalVideocotiz001"
-	prefijoClave  = "vc_pub_loca"
-	IDTenant      = dominio.TenantID("11111111-1111-4111-8111-111111111111")
-	IDAsesor      = "ase_00000000000000000000000001"
-	idClave       = "cpw_00000000000000000000000001"
+	ClavePublica   = "vc_pub_local_demo_clave_publica_navegador"
+	EnlacePublico  = "demoLocalVideocotiz001"
+	EnlacePublico2 = "demoLocalVideocotiz002"
+	EnlacePublico3 = "demoLocalVideocotiz003"
+	prefijoClave   = "vc_pub_loca"
+	IDTenant       = dominio.TenantID("11111111-1111-4111-8111-111111111111")
+	IDAsesor       = "ase_00000000000000000000000001"
+	IDAsesor2      = "ase_00000000000000000000000002"
+	IDAsesor3      = "ase_00000000000000000000000003"
+	idClave        = "cpw_00000000000000000000000001"
 )
 
 var origenes = []string{
@@ -36,7 +40,7 @@ func HabilitarDesarrollo() {
 	dominio.PermitirOriginLoopback(true)
 }
 
-// Sembrar crea un profesional de pintura con enlace y clave pública fijos.
+// Sembrar crea tres profesionales demo con enlaces y clave pública fijos.
 func Sembrar(ctx context.Context, a almacen.Completo, claveHMAC string, log *slog.Logger) error {
 	return SembrarConOrigenes(ctx, a, claveHMAC, log, nil)
 }
@@ -57,14 +61,30 @@ func SembrarConOrigenes(ctx context.Context, a almacen.Completo, claveHMAC strin
 	if err := a.CrearTenant(ctx, tn); err != nil {
 		return fmt.Errorf("semilla local: %w", err)
 	}
-	as := dominio.Asesor{
-		ID: IDAsesor, Rol: dominio.RolAdministrar, NombreVisible: "Laura (demo)",
-		Email: "demo@videocotizacion.local", WhatsApp: "+5492235550000",
-		Oficios: []dominio.Oficio{dominio.OficioPintura}, Zonas: []dominio.Zona{dominio.ZonaCobo},
-		CreadoEn: ahora,
+	demos := []struct {
+		id, nombre, email, enlace string
+		oficios                   []dominio.Oficio
+		wa                        string
+	}{
+		{IDAsesor, "Laura (demo)", EmailPanelLocal, EnlacePublico, []dominio.Oficio{dominio.OficioPintura}, "+5492235550000"},
+		{IDAsesor2, "Tito (demo)", EmailPanelLocal2, EnlacePublico2, []dominio.Oficio{dominio.OficioJardineria}, "+5492235550001"},
+		{IDAsesor3, "Juan (demo)", EmailPanelLocal3, EnlacePublico3, []dominio.Oficio{dominio.OficioMantenimiento}, "+5492235550002"},
 	}
-	if err := a.CrearAsesor(ctx, tn.ID, as); err != nil {
-		return fmt.Errorf("semilla local: %w", err)
+	for _, d := range demos {
+		as := dominio.Asesor{
+			ID: d.id, Rol: dominio.RolAdministrar, NombreVisible: d.nombre,
+			Email: d.email, WhatsApp: d.wa,
+			Oficios: d.oficios, Zonas: []dominio.Zona{dominio.ZonaCobo},
+			CreadoEn: ahora,
+		}
+		if err := a.CrearAsesor(ctx, tn.ID, as); err != nil {
+			return fmt.Errorf("semilla local asesor %s: %w", d.id, err)
+		}
+		if err := a.GuardarEnlace(ctx, tn.ID, dominio.Enlace{
+			IDPublico: d.enlace, AsesorID: as.ID, CreadoEn: ahora,
+		}); err != nil {
+			return fmt.Errorf("semilla local enlace %s: %w", d.enlace, err)
+		}
 	}
 	sum := claves.HMAC(claveHMAC, ClavePublica)
 	if err := a.GuardarClave(ctx, tn.ID, dominio.ClaveAPI{
@@ -73,19 +93,14 @@ func SembrarConOrigenes(ctx context.Context, a almacen.Completo, claveHMAC strin
 	}); err != nil {
 		return fmt.Errorf("semilla local: %w", err)
 	}
-	if err := a.GuardarEnlace(ctx, tn.ID, dominio.Enlace{
-		IDPublico: EnlacePublico, AsesorID: as.ID, CreadoEn: ahora,
-	}); err != nil {
-		return fmt.Errorf("semilla local: %w", err)
-	}
 	if err := sembrarCredencialesPanel(ctx, a, claveHMAC); err != nil {
 		return err
 	}
 	log.Info("semilla local lista",
-		"enlace", EnlacePublico,
+		"enlaces", []string{EnlacePublico, EnlacePublico2, EnlacePublico3},
 		"clave_publica", ClavePublica,
 		"origenes", origenes,
-		"panel_email", EmailPanelLocal,
+		"panel_emails", []string{EmailPanelLocal, EmailPanelLocal2, EmailPanelLocal3},
 	)
 	return nil
 }

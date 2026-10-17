@@ -124,7 +124,7 @@ services:
       PROVEEDOR_TTS: ${PROVEEDOR_TTS:-navegador}
       PROVEEDOR_LLM: ${PROVEEDOR_LLM:-gemini}
       PROVEEDOR_WHATSAPP: ${PROVEEDOR_WHATSAPP:-enlace}
-      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.5-flash-lite}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.1-flash-lite}
       GEMINI_API_KEY_FILE: /run/secrets/gemini_api_key
       # Go respeta el tope de memoria del contenedor (un poco por debajo de API_MEM_LIMIT).
       GOMEMLIMIT: 640MiB

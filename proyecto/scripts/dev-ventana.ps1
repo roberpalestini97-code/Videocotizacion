@@ -36,6 +36,7 @@ switch ($Rol) {
         $env:VC_API = "http://127.0.0.1:8080"
         Write-Host "== VC panel contra backend (vite dev:api, proxy /v1) ==" -ForegroundColor Cyan
         Write-Host "Login: demo@videocotizacion.local  recuperacion DEMO-LOCA-2026 (ver docs/fe/panel-backend-local.md)" -ForegroundColor DarkGray
-        & npm run dev:api -- --host 127.0.0.1 --port 5174 --strictPort
+        # node directo: npm.ps1 en Windows se come los argumentos que van después de --.
+        & node ".\node_modules\vite\bin\vite.js" --mode development --host 127.0.0.1 --port 5174 --strictPort
     }
 }

@@ -20,6 +20,13 @@ func TestOficioDelTurnoSinAvatarUnicoOficio(t *testing.T) {
 	}
 }
 
+func TestOficioDelTurnoAvatarValidTito(t *testing.T) {
+	of := OficioDelTurno("av_valid_tito", []dominio.Oficio{dominio.OficioJardineria})
+	if of != dominio.OficioJardineria {
+		t.Fatalf("got %q", of)
+	}
+}
+
 func TestOficioDelTurnoAvatarGenericoPrimerOficio(t *testing.T) {
 	of := OficioDelTurno("av_obrero_casco", []dominio.Oficio{dominio.OficioLimpieza, dominio.OficioMantenimiento})
 	if of != dominio.OficioLimpieza {

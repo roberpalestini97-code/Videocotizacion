@@ -3,7 +3,7 @@ import { useState } from "react";
 import { CabeceraPagina } from "@/components/CabeceraPagina";
 import { NavPastilla } from "@/components/NavPastilla";
 
-export const Route = createFileRoute("/contacto")({
+export const Route = createFileRoute("/v1/contacto")({
   head: () => ({
     meta: [
       { title: "Contacto · VideoCotización" },

@@ -64,6 +64,12 @@ func Registrar(mux *http.ServeMux, a almacen.Almacen, clave secreto.Secreto, log
 	return h
 }
 
+// ConPlazoTurnoLLM fija el tope del contexto para turno.DesdeTexto (Gemini).
+func (h *enlace) ConPlazoTurnoLLM(d time.Duration) *enlace {
+	h.plazoTurnoLLM = d
+	return h
+}
+
 type enlace struct {
 	almacen almacen.Almacen
 	clave   secreto.Secreto
@@ -88,6 +94,9 @@ type enlace struct {
 
 	// sinVoz, si no es cero, reemplaza sin_voz_s (pruebas del corte por silencio).
 	sinVoz time.Duration
+
+	// plazoTurnoLLM limita la llamada al LLM por turno (fotos + reintento validación).
+	plazoTurnoLLM time.Duration
 
 	// ahoraPanel, si no es nil, fija el reloj del login, del TOTP y de la sesión.
 	// Las pruebas lo usan para que el código no dependa del reloj real.
@@ -157,11 +166,25 @@ func cuerpoEnlace(id string, as dominio.Asesor) map[string]any {
 			"oficios":        oficios,
 			"zonas":          zonas,
 		},
-		"avatares":             avataresDe(as.Oficios),
+		"avatares":             avataresDelAsesor(as.ID, as.Oficios),
 		"aviso_privacidad":     map[string]string{"version": versionAviso, "url": urlAviso},
 		"camara_obligatoria":   true,
 		"fotograma":            map[string]any{"formato": "image/jpeg", "lado_max_px": 1024, "bytes_max": 131072, "intervalo_min_ms": 3000, "max_por_sesion": 400},
 		"asistente_automatico": true,
+	}
+}
+
+// avataresDelAsesor: demo VALID (T30) por asesor de semilla; resto por oficio (legacy).
+func avataresDelAsesor(asesorID string, oficios []dominio.Oficio) []avatar {
+	switch asesorID {
+	case "ase_00000000000000000000000001":
+		return []avatar{{"av_valid_laura", "Laura", []string{"3d"}, "Profesional de pintura, avatar 3D realista"}}
+	case "ase_00000000000000000000000002":
+		return []avatar{{"av_valid_tito", "Tito", []string{"3d"}, "Jardinero, avatar 3D realista"}}
+	case "ase_00000000000000000000000003":
+		return []avatar{{"av_valid_juan", "Juan", []string{"3d"}, "Profesional de mantenimiento, avatar 3D realista"}}
+	default:
+		return avataresDe(oficios)
 	}
 }
 

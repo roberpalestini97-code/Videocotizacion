@@ -104,6 +104,29 @@
       width: 12%;
     }
   }
+  @keyframes check-pop {
+    0% {
+      transform: scale(0.82);
+    }
+    55% {
+      transform: scale(1.12);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes check-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.35);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  --animate-check-pop: check-pop 0.38s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+  --animate-check-in: check-in 0.28s 0.06s ease-out both;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -244,5 +267,927 @@
   h2,
   h3 {
     font-family: var(--font-display);
+  }
+}
+
+/* Scroll de la página (fondo claro u oscuro de la portada). */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.474 0.078 168.5 / 0.55) transparent;
+}
+html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+  background-color: oklch(0.474 0.078 168.5 / 0.45);
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background-color: oklch(0.474 0.078 168.5 / 0.75);
+}
+
+/* Scroll de los modales oscuros. */
+.scrollbar-modal {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.79 0.135 74 / 0.8) oklch(1 0 0 / 0.06);
+}
+.scrollbar-modal::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollbar-modal::-webkit-scrollbar-track {
+  margin: 6px 0;
+  background: oklch(1 0 0 / 0.06);
+  border-radius: 999px;
+}
+.scrollbar-modal::-webkit-scrollbar-thumb {
+  background-color: oklch(0.79 0.135 74 / 0.72);
+  border-radius: 999px;
+}
+.scrollbar-modal::-webkit-scrollbar-thumb:hover {
+  background-color: oklch(0.79 0.135 74 / 0.95);
+}
+
+/* Portada nueva. Revoque frío, birome, lápiz de obra. El talonario es el objeto. */
+.talonario {
+  --revoque: #e4eaf0;
+  --papel: #fbf8f3;
+  --birome: #1a2744;
+  --lapiz: #d4920a;
+  --tinta: #3d4b5c;
+  --cinta: #c5d0da;
+  min-height: 100vh;
+  background: var(--revoque);
+  color: var(--birome);
+  font-family: "Literata", Georgia, serif;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+.talonario ::selection {
+  background: var(--lapiz);
+  color: var(--birome);
+}
+
+.talonario h1,
+.talonario h2,
+.talonario h3,
+.talonario .marca,
+.talonario .llamar,
+.talonario .probar {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.talonario .cifra,
+.talonario .indice,
+.talonario .talon-kicker,
+.talonario .rubro {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.talonario a:focus-visible,
+.talonario button:focus-visible {
+  outline: 2px solid var(--birome);
+  outline-offset: 3px;
+}
+
+.talonario .ancho {
+  width: min(1120px, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+
+.talonario .barra-fondo {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--revoque) 90%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.talonario .barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 1.5rem;
+  padding-block: 0.85rem;
+}
+
+.talonario .marca {
+  font-size: 1.15rem;
+  text-decoration: none;
+  color: var(--birome);
+}
+
+.talonario .barra nav,
+.talonario .pie nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1.15rem;
+}
+
+.talonario .barra nav a,
+.talonario .pie nav a,
+.talonario .bajada a {
+  color: var(--birome);
+  text-decoration: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.talonario .barra nav a:hover,
+.talonario .pie nav a:hover,
+.talonario .bajada a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.28em;
+}
+
+.talonario .hero {
+  padding: 2.75rem 0 3.25rem;
+}
+
+.talonario .hero-grid {
+  display: grid;
+  gap: 2.75rem;
+  align-items: start;
+}
+
+.talonario .hero-texto {
+  min-width: 0;
+}
+
+.talonario h1 {
+  max-width: 100%;
+  margin: 0;
+  font-size: clamp(2.55rem, 4.6vw, 4.6rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.talonario .hero-texto > p {
+  max-width: 34rem;
+  margin: 1.35rem 0 0;
+  color: var(--tinta);
+  font-size: 1.15rem;
+}
+
+.talonario .acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.talonario .llamar,
+.talonario .probar {
+  flex: 1 1 14rem;
+  min-height: 52px;
+  padding: 0.85rem 1.15rem;
+  border-radius: 2px;
+  font-size: 1.02rem;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.talonario .llamar {
+  border: 0;
+  background: var(--lapiz);
+  color: var(--birome);
+}
+
+.talonario .llamar:hover {
+  background: #c48408;
+}
+
+.talonario .probar {
+  border: 1.5px solid var(--birome);
+  background: transparent;
+  color: var(--birome);
+}
+
+.talonario .probar:hover {
+  background: color-mix(in srgb, var(--birome) 6%, transparent);
+}
+
+.talonario .nota {
+  margin: 0.85rem 0 0;
+  color: var(--tinta);
+  font-size: 0.95rem;
+}
+
+.talonario .talon {
+  position: relative;
+  margin: 0;
+  padding: 1.35rem 1.3rem 1.15rem 1.85rem;
+  background-color: var(--papel);
+  background-image: radial-gradient(circle at 0 11px, var(--revoque) 5px, transparent 5.5px);
+  background-size: 18px 22px;
+  background-repeat: repeat-y;
+  box-shadow: 0 1px 0 rgb(26 39 68 / 5%), 0 16px 36px rgb(26 39 68 / 8%);
+}
+
+.talonario .talon-kicker,
+.talonario .talon-pie,
+.talonario .talon-aclaracion {
+  margin: 0;
+  color: var(--tinta);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.talonario .talon-kicker {
+  text-transform: uppercase;
+}
+
+.talonario .talon h2 {
+  margin: 0.35rem 0 0;
+  font-size: 1.65rem;
+  line-height: 1.05;
+}
+
+.talonario .talon-aclaracion {
+  margin-top: 0.45rem;
+  font-style: italic;
+}
+
+.talonario .renglones {
+  margin-top: 1.15rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.talonario .renglon {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-size: 0.98rem;
+}
+
+.talonario .puntos {
+  flex: 1;
+  border-bottom: 1px dotted var(--cinta);
+  transform: translateY(-0.2em);
+}
+
+.talonario .cifra {
+  max-width: 11rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  text-align: right;
+}
+
+.talonario .renglon-total {
+  margin-top: 0.35rem;
+  padding-top: 0.7rem;
+  border-top: 1.5px solid var(--birome);
+}
+
+.talonario .total {
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.talonario .talon-pie {
+  margin-top: 0.9rem;
+}
+
+.talonario .trazo {
+  height: 7px;
+  background: var(--lapiz);
+  transform-origin: left center;
+}
+
+.talonario .bloque {
+  border-top: 1px solid var(--cinta);
+  padding: 3.25rem 0;
+}
+
+.talonario .bloque h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.4vw, 2rem);
+  line-height: 1.05;
+}
+
+.talonario .pasos {
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.35rem;
+}
+
+.talonario .pasos li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  align-items: baseline;
+}
+
+.talonario .indice {
+  font-size: 0.85rem;
+  color: var(--tinta);
+}
+
+.talonario .pasos h3,
+.talonario .oficio h3,
+.talonario .asesores h3,
+.talonario .dudas-lista h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+
+.talonario .pasos p,
+.talonario .oficio p,
+.talonario .asesores p,
+.talonario .dudas-lista p {
+  margin: 0.3rem 0 0;
+  color: var(--tinta);
+}
+
+.talonario .oficios,
+.talonario .asesores {
+  margin-top: 0.5rem;
+}
+
+.talonario .oficio,
+.talonario .asesores li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--cinta);
+}
+
+.talonario .asesores {
+  list-style: none;
+  padding: 0;
+}
+
+.talonario .rubro {
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: var(--tinta);
+}
+
+.talonario .dudas {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.talonario .bajada {
+  margin: 0.6rem 0 0;
+}
+
+.talonario .dudas-lista {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.talonario .pie {
+  border-top: 1px solid var(--cinta);
+  padding: 1.25rem 0 1.75rem;
+}
+
+.talonario .pie-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  align-items: center;
+}
+
+.talonario .pie p {
+  margin: 0;
+  color: var(--tinta);
+  font-size: 0.95rem;
+}
+
+@media (min-width: 800px) {
+  .talonario .hero-grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.7fr);
+    gap: 2.5rem 3.25rem;
+  }
+
+  .talonario .talon {
+    transform: rotate(-1.15deg);
+  }
+
+  .talonario .pasos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  .talonario .oficio {
+    display: grid;
+    grid-template-columns: 14rem 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+  }
+
+  .talonario .oficio p {
+    margin: 0;
+  }
+
+  .talonario .asesores {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 2rem;
+  }
+
+  .talonario .dudas {
+    grid-template-columns: 16rem 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .talonario .trazo {
+    animation: talonario-trazo 0.9s 0.15s cubic-bezier(0.16, 0.8, 0.24, 1) both;
+  }
+
+  .talonario .renglon {
+    animation: talonario-renglon 0.45s ease both;
+  }
+
+  .talonario .renglon:nth-child(1) {
+    animation-delay: 0.18s;
+  }
+
+  .talonario .renglon:nth-child(2) {
+    animation-delay: 0.32s;
+  }
+
+  .talonario .renglon:nth-child(3) {
+    animation-delay: 0.46s;
+  }
+}
+
+@keyframes talonario-trazo {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes talonario-renglon {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Portada /v2. Imprimación gris verdosa y cinta de enmascarar: el encuadre es el objeto. */
+.encuadre {
+  --imprimacion: #d5ddd4;
+  --parche: #f3f6f2;
+  --tinta: #1a2420;
+  --cinta: #2457e6;
+  --grafito: #4e5c55;
+  --regla: #c3cdc2;
+  min-height: 100vh;
+  background: var(--imprimacion);
+  color: var(--tinta);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+.encuadre ::selection {
+  background: var(--cinta);
+  color: #fff;
+}
+
+.encuadre h1,
+.encuadre h2,
+.encuadre h3,
+.encuadre .marca,
+.encuadre .llamar,
+.encuadre .probar {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.encuadre .indice,
+.encuadre .leyenda,
+.encuadre .rubro {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.encuadre a:focus-visible,
+.encuadre button:focus-visible {
+  outline: 2px solid var(--cinta);
+  outline-offset: 3px;
+}
+
+.encuadre .ancho {
+  width: min(1080px, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+
+.encuadre .barra-fondo {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--imprimacion) 90%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.encuadre .barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 1.5rem;
+  padding-block: 0.85rem;
+}
+
+.encuadre .marca {
+  font-size: 1.15rem;
+  color: var(--tinta);
+  text-decoration: none;
+}
+
+.encuadre .barra nav,
+.encuadre .pie nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1.15rem;
+}
+
+.encuadre .barra nav a,
+.encuadre .pie nav a,
+.encuadre .enlace a {
+  color: var(--tinta);
+  text-decoration: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.encuadre .barra nav a:hover,
+.encuadre .pie nav a:hover,
+.encuadre .enlace a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.28em;
+}
+
+.encuadre .marco {
+  position: relative;
+  width: min(1080px, calc(100% - 3.5rem));
+  margin: 1.75rem auto 0;
+  padding: 3.25rem 1.5rem 2.25rem;
+  background: var(--parche);
+}
+
+.encuadre .cinta {
+  position: absolute;
+  width: 4.75rem;
+  height: 4.75rem;
+  pointer-events: none;
+}
+
+.encuadre .cinta::before,
+.encuadre .cinta::after {
+  content: "";
+  position: absolute;
+  background: var(--cinta);
+}
+
+.encuadre .cinta-no {
+  top: -8px;
+  left: -8px;
+}
+.encuadre .cinta-no::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 14px;
+}
+.encuadre .cinta-no::after {
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 100%;
+}
+
+.encuadre .cinta-ne {
+  top: -8px;
+  right: -8px;
+}
+.encuadre .cinta-ne::before {
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 14px;
+}
+.encuadre .cinta-ne::after {
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 100%;
+}
+
+.encuadre .cinta-so {
+  bottom: -8px;
+  left: -8px;
+}
+.encuadre .cinta-so::before {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 14px;
+}
+.encuadre .cinta-so::after {
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  height: 100%;
+}
+
+.encuadre .cinta-se {
+  right: -8px;
+  bottom: -8px;
+}
+.encuadre .cinta-se::before {
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 14px;
+}
+.encuadre .cinta-se::after {
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 100%;
+}
+
+.encuadre .leyenda {
+  margin: 0;
+  color: var(--grafito);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.encuadre h1 {
+  max-width: 11em;
+  margin: 0.7rem 0 0;
+  font-size: clamp(2.5rem, 5vw, 4.35rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.encuadre .bajada {
+  max-width: 36rem;
+  margin: 1.15rem 0 0;
+  color: var(--grafito);
+  font-size: 1.15rem;
+}
+
+.encuadre .marcas {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.encuadre .marcas li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  font-size: 1.05rem;
+}
+
+.encuadre .indice {
+  color: var(--grafito);
+  font-size: 0.82rem;
+}
+
+.encuadre .acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.encuadre .llamar,
+.encuadre .probar {
+  flex: 1 1 14rem;
+  min-height: 52px;
+  padding: 0.85rem 1.15rem;
+  border-radius: 2px;
+  font-size: 1.02rem;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.encuadre .llamar {
+  border: 0;
+  background: var(--cinta);
+  color: #fff;
+}
+
+.encuadre .llamar:hover {
+  background: #1d49cc;
+}
+
+.encuadre .probar {
+  border: 1.5px solid var(--tinta);
+  background: transparent;
+  color: var(--tinta);
+}
+
+.encuadre .probar:hover {
+  background: color-mix(in srgb, var(--tinta) 6%, transparent);
+}
+
+.encuadre .nota {
+  margin: 0.85rem 0 0;
+  color: var(--grafito);
+  font-size: 0.95rem;
+}
+
+.encuadre .bloque {
+  width: min(1080px, calc(100% - 2.5rem));
+  margin: 0 auto;
+  padding: 3.25rem 0;
+  border-top: 1px solid var(--regla);
+}
+
+.encuadre .bloque h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.4vw, 2rem);
+  line-height: 1.05;
+}
+
+.encuadre .pasos,
+.encuadre .asesores {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.35rem;
+}
+
+.encuadre .pasos h3,
+.encuadre .asesores h3,
+.encuadre .dudas-lista h3 {
+  margin: 0.25rem 0 0;
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+
+.encuadre .pasos p,
+.encuadre .asesores p,
+.encuadre .dudas-lista p,
+.encuadre .oficios {
+  margin: 0.35rem 0 0;
+  color: var(--grafito);
+}
+
+.encuadre .oficios {
+  max-width: 38rem;
+  margin-top: 1.75rem;
+}
+
+.encuadre .rubro {
+  margin-top: 0.3rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--grafito);
+}
+
+.encuadre .dudas {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.encuadre .enlace {
+  margin: 0.45rem 0 0;
+}
+
+.encuadre .dudas-lista {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.encuadre .pie {
+  border-top: 1px solid var(--regla);
+  padding: 1.25rem 0 1.75rem;
+}
+
+.encuadre .pie-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  align-items: center;
+}
+
+.encuadre .pie p {
+  margin: 0;
+  color: var(--grafito);
+  font-size: 0.95rem;
+}
+
+@media (min-width: 800px) {
+  .encuadre .marco {
+    padding: 4.25rem 3.25rem 2.75rem;
+  }
+
+  .encuadre .marcas {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    max-width: 44rem;
+  }
+
+  .encuadre .pasos,
+  .encuadre .asesores {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  .encuadre .dudas {
+    grid-template-columns: 16rem 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .encuadre .cinta-no {
+    animation: encuadre-no 0.45s 0.05s cubic-bezier(0.16, 0.8, 0.24, 1) both;
+  }
+  .encuadre .cinta-ne {
+    animation: encuadre-ne 0.45s 0.14s cubic-bezier(0.16, 0.8, 0.24, 1) both;
+  }
+  .encuadre .cinta-so {
+    animation: encuadre-so 0.45s 0.23s cubic-bezier(0.16, 0.8, 0.24, 1) both;
+  }
+  .encuadre .cinta-se {
+    animation: encuadre-se 0.45s 0.32s cubic-bezier(0.16, 0.8, 0.24, 1) both;
+  }
+}
+
+@keyframes encuadre-no {
+  from {
+    opacity: 0;
+    transform: translate(-10px, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes encuadre-ne {
+  from {
+    opacity: 0;
+    transform: translate(10px, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes encuadre-so {
+  from {
+    opacity: 0;
+    transform: translate(-10px, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes encuadre-se {
+  from {
+    opacity: 0;
+    transform: translate(10px, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }

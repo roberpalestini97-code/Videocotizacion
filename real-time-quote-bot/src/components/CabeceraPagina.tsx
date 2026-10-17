@@ -11,7 +11,7 @@ export function CabeceraPagina({
 }) {
   return (
     <header className="bg-brand-dark px-5 pb-8 pt-5">
-      <Link to="/" className="flex items-center gap-2">
+      <Link to="/v1" activeOptions={{ exact: true }} className="flex items-center gap-2">
         <span className="grid size-10 place-items-center rounded-xl bg-accent font-display text-base font-bold text-brand-dark">
           V©
         </span>

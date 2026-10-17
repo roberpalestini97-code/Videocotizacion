@@ -10,35 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ComoFuncionaRouteImport } from './routes/como-funciona'
-import { Route as ContactoRouteImport } from './routes/contacto'
-import { Route as FaqRouteImport } from './routes/faq'
-import { Route as LegalesRouteImport } from './routes/legales'
+import { Route as PropuestaNavRouteImport } from './routes/propuesta-nav'
 import { Route as CIdPublicoRouteImport } from './routes/c.$idPublico'
+import { Route as PrivacidadVersionRouteImport } from './routes/privacidad.$version'
+import { Route as V1IndexRouteImport } from './routes/v1/index'
+import { Route as V1ComoFuncionaRouteImport } from './routes/v1/como-funciona'
+import { Route as V1ContactoRouteImport } from './routes/v1/contacto'
+import { Route as V1FaqRouteImport } from './routes/v1/faq'
+import { Route as V1LegalesRouteImport } from './routes/v1/legales'
+import { Route as V2IndexRouteImport } from './routes/v2/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComoFuncionaRoute = ComoFuncionaRouteImport.update({
-  id: '/como-funciona',
-  path: '/como-funciona',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactoRoute = ContactoRouteImport.update({
-  id: '/contacto',
-  path: '/contacto',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqRoute = FaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LegalesRoute = LegalesRouteImport.update({
-  id: '/legales',
-  path: '/legales',
+const PropuestaNavRoute = PropuestaNavRouteImport.update({
+  id: '/propuesta-nav',
+  path: '/propuesta-nav',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CIdPublicoRoute = CIdPublicoRouteImport.update({
@@ -46,56 +35,129 @@ const CIdPublicoRoute = CIdPublicoRouteImport.update({
   path: '/c/$idPublico',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacidadVersionRoute = PrivacidadVersionRouteImport.update({
+  id: '/privacidad/$version',
+  path: '/privacidad/$version',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const V1IndexRoute = V1IndexRouteImport.update({
+  id: '/v1/',
+  path: '/v1/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const V1ComoFuncionaRoute = V1ComoFuncionaRouteImport.update({
+  id: '/v1/como-funciona',
+  path: '/v1/como-funciona',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const V1ContactoRoute = V1ContactoRouteImport.update({
+  id: '/v1/contacto',
+  path: '/v1/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const V1FaqRoute = V1FaqRouteImport.update({
+  id: '/v1/faq',
+  path: '/v1/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const V1LegalesRoute = V1LegalesRouteImport.update({
+  id: '/v1/legales',
+  path: '/v1/legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const V2IndexRoute = V2IndexRouteImport.update({
+  id: '/v2/',
+  path: '/v2/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/como-funciona': typeof ComoFuncionaRoute
-  '/contacto': typeof ContactoRoute
-  '/faq': typeof FaqRoute
-  '/legales': typeof LegalesRoute
+  '/propuesta-nav': typeof PropuestaNavRoute
   '/c/$idPublico': typeof CIdPublicoRoute
+  '/privacidad/$version': typeof PrivacidadVersionRoute
+  '/v1/como-funciona': typeof V1ComoFuncionaRoute
+  '/v1/contacto': typeof V1ContactoRoute
+  '/v1/faq': typeof V1FaqRoute
+  '/v1/legales': typeof V1LegalesRoute
+  '/v1/': typeof V1IndexRoute
+  '/v2/': typeof V2IndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/como-funciona': typeof ComoFuncionaRoute
-  '/contacto': typeof ContactoRoute
-  '/faq': typeof FaqRoute
-  '/legales': typeof LegalesRoute
+  '/propuesta-nav': typeof PropuestaNavRoute
   '/c/$idPublico': typeof CIdPublicoRoute
+  '/privacidad/$version': typeof PrivacidadVersionRoute
+  '/v1/como-funciona': typeof V1ComoFuncionaRoute
+  '/v1/contacto': typeof V1ContactoRoute
+  '/v1/faq': typeof V1FaqRoute
+  '/v1/legales': typeof V1LegalesRoute
+  '/v1': typeof V1IndexRoute
+  '/v2': typeof V2IndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/como-funciona': typeof ComoFuncionaRoute
-  '/contacto': typeof ContactoRoute
-  '/faq': typeof FaqRoute
-  '/legales': typeof LegalesRoute
+  '/propuesta-nav': typeof PropuestaNavRoute
   '/c/$idPublico': typeof CIdPublicoRoute
+  '/privacidad/$version': typeof PrivacidadVersionRoute
+  '/v1/como-funciona': typeof V1ComoFuncionaRoute
+  '/v1/contacto': typeof V1ContactoRoute
+  '/v1/faq': typeof V1FaqRoute
+  '/v1/legales': typeof V1LegalesRoute
+  '/v1/': typeof V1IndexRoute
+  '/v2/': typeof V2IndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/como-funciona' | '/contacto' | '/faq' | '/legales' | '/c/$idPublico'
+    | '/'
+    | '/propuesta-nav'
+    | '/c/$idPublico'
+    | '/privacidad/$version'
+    | '/v1/como-funciona'
+    | '/v1/contacto'
+    | '/v1/faq'
+    | '/v1/legales'
+    | '/v1/'
+    | '/v2/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/como-funciona' | '/contacto' | '/faq' | '/legales' | '/c/$idPublico'
+    | '/'
+    | '/propuesta-nav'
+    | '/c/$idPublico'
+    | '/privacidad/$version'
+    | '/v1/como-funciona'
+    | '/v1/contacto'
+    | '/v1/faq'
+    | '/v1/legales'
+    | '/v1'
+    | '/v2'
   id:
     | '__root__'
     | '/'
-    | '/como-funciona'
-    | '/contacto'
-    | '/faq'
-    | '/legales'
+    | '/propuesta-nav'
     | '/c/$idPublico'
+    | '/privacidad/$version'
+    | '/v1/como-funciona'
+    | '/v1/contacto'
+    | '/v1/faq'
+    | '/v1/legales'
+    | '/v1/'
+    | '/v2/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ComoFuncionaRoute: typeof ComoFuncionaRoute
-  ContactoRoute: typeof ContactoRoute
-  FaqRoute: typeof FaqRoute
-  LegalesRoute: typeof LegalesRoute
+  PropuestaNavRoute: typeof PropuestaNavRoute
   CIdPublicoRoute: typeof CIdPublicoRoute
+  PrivacidadVersionRoute: typeof PrivacidadVersionRoute
+  V1ComoFuncionaRoute: typeof V1ComoFuncionaRoute
+  V1ContactoRoute: typeof V1ContactoRoute
+  V1FaqRoute: typeof V1FaqRoute
+  V1LegalesRoute: typeof V1LegalesRoute
+  V1IndexRoute: typeof V1IndexRoute
+  V2IndexRoute: typeof V2IndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -107,32 +169,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/como-funciona': {
-      id: '/como-funciona'
-      path: '/como-funciona'
-      fullPath: '/como-funciona'
-      preLoaderRoute: typeof ComoFuncionaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contacto': {
-      id: '/contacto'
-      path: '/contacto'
-      fullPath: '/contacto'
-      preLoaderRoute: typeof ContactoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faq': {
-      id: '/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof FaqRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/legales': {
-      id: '/legales'
-      path: '/legales'
-      fullPath: '/legales'
-      preLoaderRoute: typeof LegalesRouteImport
+    '/propuesta-nav': {
+      id: '/propuesta-nav'
+      path: '/propuesta-nav'
+      fullPath: '/propuesta-nav'
+      preLoaderRoute: typeof PropuestaNavRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/c/$idPublico': {
@@ -142,16 +183,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CIdPublicoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacidad/$version': {
+      id: '/privacidad/$version'
+      path: '/privacidad/$version'
+      fullPath: '/privacidad/$version'
+      preLoaderRoute: typeof PrivacidadVersionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/v1/': {
+      id: '/v1/'
+      path: '/v1'
+      fullPath: '/v1/'
+      preLoaderRoute: typeof V1IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/v1/como-funciona': {
+      id: '/v1/como-funciona'
+      path: '/v1/como-funciona'
+      fullPath: '/v1/como-funciona'
+      preLoaderRoute: typeof V1ComoFuncionaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/v1/contacto': {
+      id: '/v1/contacto'
+      path: '/v1/contacto'
+      fullPath: '/v1/contacto'
+      preLoaderRoute: typeof V1ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/v1/faq': {
+      id: '/v1/faq'
+      path: '/v1/faq'
+      fullPath: '/v1/faq'
+      preLoaderRoute: typeof V1FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/v1/legales': {
+      id: '/v1/legales'
+      path: '/v1/legales'
+      fullPath: '/v1/legales'
+      preLoaderRoute: typeof V1LegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/v2/': {
+      id: '/v2/'
+      path: '/v2'
+      fullPath: '/v2/'
+      preLoaderRoute: typeof V2IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ComoFuncionaRoute: ComoFuncionaRoute,
-  ContactoRoute: ContactoRoute,
-  FaqRoute: FaqRoute,
-  LegalesRoute: LegalesRoute,
+  PropuestaNavRoute: PropuestaNavRoute,
   CIdPublicoRoute: CIdPublicoRoute,
+  PrivacidadVersionRoute: PrivacidadVersionRoute,
+  V1ComoFuncionaRoute: V1ComoFuncionaRoute,
+  V1ContactoRoute: V1ContactoRoute,
+  V1FaqRoute: V1FaqRoute,
+  V1LegalesRoute: V1LegalesRoute,
+  V1IndexRoute: V1IndexRoute,
+  V2IndexRoute: V2IndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -95,7 +95,9 @@ func Construir(ctx context.Context, cfg config.Config, log *slog.Logger) (*App, 
 		},
 		Extra: func(mux *http.ServeMux) {
 			meta.Registrar(mux)
-			rutas.Registrar(mux, alm, cfg.ClaveHMAC, log, app.Proveedores, cot).UsarURLMedios(cfg.URLMedios)
+			rutas.Registrar(mux, alm, cfg.ClaveHMAC, log, app.Proveedores, cot).
+				ConPlazoTurnoLLM(cfg.Gemini.PlazoTurnoLLM()).
+				UsarURLMedios(cfg.URLMedios)
 		},
 	})
 	return app, nil

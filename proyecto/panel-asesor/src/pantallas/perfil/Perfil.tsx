@@ -191,7 +191,14 @@ function FormularioPerfil({ inicial }: { inicial: PerfilAsesor }) {
           <div>
             <dt>Aviso de privacidad aceptado</dt>
             <dd>
-              Versión {guardado.consentimiento_asesor.version}, el {formatearFechaHora(guardado.consentimiento_asesor.aceptado_en)}
+              {guardado.consentimiento_asesor ? (
+                <>
+                  Versión {guardado.consentimiento_asesor.version}, el{' '}
+                  {formatearFechaHora(guardado.consentimiento_asesor.aceptado_en)}
+                </>
+              ) : (
+                'Sin registro en esta cuenta de demo.'
+              )}
             </dd>
           </div>
           <div>

@@ -18,7 +18,12 @@ import type { RelojAudio } from './visemas/reloj';
 import { MotorVisemas, type InfoFrame } from './visemas/motor';
 import type { OpcionesSincronizador, ResultadoRecepcion } from './visemas/sincronizador';
 import type { OpcionesSuavizado } from './visemas/suavizado';
-import { aplicarPesos, detectarEsquema, type EsquemaBlendshapes } from './modelo/blendshapes';
+import {
+  aplicarPesos,
+  articulacionMezclada,
+  detectarEsquema,
+  type EsquemaBlendshapes,
+} from './modelo/blendshapes';
 import { crearModeloProcedural, type ModeloAvatar } from './modelo/procedural';
 import { MedidorFrames } from './medicion/frames';
 
@@ -52,6 +57,23 @@ export function relacionPixeles(calidad: Calidad, dpr: number): number {
   return Math.max(0.5, Math.min(dpr || 1, tope));
 }
 
+/** Fondo tipo Meshy: degradé radial gris oscuro detrás del busto. */
+export function crearFondoDegrade(): THREE.CanvasTexture {
+  const c = document.createElement('canvas');
+  c.width = c.height = 512;
+  const g = c.getContext('2d')!;
+  const grd = g.createRadialGradient(256, 220, 20, 256, 260, 340);
+  grd.addColorStop(0, '#7a7a7a');
+  grd.addColorStop(0.35, '#4a4a4a');
+  grd.addColorStop(0.7, '#222222');
+  grd.addColorStop(1, '#0e0e0e');
+  g.fillStyle = grd;
+  g.fillRect(0, 0, 512, 512);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
 export class Avatar3D {
   readonly lienzo: HTMLCanvasElement;
   readonly medidor = new MedidorFrames();
@@ -65,6 +87,8 @@ export class Avatar3D {
   private ultimoRender = -Infinity;
   private t0: number | null = null;
   private destruido = false;
+  private fondoTex: THREE.CanvasTexture | null = null;
+  private modoBusto = false;
 
   constructor(private readonly contenedor: HTMLElement, private readonly op: OpcionesAvatar3D) {
     this.lienzo = document.createElement('canvas');
@@ -75,7 +99,7 @@ export class Avatar3D {
       this.renderer = new THREE.WebGLRenderer({
         canvas: this.lienzo,
         antialias: calidad !== 'baja',
-        alpha: true,
+        alpha: false,
         powerPreference: 'default',
       });
     } catch (e) {
@@ -83,12 +107,24 @@ export class Avatar3D {
     }
     this.renderer.setPixelRatio(relacionPixeles(calidad, window.devicePixelRatio));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.05;
     contenedor.appendChild(this.lienzo);
 
-    this.escena.add(new THREE.HemisphereLight(0xfff4e0, 0x404858, 1.6));
-    const sol = new THREE.DirectionalLight(0xffffff, 1.6);
-    sol.position.set(1.5, 2, 3);
-    this.escena.add(sol);
+    this.fondoTex = crearFondoDegrade();
+    this.escena.background = this.fondoTex;
+
+    // Luz suave tipo estudio (referencia Meshy).
+    this.escena.add(new THREE.HemisphereLight(0xf0f0f5, 0x2a2a32, 0.85));
+    const key = new THREE.DirectionalLight(0xffffff, 1.35);
+    key.position.set(1.2, 2.2, 2.5);
+    this.escena.add(key);
+    const fill = new THREE.DirectionalLight(0xc8d4ff, 0.45);
+    fill.position.set(-2, 0.8, 1.2);
+    this.escena.add(fill);
+    const rim = new THREE.DirectionalLight(0xfff0e0, 0.35);
+    rim.position.set(0, 1.5, -2);
+    this.escena.add(rim);
 
     this.camara.position.set(0, -0.35, 7.2);
     this.camara.lookAt(0, -0.55, 0);
@@ -115,6 +151,25 @@ export class Avatar3D {
     this.modelo = m;
     this.esquemas = m.mallasVisemas.map((x) => detectarEsquema(x) ?? 'visemas');
     if (!this.escena.children.includes(m.raiz)) this.escena.add(m.raiz);
+    this.modoBusto = m.mallasVisemas.some((x) => detectarEsquema(x) === 'valid');
+    this.aplicarCamara();
+  }
+
+  /** Plano busto (cabeza/hombros) como en la referencia Meshy. */
+  private aplicarCamara(): void {
+    if (this.modoBusto) {
+      this.camara.fov = 28;
+      this.camara.near = 0.05;
+      this.camara.far = 20;
+      // Cabeza centrada en origen por encuadrarValid; cámara a la altura de los ojos.
+      this.camara.position.set(0, 0.06, 0.78);
+      this.camara.lookAt(0, 0.02, 0);
+    } else {
+      this.camara.fov = 28;
+      this.camara.position.set(0, -0.35, 7.2);
+      this.camara.lookAt(0, -0.55, 0);
+    }
+    this.camara.updateProjectionMatrix();
   }
 
   recibirVisemas(ev: EventoAvatarVisemas): ResultadoRecepcion {
@@ -161,6 +216,8 @@ export class Avatar3D {
     this.renderer.setAnimationLoop(null);
     this.observador?.disconnect();
     this.modelo.liberar();
+    this.fondoTex?.dispose();
+    this.fondoTex = null;
     this.renderer.dispose();
     this.lienzo.remove();
   }
@@ -180,6 +237,7 @@ export class Avatar3D {
     if (this.t0 === null) this.t0 = t;
     const info = this.motor.paso(t);
     this.modelo.mallasVisemas.forEach((m, i) => aplicarPesos(m, info.pesos, this.esquemas[i]));
+    this.modelo.fijarMandibula?.(articulacionMezclada(info.pesos).mandibula);
     this.modelo.animarOcio(t - this.t0);
     this.renderer.render(this.escena, this.camara);
     this.medidor.registrar(t);

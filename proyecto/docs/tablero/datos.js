@@ -251,7 +251,7 @@ window.TABLERO = {
       "agente": "av",
       "status": "en_revision",
       "rehacer": true,
-      "nota": "2026-10-10 (av, rama T07-avatar-en-front, SIN revisar: quien escribe no revisa). El motor del spike (Avatar3D + AvatarClips + visemas/clips) está copiado en real-time-quote-bot/src/lib/avatar-motor y enchufado detrás de AvatarPuerto: AvatarVivo hace 3d → ErrorSinWebGL → clips → placeholder 2D. Reloj: performance.now (speechSynthesis, sin AudioContext). Visemas del servidor pisan el respaldo desde texto. three@0.180.0. PROBADO: vitest AvatarVivo 6/6 (cascada y visemas pendientes); eslint de los archivos tocados 0; Chromium del IDE contra mock: data-avatar-modo=3d, canvas WebGL 533×354 (CSS 686×456), modelo procedural (casco + chaleco) visible en la llamada, saludo del asesor en el chat. NO PROBADO: E2E Playwright completo (47 checks) en esta rama; fps serio (rAF en pestaña de fondo dio 1); sync boca↔voz real; GLB T30; clips grabados; Firefox/Safari/móvil. T08 sigue midiendo en equipos reales. Falta revisión de otro agente."
+      "nota": "2026-10-15: GLB VALID (c-frame/valid-avatars-glb) enchufado: cargarModeloGLB + morphs h_expressions + 3 asesores demo en semilla. AvatarVivo carga URL por avatar_id (av_valid_*); fallback procedural si falla CDN. PROBADO: vitest 157/157 (AvatarVivo, catalogo VALID, blendshapes-valid); go test rutas/prompts/semillalocal. NO PROBADO: medir-avatar-en-front con red CDN en CI; llamada manual 002/003; fps en gama baja; E2E completo. Doc: proyecto/docs/avatar/valid-avatars-glb.md. Sigue en revisión."
     },
     {
       "id": "T08",
@@ -433,9 +433,9 @@ window.TABLERO = {
       "id": "T30",
       "titulo": "Modelo 3D propio con blendshapes de visemas, licencia, peso máximo y alternativa 2D",
       "agente": "av",
-      "status": "pendiente",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": ""
+      "nota": "2026-10-15: camino VALID MIT vía jsdelivr (commit c539a28), no asset propio en repo. Tres GLB demo mapeados en front (catalogo.ts) + semilla 3 enlaces. Boca: pesosValid → h_expressions (sin viseme_* Oculus). Pendiente: decisión producto (RPM vs VALID vs procedural obra), peso/offline, licencia producción. PROBADO: tests unitarios front/back arriba. NO PROBADO: inspección legal final."
     },
     {
       "id": "T31",
@@ -627,6 +627,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-17T06:00:00-03:00",
+      "texto": "Claude: rama feat/sync-local-oct17 sube el trabajo local (backend Gemini/semilla 3 asesores, front portada/consentimiento/avatares VALID, panel) + merge de T45. Probado: go test -p 1 ./...; front typecheck, vitest 162, contrato:verificar, build NITRO_PRESET=vercel; panel typecheck y vitest 238. NO probado: verificar-repo.ps1 completo, llamada E2E en prod."
+    },
     {
       "ts": "2026-10-17T03:30:00-03:00",
       "texto": "Claude: T45 deploy demo Vercel (fronts) + Render (API Go con WebSocket; Vercel Functions no sirven WS). Rama feat/deploy-vercel-render."

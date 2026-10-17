@@ -13,7 +13,7 @@ export interface MallaConMorphs {
   morphTargetInfluences?: number[];
 }
 
-export type EsquemaBlendshapes = 'visemas' | 'arkit';
+export type EsquemaBlendshapes = 'visemas' | 'arkit' | 'valid';
 
 /** Detecta qué convención usa la malla: 15 `viseme_*` (Oculus/RPM) o ARKit (`jawOpen`, ...). */
 export function detectarEsquema(m: MallaConMorphs): EsquemaBlendshapes | null {
@@ -22,6 +22,7 @@ export function detectarEsquema(m: MallaConMorphs): EsquemaBlendshapes | null {
   const nVisemas = VISEMAS.filter((v) => NOMBRE_BLENDSHAPE(v) in d).length;
   if (nVisemas >= 5) return 'visemas';
   if ('jawOpen' in d) return 'arkit';
+  if (Object.keys(d).some((k) => k.startsWith('h_expressions.'))) return 'valid';
   return null;
 }
 
@@ -64,6 +65,74 @@ export function pesosArkit(p: Pesos): Record<string, number> {
   };
 }
 
+/** Morphs VALID (c-frame/valid-avatars-glb) en `H_DDS_HighRes`, mapeados desde visemas Oculus. */
+export function pesosValid(p: Pesos): Record<string, number> {
+  const a = articulacionMezclada(p);
+  const out: Record<string, number> = {};
+  const add = (k: string, w: number) => {
+    if (w <= 0) return;
+    out[k] = c01((out[k] ?? 0) + w);
+  };
+  for (const v of VISEMAS) {
+    const w = p[v];
+    if (!w) continue;
+    switch (v) {
+      case 'sil':
+        break;
+      case 'aa':
+        add('h_expressions.AE_AA_h', w * 0.85);
+        add('h_expressions.MouthOpen_h', w * 0.45);
+        break;
+      case 'E':
+        add('h_expressions.Ax_E_h', w);
+        break;
+      case 'I':
+        add('h_expressions.TD_I_h', w);
+        break;
+      case 'O':
+        add('h_expressions.UH_OO_h', w);
+        break;
+      case 'U':
+        add('h_expressions.UW_U_h', w);
+        break;
+      case 'PP':
+        add('h_expressions.FV_h', w * 0.9);
+        add('h_expressions.JawCompress_h', w * 0.35);
+        break;
+      case 'FF':
+        add('h_expressions.FV_h', w);
+        break;
+      case 'TH':
+        add('h_expressions.TD_I_h', w * 0.4);
+        add('h_expressions.MouthOpen_h', w * 0.35);
+        break;
+      case 'DD':
+      case 'nn':
+        add('h_expressions.TD_I_h', w * 0.55);
+        add('h_expressions.MouthOpen_h', w * 0.25);
+        break;
+      case 'kk':
+        add('h_expressions.KG_h', w);
+        add('h_expressions.MouthOpen_h', w * 0.2);
+        break;
+      case 'CH':
+        add('h_expressions.SH_CH_h', w);
+        break;
+      case 'SS':
+        add('h_expressions.S_h', w);
+        break;
+      case 'RR':
+        add('h_expressions.Ax_E_h', w * 0.35);
+        add('h_expressions.MouthOpen_h', w * 0.3);
+        break;
+      default:
+        break;
+    }
+  }
+  add('h_expressions.MouthOpen_h', c01(a.mandibula * 0.35));
+  return out;
+}
+
 /**
  * Escribe los pesos en la malla. Devuelve cuántos blendshapes se tocaron y cuáles faltan.
  * Pesos se recortan a [0,1].
@@ -89,6 +158,8 @@ export function aplicarPesos(
   };
   if (esquema === 'visemas') {
     for (const v of VISEMAS) escribir(NOMBRE_BLENDSHAPE(v as Visema), p[v]);
+  } else if (esquema === 'valid') {
+    for (const [k, w] of Object.entries(pesosValid(p))) escribir(k, w);
   } else {
     for (const [k, w] of Object.entries(pesosArkit(p))) escribir(k, w);
   }

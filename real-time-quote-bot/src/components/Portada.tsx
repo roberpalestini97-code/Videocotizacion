@@ -1,5 +1,6 @@
 import { useState } from "react";
 import heroImg from "@/assets/hero-oficio.jpg";
+import { ElegirAsesor } from "@/components/ElegirAsesor";
 import { PasosAnimados } from "@/components/PasosAnimados";
 import { VideoCotizacion } from "@/components/VideoCotizacion";
 import { PruebaEquipo } from "@/components/PruebaEquipo";
@@ -9,9 +10,16 @@ import { NavPastilla } from "@/components/NavPastilla";
 export function Portada({ idPublico }: { idPublico?: string | undefined }) {
   const [enLlamada, setEnLlamada] = useState(false);
   const [enPrueba, setEnPrueba] = useState(false);
+  const [eligiendo, setEligiendo] = useState(false);
+  const [enlace, setEnlace] = useState<string | undefined>(idPublico);
 
   function iniciar() {
-    setEnLlamada(true);
+    if (idPublico) {
+      setEnlace(idPublico);
+      setEnLlamada(true);
+      return;
+    }
+    setEligiendo(true);
   }
 
   return (
@@ -85,10 +93,20 @@ export function Portada({ idPublico }: { idPublico?: string | undefined }) {
         }}
       />
 
+      <ElegirAsesor
+        abierto={eligiendo}
+        onCerrar={() => setEligiendo(false)}
+        onConectar={(id) => {
+          setEnlace(id);
+          setEligiendo(false);
+          setEnLlamada(true);
+        }}
+      />
+
       <VideoCotizacion
         abierto={enLlamada}
         onCerrar={() => setEnLlamada(false)}
-        idPublico={idPublico}
+        idPublico={enlace}
       />
     </div>
   );

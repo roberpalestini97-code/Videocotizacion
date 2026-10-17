@@ -120,7 +120,7 @@ func (h *enlace) crearSesion(w http.ResponseWriter, r *http.Request) {
 	if sol.AvatarID != nil {
 		avatarID = *sol.AvatarID
 	}
-	if err := modoDelEnlace(as.Oficios, avatarID, sol.ModoAvatar); err != nil {
+	if err := modoDelEnlace(as.ID, as.Oficios, avatarID, sol.ModoAvatar); err != nil {
 		servidor.EscribirError(w, r, h.log, err)
 		return
 	}
@@ -247,11 +247,12 @@ func validarSolicitud(s solicitudCrearSesion) error {
 // modoDelEnlace exige que el modo sea uno de los del avatar del enlace.
 // Si ningún avatar declara modos, se aceptan 3d y clips. Un avatar_id que no
 // sea de este enlace es validacion_fallida.
-func modoDelEnlace(oficios []dominio.Oficio, avatarID, modo string) error {
+func modoDelEnlace(asesorID string, oficios []dominio.Oficio, avatarID, modo string) error {
 	modos := map[string]bool{}
+	cat := avataresDelAsesor(asesorID, oficios)
 	if avatarID != "" {
 		encontrado := false
-		for _, a := range avataresDe(oficios) {
+		for _, a := range cat {
 			if a.ID != avatarID {
 				continue
 			}
@@ -264,7 +265,7 @@ func modoDelEnlace(oficios []dominio.Oficio, avatarID, modo string) error {
 			return errores.Envolver(errores.ValidacionFallida, fmt.Errorf("avatar_id no es del enlace"))
 		}
 	} else {
-		for _, a := range avataresDe(oficios) {
+		for _, a := range cat {
 			for _, m := range a.Modos {
 				modos[m] = true
 			}

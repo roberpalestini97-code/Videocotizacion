@@ -70,6 +70,16 @@ type Gemini struct {
 	Reintentos int           // solo 429 y 5xx
 }
 
+// PlazoTurnoLLM acota el contexto del orquestador por turno: hasta dos llamadas
+// al Extractor (reintento por validación) más margen para avatar/TTS.
+func (g Gemini) PlazoTurnoLLM() time.Duration {
+	t := g.Timeout
+	if t <= 0 {
+		t = 20 * time.Second
+	}
+	return t*2 + 30*time.Second
+}
+
 // Proveedores elegidos por puerto (ADR 0003: PROVEEDOR_STT=..., etc.).
 type Proveedores struct {
 	STT, LLM, TTS, WhatsApp string
@@ -339,6 +349,7 @@ func (c Config) LogValue() slog.Value {
 		slog.String("proveedores", fmt.Sprintf("stt=%s llm=%s tts=%s whatsapp=%s",
 			c.Proveedores.STT, c.Proveedores.LLM, c.Proveedores.TTS, c.Proveedores.WhatsApp)),
 		slog.String("gemini_modelo", c.Gemini.Modelo),
+		slog.Duration("gemini_timeout", c.Gemini.Timeout),
 		slog.Any("gemini_clave", c.Gemini.Clave),
 		slog.Int64("cuerpo_max_bytes", c.CuerpoMaxBytes),
 		slog.Duration("retencion_intervalo", c.RetencionIntervalo),

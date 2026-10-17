@@ -118,58 +118,76 @@ export function VideoCotizacion({
 
   const cfg = leerConfig();
   const enLlamadaUI = fase === "llamada" || fase === "reconectando" || fase === "conectando";
+  const enPantallaCompleta =
+    fase === "llamada" || fase === "reconectando" || fase === "finalizando";
   const nombreAsesor = avatarElegido?.nombre ?? "tu asesor";
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col bg-ink/95 backdrop-blur-sm"
+      className={
+        enPantallaCompleta
+          ? "fixed inset-0 z-50 flex flex-col bg-ink/95 backdrop-blur-sm"
+          : "fixed inset-0 z-50 flex items-end justify-center bg-ink/60 p-0 backdrop-blur-sm sm:items-center sm:p-6"
+      }
       role="dialog"
       aria-modal="true"
       aria-label="VideoCotización"
       data-fase={fase}
     >
-      <div className="flex items-center justify-between px-5 pt-5">
-        <div className="flex items-center gap-2 text-white/90">
-          <span className="size-1.5 rounded-full bg-online animate-blink" />
-          <span
-            data-testid="estado-cabecera"
-            className="text-xs font-medium uppercase tracking-[0.18em]"
-          >
-            {fase === "cargando_enlace" && "Buscando a tu profesional"}
-            {fase === "enlace" && "Antes de llamar"}
-            {fase === "creando_sesion" && "Preparando"}
-            {fase === "consentimiento" && "Tu privacidad"}
-            {fase === "camara" && "Permisos"}
-            {fase === "conectando" && "Conectando"}
-            {fase === "llamada" &&
-              `En vivo · ${reloj(s.segundos)}${s.asesorHablando ? " · Hablando" : ""}`}
-            {fase === "reconectando" && "Reconectando"}
-            {fase === "finalizando" && "Cerrando"}
-            {fase === "resultado" && "Tu presupuesto"}
-            {(fase === "cerrada" || fase === "error" || fase === "camara_denegada") &&
-              "VideoCotización"}
-          </span>
-          {cfg.mock && (
-            <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-accent">
-              Modo simulado
+      <div
+        className={
+          enPantallaCompleta
+            ? "flex min-h-0 flex-1 flex-col"
+            : fase === "consentimiento"
+              ? "flex h-[min(92dvh,52rem)] w-full max-w-xl flex-col overflow-hidden rounded-t-3xl bg-ink shadow-2xl ring-1 ring-white/15 sm:rounded-3xl"
+              : "flex max-h-[min(92dvh,52rem)] w-full max-w-xl flex-col overflow-hidden rounded-t-3xl bg-ink shadow-2xl ring-1 ring-white/15 sm:rounded-3xl"
+        }
+        data-testid={enPantallaCompleta ? "marco-llamada" : "marco-modal"}
+      >
+        <div className="flex shrink-0 items-center justify-between px-5 pt-5">
+          <div className="flex items-center gap-2 text-white/90">
+            <span className="size-1.5 rounded-full bg-online animate-blink" />
+            <span
+              data-testid="estado-cabecera"
+              className="text-xs font-medium uppercase tracking-[0.18em]"
+            >
+              {fase === "cargando_enlace" && "Buscando a tu profesional"}
+              {fase === "enlace" && "Antes de llamar"}
+              {fase === "creando_sesion" && "Preparando"}
+              {fase === "consentimiento" && "Tu privacidad"}
+              {fase === "camara" && "Permisos"}
+              {fase === "conectando" && "Conectando"}
+              {fase === "llamada" &&
+                `En vivo · ${reloj(s.segundos)}${s.asesorHablando ? " · Hablando" : ""}`}
+              {fase === "reconectando" && "Reconectando"}
+              {fase === "finalizando" && "Cerrando"}
+              {fase === "resultado" && "Tu presupuesto"}
+              {(fase === "cerrada" || fase === "error" || fase === "camara_denegada") &&
+                "VideoCotización"}
             </span>
-          )}
+            {cfg.mock && (
+              <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-accent">
+                Modo simulado
+              </span>
+            )}
+          </div>
+          <button
+            onClick={() => void cerrar()}
+            aria-label="Cerrar videollamada"
+            data-testid="cerrar"
+            className="grid size-9 place-items-center rounded-full bg-white/10 text-white/80"
+          >
+            <span className="text-lg leading-none">×</span>
+          </button>
         </div>
-        <button
-          onClick={() => void cerrar()}
-          aria-label="Cerrar videollamada"
-          data-testid="cerrar"
-          className="grid size-9 place-items-center rounded-full bg-white/10 text-white/80"
-        >
-          <span className="text-lg leading-none">×</span>
-        </button>
-      </div>
 
       <div
         className={
-          fase === "llamada" || fase === "reconectando"
+          enPantallaCompleta
             ? "flex min-h-0 flex-1 flex-col overflow-hidden px-5 pb-6 pt-4"
-            : "flex-1 overflow-y-auto px-5 pb-6 pt-6"
+            : fase === "consentimiento"
+              ? "flex min-h-0 flex-1 flex-col overflow-hidden px-5 pb-5 pt-4"
+              : "scrollbar-modal min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-6 pt-6"
         }
       >
         {(fase === "cargando_enlace" ||
@@ -366,9 +384,10 @@ export function VideoCotizacion({
             >
               {/* Layout tipo Zoom: asesor izquierda · cámara usuario derecha */}
               <div className="absolute inset-0 flex gap-1.5 p-1.5 landscape:gap-2 landscape:p-2">
-                <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl bg-[#1a2e28]">
+                <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl bg-[#121212]">
                   <div ref={avatarRef} className="absolute inset-0" data-testid="avatar" />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/20" />
+                  {/* Vignette suave; el degradé principal lo pinta Three.js */}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                   <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-ink/65 px-2.5 py-1 backdrop-blur-sm">
                     <span className="size-1.5 rounded-full bg-online animate-blink" />
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-white">
@@ -460,7 +479,7 @@ export function VideoCotizacion({
               <div className="absolute bottom-3 right-3 z-10 flex w-[min(17.5rem,46%)] max-h-[46%] flex-col overflow-hidden rounded-2xl bg-ink/80 shadow-lg ring-1 ring-white/20 backdrop-blur-md landscape:bottom-4 landscape:right-4 landscape:max-h-[34%]">
                 <div
                   data-testid="conversacion"
-                  className="min-h-0 flex-1 space-y-1.5 overflow-y-auto overscroll-contain p-2.5"
+                  className="scrollbar-modal min-h-0 flex-1 space-y-1.5 overflow-y-auto overscroll-contain p-2.5"
                 >
                   {s.mensajes.map((m) => (
                     <div key={m.id} className="animate-rise">
@@ -521,6 +540,7 @@ export function VideoCotizacion({
           </>
         )}
       </div>
+      </div>
     </div>
   );
 }
@@ -535,7 +555,10 @@ function Espera({
   foto?: string | undefined;
 }) {
   return (
-    <div className="flex h-full flex-col items-center justify-center text-center" role="status">
+    <div
+      className="flex h-full min-h-[18rem] flex-col items-center justify-center text-center"
+      role="status"
+    >
       <div className="relative grid size-32 place-items-center">
         <span className="absolute size-28 rounded-full bg-accent/30 animate-pulse-ring" />
         <span
