@@ -2,10 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { CabeceraPagina } from "@/components/CabeceraPagina";
 import { NavPastilla } from "@/components/NavPastilla";
+import { ElegirAsesor } from "@/components/ElegirAsesor";
 import { VideoCotizacion } from "@/components/VideoCotizacion";
-import { asesores } from "@/data/asesores";
+import { llamadasArmadas } from "@/data/llamadas";
 
-export const Route = createFileRoute("/como-funciona")({
+export const Route = createFileRoute("/v1/como-funciona")({
   head: () => ({
     meta: [
       { title: "Cómo funciona la VideoCotización · paso a paso" },
@@ -59,6 +60,8 @@ const rubros = [
 
 function ComoFunciona() {
   const [enLlamada, setEnLlamada] = useState(false);
+  const [eligiendo, setEligiendo] = useState(false);
+  const [enlace, setEnlace] = useState<string | undefined>();
 
   return (
     <div className="min-h-screen bg-cream text-ink">
@@ -95,31 +98,26 @@ function ComoFunciona() {
       <div className="px-5 pb-8">
         <h2 className="font-display text-base font-semibold">Los asesores</h2>
         <div className="mt-3 space-y-2.5">
-          {asesores.map((a) => (
+          {llamadasArmadas.map((a) => (
             <div
               key={a.id}
               className="flex items-center gap-3 rounded-2xl border border-black/5 bg-card p-3"
             >
-              <img
-                src={a.foto}
-                alt={a.nombre}
-                loading="lazy"
-                width={816}
-                height={816}
-                className="size-14 shrink-0 rounded-xl object-cover"
-              />
+              <span className="grid size-14 shrink-0 place-items-center rounded-full bg-ink font-display text-lg font-semibold text-white">
+                {a.inicial}
+              </span>
               <div className="min-w-0">
                 <p className="font-display text-sm font-semibold">
                   {a.nombre} · {a.rubro}
                 </p>
                 <p className="text-xs text-ink/55">{a.especialidad}</p>
-                <p className="text-[11px] text-ink/40">Tono: {a.tono}</p>
+                <p className="text-[11px] text-ink/40">Zona: {a.zona}</p>
               </div>
             </div>
           ))}
         </div>
         <button
-          onClick={() => setEnLlamada(true)}
+          onClick={() => setEligiendo(true)}
           className="mt-5 h-14 w-full rounded-2xl bg-accent font-display text-base font-semibold text-brand-dark"
         >
           Iniciar VideoCotización
@@ -127,7 +125,16 @@ function ComoFunciona() {
       </div>
 
       <NavPastilla />
-      <VideoCotizacion abierto={enLlamada} onCerrar={() => setEnLlamada(false)} />
+      <ElegirAsesor
+        abierto={eligiendo}
+        onCerrar={() => setEligiendo(false)}
+        onConectar={(id) => {
+          setEnlace(id);
+          setEligiendo(false);
+          setEnLlamada(true);
+        }}
+      />
+      <VideoCotizacion abierto={enLlamada} onCerrar={() => setEnLlamada(false)} idPublico={enlace} />
     </div>
   );
 }

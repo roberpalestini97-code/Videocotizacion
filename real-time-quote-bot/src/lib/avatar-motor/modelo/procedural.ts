@@ -73,6 +73,8 @@ export interface ModeloAvatar {
   mallasVisemas: (THREE.Mesh & MallaConMorphs)[];
   /** Animación ociosa (parpadeo, balanceo); t en ms. */
   animarOcio(tMs: number): void;
+  /** Opcional (GLB VALID): mandíbula por hueso cuando los morphs no alcanzan. */
+  fijarMandibula?(w: number): void;
   /** Libera geometrías y materiales. */
   liberar(): void;
   /** Datos para el informe: triángulos, mallas, morphs. */

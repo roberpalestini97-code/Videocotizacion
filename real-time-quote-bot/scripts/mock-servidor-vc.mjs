@@ -348,10 +348,10 @@ export function iniciarMock({
           },
           avatares: [
             {
-              avatar_id: "av_obrero_casco",
-              nombre: "Rober",
-              modos: ["3d", "clips"],
-              descripcion_accesible: "Trabajador con casco amarillo y ropa de obra",
+              avatar_id: "av_valid_laura",
+              nombre: "Laura",
+              modos: ["3d"],
+              descripcion_accesible: "Profesional de pintura, avatar 3D realista",
             },
           ],
           aviso_privacidad: AVISO,

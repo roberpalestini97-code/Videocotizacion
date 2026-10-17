@@ -43,7 +43,12 @@ export interface MotorClipsPuerto {
 export type MotoresAvatar = {
   intentar3d: (
     contenedor: HTMLElement,
-    op: { reloj: RelojAvatar; descripcion: string; alFrame: (info: InfoFrameMin) => void },
+    op: {
+      reloj: RelojAvatar;
+      descripcion: string;
+      avatarId: string;
+      alFrame: (info: InfoFrameMin) => void;
+    },
   ) => Motor3DPuerto;
   intentarClips: (contenedor: HTMLElement) => MotorClipsPuerto;
   crear2d?: () => AvatarPuerto;
@@ -88,6 +93,7 @@ export class AvatarVivo implements AvatarPuerto {
         this.motor3d = this.motores.intentar3d(contenedor, {
           reloj: this.reloj,
           descripcion: cfg.descripcion,
+          avatarId: cfg.avatarId,
           alFrame: (info) => {
             if (!this.estado.hablando) return;
             if (info.dominante === this.estado.visema) return;

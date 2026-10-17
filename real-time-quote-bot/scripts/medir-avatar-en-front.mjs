@@ -100,6 +100,7 @@ try {
     const dt = performance.now() - t0;
     return {
       modo: caja?.getAttribute("data-avatar-modo") ?? null,
+      modelo: caja?.getAttribute("data-avatar-modelo") ?? null,
       canvas: !!canvas,
       w: canvas?.width ?? 0,
       h: canvas?.height ?? 0,
