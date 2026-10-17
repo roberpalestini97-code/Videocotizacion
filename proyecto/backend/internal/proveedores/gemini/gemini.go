@@ -35,11 +35,11 @@ import (
 )
 
 // Valores por defecto. El modelo se verificó en
-// https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite el
-// 2026-10-10: estable, entrada de imagen, salida estructurada y nivel gratuito
-// (https://ai.google.dev/gemini-api/docs/pricing). Cambiarlo con GEMINI_MODEL.
+// https://ai.google.dev/gemini-api/docs/models (flash-lite). El 2026-10-13
+// gemini-3.5-flash-lite estaba saturado (HTTP 503 / cuelgue); 3.1-flash-lite
+// respondió en ~6–9 s. Cambiarlo con GEMINI_MODEL.
 const (
-	ModeloPorDefecto   = "gemini-3.5-flash-lite"
+	ModeloPorDefecto   = "gemini-3.1-flash-lite"
 	URLBasePorDefecto  = "https://generativelanguage.googleapis.com/v1beta"
 	TimeoutPorDefecto  = 20 * time.Second
 	ReintentosDefecto  = 2
@@ -48,6 +48,9 @@ const (
 	MaxRespuestaBytes  = 256 << 10 // cuerpo HTTP leído como máximo
 	MaxTextoSalida     = 32 << 10  // JSON del modelo como máximo
 	MaxFotogramas      = 4         // por pedido; se mandan los más recientes
+	// false: prueba 2026-10-13. Gemini 3.5-flash-lite da 503 / se cuelga con JPEG.
+	// Volver a true cuando el modelo deje de estar saturado.
+	adjuntarFotogramas = false
 	MaxBytesFotograma  = 128 << 10 // ADR 0006 §3
 	esperaMaxima       = 8 * time.Second
 	retryAfterMaximo   = 10 * time.Second
@@ -207,8 +210,8 @@ func (e *Extractor) backoff(intento int) time.Duration {
 
 // intentar hace un pedido HTTP. espera < 0: no reintentar; 0: backoff
 // normal; > 0: lo que pidió Retry-After (acotado).
-func (e *Extractor) intentar(ctx context.Context, cuerpo []byte) (proveedores.RespuestaExtraccion, time.Duration, error) {
-	ctx, cancelar := context.WithTimeout(ctx, e.op.Timeout)
+func (e *Extractor) intentar(ctxPadre context.Context, cuerpo []byte) (proveedores.RespuestaExtraccion, time.Duration, error) {
+	ctx, cancelar := context.WithTimeout(ctxPadre, e.op.Timeout)
 	defer cancelar()
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, e.endpoint, bytes.NewReader(cuerpo))
 	if err != nil {
@@ -225,7 +228,13 @@ func (e *Extractor) intentar(ctx context.Context, cuerpo []byte) (proveedores.Re
 			err = ue.Err
 		}
 		if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
-			return proveedores.RespuestaExtraccion{}, -1, errores.Envolver(errores.ProveedorNoDisponible, fmt.Errorf("%w: %w", ErrTransporte, context.Cause(ctx)))
+			// Timeout de ESTE intento: reintentar si el contexto padre sigue vivo
+			// (Gemini saturado a veces no cierra el socket y no manda ni el 503).
+			espera := time.Duration(-1)
+			if ctxPadre.Err() == nil {
+				espera = 0
+			}
+			return proveedores.RespuestaExtraccion{}, espera, errores.Envolver(errores.ProveedorNoDisponible, fmt.Errorf("%w: %w", ErrTransporte, context.Cause(ctx)))
 		}
 		return proveedores.RespuestaExtraccion{}, -1, errores.Envolver(errores.ProveedorNoDisponible, ErrTransporte)
 	}
@@ -289,7 +298,12 @@ type pedido struct {
 		Temperature        float64        `json:"temperature"`
 		MaxOutputTokens    int            `json:"maxOutputTokens"`
 		CandidateCount     int            `json:"candidateCount"`
+		ThinkingConfig     *thinkingCfg   `json:"thinkingConfig,omitempty"`
 	} `json:"generationConfig"`
+}
+
+type thinkingCfg struct {
+	ThinkingLevel string `json:"thinkingLevel,omitempty"`
 }
 
 type respuesta struct {
@@ -321,6 +335,9 @@ func (e *Extractor) cuerpoPedido(p proveedores.PedidoExtraccion) pedido {
 		partes = append(partes, parte{Text: "Corrección del sistema: tu salida anterior no cumplió el esquema (" + p.Correccion + "). Devolvé solo el JSON corregido."})
 	}
 	fotos := p.Fotogramas
+	if !adjuntarFotogramas {
+		fotos = nil
+	}
 	if len(fotos) > MaxFotogramas {
 		fotos = fotos[len(fotos)-MaxFotogramas:]
 	}
@@ -336,6 +353,10 @@ func (e *Extractor) cuerpoPedido(p proveedores.PedidoExtraccion) pedido {
 	b.GenerationConfig.Temperature = e.op.Temperatura
 	b.GenerationConfig.MaxOutputTokens = e.op.MaxTokensSalida
 	b.GenerationConfig.CandidateCount = 1
+	// flash-lite rechaza thinkingBudget:0; thinkingLevel=minimal recorta latencia.
+	if strings.Contains(e.op.Modelo, "flash-lite") {
+		b.GenerationConfig.ThinkingConfig = &thinkingCfg{ThinkingLevel: "minimal"}
+	}
 	return b
 }
 

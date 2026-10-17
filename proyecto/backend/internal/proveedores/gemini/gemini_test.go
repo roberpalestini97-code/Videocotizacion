@@ -3,7 +3,6 @@ package gemini_test
 import (
 	"bytes"
 	"context"
-	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -120,22 +119,23 @@ func TestExtraerExitoArmaElPedidoREST(t *testing.T) {
 				ResponseJsonSchema map[string]any
 				ResponseSchema     map[string]any
 				CandidateCount     int
+				ThinkingConfig     *struct{ ThinkingLevel string }
 			}
 		}
 		if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
 			t.Error(err)
 		}
 		if p.SystemInstruction.Parts[0].Text != "Sos el asistente de pintura." || p.GenerationConfig.ResponseMimeType != "application/json" ||
-			p.GenerationConfig.ResponseJsonSchema["type"] != "object" || p.GenerationConfig.ResponseSchema != nil || p.GenerationConfig.CandidateCount != 1 {
+			p.GenerationConfig.ResponseJsonSchema["type"] != "object" || p.GenerationConfig.ResponseSchema != nil || p.GenerationConfig.CandidateCount != 1 ||
+			p.GenerationConfig.ThinkingConfig == nil || p.GenerationConfig.ThinkingConfig.ThinkingLevel != "minimal" {
 			t.Errorf("pedido: %+v", p)
 		}
 		partes := p.Contents[0].Parts
-		if p.Contents[0].Role != "user" || len(partes) != 2 || !strings.Contains(partes[0].Text, "son 20 metros") {
+		if p.Contents[0].Role != "user" || len(partes) != 1 || !strings.Contains(partes[0].Text, "son 20 metros") {
 			t.Errorf("contenido: %+v", p.Contents)
 		}
-		if partes[1].InlineData == nil || partes[1].InlineData.MimeType != "image/jpeg" ||
-			partes[1].InlineData.Data != base64.StdEncoding.EncodeToString([]byte{0xFF, 0xD8, 0xFF, 0xE0, 1, 2}) {
-			t.Errorf("fotograma: %+v", partes[1])
+		if partes[0].InlineData != nil {
+			t.Errorf("no se adjuntan fotogramas mientras adjuntarFotogramas=false: %+v", partes[0])
 		}
 		_, _ = w.Write(respuestaREST(salida, "STOP"))
 	})
@@ -270,6 +270,33 @@ func TestExtraerCancelacion(t *testing.T) {
 	}
 }
 
+func TestExtraerReintentaTimeoutDeIntento(t *testing.T) {
+	salida := ejemplo(t, "01-pintura-interior-pide-medidas.json")
+	s := nuevoServidor(t, func(n int64, w http.ResponseWriter, r *http.Request) {
+		_, _ = io.Copy(io.Discard, r.Body)
+		if n < 3 {
+			<-r.Context().Done()
+			return
+		}
+		_, _ = w.Write(respuestaREST(salida, "STOP"))
+	})
+	e, err := gemini.Nuevo(gemini.Opciones{
+		Clave: secreto.Nuevo(claveFalsa), URLBase: s.srv.URL, Esquema: esquema(t),
+		Reintentos: 2, EsperaBase: time.Millisecond, Timeout: 80 * time.Millisecond,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx, cancelar := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancelar()
+	if _, err := e.Extraer(ctx, pedidoDePrueba()); err != nil {
+		t.Fatal(err)
+	}
+	if s.llamadas.Load() != 3 {
+		t.Fatalf("llamadas: %d", s.llamadas.Load())
+	}
+}
+
 func TestNuevoValidaOpciones(t *testing.T) {
 	esq := esquema(t)
 	casos := map[string]gemini.Opciones{
@@ -370,5 +397,13 @@ func TestEsquemaDerivadoDelDeConductas(t *testing.T) {
 	tc := props["tipo_cliente"].(map[string]any)
 	if _, ok := tc["enum"]; ok || tc["type"] != "string" || !strings.Contains(fmt.Sprint(tc["description"]), "particular_primera_vez") {
 		t.Fatalf("tipo_cliente tiene que ir como texto, el enum no entra en el tope de Gemini: %+v", tc)
+	}
+	of := props["oficio"].(map[string]any)
+	if _, ok := of["enum"]; ok || !strings.Contains(fmt.Sprint(of["description"]), "pintura") {
+		t.Fatalf("oficio aliviado: %+v", of)
+	}
+	tr := props["trabajo"].(map[string]any)["properties"].(map[string]any)["tipo"].(map[string]any)
+	if _, ok := tr["enum"]; ok || !strings.Contains(fmt.Sprint(tr["description"]), "pintura_interior") {
+		t.Fatalf("trabajo.tipo aliviado: %+v", tr)
 	}
 }

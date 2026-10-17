@@ -32,28 +32,107 @@ func EsquemaDesdeJSONSchema(raw []byte) (map[string]any, error) {
 	if out["type"] != "object" {
 		return nil, errors.New("gemini: la raíz del esquema tiene que ser un objeto")
 	}
-	// El esquema completo, con todos los enums, lo rechaza gemini-3.5-flash-lite
-	// (HTTP 400). tipo_cliente no cambia el precio: el enum pasa a la
-	// descripción y Go lo vuelve a exigir en ValidarSalidaLLM.
-	if err := aliviarEnumTipoCliente(out); err != nil {
+	// El esquema con muchos enums anidados lo rechaza gemini-3.5-flash-lite (HTTP 400).
+	// Los enums aliviados pasan a descripción; Go los vuelve a exigir en ValidarSalidaLLM.
+	if err := aliviarEnumsParaGemini(out); err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func aliviarEnumTipoCliente(out map[string]any) error {
-	props, _ := out["properties"].(map[string]any)
-	tc, _ := props["tipo_cliente"].(map[string]any)
-	vals, _ := tc["enum"].([]string)
-	if len(vals) == 0 {
-		return errors.New("gemini: tipo_cliente sin enum")
+func enumStrings(n map[string]any) ([]string, error) {
+	switch e := n["enum"].(type) {
+	case []string:
+		if len(e) == 0 {
+			return nil, errors.New("gemini: enum vacío")
+		}
+		return e, nil
+	case []any:
+		vals := make([]string, 0, len(e))
+		for _, v := range e {
+			s, ok := v.(string)
+			if !ok {
+				return nil, errors.New("gemini: enum no textual")
+			}
+			vals = append(vals, s)
+		}
+		if len(vals) == 0 {
+			return nil, errors.New("gemini: enum vacío")
+		}
+		return vals, nil
+	default:
+		return nil, errors.New("gemini: sin enum")
 	}
-	desc, _ := tc["description"].(string)
+}
+
+func enumAString(n map[string]any) (map[string]any, error) {
+	vals, err := enumStrings(n)
+	if err != nil {
+		return nil, err
+	}
+	desc, _ := n["description"].(string)
 	if desc != "" && !strings.HasSuffix(desc, " ") {
 		desc += " "
 	}
 	desc += "Uno de: " + strings.Join(vals, ", ") + "."
-	props["tipo_cliente"] = map[string]any{"type": "string", "description": desc}
+	return map[string]any{"type": "string", "description": desc}, nil
+}
+
+func aliviarEnumEnProps(props map[string]any, keys ...string) error {
+	for _, key := range keys {
+		sub, ok := props[key].(map[string]any)
+		if !ok {
+			return fmt.Errorf("gemini: falta propiedad %s", key)
+		}
+		if _, ok := sub["enum"]; !ok {
+			continue
+		}
+		out, err := enumAString(sub)
+		if err != nil {
+			return fmt.Errorf("gemini: %s: %w", key, err)
+		}
+		props[key] = out
+	}
+	return nil
+}
+
+func aliviarEnumsParaGemini(out map[string]any) error {
+	props, ok := out["properties"].(map[string]any)
+	if !ok {
+		return errors.New("gemini: raíz sin properties")
+	}
+	if err := aliviarEnumEnProps(props, "tipo_cliente", "oficio", "estado_superficie"); err != nil {
+		return err
+	}
+	trabajo, ok := props["trabajo"].(map[string]any)
+	if !ok {
+		return errors.New("gemini: falta trabajo")
+	}
+	tprops, ok := trabajo["properties"].(map[string]any)
+	if !ok {
+		return errors.New("gemini: trabajo sin properties")
+	}
+	if sub, ok := tprops["tipo"].(map[string]any); ok {
+		if _, ok := sub["enum"]; ok {
+			outTipo, err := enumAString(sub)
+			if err != nil {
+				return fmt.Errorf("gemini: trabajo.tipo: %w", err)
+			}
+			tprops["tipo"] = outTipo
+		}
+	}
+	falt, ok := props["faltantes"].(map[string]any)
+	if ok {
+		if items, ok := falt["items"].(map[string]any); ok {
+			if _, ok := items["enum"]; ok {
+				outItems, err := enumAString(items)
+				if err != nil {
+					return fmt.Errorf("gemini: faltantes.items: %w", err)
+				}
+				falt["items"] = outItems
+			}
+		}
+	}
 	return nil
 }
 

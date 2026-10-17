@@ -21,10 +21,12 @@ func OficioDelTurno(avatarID string, oficios []dominio.Oficio) dominio.Oficio {
 
 func oficioDeAvatar(avatarID string) (dominio.Oficio, bool) {
 	switch avatarID {
-	case "av_pintora":
+	case "av_pintora", "av_valid_laura":
 		return dominio.OficioPintura, true
-	case "av_jardinero":
+	case "av_jardinero", "av_valid_tito":
 		return dominio.OficioJardineria, true
+	case "av_valid_juan":
+		return dominio.OficioMantenimiento, true
 	default:
 		return "", false
 	}

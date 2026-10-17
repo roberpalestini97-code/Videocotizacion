@@ -128,6 +128,16 @@ type respuestaMedios struct {
 
 func soloMensajes(msgs ...[]byte) respuestaMedios { return respuestaMedios{msgs: msgs} }
 
+// ctxParaTurnoLLM evita que el turno quede acotado al timeout HTTP del socket
+// mientras Gemini procesa prompt + fotogramas (varios intentos de ~20 s).
+func (h *enlace) ctxParaTurnoLLM(ctx context.Context) (context.Context, context.CancelFunc) {
+	plazo := h.plazoTurnoLLM
+	if plazo <= 0 {
+		plazo = 70 * time.Second
+	}
+	return context.WithTimeout(context.WithoutCancel(ctx), plazo)
+}
+
 // responderTexto aplica R66: un texto largo o con < > se descarta sin llamar
 // al LLM. El tope de turnos LLM cierra la sesión con derivación.
 func (h *enlace) responderTexto(ctx context.Context, tenant dominio.TenantID, sesionID string, payload []byte, seq *int) respuestaMedios {
@@ -180,8 +190,13 @@ func (h *enlace) ejecutarTurnoConTexto(ctx context.Context, tenant dominio.Tenan
 	if as, err := h.almacen.LeerAsesor(ctx, tenant, ses.AsesorID); err == nil {
 		oficio = prompts.OficioDelTurno(ses.AvatarID, as.Oficios)
 	}
-	sal, err := turno.DesdeTexto(ctx, turno.TextoEntrada{
-		Numero: n, Texto: texto, Fotogramas: h.tomarFotogramas(sesionID), Oficio: oficio, UltimaSalidaLLM: ultimaSalida,
+	fotos := h.tomarFotogramas(sesionID)
+	h.log.Info("turno iniciado", "sesion", sesionID, "turno", n, "caracteres", utf8.RuneCountInString(texto), "fotogramas_recibidos", len(fotos), "fotogramas_a_gemini", 0)
+	fotos = nil // prueba: Gemini 503 con JPEG; el adaptador también los omite (adjuntarFotogramas=false)
+	ctxLLM, cancelarLLM := h.ctxParaTurnoLLM(ctx)
+	defer cancelarLLM()
+	sal, err := turno.DesdeTexto(ctxLLM, turno.TextoEntrada{
+		Numero: n, Texto: texto, Fotogramas: fotos, Oficio: oficio, UltimaSalidaLLM: ultimaSalida,
 		Prov: h.prov, Sesion: &ses, Cot: h.cot, Ahora: h.ahoraDePanel(),
 	})
 	if err != nil {

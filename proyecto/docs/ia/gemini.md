@@ -55,8 +55,8 @@ Los valores con los que levantamos backend y videollamada, y cómo crearlos en u
 | `PROVEEDOR_WHATSAPP` | sí | `enlace` (arma `wa.me`, no envía nada) |
 | `GEMINI_API_KEY` | una de las dos | la clave. Preferible el archivo en producción |
 | `GEMINI_API_KEY_FILE` | una de las dos | ruta a un archivo con la clave (secreto de Docker); no las dos a la vez |
-| `GEMINI_MODEL` | no | por defecto `gemini-3.5-flash-lite` |
-| `GEMINI_TIMEOUT` | no | por intento, por defecto `20s` |
+| `GEMINI_MODEL` | no | por defecto `gemini-3.1-flash-lite` |
+| `GEMINI_TIMEOUT` | no | por intento HTTP, por defecto `20s`. Con 2 reintentos cubre un Gemini saturado que a veces no cierra el socket (si no, un solo intento de 60s deja la consola en silencio) |
 | `GEMINI_REINTENTOS` | no | 0..5, por defecto 2; solo ante HTTP 429 y 5xx, con backoff exponencial y jitter (respeta `Retry-After` hasta 10 s) |
 | `GEMINI_URL_BASE` | no | solo pruebas locales (`http://127.0.0.1:...`); en producción, vacío o `https://` |
 
@@ -73,13 +73,12 @@ Ojo: la clave en Docker va en `infra/secrets/gemini_api_key` (no se versiona) y 
 la monta como `GEMINI_API_KEY_FILE`. El contenedor recibe `PROVEEDOR_STT=navegador`,
 `PROVEEDOR_TTS=navegador`, `PROVEEDOR_LLM=gemini` y `PROVEEDOR_WHATSAPP=enlace`.
 
-## Modelo por defecto (verificado 2026-10-10)
+## Modelo por defecto (verificado 2026-10-13)
 
-`gemini-3.5-flash-lite`: según https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite es
-**estable**, acepta **imágenes** (y texto, audio, video, PDF), soporta **salida estructurada**, entrada
-1.048.576 tokens y salida 65.536; la página de modelos lo recomienda (junto con `gemini-3.8-flash`) para
-proyectos nuevos, y la de precios lo lista con nivel gratuito. Alternativa más capaz: `gemini-3.8-flash`
-(también con nivel gratuito). Los modelos 2.0 están dados de baja y los 2.5 tienen acceso limitado.
+`gemini-3.1-flash-lite`: el 2026-10-13 `gemini-3.5-flash-lite` (y 3.8-flash) devolvían HTTP 503 o
+se colgaban; `gemini-3.1-flash-lite` respondió 200 en 6–9 s con `responseJsonSchema`. Acepta
+imagen y salida estructurada. Cambiar con `GEMINI_MODEL`. Los 2.5 no están habilitados en esta
+clave (HTTP 404).
 
 ## Cómo llama el adaptador (`internal/proveedores/gemini`)
 
