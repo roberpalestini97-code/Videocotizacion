@@ -78,13 +78,16 @@ export function ElegirAsesor({
                       activo ? "bg-white/15 ring-accent" : "bg-white/5 ring-white/15"
                     }`}
                   >
-                    <span
-                      className={`grid size-14 shrink-0 place-items-center rounded-full font-display text-lg font-semibold ${
-                        activo ? "bg-accent text-brand-dark" : "bg-white/10 text-white"
+                    <img
+                      src={a.foto}
+                      alt={`${a.nombre}, asesor de ${a.rubro.toLowerCase()}`}
+                      width={512}
+                      height={512}
+                      loading="lazy"
+                      className={`size-14 shrink-0 rounded-full object-cover object-top ring-2 ${
+                        activo ? "ring-accent" : "ring-white/15"
                       }`}
-                    >
-                      {a.inicial}
-                    </span>
+                    />
                     <span className="min-w-0 flex-1">
                       <span className="block font-display text-sm font-semibold text-white">
                         {a.nombre} · {a.rubro}

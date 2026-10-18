@@ -103,9 +103,14 @@ function ComoFunciona() {
               key={a.id}
               className="flex items-center gap-3 rounded-2xl border border-black/5 bg-card p-3"
             >
-              <span className="grid size-14 shrink-0 place-items-center rounded-full bg-ink font-display text-lg font-semibold text-white">
-                {a.inicial}
-              </span>
+              <img
+                src={a.foto}
+                alt={`${a.nombre}, asesor de ${a.rubro.toLowerCase()}`}
+                width={512}
+                height={512}
+                loading="lazy"
+                className="size-14 shrink-0 rounded-full object-cover object-top"
+              />
               <div className="min-w-0">
                 <p className="font-display text-sm font-semibold">
                   {a.nombre} · {a.rubro}

@@ -12,7 +12,7 @@ import type { SesionMedios, OpcionesMedios } from "./medios";
 import { PIZARRON_VACIO, aplicarPizarron, type Pizarron } from "./pizarron";
 import { limpiarTexto } from "./protocolo";
 import type { AvatarPuerto } from "./avatar";
-import type { Reconocedor, Voz } from "./voz";
+import type { ModoEscucha, Reconocedor, Voz } from "./voz";
 import { textoParaEnviar } from "./voz";
 import { REGLA_POR_DEFECTO } from "./fotogramas";
 import type {
@@ -62,6 +62,14 @@ export type EstadoVC = {
   segundos: number;
   reconocimientoDisponible: boolean;
   escuchando: boolean;
+  /** "pulsar" en el celular: se habla tocando el botón del micrófono. */
+  modoEscucha: ModoEscucha;
+  /** Modo "pulsar": el micrófono está abierto para una frase. */
+  oyendo: boolean;
+  /** El reconocedor está detectando voz ahora (para el medidor en el celular). */
+  vozDetectada: boolean;
+  /** Se cambia al soltar el audio de la página, para que el medidor se rearme. */
+  audioPropio: boolean;
   /** Cámara en uso: frontal ("user") o trasera ("environment"). */
   camara: Camara;
   /** Hay más de una cámara (celular): se muestra el botón para girarla. */
@@ -112,7 +120,10 @@ export type Dependencias = {
   clearInterval?: (id: unknown) => void;
 };
 
-const ESTADO_NUEVO = (reconocimientoDisponible: boolean): EstadoVC => ({
+const ESTADO_NUEVO = (
+  reconocimientoDisponible: boolean,
+  modoEscucha: ModoEscucha = "continuo",
+): EstadoVC => ({
   flujo: ESTADO_INICIAL,
   pizarron: PIZARRON_VACIO,
   mensajes: [],
@@ -121,10 +132,28 @@ const ESTADO_NUEVO = (reconocimientoDisponible: boolean): EstadoVC => ({
   segundos: 0,
   reconocimientoDisponible,
   escuchando: false,
+  modoEscucha,
+  oyendo: false,
+  vozDetectada: false,
+  audioPropio: true,
   camara: "user",
   puedeGirarCamara: false,
   fotogramas: { enviados: 0, aceptados: 0, descartados: 0 },
 });
+
+/** Aviso para un error del reconocimiento de voz (con el código, para poder diagnosticar). */
+export function textoErrorEscucha(codigo: string): string {
+  switch (codigo) {
+    case "audio-capture":
+      return "No pudimos usar el micrófono (audio-capture). Cerrá otras apps que lo estén usando y probá de nuevo, o escribí.";
+    case "network":
+      return "El servicio de voz no respondió (network). Probá de nuevo o escribile al asesor.";
+    case "language-not-supported":
+      return "Tu navegador no reconoce voz en español (language-not-supported). Escribile al asesor.";
+    default:
+      return `No pudimos escucharte (${codigo}). Probá de nuevo o escribile al asesor.`;
+  }
+}
 
 /** Mensaje claro para cada motivo de cierre (el catálogo trae etiquetas cortas de panel). */
 export function textoMotivoCierre(m: MotivoCierre | undefined): string {
@@ -169,7 +198,7 @@ export class ControladorVC {
   private ultimoTextoCliente = "";
 
   constructor(private readonly d: Dependencias) {
-    this.estado = ESTADO_NUEVO(d.reconocedor.disponible());
+    this.estado = ESTADO_NUEVO(d.reconocedor.disponible(), d.reconocedor.modo);
   }
 
   // ---------- store ----------
@@ -207,7 +236,7 @@ export class ControladorVC {
     this.destruirMedios();
     const g = ++this.generacion;
     this.idPublico = idPublico;
-    this.estado = ESTADO_NUEVO(this.d.reconocedor.disponible());
+    this.estado = ESTADO_NUEVO(this.d.reconocedor.disponible(), this.d.reconocedor.modo);
     this.cierreSolicitado = false;
     this.yaFueLista = false;
     this.set({});
@@ -504,20 +533,58 @@ export class ControladorVC {
     if (!this.d.reconocedor.disponible() || this.estado.escuchando) return;
     this.d.reconocedor.iniciar({
       onParcial: (t) => this.set({ parcial: t }),
-      onFinal: (t) => this.enviarTexto(t),
+      onFinal: (t) => {
+        this.set({ parcial: "" });
+        this.enviarTexto(t);
+      },
+      onEscuchando: (oyendo) =>
+        this.set({ oyendo, ...(oyendo ? {} : { parcial: "", vozDetectada: false }) }),
+      onVoz: (vozDetectada) => this.set({ vozDetectada }),
       onError: (codigo) => {
-        // "network" lo dispara Chromium sin la API de Google: se reintenta, no se apaga la escucha.
+        // "network" en la PC lo dispara Chromium sin la API de Google: el reconocedor lo
+        // reintenta y no llega acá. En el celular sí llega y se muestra.
         if (codigo === "not-allowed" || codigo === "service-not-allowed") {
           this.set({
             escuchando: false,
+            oyendo: false,
             reconocimientoDisponible: false,
             avisoError:
               "No pudimos usar el reconocimiento de voz del navegador. Podés escribirle al asesor en el cuadro de texto.",
           });
+          return;
         }
+        // Celular que no comparte el micrófono con el reconocedor: se suelta la pista
+        // de la página (el medidor pasa a "voz detectada") y se pide tocar de nuevo.
+        if (
+          (codigo === "audio-capture" || codigo === "corte-inmediato") &&
+          this.estado.modoEscucha === "pulsar" &&
+          this.soltarAudio()
+        ) {
+          this.set({
+            oyendo: false,
+            avisoError: "Ajustamos el micrófono. Tocá de nuevo para hablar.",
+          });
+          return;
+        }
+        this.set({ oyendo: false, avisoError: textoErrorEscucha(codigo) });
       },
     });
     this.set({ escuchando: true });
+  }
+
+  /** Modo "pulsar" (celular): escucha una frase. Va dentro del manejador del toque. */
+  pulsarParaHablar(): void {
+    if (this.estado.flujo.fase !== "llamada" || !this.estado.escuchando || this.estado.oyendo)
+      return;
+    if (this.estado.asesorHablando) {
+      // Tocar mientras habla el asesor lo interrumpe, para no grabar su propia voz.
+      this.d.voz.cancelar();
+      this.d.avatar.callar();
+      this.set({ asesorHablando: false });
+    }
+    this.d.reconocedor.pausar(false);
+    this.set({ avisoError: undefined });
+    this.d.reconocedor.escucharAhora?.();
   }
 
   private destruirEscucha() {
@@ -638,7 +705,7 @@ export class ControladorVC {
     const g = this.generacion;
     const id = this.idPublico;
     this.estado = {
-      ...ESTADO_NUEVO(this.d.reconocedor.disponible()),
+      ...ESTADO_NUEVO(this.d.reconocedor.disponible(), this.d.reconocedor.modo),
       textos: this.estado.textos ?? {},
     };
     this.cierreSolicitado = false;
@@ -715,6 +782,17 @@ export class ControladorVC {
     });
   }
 
+  /** Suelta la pista de audio de la página. true si había una viva. */
+  private soltarAudio(): boolean {
+    const pistas = this.stream?.getAudioTracks?.().filter((t) => t.readyState === "live") ?? [];
+    pistas.forEach((t) => {
+      t.stop();
+      this.stream?.removeTrack(t);
+    });
+    if (pistas.length) this.set({ audioPropio: false });
+    return pistas.length > 0;
+  }
+
   private girando = false;
 
   /**
@@ -745,6 +823,8 @@ export class ControladorVC {
         nuevo.getTracks().forEach((t) => t.stop());
         return;
       }
+      // El audio (medidor de la PC) sigue en el stream nuevo.
+      viejo.getAudioTracks?.().forEach((t) => nuevo.addTrack(t));
       this.stream = nuevo;
       this.vigilarCamara(nuevo);
       this.set({ camara });
