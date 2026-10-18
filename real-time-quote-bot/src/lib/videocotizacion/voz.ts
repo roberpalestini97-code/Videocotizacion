@@ -129,6 +129,8 @@ export class ReconocedorNavegador implements Reconocedor {
   private activo = false;
   private pausado = false;
   private cb: ReconocedorCb | null = null;
+  /** Espera antes de rearmar; crece si el navegador corta enseguida sin oír nada. */
+  private esperaMs = 250;
 
   constructor(private readonly lang = "es-AR") {}
 
@@ -150,7 +152,10 @@ export class ReconocedorNavegador implements Reconocedor {
     r.continuous = true;
     r.interimResults = true;
     r.maxAlternatives = 1;
+    const inicio = Date.now();
+    let oyo = false;
     r.onresult = (ev) => {
+      oyo = true;
       if (this.pausado) return;
       for (let i = ev.resultIndex; i < ev.results.length; i++) {
         const res = ev.results[i];
@@ -169,7 +174,12 @@ export class ReconocedorNavegador implements Reconocedor {
     };
     r.onend = () => {
       // El navegador corta el reconocimiento cada tanto: se rearma mientras la llamada siga.
-      if (this.activo && this.rec === r) setTimeout(() => this.activo && this.arrancar(C), 250);
+      // Si se corta enseguida sin oír nada (micrófono ocupado, Android), se espera más cada vez
+      // para no entrar en un bucle de arranques (el bip de entrada/salida del celular).
+      const corteRapido = !oyo && Date.now() - inicio < 1500;
+      this.esperaMs = corteRapido ? Math.min(this.esperaMs * 2, 4000) : 250;
+      if (this.activo && this.rec === r)
+        setTimeout(() => this.activo && this.arrancar(C), this.esperaMs);
     };
     this.rec = r;
     try {

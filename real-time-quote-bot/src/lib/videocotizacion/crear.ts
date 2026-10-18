@@ -23,19 +23,28 @@ export function crearControlador(entorno: Entorno): ControladorVC {
     pedirMedios: async () => {
       const md = navigator.mediaDevices;
       if (!md?.getUserMedia) throw new DOMException("sin mediaDevices", "NotFoundError");
+      let s: MediaStream;
       try {
-        return await md.getUserMedia({
-          video: { facingMode: { ideal: "environment" } },
-          audio: true,
-        });
+        s = await md.getUserMedia({ video: { facingMode: { ideal: "user" } }, audio: true });
       } catch (e) {
         if (
           e instanceof DOMException &&
           (e.name === "NotAllowedError" || e.name === "SecurityError")
         )
           throw e;
-        return md.getUserMedia({ video: true, audio: true });
+        s = await md.getUserMedia({ video: true, audio: true });
       }
+      return soltarMicrofono(s);
+    },
+    pedirVideo: (camara) => {
+      const md = navigator.mediaDevices;
+      if (!md?.getUserMedia)
+        return Promise.reject(new DOMException("sin mediaDevices", "NotFoundError"));
+      return md.getUserMedia({ video: { facingMode: { ideal: camara } }, audio: false });
+    },
+    contarCamaras: async () => {
+      const ds = (await navigator.mediaDevices?.enumerateDevices?.()) ?? [];
+      return ds.filter((d) => d.kind === "videoinput").length;
     },
     crearMedios: (o) => new SesionMedios(o),
     crearMuestreador: (regla, enviar) => {
@@ -65,4 +74,18 @@ export function crearControlador(entorno: Entorno): ControladorVC {
     reconocedor: new ReconocedorNavegador("es-AR"),
     avatar: entorno.avatar ?? crearAvatarVivo(),
   });
+}
+
+/**
+ * El micrófono se pide solo para tener el permiso: la voz la toma SpeechRecognition.
+ * En Android, Chrome no comparte el micrófono entre getUserMedia y el reconocimiento
+ * (se corta al instante y se rearma en bucle, con el bip de entrada/salida): por eso
+ * la pista de audio se suelta enseguida.
+ */
+function soltarMicrofono(s: MediaStream): MediaStream {
+  s.getAudioTracks().forEach((t) => {
+    t.stop();
+    s.removeTrack(t);
+  });
+  return s;
 }

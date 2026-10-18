@@ -62,8 +62,14 @@ export type EstadoVC = {
   segundos: number;
   reconocimientoDisponible: boolean;
   escuchando: boolean;
+  /** Cámara en uso: frontal ("user") o trasera ("environment"). */
+  camara: Camara;
+  /** Hay más de una cámara (celular): se muestra el botón para girarla. */
+  puedeGirarCamara: boolean;
   fotogramas: { enviados: number; aceptados: number; descartados: number };
 };
+
+export type Camara = "user" | "environment";
 
 export interface MuestreadorLike {
   iniciar(): void;
@@ -87,6 +93,10 @@ export type Dependencias = {
   >;
   /** Pide cámara + micrófono. Rechaza con DOMException (NotAllowedError, NotFoundError…). */
   pedirMedios: () => Promise<MediaStream>;
+  /** Solo video, con la cámara pedida (girar cámara en el celular). Sin esto no se puede girar. */
+  pedirVideo?: (camara: Camara) => Promise<MediaStream>;
+  /** Cuántas cámaras tiene el equipo; sin esto se asume una. */
+  contarCamaras?: () => Promise<number>;
   crearMedios: (
     o: OpcionesMedios,
   ) => Pick<
@@ -111,6 +121,8 @@ const ESTADO_NUEVO = (reconocimientoDisponible: boolean): EstadoVC => ({
   segundos: 0,
   reconocimientoDisponible,
   escuchando: false,
+  camara: "user",
+  puedeGirarCamara: false,
   fotogramas: { enviados: 0, aceptados: 0, descartados: 0 },
 });
 
@@ -313,18 +325,11 @@ export class ControladorVC {
       if (stream.getVideoTracks().length === 0)
         throw new DOMException("sin video", "NotFoundError");
       this.stream = stream;
-      stream.getVideoTracks().forEach((t) => {
-        t.onended = () => {
-          // Si la cámara se corta en plena llamada, no se sigue sin cámara.
-          if (
-            this.stream === stream &&
-            !this.cierreSolicitado &&
-            this.estado.flujo.fase !== "resultado"
-          ) {
-            void this.cortarPorCamara();
-          }
-        };
-      });
+      this.vigilarCamara(stream);
+      void this.d.contarCamaras?.().then(
+        (n) => this.stream === stream && this.set({ puedeGirarCamara: n > 1 }),
+        () => undefined,
+      );
       if (!yaConectando) this.ir({ t: "CAMARA_OK" });
       this.yaFueLista = false;
       this.conectarMedios(g);
@@ -693,6 +698,61 @@ export class ControladorVC {
       }
     }
     if (this.vigente(g)) this.ir({ t: "FIN_CIERRE" });
+  }
+
+  private vigilarCamara(stream: MediaStream) {
+    stream.getVideoTracks().forEach((t) => {
+      t.onended = () => {
+        // Si la cámara se corta en plena llamada, no se sigue sin cámara.
+        if (
+          this.stream === stream &&
+          !this.cierreSolicitado &&
+          this.estado.flujo.fase !== "resultado"
+        ) {
+          void this.cortarPorCamara();
+        }
+      };
+    });
+  }
+
+  private girando = false;
+
+  /**
+   * Cambia entre cámara frontal y trasera. Muchos celulares no abren las dos a la
+   * vez: se suelta la actual antes de pedir la otra y, si falla, se vuelve a la anterior.
+   */
+  async girarCamara(): Promise<void> {
+    const pedir = this.d.pedirVideo;
+    const viejo = this.stream;
+    if (!pedir || !viejo || this.girando) return;
+    this.girando = true;
+    const actual = this.estado.camara;
+    const otra: Camara = actual === "user" ? "environment" : "user";
+    viejo.getVideoTracks().forEach((t) => {
+      t.onended = null;
+      t.stop();
+    });
+    try {
+      let nuevo: MediaStream;
+      let camara = otra;
+      try {
+        nuevo = await pedir(otra);
+      } catch {
+        nuevo = await pedir(actual);
+        camara = actual;
+      }
+      if (this.stream !== viejo) {
+        nuevo.getTracks().forEach((t) => t.stop());
+        return;
+      }
+      this.stream = nuevo;
+      this.vigilarCamara(nuevo);
+      this.set({ camara });
+    } catch {
+      if (this.stream === viejo && !this.cierreSolicitado) void this.cortarPorCamara();
+    } finally {
+      this.girando = false;
+    }
   }
 
   // ---------- limpieza ----------
