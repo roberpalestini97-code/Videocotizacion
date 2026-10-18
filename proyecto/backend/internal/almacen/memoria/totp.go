@@ -161,7 +161,9 @@ func (a *Almacen) AbrirSesionPanel(ctx context.Context, t dominio.TenantID, ap d
 		d.pasos[p.AsesorID][*ap.Paso] = struct{}{}
 	} else {
 		i := indiceCodigo(d.codigos[p.AsesorID], ap.HashRecuperacion)
-		d.codigos[p.AsesorID][i].Usado = true
+		if !d.codigos[p.AsesorID][i].Reutilizable {
+			d.codigos[p.AsesorID][i].Usado = true
+		}
 	}
 	cuando := dominio.Instante(ap.Ahora)
 	p.RevocadaEn = &cuando

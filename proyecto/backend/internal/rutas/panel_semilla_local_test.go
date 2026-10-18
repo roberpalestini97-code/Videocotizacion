@@ -120,3 +120,15 @@ func proveedoresFalsos() proveedores.Conjunto {
 		Mensajeria:   &falsos.Mensajeria{},
 	}
 }
+
+// Demo pública: el código de recuperación de la semilla sirve para entrar más de una vez.
+func TestPanelSemillaLocalRecuperacionReutilizable(t *testing.T) {
+	f := nuevaFixtureSemillaLocal(t)
+	cuando := time.Date(2026, 10, 18, 10, 0, 0, 0, time.UTC)
+	const ip = "127.0.0.1"
+	primera, _ := entrarPanelRecuperacion(t, f, ip, cuando)
+	segunda, _ := entrarPanelRecuperacion(t, f, ip, cuando.Add(time.Minute))
+	if primera == "" || segunda == "" || primera == segunda {
+		t.Fatalf("se esperaban dos sesiones distintas: %q %q", primera, segunda)
+	}
+}
