@@ -3,20 +3,20 @@ import { CircleHelp, Home, ListOrdered, Phone, Scale, type LucideIcon } from "lu
 import { cn } from "@/lib/utils";
 
 const links: {
-  to: "/v1" | "/v1/como-funciona" | "/v1/faq" | "/v1/contacto" | "/v1/legales";
+  to: "/" | "/como-funciona" | "/faq" | "/contacto" | "/legales";
   label: string;
   icon: LucideIcon;
 }[] = [
-  { to: "/v1", label: "Inicio", icon: Home },
-  { to: "/v1/como-funciona", label: "Cómo funciona", icon: ListOrdered },
-  { to: "/v1/faq", label: "FAQ", icon: CircleHelp },
-  { to: "/v1/contacto", label: "Contacto", icon: Phone },
-  { to: "/v1/legales", label: "Legales", icon: Scale },
+  { to: "/", label: "Inicio", icon: Home },
+  { to: "/como-funciona", label: "Cómo funciona", icon: ListOrdered },
+  { to: "/faq", label: "FAQ", icon: CircleHelp },
+  { to: "/contacto", label: "Contacto", icon: Phone },
+  { to: "/legales", label: "Legales", icon: Scale },
 ];
 
 function estaActivo(pathname: string, to: (typeof links)[number]["to"]) {
-  if (to === "/v1") return pathname === "/v1" || pathname === "/v1/";
-  if (to === "/v1/legales") return pathname === "/v1/legales" || pathname.startsWith("/privacidad");
+  if (to === "/") return pathname === "/";
+  if (to === "/legales") return pathname === "/legales" || pathname.startsWith("/privacidad");
   return pathname === to;
 }
 
@@ -26,7 +26,12 @@ export function NavPastilla({ oscuro = false }: { oscuro?: boolean }) {
 
   return (
     <div className={oscuro ? "bg-ink" : undefined}>
-      <p className={cn("px-5 pt-4 text-center text-[11px]", oscuro ? "text-white/40" : "text-ink/40")}>
+      <p
+        className={cn(
+          "px-5 pt-4 text-center text-[11px]",
+          oscuro ? "text-white/40" : "text-ink/40",
+        )}
+      >
         © 2026 VideoCotización · Mano de obra cotizada por video
       </p>
       <div className="h-20" aria-hidden />

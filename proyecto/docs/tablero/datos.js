@@ -628,6 +628,10 @@ window.TABLERO = {
   ],
   "log": [
     {
+      "ts": "2026-10-18T14:00:00-03:00",
+      "texto": "Claude: feat/portada-unica. Queda una sola portada (la v1) en la raiz: /, /como-funciona, /faq, /contacto, /legales. Se borraron la portada de / (Talonario) y la /v2 (Encuadre) con su CSS; /v1/* y /v2 redirigen a la raiz. Celular vertical: asesor arriba y camara abajo, mitad y mitad, chat a lo ancho y datos en vivo en una fila deslizable. Probado: tsc, vitest 171, build NITRO_PRESET=vercel, rutas y redirecciones en vite dev; llamada completa contra el backend de prod (Render) con camara y mic falsos de Chrome, en PC 1280x800 y celular 390x844, con Laura, Tito y Juan: WS, GLB 3D, fotogramas, texto y respuesta de Gemini. NO probado: voz real en celular (sigue el boton Toca para hablar; la voz tipo Zoom con STT en el servidor queda pendiente, bloqueada por disco lleno para compilar Go)."
+    },
+    {
       "ts": "2026-10-18T12:30:00-03:00",
       "texto": "Claude: fix/movil-tocar-para-hablar. En Android Chrome no aparecia texto (sin bips): el reconocimiento continuo arrancado sin gesto no abre el mic. Celular: boton Toca para hablar (una frase por toque, continuous=false), errores del reconocedor visibles con codigo (network/audio-capture), medidor de microfono con ondas verdes (espectro real con AnalyserNode; si el celular no comparte el mic se suelta la pista y se anima con la voz detectada), boton girar camara siempre en celular. PC sin cambios de flujo (continuo) + medidor real. Probado: vitest 171 (6 nuevos), typecheck, eslint, build NITRO_PRESET=vercel. NO probado: celular real."
     },

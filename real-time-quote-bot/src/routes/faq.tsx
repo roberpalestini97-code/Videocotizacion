@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CabeceraPagina } from "@/components/CabeceraPagina";
 import { NavPastilla } from "@/components/NavPastilla";
 
-export const Route = createFileRoute("/v1/faq")({
+export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
       { title: "Preguntas frecuentes · VideoCotización" },

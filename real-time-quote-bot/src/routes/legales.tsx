@@ -3,7 +3,7 @@ import { CabeceraPagina } from "@/components/CabeceraPagina";
 import { NavPastilla } from "@/components/NavPastilla";
 import { AAIP_URL, AVISO_VIGENTE, LEY_DATOS_URL } from "@/data/aviso-privacidad";
 
-export const Route = createFileRoute("/v1/legales")({
+export const Route = createFileRoute("/legales")({
   head: () => ({
     meta: [
       { title: "Legales y privacidad · VideoCotización" },
@@ -83,7 +83,8 @@ function Legales() {
           >
             <p className="font-display text-sm font-semibold">Ley 25.326</p>
             <p className="mt-1 text-xs leading-relaxed text-ink/60">
-              Texto actualizado de la Ley de Protección de los Datos Personales, en argentina.gob.ar.
+              Texto actualizado de la Ley de Protección de los Datos Personales, en
+              argentina.gob.ar.
             </p>
           </a>
           <a
@@ -92,7 +93,9 @@ function Legales() {
             rel="noopener noreferrer"
             className="rounded-2xl border border-black/5 bg-card p-4"
           >
-            <p className="font-display text-sm font-semibold">Agencia de Acceso a la Información Pública</p>
+            <p className="font-display text-sm font-semibold">
+              Agencia de Acceso a la Información Pública
+            </p>
             <p className="mt-1 text-xs leading-relaxed text-ink/60">
               Autoridad de control. Ahí se consultan los derechos y se presenta un reclamo.
             </p>

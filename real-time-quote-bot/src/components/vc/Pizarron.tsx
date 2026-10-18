@@ -11,17 +11,18 @@ export function PizarronVivo({ pizarron }: { pizarron: EstadoPizarron }) {
       role="status"
       aria-live="polite"
       aria-label="Datos anotados en vivo"
-      className="absolute left-3 top-12 z-[5] max-w-[min(48%,18rem)] rounded-2xl bg-ink/75 p-2.5 ring-1 ring-white/15 backdrop-blur-md landscape:left-4 landscape:top-14 landscape:max-w-[36%]"
+      className="absolute left-3 top-12 z-[5] max-w-[min(48%,18rem)] portrait:right-3 portrait:top-10 portrait:max-w-none portrait:p-2 rounded-2xl bg-ink/75 p-2.5 ring-1 ring-white/15 backdrop-blur-md landscape:left-4 landscape:top-14 landscape:max-w-[36%]"
     >
       <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-accent">
         Datos en vivo
       </p>
-      <div className="mt-1.5 flex flex-wrap gap-1">
+      {/* En el celular vertical, una sola fila que se desliza: no tapa la cara del asesor. */}
+      <div className="scrollbar-none mt-1.5 flex flex-wrap gap-1 portrait:flex-nowrap portrait:overflow-x-auto">
         {anotados.map((d) => (
           <span
             key={d.clave}
             data-testid={`pizarron-${d.clave}`}
-            className="animate-rise rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/85"
+            className="animate-rise shrink-0 whitespace-nowrap rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-white/85"
           >
             {d.etiqueta}: <span className="font-semibold">{d.valor}</span>
             {d.estado === "corregido_por_cliente" && <span title="Corregido por vos"> ✎</span>}
@@ -30,7 +31,7 @@ export function PizarronVivo({ pizarron }: { pizarron: EstadoPizarron }) {
         {faltantes.map((d) => (
           <span
             key={d.clave}
-            className="rounded-full border border-dashed border-white/30 px-2 py-0.5 text-[10px] text-white/55"
+            className="shrink-0 whitespace-nowrap rounded-full border border-dashed border-white/30 px-2 py-0.5 text-[10px] text-white/55"
           >
             Falta: {d.etiqueta}
           </span>

@@ -1,12 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { CabeceraPagina } from "@/components/CabeceraPagina";
 import { NavPastilla } from "@/components/NavPastilla";
-import {
-  AAIP_URL,
-  AVISO_VIGENTE,
-  LEY_DATOS_URL,
-  SECCIONES_AVISO,
-} from "@/data/aviso-privacidad";
+import { AAIP_URL, AVISO_VIGENTE, LEY_DATOS_URL, SECCIONES_AVISO } from "@/data/aviso-privacidad";
 
 export const Route = createFileRoute("/privacidad/$version")({
   head: ({ params }) => ({
@@ -77,7 +72,10 @@ function Aviso() {
         <ol className="grid gap-1.5 text-sm">
           {SECCIONES_AVISO.map((s, i) => (
             <li key={s.id}>
-              <a href={`#${s.id}`} className="text-ink/70 underline-offset-2 hover:text-brand hover:underline">
+              <a
+                href={`#${s.id}`}
+                className="text-ink/70 underline-offset-2 hover:text-brand hover:underline"
+              >
                 {i + 1}. {s.titulo}
               </a>
             </li>
@@ -100,7 +98,7 @@ function Aviso() {
             {s.id === "derechos" && (
               <p className="mt-3">
                 <Link
-                  to="/v1/contacto"
+                  to="/contacto"
                   className="text-sm font-medium text-brand underline underline-offset-2"
                 >
                   Ir a Contacto
