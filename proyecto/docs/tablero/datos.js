@@ -556,6 +556,14 @@ window.TABLERO = {
       "status": "en_curso",
       "rehacer": false,
       "nota": "Rama feat/deploy-vercel-render. Backend: ORIGENES_PUBLICOS (CORS + origenes de la clave demo) y URL_MEDIOS (base wss de ws_url). render.yaml (memoria + SEMILLA_LOCAL, demo), panel-asesor/vercel.json (proxy /v1 mismo origen), imagen con esquema-salida-llm, TanStack Start 1.168.61 (CVE-2026-102989, Vercel bloqueaba el build). Probado 2026-10-17: go test -p 1 ./...; Render build+arranque, GET /v1/version 200; CORS preflight 204 para videocotizacion.vercel.app y 403 para origen ajeno; enlace demo responde; preview Vercel de la rama renderiza la portada. NO probado: produccion Vercel (espera merge a main), proxy /v1 del panel, login panel, llamada E2E con WebSocket y Gemini, bun.lock (no se regenero)."
+    },
+    {
+      "id": "T46",
+      "titulo": "Entornos para los avatares: oficina (Laura, Juan) y plaza (Tito), sentados",
+      "agente": "fe",
+      "status": "en_revision",
+      "rehacer": false,
+      "nota": "Rama feat/T46-entornos-avatar. Plan docs/avatar/entornos.md. Luz: HDRI 1k CC0 (Poly Haven hotel_room, greenwich_park_02). Fondo: vista en perspectiva recortada del panorama 8k + desenfoque leve (scripts/generar-fondos-entornos.mjs; el HDRI 1k como fondo se veia borroso con el plano de busto). Respaldo de silla procedural en la oficina; en la plaza no se ve banco con el plano de busto. Laura y Juan oficina, Tito plaza; fallback al degrade si falla la carga. Fotos de asesores regeneradas con el entorno. Probado: capturas headless de los 3 avatares, vitest 174 (3 nuevos), typecheck, build NITRO_PRESET=vercel con public/entornos. NO probado: celular real, rendimiento en gama baja."
     }
   ],
   "votes": [],

@@ -6,7 +6,7 @@ import { Avatar3D, ErrorSinWebGL } from "../avatar-motor/Avatar3D";
 import { AvatarClips } from "../avatar-motor/clips/AvatarClips";
 import { catalogoPlaceholder } from "../avatar-motor/clips/ColaClips";
 import { cargarModeloGLB } from "../avatar-motor/modelo/glb";
-import { urlGlbValid } from "../avatar-motor/valid-avatars/catalogo";
+import { entornoDeAvatar, urlGlbValid } from "../avatar-motor/valid-avatars/catalogo";
 import { AvatarVivo } from "./avatar-vivo";
 
 const CSS_ID = "vc-avatar-motor-css";
@@ -43,6 +43,12 @@ export function crearAvatarVivo(): AvatarVivo {
       av.lienzo.style.display = "block";
       av.lienzo.style.width = "100%";
       av.lienzo.style.height = "100%";
+
+      const entorno = entornoDeAvatar(op.avatarId);
+      if (entorno)
+        void av.usarEntorno(entorno).catch((err) => {
+          console.warn("[avatar] no se pudo cargar el entorno; queda el fondo liso:", err);
+        });
 
       const url = urlGlbValid(op.avatarId);
       if (url) {
