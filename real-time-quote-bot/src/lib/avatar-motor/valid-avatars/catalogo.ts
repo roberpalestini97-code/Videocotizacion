@@ -2,6 +2,8 @@
  * Catálogo VALID (c-frame/valid-avatars-glb) → URL GLB por avatar_id del contrato.
  * Commit fijado en jsdelivr para builds reproducibles.
  */
+import { ENTORNOS, type Entorno, type IdEntorno } from '../entornos';
+
 export const VALID_AVATARS_COMMIT = 'c539a28';
 
 const BASE_DEFECTO = `https://cdn.jsdelivr.net/gh/c-frame/valid-avatars-glb@${VALID_AVATARS_COMMIT}/`;
@@ -9,12 +11,14 @@ const BASE_DEFECTO = `https://cdn.jsdelivr.net/gh/c-frame/valid-avatars-glb@${VA
 export type EntradaValidAvatar = {
   avatarId: string;
   modelPath: string;
+  /** Lugar donde aparece sentado (T46). */
+  entorno: IdEntorno;
 };
 
 const ENTRADAS: EntradaValidAvatar[] = [
-  { avatarId: 'av_valid_laura', modelPath: 'avatars/Hispanic/Hispanic_F_2_Util.glb' },
-  { avatarId: 'av_valid_tito', modelPath: 'avatars/Asian/Asian_M_1_Util.glb' },
-  { avatarId: 'av_valid_juan', modelPath: 'avatars/White/White_M_3_Medi.glb' },
+  { avatarId: 'av_valid_laura', modelPath: 'avatars/Hispanic/Hispanic_F_2_Util.glb', entorno: 'oficina' },
+  { avatarId: 'av_valid_tito', modelPath: 'avatars/Asian/Asian_M_1_Util.glb', entorno: 'plaza' },
+  { avatarId: 'av_valid_juan', modelPath: 'avatars/White/White_M_3_Medi.glb', entorno: 'oficina' },
 ];
 
 const POR_ID = new Map(ENTRADAS.map((e) => [e.avatarId, e]));
@@ -27,6 +31,12 @@ function baseUrl(): string {
 
 export function esValidAvatar(avatarId: string): boolean {
   return POR_ID.has(avatarId);
+}
+
+/** Entorno (oficina, plaza) del avatar; null si no es VALID. */
+export function entornoDeAvatar(avatarId: string): Entorno | null {
+  const e = POR_ID.get(avatarId);
+  return e ? ENTORNOS[e.entorno] : null;
 }
 
 export function urlGlbValid(avatarId: string): string | null {

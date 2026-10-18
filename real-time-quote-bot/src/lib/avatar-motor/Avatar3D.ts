@@ -26,6 +26,8 @@ import {
 } from './modelo/blendshapes';
 import { crearModeloProcedural, type ModeloAvatar } from './modelo/procedural';
 import { MedidorFrames } from './medicion/frames';
+import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
+import { crearRespaldoSilla, cubrir, liberarGrupo, type Entorno } from './entornos';
 
 export type Calidad = 'baja' | 'media' | 'alta';
 
@@ -89,6 +91,11 @@ export class Avatar3D {
   private destruido = false;
   private fondoTex: THREE.CanvasTexture | null = null;
   private modoBusto = false;
+  private luces: THREE.Light[] = [];
+  private entornoTex: THREE.Texture | null = null;
+  private entornoFondo: THREE.Texture | null = null;
+  private entornoPmrem: THREE.Texture | null = null;
+  private respaldo: THREE.Object3D | null = null;
 
   constructor(private readonly contenedor: HTMLElement, private readonly op: OpcionesAvatar3D) {
     this.lienzo = document.createElement('canvas');
@@ -115,16 +122,18 @@ export class Avatar3D {
     this.escena.background = this.fondoTex;
 
     // Luz suave tipo estudio (referencia Meshy).
-    this.escena.add(new THREE.HemisphereLight(0xf0f0f5, 0x2a2a32, 0.85));
+    const hemi = new THREE.HemisphereLight(0xf0f0f5, 0x2a2a32, 0.85);
     const key = new THREE.DirectionalLight(0xffffff, 1.35);
     key.position.set(1.2, 2.2, 2.5);
-    this.escena.add(key);
     const fill = new THREE.DirectionalLight(0xc8d4ff, 0.45);
     fill.position.set(-2, 0.8, 1.2);
-    this.escena.add(fill);
     const rim = new THREE.DirectionalLight(0xfff0e0, 0.35);
     rim.position.set(0, 1.5, -2);
-    this.escena.add(rim);
+    this.luces = [hemi, key, fill, rim];
+    for (const l of this.luces) {
+      l.userData.intensidadBase = l.intensity;
+      this.escena.add(l);
+    }
 
     this.camara.position.set(0, -0.35, 7.2);
     this.camara.lookAt(0, -0.55, 0);
@@ -153,6 +162,56 @@ export class Avatar3D {
     if (!this.escena.children.includes(m.raiz)) this.escena.add(m.raiz);
     this.modoBusto = m.mallasVisemas.some((x) => detectarEsquema(x) === 'valid');
     this.aplicarCamara();
+  }
+
+  /**
+   * Pone al asesor en un lugar (T46): el HDRI es el fondo desenfocado y la luz de la
+   * escena. Si la carga falla, queda el degradé de siempre (la llamada no se rompe).
+   */
+  async usarEntorno(e: Entorno): Promise<void> {
+    const [tex, fondo] = await Promise.all([
+      new HDRLoader().loadAsync(e.url),
+      new THREE.TextureLoader().loadAsync(e.fondo),
+    ]);
+    if (this.destruido) {
+      tex.dispose();
+      fondo.dispose();
+      return;
+    }
+    tex.mapping = THREE.EquirectangularReflectionMapping;
+    const pmrem = new THREE.PMREMGenerator(this.renderer);
+    const env = pmrem.fromEquirectangular(tex).texture;
+    pmrem.dispose();
+    tex.dispose(); // la luz usa el PMREM; el equirect ya no hace falta
+    this.quitarEntorno();
+    fondo.colorSpace = THREE.SRGBColorSpace;
+    this.entornoFondo = fondo;
+    this.entornoPmrem = env;
+    cubrir(fondo, this.contenedor.clientWidth, this.contenedor.clientHeight);
+    this.escena.background = fondo;
+    this.escena.environment = env;
+    this.escena.environmentIntensity = e.intensidadLuz;
+    this.escena.environmentRotation.set(0, e.rotacionY, 0);
+    for (const l of this.luces) l.intensity = l.userData.intensidadBase * e.luzEstudio;
+    if (e.respaldo === 'silla') {
+      this.respaldo = crearRespaldoSilla();
+      this.escena.add(this.respaldo);
+    }
+  }
+
+  private quitarEntorno(): void {
+    if (this.respaldo) {
+      this.escena.remove(this.respaldo);
+      liberarGrupo(this.respaldo);
+      this.respaldo = null;
+    }
+    this.entornoTex?.dispose();
+    this.entornoFondo?.dispose();
+    this.entornoPmrem?.dispose();
+    this.entornoTex = this.entornoFondo = this.entornoPmrem = null;
+    this.escena.background = this.fondoTex;
+    this.escena.environment = null;
+    for (const l of this.luces) l.intensity = l.userData.intensidadBase;
   }
 
   /** Plano busto (cabeza/hombros) como en la referencia Meshy. */
@@ -216,6 +275,7 @@ export class Avatar3D {
     this.renderer.setAnimationLoop(null);
     this.observador?.disconnect();
     this.modelo.liberar();
+    this.quitarEntorno();
     this.fondoTex?.dispose();
     this.fondoTex = null;
     this.renderer.dispose();
@@ -226,6 +286,7 @@ export class Avatar3D {
     const w = Math.max(1, this.contenedor.clientWidth);
     const h = Math.max(1, this.contenedor.clientHeight);
     this.renderer.setSize(w, h, true);
+    if (this.entornoFondo) cubrir(this.entornoFondo, w, h);
     this.camara.aspect = w / h;
     this.camara.updateProjectionMatrix();
   }
