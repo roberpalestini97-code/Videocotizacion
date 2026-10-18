@@ -681,3 +681,67 @@ describe("ControladorVC: girar cámara (celular)", () => {
     expect(t.c.getState().puedeGirarCamara).toBe(false);
   });
 });
+
+describe("ControladorVC: tocá para hablar (celular)", () => {
+  function conPulsar() {
+    const audio = { stop: vi.fn(), readyState: "live", onended: null };
+    const video = { stop: vi.fn(), onended: null as null | (() => void) };
+    const pistas = { audio: [audio] as (typeof audio)[] };
+    const stream = {
+      getTracks: () => [video, ...pistas.audio],
+      getVideoTracks: () => [video],
+      getAudioTracks: () => pistas.audio,
+      removeTrack: (t: unknown) => {
+        pistas.audio = pistas.audio.filter((p) => p !== t);
+      },
+    } as unknown as MediaStream;
+    let cb: Parameters<Dependencias["reconocedor"]["iniciar"]>[0] | undefined;
+    const reconocedor = {
+      modo: "pulsar" as const,
+      disponible: () => true,
+      iniciar: vi.fn((c: typeof cb) => {
+        cb = c;
+      }),
+      escucharAhora: vi.fn(),
+      detener: vi.fn(),
+      pausar: vi.fn(),
+    };
+    const t = armar({ reconocedor, pedirMedios: vi.fn(async () => stream) });
+    return { t, reconocedor, audio, stream, cb: () => cb! };
+  }
+
+  it("el toque abre el micrófono, interrumpe al asesor y muestra la frase enviada", async () => {
+    const { t, reconocedor, cb } = conPulsar();
+    await hastaLlamada(t);
+    expect(t.c.getState().modoEscucha).toBe("pulsar");
+    t.servidor(ev("avatar.respuesta", { turno: 1, texto: "Contame del trabajo" }));
+    expect(t.c.getState().asesorHablando).toBe(true);
+
+    t.c.pulsarParaHablar();
+    expect(t.voz.cancelar).toHaveBeenCalled();
+    expect(t.c.getState().asesorHablando).toBe(false);
+    expect(reconocedor.escucharAhora).toHaveBeenCalled();
+
+    cb().onEscuchando?.(true);
+    expect(t.c.getState().oyendo).toBe(true);
+    cb().onFinal("pintar dos ambientes");
+    expect(t.medios.enviarTexto).toHaveBeenCalledWith("pintar dos ambientes");
+    cb().onEscuchando?.(false);
+    expect(t.c.getState().oyendo).toBe(false);
+  });
+
+  it("si el celular no comparte el micrófono, suelta el audio de la página y pide tocar de nuevo", async () => {
+    const { t, audio, stream, cb } = conPulsar();
+    await hastaLlamada(t);
+    t.c.pulsarParaHablar();
+    cb().onError?.("corte-inmediato");
+    expect(audio.stop).toHaveBeenCalled();
+    expect(stream.getAudioTracks()).toHaveLength(0);
+    expect(t.c.getState().avisoError).toMatch(/Tocá de nuevo/);
+    expect(t.c.getState().audioPropio).toBe(false);
+
+    // ya sin audio propio, el mismo error se muestra con su código
+    cb().onError?.("audio-capture");
+    expect(t.c.getState().avisoError).toMatch(/audio-capture/);
+  });
+});

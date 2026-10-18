@@ -628,6 +628,10 @@ window.TABLERO = {
   ],
   "log": [
     {
+      "ts": "2026-10-18T12:30:00-03:00",
+      "texto": "Claude: fix/movil-tocar-para-hablar. En Android Chrome no aparecia texto (sin bips): el reconocimiento continuo arrancado sin gesto no abre el mic. Celular: boton Toca para hablar (una frase por toque, continuous=false), errores del reconocedor visibles con codigo (network/audio-capture), medidor de microfono con ondas verdes (espectro real con AnalyserNode; si el celular no comparte el mic se suelta la pista y se anima con la voz detectada), boton girar camara siempre en celular. PC sin cambios de flujo (continuo) + medidor real. Probado: vitest 171 (6 nuevos), typecheck, eslint, build NITRO_PRESET=vercel. NO probado: celular real."
+    },
+    {
       "ts": "2026-10-18T10:30:00-03:00",
       "texto": "Claude: hotfix fix/movil-mic-camara-panel-demo. Celular: se suelta la pista de audio de getUserMedia (Android no comparte el mic con SpeechRecognition: bucle de bips), backoff al rearmar el reconocedor, camara frontal por defecto con espejo y boton para girar (frontal/trasera). Panel demo: codigo DEMO-LOCA-2026 reutilizable (solo semilla en memoria) en las 3 cuentas. Probado: go test -p 1 ./... (TestPanelSemillaLocalRecuperacionReutilizable), front typecheck, vitest 165 (3 nuevos de girar camara), build NITRO_PRESET=vercel. NO probado: celular real (Android/iOS)."
     },

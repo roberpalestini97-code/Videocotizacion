@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { SwitchCamera } from "lucide-react";
+import { Mic, SwitchCamera } from "lucide-react";
 import martaImg from "@/assets/avatar-marta.jpg";
 import diegoImg from "@/assets/avatar-diego.jpg";
 import luciaImg from "@/assets/avatar-lucia.jpg";
 import { Consentimiento } from "@/components/vc/Consentimiento";
+import { MedidorMicrofono } from "@/components/vc/MedidorMicrofono";
 import { PizarronVivo } from "@/components/vc/Pizarron";
 import { CierreSinPresupuesto, Resultado } from "@/components/vc/Resultado";
 import { leerConfig } from "@/lib/videocotizacion/config";
@@ -513,6 +514,30 @@ export function VideoCotizacion({
                   )}
                   <div ref={finRef} />
                 </div>
+                {s.reconocimientoDisponible && s.escuchando && (
+                  <div
+                    className="flex items-center gap-2 border-t border-white/10 px-2 py-1"
+                    data-testid="estado-microfono"
+                  >
+                    <MedidorMicrofono
+                      key={`${s.audioPropio}-${s.camara}`}
+                      stream={ctl.streamActual}
+                      activo={
+                        s.modoEscucha === "pulsar" ? s.oyendo : fase === "llamada" && !s.asesorHablando
+                      }
+                      vozDetectada={s.vozDetectada}
+                    />
+                    <span className="min-w-0 truncate text-[10px] font-medium text-white/75">
+                      {s.modoEscucha === "pulsar"
+                        ? s.oyendo
+                          ? "Grabando… hablá ahora"
+                          : "Tocá el micrófono para hablar"
+                        : s.asesorHablando
+                          ? "Habla el asesor…"
+                          : "Te estamos escuchando"}
+                    </span>
+                  </div>
+                )}
                 <form
                   className="flex gap-1.5 border-t border-white/10 p-1.5"
                   onSubmit={(e) => {
@@ -520,6 +545,20 @@ export function VideoCotizacion({
                     if (ctl.enviarTexto(texto)) setTexto("");
                   }}
                 >
+                  {s.modoEscucha === "pulsar" && s.reconocimientoDisponible && (
+                    <button
+                      type="button"
+                      onClick={() => ctl.pulsarParaHablar()}
+                      disabled={fase !== "llamada" || s.oyendo}
+                      aria-label={s.oyendo ? "Escuchando" : "Tocá para hablar"}
+                      data-testid="pulsar-para-hablar"
+                      className={`flex size-9 shrink-0 items-center justify-center rounded-full text-white transition active:scale-95 ${
+                        s.oyendo ? "bg-online animate-pulse" : "bg-brand"
+                      } disabled:opacity-60`}
+                    >
+                      <Mic className="size-4" aria-hidden />
+                    </button>
+                  )}
                   <input
                     value={texto}
                     onChange={(e) => setTexto(e.target.value)}

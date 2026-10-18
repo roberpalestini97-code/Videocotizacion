@@ -85,9 +85,20 @@ export class VozNavegador implements Voz {
 
 // ---------- reconocimiento ----------
 
+/**
+ * "continuo": escucha toda la llamada y se rearma solo (PC).
+ * "pulsar": cada frase la arranca un toque del usuario (celular). Chrome en Android
+ * no sostiene la escucha continua ni arranca bien el reconocimiento fuera de un gesto.
+ */
+export type ModoEscucha = "continuo" | "pulsar";
+
 export interface Reconocedor {
+  /** Por defecto "continuo". */
+  readonly modo?: ModoEscucha;
   disponible(): boolean;
   iniciar(cb: ReconocedorCb): void;
+  /** Modo "pulsar": escucha una frase. Llamarlo dentro del manejador del toque. */
+  escucharAhora?(): void;
   detener(): void;
   /** Mientras habla el asesor no se escucha (evita que se oiga a sí mismo). */
   pausar(pausado: boolean): void;
@@ -98,6 +109,10 @@ export type ReconocedorCb = {
   onFinal: (texto: string) => void;
   /** "no-speech" y "aborted" no se informan. Ej.: "not-allowed", "network". */
   onError?: (codigo: string) => void;
+  /** Modo "pulsar": true mientras el micrófono está abierto para una frase. */
+  onEscuchando?: (oyendo: boolean) => void;
+  /** El navegador detecta (o deja de detectar) voz. No da el volumen. */
+  onVoz?: (hablando: boolean) => void;
 };
 
 type SpeechRecognitionLike = {
@@ -111,6 +126,8 @@ type SpeechRecognitionLike = {
   onresult: ((ev: SpeechRecognitionEventLike) => void) | null;
   onerror: ((ev: { error: string }) => void) | null;
   onend: (() => void) | null;
+  onspeechstart?: (() => void) | null;
+  onspeechend?: (() => void) | null;
 };
 type SpeechRecognitionEventLike = {
   resultIndex: number;
@@ -132,7 +149,10 @@ export class ReconocedorNavegador implements Reconocedor {
   /** Espera antes de rearmar; crece si el navegador corta enseguida sin oír nada. */
   private esperaMs = 250;
 
-  constructor(private readonly lang = "es-AR") {}
+  constructor(
+    private readonly lang = "es-AR",
+    readonly modo: ModoEscucha = "continuo",
+  ) {}
 
   disponible(): boolean {
     return constructorReconocimiento() !== null;
@@ -143,17 +163,26 @@ export class ReconocedorNavegador implements Reconocedor {
     if (!C || this.activo) return;
     this.cb = cb;
     this.activo = true;
+    if (this.modo === "continuo") this.arrancar(C);
+  }
+
+  escucharAhora(): void {
+    const C = constructorReconocimiento();
+    if (!C || !this.activo || this.modo !== "pulsar" || this.rec) return;
+    this.pausado = false;
     this.arrancar(C);
   }
 
   private arrancar(C: new () => SpeechRecognitionLike) {
+    const unaVez = this.modo === "pulsar";
     const r = new C();
     r.lang = this.lang;
-    r.continuous = true;
+    r.continuous = !unaVez;
     r.interimResults = true;
     r.maxAlternatives = 1;
     const inicio = Date.now();
     let oyo = false;
+    let huboError = false;
     r.onresult = (ev) => {
       oyo = true;
       if (this.pausado) return;
@@ -167,12 +196,30 @@ export class ReconocedorNavegador implements Reconocedor {
         else this.cb?.onParcial?.(t);
       }
     };
+    r.onspeechstart = () => {
+      oyo = true;
+      this.cb?.onVoz?.(true);
+    };
+    r.onspeechend = () => this.cb?.onVoz?.(false);
     r.onerror = (ev) => {
-      if (ev.error === "no-speech" || ev.error === "aborted" || ev.error === "network") return;
+      huboError = true;
+      if (ev.error === "no-speech" || ev.error === "aborted") return;
+      // En la PC, Chromium sin la API de Google dispara "network" y se reintenta solo.
+      // En el celular es un fallo real del servicio de voz: se informa.
+      if (ev.error === "network" && !unaVez) return;
       if (ev.error === "not-allowed" || ev.error === "service-not-allowed") this.activo = false;
       this.cb?.onError?.(ev.error);
     };
     r.onend = () => {
+      this.cb?.onVoz?.(false);
+      if (unaVez) {
+        if (this.rec === r) this.rec = null;
+        // Cortarse al instante sin oír nada = el micrófono está tomado por otra pista
+        // (celulares que no lo comparten con la página). El controlador lo resuelve.
+        if (!oyo && !huboError && Date.now() - inicio < 800) this.cb?.onError?.("corte-inmediato");
+        this.cb?.onEscuchando?.(false);
+        return;
+      }
       // El navegador corta el reconocimiento cada tanto: se rearma mientras la llamada siga.
       // Si se corta enseguida sin oír nada (micrófono ocupado, Android), se espera más cada vez
       // para no entrar en un bucle de arranques (el bip de entrada/salida del celular).
@@ -184,8 +231,14 @@ export class ReconocedorNavegador implements Reconocedor {
     this.rec = r;
     try {
       r.start();
-    } catch {
-      /* ya iniciado */
+      if (unaVez) this.cb?.onEscuchando?.(true);
+    } catch (e) {
+      /* ya iniciado (continuo); en "pulsar" se informa */
+      if (unaVez) {
+        this.rec = null;
+        this.cb?.onEscuchando?.(false);
+        this.cb?.onError?.(e instanceof Error ? e.name || "start" : "start");
+      }
     }
   }
 

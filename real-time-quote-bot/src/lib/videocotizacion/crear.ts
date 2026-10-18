@@ -16,6 +16,7 @@ export type Entorno = {
 
 export function crearControlador(entorno: Entorno): ControladorVC {
   const config = leerConfig();
+  const movil = esCelular();
   const cliente = new ClienteVC({ apiBase: config.apiBase, clavePublica: config.clavePublica });
   return new ControladorVC({
     config,
@@ -34,7 +35,9 @@ export function crearControlador(entorno: Entorno): ControladorVC {
           throw e;
         s = await md.getUserMedia({ video: true, audio: true });
       }
-      return soltarMicrofono(s);
+      // La pista de audio queda para el medidor del micrófono. Si en este celular no se
+      // comparte con SpeechRecognition, el controlador la suelta (soltarAudio).
+      return s;
     },
     pedirVideo: (camara) => {
       const md = navigator.mediaDevices;
@@ -44,7 +47,9 @@ export function crearControlador(entorno: Entorno): ControladorVC {
     },
     contarCamaras: async () => {
       const ds = (await navigator.mediaDevices?.enumerateDevices?.()) ?? [];
-      return ds.filter((d) => d.kind === "videoinput").length;
+      const n = ds.filter((d) => d.kind === "videoinput").length;
+      // Android a veces lista una sola cámara aunque tenga frontal y trasera.
+      return movil ? Math.max(n, 2) : n;
     },
     crearMedios: (o) => new SesionMedios(o),
     crearMuestreador: (regla, enviar) => {
@@ -71,21 +76,17 @@ export function crearControlador(entorno: Entorno): ControladorVC {
       });
     },
     voz: new VozNavegador("es-AR"),
-    reconocedor: new ReconocedorNavegador("es-AR"),
+    reconocedor: new ReconocedorNavegador("es-AR", movil ? "pulsar" : "continuo"),
     avatar: entorno.avatar ?? crearAvatarVivo(),
   });
 }
 
-/**
- * El micrófono se pide solo para tener el permiso: la voz la toma SpeechRecognition.
- * En Android, Chrome no comparte el micrófono entre getUserMedia y el reconocimiento
- * (se corta al instante y se rearma en bucle, con el bip de entrada/salida): por eso
- * la pista de audio se suelta enseguida.
- */
-function soltarMicrofono(s: MediaStream): MediaStream {
-  s.getAudioTracks().forEach((t) => {
-    t.stop();
-    s.removeTrack(t);
-  });
-  return s;
+/** Celular o tablet (incluye iPad, que se presenta como Mac con pantalla táctil). */
+export function esCelular(): boolean {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent;
+  return (
+    /Android|iPhone|iPad|iPod|Mobile/i.test(ua) ||
+    (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)
+  );
 }
