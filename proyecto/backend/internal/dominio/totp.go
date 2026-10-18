@@ -36,6 +36,9 @@ type CodigoRecuperacion struct {
 	Hash     []byte
 	Metodo   string
 	Usado    bool
+	// Reutilizable: no se marca como usado al ingresar. Solo la semilla demo
+	// (SEMILLA_LOCAL, almacén en memoria) lo pone en true; nunca un código real.
+	Reutilizable bool
 }
 
 // IngresoHallado es la cookie encontrada sin conocer el tenant de antemano.

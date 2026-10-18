@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { SwitchCamera } from "lucide-react";
 import martaImg from "@/assets/avatar-marta.jpg";
 import diegoImg from "@/assets/avatar-diego.jpg";
 import luciaImg from "@/assets/avatar-lucia.jpg";
@@ -103,7 +104,7 @@ export function VideoCotizacion({
     if (!v || !stream) return;
     if (v.srcObject !== stream) v.srcObject = stream;
     void v.play().catch(() => undefined);
-  }, [enPantallaLlamada, fase, ctl]);
+  }, [enPantallaLlamada, fase, ctl, s.camara]);
 
   useEffect(() => {
     finRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -429,8 +430,19 @@ export function VideoCotizacion({
                     playsInline
                     autoPlay
                     data-testid="mi-camara"
-                    className="absolute inset-0 size-full object-cover"
+                    className={`absolute inset-0 size-full object-cover ${s.camara === "user" ? "-scale-x-100" : ""}`}
                   />
+                  {s.puedeGirarCamara && (
+                    <button
+                      type="button"
+                      onClick={() => void ctl.girarCamara()}
+                      aria-label={s.camara === "user" ? "Usar cámara trasera" : "Usar cámara frontal"}
+                      data-testid="girar-camara"
+                      className="absolute bottom-2.5 right-2.5 flex size-10 items-center justify-center rounded-full bg-ink/65 text-white backdrop-blur-sm transition active:scale-95"
+                    >
+                      <SwitchCamera className="size-5" aria-hidden />
+                    </button>
+                  )}
                   <div className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-full bg-ink/65 px-2.5 py-1 backdrop-blur-sm">
                     <span className="size-1.5 rounded-full bg-online animate-blink" />
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-white">

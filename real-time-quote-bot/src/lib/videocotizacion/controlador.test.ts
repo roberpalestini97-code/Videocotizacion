@@ -631,3 +631,53 @@ describe("cierre y derivación a WhatsApp", () => {
     expect(t.c.getState().flujo.fase).toBe("inactiva");
   });
 });
+
+describe("ControladorVC: girar cámara (celular)", () => {
+  const streamCon = () => {
+    const pista = { stop: vi.fn(), onended: null as null | (() => void) };
+    const s = { getTracks: () => [pista], getVideoTracks: () => [pista] } as unknown as MediaStream;
+    return { s, pista };
+  };
+
+  it("arranca con la frontal, ofrece girar si hay dos cámaras y suelta la actual antes de pedir la otra", async () => {
+    const trasera = streamCon();
+    const pedirVideo = vi.fn(async () => trasera.s);
+    const t = armar({ pedirVideo, contarCamaras: async () => 2 });
+    await hastaLlamada(t);
+    await vi.waitFor(() => expect(t.c.getState().puedeGirarCamara).toBe(true));
+    expect(t.c.getState().camara).toBe("user");
+
+    await t.c.girarCamara();
+    expect(t.pista.stop).toHaveBeenCalled();
+    expect(t.pista.stop.mock.invocationCallOrder[0]!).toBeLessThan(
+      pedirVideo.mock.invocationCallOrder[0]!,
+    );
+    expect(pedirVideo).toHaveBeenCalledWith("environment");
+    expect(t.c.streamActual).toBe(trasera.s);
+    expect(t.c.getState().camara).toBe("environment");
+    // la pista vieja ya no corta la llamada
+    expect(t.c.getState().flujo.fase).toBe("llamada");
+  });
+
+  it("si la otra cámara falla, vuelve a la que tenía", async () => {
+    const frontal = streamCon();
+    const pedirVideo = vi.fn(async (c: string) => {
+      if (c === "environment") throw new DOMException("no", "NotReadableError");
+      return frontal.s;
+    });
+    const t = armar({ pedirVideo, contarCamaras: async () => 2 });
+    await hastaLlamada(t);
+    await t.c.girarCamara();
+    expect(pedirVideo).toHaveBeenNthCalledWith(2, "user");
+    expect(t.c.getState().camara).toBe("user");
+    expect(t.c.streamActual).toBe(frontal.s);
+    expect(t.c.getState().flujo.fase).toBe("llamada");
+  });
+
+  it("con una sola cámara no ofrece girar", async () => {
+    const t = armar({ pedirVideo: vi.fn(), contarCamaras: async () => 1 });
+    await hastaLlamada(t);
+    await Promise.resolve();
+    expect(t.c.getState().puedeGirarCamara).toBe(false);
+  });
+});

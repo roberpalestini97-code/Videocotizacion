@@ -628,6 +628,10 @@ window.TABLERO = {
   ],
   "log": [
     {
+      "ts": "2026-10-18T10:30:00-03:00",
+      "texto": "Claude: hotfix fix/movil-mic-camara-panel-demo. Celular: se suelta la pista de audio de getUserMedia (Android no comparte el mic con SpeechRecognition: bucle de bips), backoff al rearmar el reconocedor, camara frontal por defecto con espejo y boton para girar (frontal/trasera). Panel demo: codigo DEMO-LOCA-2026 reutilizable (solo semilla en memoria) en las 3 cuentas. Probado: go test -p 1 ./... (TestPanelSemillaLocalRecuperacionReutilizable), front typecheck, vitest 165 (3 nuevos de girar camara), build NITRO_PRESET=vercel. NO probado: celular real (Android/iOS)."
+    },
+    {
       "ts": "2026-10-17T06:00:00-03:00",
       "texto": "Claude: rama feat/sync-local-oct17 sube el trabajo local (backend Gemini/semilla 3 asesores, front portada/consentimiento/avatares VALID, panel) + merge de T45. Probado: go test -p 1 ./...; front typecheck, vitest 162, contrato:verificar, build NITRO_PRESET=vercel; panel typecheck y vitest 238. NO probado: verificar-repo.ps1 completo, llamada E2E en prod."
     },

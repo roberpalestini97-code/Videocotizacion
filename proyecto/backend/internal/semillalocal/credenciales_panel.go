@@ -41,12 +41,17 @@ func sembrarCredencialesPanel(ctx context.Context, a almacen.Completo, claveHMAC
 			return fmt.Errorf("semilla local panel: guardar contraseña %s: %w", p.email, err)
 		}
 	}
-	if err := a.GuardarCodigoRecuperacion(ctx, IDTenant, dominio.CodigoRecuperacion{
-		AsesorID: IDAsesor,
-		Hash:     claves.HMAC(claveHMAC, CodigoRecuperacionPanelLocal),
-		Metodo:   dominio.MetodoHMACRecuperacion,
-	}); err != nil {
-		return fmt.Errorf("semilla local panel: código recuperación: %w", err)
+	// Demo pública: el mismo código sirve para entrar todas las veces que haga falta
+	// (Reutilizable), en las tres cuentas.
+	for _, p := range pares {
+		if err := a.GuardarCodigoRecuperacion(ctx, IDTenant, dominio.CodigoRecuperacion{
+			AsesorID:     p.asesorID,
+			Hash:         claves.HMAC(claveHMAC, CodigoRecuperacionPanelLocal),
+			Metodo:       dominio.MetodoHMACRecuperacion,
+			Reutilizable: true,
+		}); err != nil {
+			return fmt.Errorf("semilla local panel: código recuperación %s: %w", p.email, err)
+		}
 	}
 	return nil
 }
