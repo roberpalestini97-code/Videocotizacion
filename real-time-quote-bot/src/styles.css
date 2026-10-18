@@ -653,6 +653,19 @@ html::-webkit-scrollbar-thumb:hover {
   padding: 0;
 }
 
+/* Retrato del avatar 3D de cada asesor (scripts/generar-fotos-avatares.mjs). */
+.talonario .asesor-foto,
+.encuadre .asesor-foto {
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 0.6rem;
+  border-radius: 9999px;
+  object-fit: cover;
+  object-position: top;
+  box-shadow: 0 0 0 2px var(--cinta, rgba(0, 0, 0, 0.1));
+}
+
 .talonario .rubro {
   margin-top: 0.25rem;
   font-size: 0.78rem;

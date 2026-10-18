@@ -137,6 +137,14 @@ export function Encuadre() {
             <ul className="asesores">
               {llamadasArmadas.map((asesor) => (
                 <li key={asesor.id}>
+                  <img
+                    className="asesor-foto"
+                    src={asesor.foto}
+                    alt={`${asesor.nombre}, asesor de ${asesor.rubro.toLowerCase()}`}
+                    width={512}
+                    height={512}
+                    loading="lazy"
+                  />
                   <h3>{asesor.nombre}</h3>
                   <p className="rubro">
                     {asesor.rubro} · {asesor.zona}

@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Mic, SwitchCamera } from "lucide-react";
 import martaImg from "@/assets/avatar-marta.jpg";
+import fotoJuan from "@/assets/avatar-valid-juan.jpg";
+import fotoLaura from "@/assets/avatar-valid-laura.jpg";
+import fotoTito from "@/assets/avatar-valid-tito.jpg";
 import diegoImg from "@/assets/avatar-diego.jpg";
 import luciaImg from "@/assets/avatar-lucia.jpg";
 import { Consentimiento } from "@/components/vc/Consentimiento";
@@ -14,8 +17,16 @@ import { etiquetaCatalogo, reloj } from "@/lib/videocotizacion/formato";
 import type { AvatarPuerto } from "@/lib/videocotizacion/avatar";
 
 const FOTOS = [diegoImg, martaImg, luciaImg];
-/** Hasta que el avatar de la tarea 5 traiga sus imágenes: foto estable por avatar_id. */
+/** Retratos de los avatares VALID (scripts/generar-fotos-avatares.mjs). */
+const FOTOS_VALID: Record<string, string> = {
+  av_valid_laura: fotoLaura,
+  av_valid_tito: fotoTito,
+  av_valid_juan: fotoJuan,
+};
+/** Foto del avatar: su retrato si es VALID; si no, una foto estable por avatar_id. */
 function fotoDeAvatar(id: string, indice: number): string {
+  const valid = FOTOS_VALID[id];
+  if (valid) return valid;
   let h = 0;
   for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0;
   return FOTOS[(indice >= 0 ? indice : h) % FOTOS.length] ?? diegoImg;
