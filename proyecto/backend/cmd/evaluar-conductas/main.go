@@ -249,17 +249,28 @@ func correrCaso(c evaluacion.Caso, rep int, prov proveedores.Conjunto, cot *coti
 				c.ID, rep, i+1, time.Since(ini).Milliseconds(), obs.Valida, sal.Marcas, obs.Oficio, obs.Trabajo, obs.Zona,
 				obs.FueraDeZona, obs.Faltantes, obs.Accion, obs.Cotizacion)
 		}
-		if t.Esperado == nil {
-			continue
+		// Si la sesión cierra en este turno (cotización, derivación), los
+		// esperado de los turnos que ya no se juegan se puntúan contra el
+		// estado del cierre: "emitir a más tardar en el turno 3" se cumple
+		// si emitió en el 2.
+		hasta := i
+		if sal.Cierre != nil {
+			hasta = len(c.Turnos) - 1
 		}
-		ch := evaluacion.Evaluar(*t.Esperado, obs)
-		acum.Sumar(ch)
-		for _, x := range ch {
-			if !x.OK {
-				f := fmt.Sprintf("rep %d turno %d %s: esperado %s, obtenido %s", rep, i+1, x.Campo, x.Esperado, x.Obtenido)
-				rc.Fallas = append(rc.Fallas, f)
-				if verboso {
-					fmt.Println("    FALLA", f)
+		for j := i; j <= hasta; j++ {
+			e := c.Turnos[j].Esperado
+			if e == nil {
+				continue
+			}
+			ch := evaluacion.Evaluar(*e, obs)
+			acum.Sumar(ch)
+			for _, x := range ch {
+				if !x.OK {
+					f := fmt.Sprintf("rep %d turno %d %s: esperado %s, obtenido %s", rep, j+1, x.Campo, x.Esperado, x.Obtenido)
+					rc.Fallas = append(rc.Fallas, f)
+					if verboso {
+						fmt.Println("    FALLA", f)
+					}
 				}
 			}
 		}
