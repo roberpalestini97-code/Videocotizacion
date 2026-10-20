@@ -3,9 +3,9 @@ import { rutaLocalDelAviso } from "./aviso-url";
 
 describe("rutaLocalDelAviso", () => {
   it("se queda con el path del aviso publicado en el contrato", () => {
-    expect(
-      rutaLocalDelAviso("https://cotizar.videocotizacion.local/privacidad/2026-10-08.1"),
-    ).toBe("/privacidad/2026-10-08.1");
+    expect(rutaLocalDelAviso("https://cotizar.videocotizacion.local/privacidad/2026-10-08.1")).toBe(
+      "/privacidad/2026-10-08.1",
+    );
   });
 
   it("conserva consulta y ancla", () => {

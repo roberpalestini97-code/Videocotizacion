@@ -179,7 +179,9 @@ try {
       const v = document.querySelector('[data-testid="mi-camara"]');
       return v && v.videoWidth > 0;
     });
-    const modoAvatar = await page.locator('[data-testid="avatar"]').getAttribute("data-avatar-modo");
+    const modoAvatar = await page
+      .locator('[data-testid="avatar"]')
+      .getAttribute("data-avatar-modo");
     ok(
       modoAvatar === "3d" || modoAvatar === "clips" || modoAvatar === "placeholder-2d",
       `avatar montado en modo ${modoAvatar ?? "desconocido"}`,

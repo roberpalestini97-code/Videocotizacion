@@ -30,17 +30,20 @@ const DISENOS: { id: Diseno; nombre: string; texto: string }[] = [
   {
     id: "barra",
     nombre: "Barra",
-    texto: "Arriba, siempre. En el teléfono se abre un panel. Desde la tablet los links quedan a la vista y en escritorio aparece el botón de videollamada.",
+    texto:
+      "Arriba, siempre. En el teléfono se abre un panel. Desde la tablet los links quedan a la vista y en escritorio aparece el botón de videollamada.",
   },
   {
     id: "pastilla",
     nombre: "Pastilla",
-    texto: "Al alcance del pulgar. En el teléfono y la tablet es una barra fija abajo. En escritorio se suelta del borde y queda flotando al centro.",
+    texto:
+      "Al alcance del pulgar. En el teléfono y la tablet es una barra fija abajo. En escritorio se suelta del borde y queda flotando al centro.",
   },
   {
     id: "indice",
     nombre: "Índice",
-    texto: "En el teléfono se lee la sección y el menú se despliega. En la tablet son pastillas. En escritorio, links quietos con un punto dorado.",
+    texto:
+      "En el teléfono se lee la sección y el menú se despliega. En la tablet son pastillas. En escritorio, links quietos con un punto dorado.",
   },
 ];
 
@@ -50,7 +53,9 @@ function Marca({ clara = false }: { clara?: boolean }) {
       <span className="grid size-8 place-items-center rounded-lg bg-accent font-display text-sm font-bold text-brand-dark">
         V©
       </span>
-      <span className={`font-display text-sm font-semibold tracking-tight ${clara ? "text-white" : "text-ink"}`}>
+      <span
+        className={`font-display text-sm font-semibold tracking-tight ${clara ? "text-white" : "text-ink"}`}
+      >
         VideoCotización
       </span>
     </span>
@@ -72,7 +77,9 @@ function NavBarra({
 }) {
   return (
     <div className="relative z-20 bg-brand-dark text-white">
-      <div className={`flex items-center gap-4 ${ancho === "escritorio" ? "h-16 px-8" : "h-14 px-4"}`}>
+      <div
+        className={`flex items-center gap-4 ${ancho === "escritorio" ? "h-16 px-8" : "h-14 px-4"}`}
+      >
         <Marca clara />
         {ancho === "movil" ? (
           <button
@@ -85,7 +92,9 @@ function NavBarra({
             <span className="sr-only">{abierto ? "Cerrar menú" : "Abrir menú"}</span>
           </button>
         ) : (
-          <div className={`flex items-center ${ancho === "escritorio" ? "ml-8 gap-7" : "ml-4 gap-4"}`}>
+          <div
+            className={`flex items-center ${ancho === "escritorio" ? "ml-8 gap-7" : "ml-4 gap-4"}`}
+          >
             {ITEMS.map((item) => {
               const activo = item.id === pagina;
               return (
@@ -239,7 +248,9 @@ function NavIndice({
                   type="button"
                   onClick={() => onIr(item.id)}
                   className={`flex w-full rounded-2xl px-3 py-3 text-left font-display text-sm ${
-                    activo ? "bg-white/15 font-semibold ring-1 ring-accent" : "bg-white/5 ring-1 ring-white/10"
+                    activo
+                      ? "bg-white/15 font-semibold ring-1 ring-accent"
+                      : "bg-white/5 ring-1 ring-white/10"
                   }`}
                 >
                   {item.label}
@@ -292,7 +303,9 @@ function NavIndice({
                 activo ? "font-semibold text-white" : "text-white/60"
               }`}
             >
-              <span className={`size-1.5 rounded-full ${activo ? "bg-accent" : "bg-transparent"}`} />
+              <span
+                className={`size-1.5 rounded-full ${activo ? "bg-accent" : "bg-transparent"}`}
+              />
               {item.label}
             </button>
           );
@@ -345,19 +358,29 @@ function Cuerpo({ pagina }: { pagina: Pagina }) {
           ? "Preguntas frecuentes"
           : "Información legal";
   const kicker =
-    pagina === "pasos" ? "Cómo funciona" : pagina === "contacto" ? "Contacto" : pagina === "faq" ? "FAQ" : "Legales";
+    pagina === "pasos"
+      ? "Cómo funciona"
+      : pagina === "contacto"
+        ? "Contacto"
+        : pagina === "faq"
+          ? "FAQ"
+          : "Legales";
   return (
     <div className="min-h-full bg-cream text-ink">
       <header className="bg-brand-dark px-5 pb-8 pt-6 text-white">
         <span className="inline-block rounded-full bg-accent/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-dark">
           {kicker}
         </span>
-        <h1 className="mt-3 max-w-md font-display text-[28px] font-bold leading-[1.08]">{titulo}</h1>
+        <h1 className="mt-3 max-w-md font-display text-[28px] font-bold leading-[1.08]">
+          {titulo}
+        </h1>
       </header>
       <div className="space-y-3 px-5 py-5">
         {pagina === "contacto" ? (
           <div className="rounded-3xl border border-black/5 bg-card p-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/45">Nombre</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/45">
+              Nombre
+            </p>
             <div className="mt-2 h-11 rounded-2xl bg-cream ring-1 ring-black/5" />
             <div className="mt-4 h-12 rounded-2xl bg-accent" />
           </div>

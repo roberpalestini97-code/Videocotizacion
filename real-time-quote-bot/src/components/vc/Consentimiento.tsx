@@ -67,9 +67,7 @@ export function Consentimiento({
                 timers.delete(clave);
                 listos.add(clave);
                 setC((prev) =>
-                  prev[clave as keyof ConsentimientoUI]
-                    ? prev
-                    : { ...prev, [clave]: true },
+                  prev[clave as keyof ConsentimientoUI] ? prev : { ...prev, [clave]: true },
                 );
               }, 500),
             );
@@ -91,10 +89,7 @@ export function Consentimiento({
     };
   }, []);
   return (
-    <div
-      className="flex min-h-0 flex-1 flex-col animate-rise"
-      data-testid="dialogo-consentimiento"
-    >
+    <div className="flex min-h-0 flex-1 flex-col animate-rise" data-testid="dialogo-consentimiento">
       <div className="scrollbar-modal min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1">
         <h2 className="font-display text-2xl font-bold text-white">Antes de prender la cámara</h2>
         <p className="mt-2 text-sm leading-relaxed text-white/70">
@@ -102,8 +97,8 @@ export function Consentimiento({
             "Vamos a usar tu cámara y tu micrófono para entender el trabajo y armar un presupuesto orientativo."}
         </p>
         <p className="mt-2 rounded-xl bg-white/5 p-3 text-xs leading-relaxed text-white/70 ring-1 ring-white/10">
-          Las imágenes de tu cámara <strong className="text-white">no se guardan</strong>: se usan en
-          el momento para leer datos del trabajo (medidas, estado, altura).
+          Las imágenes de tu cámara <strong className="text-white">no se guardan</strong>: se usan
+          en el momento para leer datos del trabajo (medidas, estado, altura).
         </p>
 
         {aviso && (
