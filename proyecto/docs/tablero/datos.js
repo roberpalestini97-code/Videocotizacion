@@ -29,6 +29,10 @@ window.TABLERO = {
       "no_hace_falta_cerrar": "Las 21 tareas en revisión no bloquean esta demo. Siguen en revisión porque quien escribe no se revisa a sí mismo."
     },
     "pendiente_goal": [
+      "2026-10-19 SIGUEN (Rober marca goal): 1) STT en el servidor con Gemini para voz tipo Zoom en el celular (transcriptor.go sin commitear; falta config PROVEEDOR_STT=gemini, arranque, tramas PCM16 0x01 desde el front y prueba en celular real)",
+      "2026-10-19 SIGUEN: 2) T45 cerrar deploy tras merge del PR #10: produccion Vercel, proxy /v1 y login del panel, llamada E2E WS+Gemini; de paso T44 (cotizacion.emitida llega a Mis cotizaciones)",
+      "2026-10-19 SIGUEN: 3) T08 medir avatar con entornos T46 en Android gama media e iPhone viejo (necesita equipos de Rober)",
+      "2026-10-19 SIGUEN: 4) T12 CI en GitHub Actions que corra verificar-repo en cada PR",
       "Rama feat/tablero-cobertura-oct2026: T42 checklist panel, T11 compose-smoke, estabilidad tests",
       "T44: confirmación Mis cotizaciones post-Gemini (Rober: lo prueba y avisa)",
       "P-tarifas: 10 preguntas README — entrevistas proximamente",
@@ -635,6 +639,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-18T14:00:00-03:00",
+      "texto": "Claude: feat/portada-unica. Queda una sola portada (la v1) en la raiz: /, /como-funciona, /faq, /contacto, /legales. Se borraron la portada de / (Talonario) y la /v2 (Encuadre) con su CSS; /v1/* y /v2 redirigen a la raiz. Celular vertical: asesor arriba y camara abajo, mitad y mitad, chat a lo ancho y datos en vivo en una fila deslizable. Probado: tsc, vitest 171, build NITRO_PRESET=vercel, rutas y redirecciones en vite dev; llamada completa contra el backend de prod (Render) con camara y mic falsos de Chrome, en PC 1280x800 y celular 390x844, con Laura, Tito y Juan: WS, GLB 3D, fotogramas, texto y respuesta de Gemini. NO probado: voz real en celular (sigue el boton Toca para hablar; la voz tipo Zoom con STT en el servidor queda pendiente, bloqueada por disco lleno para compilar Go)."
+    },
     {
       "ts": "2026-10-18T12:30:00-03:00",
       "texto": "Claude: fix/movil-tocar-para-hablar. En Android Chrome no aparecia texto (sin bips): el reconocimiento continuo arrancado sin gesto no abre el mic. Celular: boton Toca para hablar (una frase por toque, continuous=false), errores del reconocedor visibles con codigo (network/audio-capture), medidor de microfono con ondas verdes (espectro real con AnalyserNode; si el celular no comparte el mic se suelta la pista y se anima con la voz detectada), boton girar camara siempre en celular. PC sin cambios de flujo (continuo) + medidor real. Probado: vitest 171 (6 nuevos), typecheck, eslint, build NITRO_PRESET=vercel. NO probado: celular real."

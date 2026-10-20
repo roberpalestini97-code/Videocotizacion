@@ -6,7 +6,7 @@ import { ElegirAsesor } from "@/components/ElegirAsesor";
 import { VideoCotizacion } from "@/components/VideoCotizacion";
 import { llamadasArmadas } from "@/data/llamadas";
 
-export const Route = createFileRoute("/v1/como-funciona")({
+export const Route = createFileRoute("/como-funciona")({
   head: () => ({
     meta: [
       { title: "Cómo funciona la VideoCotización · paso a paso" },
@@ -139,7 +139,11 @@ function ComoFunciona() {
           setEnLlamada(true);
         }}
       />
-      <VideoCotizacion abierto={enLlamada} onCerrar={() => setEnLlamada(false)} idPublico={enlace} />
+      <VideoCotizacion
+        abierto={enLlamada}
+        onCerrar={() => setEnLlamada(false)}
+        idPublico={enlace}
+      />
     </div>
   );
 }

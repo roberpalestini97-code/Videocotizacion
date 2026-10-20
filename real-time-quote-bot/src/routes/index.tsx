@@ -1,20 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Talonario } from "@/components/Talonario";
+import { Portada } from "@/components/Portada";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "VideoCotización · El presupuesto se escribe en la llamada" },
+      { title: "VideoCotización · Cotizá mano de obra por videollamada" },
       {
         name: "description",
         content:
-          "Apuntá la cámara al arreglo, la pared o el jardín. Quien atiende anota el presupuesto de mano de obra antes de cortar.",
+          "Conectá por video con un asesor, mostrale el trabajo y recibí el presupuesto de reparaciones, pintura, jardinería o limpieza en el momento.",
       },
-      { property: "og:title", content: "VideoCotización · El presupuesto se escribe en la llamada" },
+      { property: "og:title", content: "VideoCotización · Cotizá mano de obra por videollamada" },
       {
         property: "og:description",
         content:
-          "Mostrás el trabajo por cámara y el número queda escrito en la misma llamada.",
+          "Mostrás el trabajo por cámara, el asesor evalúa el esfuerzo y te devuelve el presupuesto al instante.",
       },
     ],
   }),
@@ -22,5 +22,5 @@ export const Route = createFileRoute("/")({
 });
 
 function Inicio() {
-  return <Talonario />;
+  return <Portada />;
 }
