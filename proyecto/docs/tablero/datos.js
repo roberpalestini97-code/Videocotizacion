@@ -29,6 +29,10 @@ window.TABLERO = {
       "no_hace_falta_cerrar": "Las 21 tareas en revisión no bloquean esta demo. Siguen en revisión porque quien escribe no se revisa a sí mismo."
     },
     "pendiente_goal": [
+      "2026-10-19 SIGUEN (Rober marca goal): 1) STT en el servidor con Gemini para voz tipo Zoom en el celular (transcriptor.go sin commitear; falta config PROVEEDOR_STT=gemini, arranque, tramas PCM16 0x01 desde el front y prueba en celular real)",
+      "2026-10-19 SIGUEN: 2) T45 cerrar deploy tras merge del PR #10: produccion Vercel, proxy /v1 y login del panel, llamada E2E WS+Gemini; de paso T44 (cotizacion.emitida llega a Mis cotizaciones)",
+      "2026-10-19 SIGUEN: 3) T08 medir avatar con entornos T46 en Android gama media e iPhone viejo (necesita equipos de Rober)",
+      "2026-10-19 SIGUEN: 4) T12 CI en GitHub Actions que corra verificar-repo en cada PR",
       "Rama feat/tablero-cobertura-oct2026: T42 checklist panel, T11 compose-smoke, estabilidad tests",
       "T44: confirmación Mis cotizaciones post-Gemini (Rober: lo prueba y avisa)",
       "P-tarifas: 10 preguntas README — entrevistas proximamente",
