@@ -41,6 +41,14 @@
         },
         "limites": {
           "$ref": "../LimitesSesion.schema.json"
+        },
+        "stt": {
+          "type": "string",
+          "enum": [
+            "navegador",
+            "servidor"
+          ],
+          "description": "Quién transcribe la voz: navegador (el cliente manda texto.enviar) o servidor (el cliente manda tramas 0x01 PCM16). Ausente = navegador."
         }
       }
     }
@@ -87,7 +95,8 @@
             "intervalo_min_ms": 3000,
             "max_por_sesion": 400
           }
-        }
+        },
+        "stt": "servidor"
       }
     }
   ]

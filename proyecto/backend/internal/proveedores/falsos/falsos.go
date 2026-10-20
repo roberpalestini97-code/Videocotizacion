@@ -176,7 +176,7 @@ func (m *Mensajeria) EnlaceDerivacion(ctx context.Context, telefonoE164, texto s
 
 // Conjunto devuelve los cuatro falsos listos para cablear.
 func Conjunto() (proveedores.Conjunto, *Transcriptor, *Extractor, *Sintetizador, *Mensajeria) {
-	t, e, s, m := &Transcriptor{}, &Extractor{}, &Sintetizador{}, &Mensajeria{}
+	t, e, s, m := &Transcriptor{Texto: "turno de voz de prueba"}, &Extractor{}, &Sintetizador{}, &Mensajeria{}
 	return proveedores.Conjunto{Transcriptor: t, Extractor: e, Sintetizador: s, Mensajeria: m}, t, e, s, m
 }
 

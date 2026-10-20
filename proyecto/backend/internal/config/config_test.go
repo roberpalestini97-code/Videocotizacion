@@ -179,7 +179,7 @@ func TestProveedoresRealesT13(t *testing.T) {
 		"las dos claves":    func(m map[string]string) { m["GEMINI_API_KEY"] = claveGemini },
 		"archivo ausente":   func(m map[string]string) { m["GEMINI_API_KEY_FILE"] = archivo + ".no" },
 		"llm navegador":     func(m map[string]string) { m["PROVEEDOR_LLM"] = "navegador" },
-		"stt gemini":        func(m map[string]string) { m["PROVEEDOR_STT"] = "gemini" },
+		"stt deepgram":      func(m map[string]string) { m["PROVEEDOR_STT"] = "deepgram" },
 		"whatsapp twilio":   func(m map[string]string) { m["PROVEEDOR_WHATSAPP"] = "twilio" },
 		"reintentos de más": func(m map[string]string) { m["GEMINI_REINTENTOS"] = "9" },
 	}
@@ -235,5 +235,22 @@ func TestOrigenesPublicosYURLMedios(t *testing.T) {
 		if _, err := Cargar(entorno(e), Servir); err == nil || !strings.Contains(err.Error(), variable) {
 			t.Fatalf("%s=%q debía fallar: %v", variable, valor, err)
 		}
+	}
+}
+
+// PROVEEDOR_STT=gemini usa la misma clave que el LLM, aunque el LLM sea falso.
+func TestSTTGemini(t *testing.T) {
+	m := base()
+	m["PROVEEDOR_STT"] = "gemini"
+	if _, err := Cargar(entorno(m), Servir); err == nil || !strings.Contains(err.Error(), "PROVEEDOR_STT=gemini") {
+		t.Fatalf("sin clave se esperaba error: %v", err)
+	}
+	m["GEMINI_API_KEY"] = claveGemini
+	c, err := Cargar(entorno(m), Servir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if c.Gemini.Clave.Revelar() != claveGemini || !c.Proveedores.UsaGemini() {
+		t.Fatalf("gemini: %+v", c.Gemini)
 	}
 }
