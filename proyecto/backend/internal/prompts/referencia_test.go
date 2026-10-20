@@ -13,7 +13,7 @@ func TestReferenciaContratoAnclas(t *testing.T) {
 		oficio dominio.Oficio
 		want   string
 	}{
-		{dominio.OficioPintura, "conducta_pintura@5f2e70a1bb1a"},
+		{dominio.OficioPintura, "conducta_pintura@0effa663fdc5"},
 		{dominio.OficioJardineria, "conducta_jardineria@3f9fbb3beea7"},
 		{dominio.OficioLimpieza, "conducta_limpieza@36694d88643d"},
 		{dominio.OficioMantenimiento, "conducta_mantenimiento@79b1b1006e65"},
