@@ -67,6 +67,7 @@ type reporte struct {
 	Fecha     string        `json:"fecha"`
 	Modelo    string        `json:"modelo"`
 	Prompt    string        `json:"version_prompt"`
+	Refs      []string      `json:"referencias_prompt"`
 	Rubrica   string        `json:"rubrica"`
 	Umbral    float64       `json:"umbral"`
 	K         int           `json:"k"`
@@ -140,6 +141,16 @@ func correr(dir string, k int, pausa time.Duration, filtro, env string, maxLlama
 		Fecha: time.Now().Format(time.RFC3339), Modelo: ext.Modelo(), Prompt: prompts.VersionActual,
 		Rubrica: rub.Version, Umbral: rub.Umbral, K: k,
 	}
+	vistos := map[string]bool{}
+	for _, c := range casos {
+		if o := dominio.Oficio(c.OficioSesion); !vistos[c.OficioSesion] && o.Valido() {
+			vistos[c.OficioSesion] = true
+			if ref, err := prompts.ReferenciaContrato(o); err == nil {
+				rep.Refs = append(rep.Refs, ref)
+			}
+		}
+	}
+	fmt.Printf("prompts=%v\n", rep.Refs)
 	fmt.Printf("modelo=%s prompt=%s rubrica=%s umbral=%.2f casos=%d k=%d turnos=%d pausa=%s datos=ficticios\n",
 		rep.Modelo, rep.Prompt, rep.Rubrica, rep.Umbral, len(casos), k, turnos*k, pausa)
 
