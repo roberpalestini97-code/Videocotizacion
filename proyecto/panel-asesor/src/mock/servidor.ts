@@ -321,7 +321,9 @@ export function crearServidorMock(opciones: OpcionesMock = {}) {
     for (let dia = diasMes; dia >= 1; dia -= 1) {
       const fecha = `${periodo}-${String(dia).padStart(2, '0')}`;
       if (fecha > hoy) continue;
-      diario.push({ fecha, segundos: 600 + ((dia * 397 + mes * 53) % 2400), sesiones: 1 + (dia % 5), cotizaciones_emitidas: dia % 4 });
+      // Hasta 419 s por día: un mes entero queda bajo el 50 % del tope, así el aviso no depende del día en que corren
+      // las pruebas. Los avisos p50/p80/p100 se prueban con forzarConsumo.
+      diario.push({ fecha, segundos: 60 + ((dia * 397 + mes * 53) % 360), sesiones: 1 + (dia % 5), cotizaciones_emitidas: dia % 4 });
     }
     const usados = consumoForzado?.segundos_usados ?? diario.reduce((s, d) => s + d.segundos, 0);
     const tope = consumoForzado?.segundos_tope ?? TOPE_SEGUNDOS;
