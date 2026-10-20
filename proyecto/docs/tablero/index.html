@@ -195,6 +195,7 @@ button.filter, .filters button { font: inherit; }
   </header>
 
   <nav class="nav" aria-label="Secciones">
+    <a href="#prioridades">Prioridades</a>
     <a href="#equipo">Equipo</a>
     <a href="#tablero">Tareas</a>
     <a href="#votacion">Votación</a>
@@ -206,6 +207,11 @@ button.filter, .filters button { font: inherit; }
   <section class="progress" aria-label="Avance general">
     <div class="bar" id="bar" role="img" aria-label="Avance de tareas"></div>
     <ul class="legend" id="legend"></ul>
+  </section>
+
+  <section class="sec" id="prioridades">
+    <div class="sec-head"><h2>Prioridades</h2><p id="prio-sub"></p></div>
+    <div id="prio"></div>
   </section>
 
   <section class="sec" id="equipo">
@@ -504,7 +510,28 @@ button.filter, .filters button { font: inherit; }
     })));
   }
 
-  function renderAll() { renderPhases(); renderProgress(); renderTeam(); renderFilters(); renderBoard(); renderVotes(); renderLog(); }
+  function renderPrioridades() {
+    var p = state.meta && state.meta.prioridades;
+    var el = $("prio");
+    $("prio-sub").textContent = p && p.fecha ? "Orden al " + p.fecha + ". Se edita en meta.prioridades de datos.js." : "";
+    if (!p) { el.replaceChildren(h("div", { class: "empty", text: "Las prioridades aparecen acá cuando se carguen en meta.prioridades." })); return; }
+    function grupo(titulo, items) {
+      return arr(items).length ? h("div", null, h("h4", { text: titulo }), h("ul", null, arr(items).map(function (x) { return h("li", { text: x }); }))) : null;
+    }
+    el.replaceChildren(h("div", { class: "concl" },
+      p.criterio ? h("p", { text: p.criterio }) : null,
+      h("div", { class: "cols" },
+        grupo("Ahora", p.ahora),
+        grupo("Próximo", p.proximo),
+        grupo("Antes de usuarios reales", p.antes_de_usuarios_reales),
+        grupo("Después: API vendible", p.despues_api_vendible),
+        grupo("Bloqueadas por hardware", p.bloqueadas_por_hardware)
+      ),
+      p.deuda_revision ? h("p", { class: "mono", text: "Deuda: " + p.deuda_revision }) : null
+    ));
+  }
+
+  function renderAll() { renderPhases(); renderProgress(); renderPrioridades(); renderTeam(); renderFilters(); renderBoard(); renderVotes(); renderLog(); }
 
   function exportar() {
     var data = {
