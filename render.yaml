@@ -24,8 +24,10 @@ services:
         value: "8080"
       - key: CLAVE_HMAC
         generateValue: true
+      # gemini: el celular manda la voz (PCM16) y el servidor la transcribe (T47).
+      # La PC sigue con el reconocimiento del navegador salvo ?voz=servidor.
       - key: PROVEEDOR_STT
-        value: navegador
+        value: gemini
       - key: PROVEEDOR_TTS
         value: navegador
       - key: PROVEEDOR_LLM
