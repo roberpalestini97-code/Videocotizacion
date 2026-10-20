@@ -26,6 +26,7 @@ import (
 	"videocotizacion/backend/internal/config"
 	"videocotizacion/backend/internal/cotizador"
 	"videocotizacion/backend/internal/dominio"
+	"videocotizacion/backend/internal/errores"
 	"videocotizacion/backend/internal/evaluacion"
 	"videocotizacion/backend/internal/prompts"
 	"videocotizacion/backend/internal/proveedores"
@@ -56,11 +57,12 @@ func main() {
 }
 
 type reporteCaso struct {
-	ID     string                     `json:"id"`
-	Reps   int                        `json:"repeticiones"`
-	Tasas  map[string]evaluacion.Tasa `json:"tasas"`
-	Pasa   bool                       `json:"pasa"`
-	Fallas []string                   `json:"fallas,omitempty"`
+	ID      string                     `json:"id"`
+	Reps    int                        `json:"repeticiones"`
+	Tasas   map[string]evaluacion.Tasa `json:"tasas"`
+	Pasa    bool                       `json:"pasa"`
+	Errores int                        `json:"errores_proveedor,omitempty"`
+	Fallas  []string                   `json:"fallas,omitempty"`
 }
 
 type reporte struct {
@@ -215,7 +217,14 @@ func correrCaso(c evaluacion.Caso, rep int, prov proveedores.Conjunto, cot *coti
 		})
 		cancel()
 		if err != nil {
-			return fmt.Errorf("%s rep %d turno %d: %v", c.ID, rep, i+1, err)
+			// Un 503 o un timeout aislado no corta la corrida: la repetición
+			// queda sin puntuar desde este turno y se cuenta aparte.
+			rc.Errores++
+			rc.Fallas = append(rc.Fallas, fmt.Sprintf("rep %d turno %d: %s (sin puntuar)", rep, i+1, errores.CodigoDe(err)))
+			if rc.Errores >= 3 {
+				return fmt.Errorf("%s: %d errores del proveedor", c.ID, rc.Errores)
+			}
+			return nil
 		}
 		if sal.Cierre != nil && sal.Cierre.Causa == turno.CausaCuotaProveedor {
 			return errCupo
@@ -312,6 +321,9 @@ func imprimir(rep reporte) {
 		if c.Pasa {
 			estado = "pasa"
 			pasan++
+		}
+		if c.Errores > 0 {
+			estado += fmt.Sprintf(", %d errores del proveedor", c.Errores)
 		}
 		fmt.Printf("%-40s %4d  %s  [%s]\n", c.ID, c.Reps, strings.Join(partes, " "), estado)
 		for _, f := range c.Fallas {

@@ -1,7 +1,7 @@
 {
   "rubrica": "rubrica.1",
   "id": "interior-completo-emite",
-  "descripcion": "Pintura interior con todos los datos en dos mensajes: tiene que emitir y Go cotizar.",
+  "descripcion": "Pintura interior con todos los datos en dos mensajes y la confirmación del cliente: tiene que emitir y Go cotizar a más tardar en el turno 3.",
   "oficio_sesion": "pintura",
   "turnos": [
     {
@@ -21,6 +21,15 @@
           "zona",
           "medidas"
         ],
+        "accion": [
+          "emitir_presupuesto",
+          "confirmar_datos"
+        ]
+      }
+    },
+    {
+      "cliente": "Sí, está todo bien así. Armame el presupuesto.",
+      "esperado": {
         "accion": [
           "emitir_presupuesto"
         ],

@@ -10,11 +10,29 @@
     {
       "cliente": "Se pintan desde el piso, no hace falta escalera. Lo quiero para este mes.",
       "esperado": {
-        "trabajo": ["pintura_rejas_aberturas"],
-        "zona": ["mar_chiquita"],
+        "trabajo": [
+          "pintura_rejas_aberturas"
+        ],
+        "zona": [
+          "mar_chiquita"
+        ],
         "fuera_de_zona": false,
-        "faltantes_excluye": ["zona", "medidas"],
-        "accion": ["emitir_presupuesto"],
+        "faltantes_excluye": [
+          "zona",
+          "medidas"
+        ],
+        "accion": [
+          "emitir_presupuesto",
+          "confirmar_datos"
+        ]
+      }
+    },
+    {
+      "cliente": "Sí, está todo bien así. Armame el presupuesto.",
+      "esperado": {
+        "accion": [
+          "emitir_presupuesto"
+        ],
         "cotizacion": true
       }
     }
