@@ -36,7 +36,7 @@ window.TABLERO = {
         "2. T45 + T44 en paralelo con T17: produccion Vercel, proxy /v1 y login del panel, llamada E2E WS+Gemini que emita cotización y llegue a Mis cotizaciones (cierra P-t44-panel-gemini)",
         "3. T17 arnés de conductas contra Gemini real: en logs locales la zona no se extrae tras 4 turnos (120 caracteres) y la demo no llega a cotizar",
         "4. T48 decidir visión: fotogramas apagados (fotos = nil en socket_entrada.go). Reactivar o declarar 'sin visión' y dejar de mandarlos",
-        "5. T12 CI en GitHub Actions con verificar-repo en cada PR (sin Rober)"
+        "5. T12 CI: en revision (PR apilado sobre #14); queda ver el workflow en verde en GitHub"
       ],
       "proximo": [
         "T49 cupo/latencia Gemini con STT en servidor y caída a reconocimiento del navegador ante 429",
@@ -317,9 +317,9 @@ window.TABLERO = {
       "id": "T12",
       "titulo": "CI con lint de OpenAPI, tests de contrato, lint y build de Go y del front, y escaneo de dependencias y secretos",
       "agente": "ops",
-      "status": "pendiente",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": "2026-10-20 prioridad: correr scripts/verificar-repo.ps1 (o su equivalente) en cada PR; T51 se suma como smoke E2E."
+      "nota": "Rama T12-ci-github-actions (apilada sobre docs/tablero-prioridades, PR #14). .github/workflows/ci.yml en PR a main y push a main: verificar-repo.ps1 en ubuntu (go test, conductas, contrato 506, Lovable contrato:verificar, docker compose config), go vet + build + govulncheck, redocly + spectral, videollamada (typecheck, lint, vitest, build), panel (npm run todo), npm audit de produccion nivel alto, gitleaks en PR. Para dejar el CI en verde se arreglo: mock del panel con consumo que pasaba el tope desde el ~dia 17 (6 pruebas rojas), go vet copylocks en cmd/api/consola.go (mutex compartido), pgx 5.9.2 y x/text 0.41 (GO-2026-5004 inyeccion SQL y otros), go 1.25 en go.mod e imagen golang 1.27.2-alpine3.24 (con 1.24.7 ya no compilaria), source-map-js 1.2.2, prettier en Lovable, contrato del panel desactualizado (faltaban enums de T05). Probado local: verificar-repo verde; redocly y spectral sin errores; Lovable typecheck, lint (0 errores), 185 tests, build; panel todo (238 tests, verificar-dist ok); go vet limpio; govulncheck sin vulnerabilidades de modulos (stdlib local 1.27.0, CI usa 1.27.2); npm audit 0 altas. NO probado: el workflow en GitHub (se ve en el PR), gitleaks (no corrido local), docker build con 1.27.2. Inestable bajo carga: MisCotizaciones primera pagina fallo 1 vez de 4 corriendo en paralelo."
     },
     {
       "id": "T13",
@@ -519,7 +519,7 @@ window.TABLERO = {
       "agente": "arq",
       "status": "en_revision",
       "rehacer": true,
-      "nota": "Contrato 0.1.2-borrador. Entrada por enlace opaco de cada profesional en el front propio; avatares elegibles; desafío anti-bots; los 7 huecos del panel cerrados. Verificado por mí: 91 negativos y 245 vectores en 0 fallas, Redocly sin errores. Falta revisión de seg."
+      "nota": "Contrato 0.1.2-borrador. Entrada por enlace opaco de cada profesional en el front propio; avatares elegibles; desafío anti-bots; los 7 huecos del panel cerrados. Verificado por mí: 91 negativos y 245 vectores en 0 fallas, Redocly sin errores. Falta revisión de seg. 2026-10-20 hueco nuevo: el contrato marca PerfilAsesor.consentimiento_asesor obligatorio, pero panel_perfil.go lo omite si no hay fila (y panel_perfil_test lo exige). El panel conserva el texto alternativo con eslint-disable. Decide arq: opcional en el contrato o siempre presente."
     },
     {
       "id": "T38",
@@ -719,6 +719,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-20T11:30:00-03:00",
+      "texto": "Claude: T12 en revision. CI en GitHub Actions (verificar-repo + go vet/govulncheck + lint OpenAPI + fronts + npm audit + gitleaks). Para que arranque en verde: 6 pruebas del panel que dependian del dia del mes, mutex copiado en la consola del backend, pgx/x-text con vulnerabilidades (pgx GO-2026-5004), imagen Go 1.24.7 a 1.27.2, contrato del panel desactualizado, prettier y source-map-js en Lovable. Hueco de contrato anotado en T37 (consentimiento_asesor). NO probado: el workflow en GitHub ni docker build."
+    },
     {
       "ts": "2026-10-20T10:00:00-03:00",
       "texto": "Claude: rama T47-render-stt-gemini ya mergeada (PR #13), sin cambios pendientes. Tablero verificado con datos (48 tareas, servido por HTTP). Prioridades reordenadas en meta.prioridades (sección Prioridades del tablero) con revisión de un agente Sonnet 5.5: subieron T17 y T48, la cola de revisión pasa a fondo salvo T43. Tareas nuevas T48–T53 (visión, cupo Gemini, Render dormido, smoke E2E, abuso de la demo, persistencia). T45 a en_revision y agente ops. No probado: redeploy de Render con gemini ni celular real. index.html: sección Prioridades lee meta.prioridades. verificar-repo verde (go, conductas, contrato 0 fallas, 506 vectores, Lovable contrato:verificar; docker compose omitido sin cliente docker)."
