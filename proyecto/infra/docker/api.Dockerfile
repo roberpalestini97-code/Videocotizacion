@@ -3,8 +3,8 @@
 # y el filtro de archivos está en api.Dockerfile.dockerignore (deniega todo salvo backend/ y el healthcheck).
 # NO PROBADO en CI local: incluye conductas/prompts (T06), el esquema de salida del LLM y tarifas-2026.json para turno/cotizador en runtime.
 
-ARG GO_VERSION=1.24.7
-ARG ALPINE_VERSION=3.22
+ARG GO_VERSION=1.27.2
+ARG ALPINE_VERSION=3.24
 
 # ---- Etapa 1: compilar la API (binario estático, sin CGO) ----
 FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION} AS compilar
