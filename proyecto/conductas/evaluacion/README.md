@@ -26,10 +26,11 @@ go run ./cmd/evaluar-conductas -caso demo-rejas -k 1 -v   # un subconjunto, con 
 Lee `GEMINI_API_KEY` (y `GEMINI_MODEL`) del entorno o de `-env` (por defecto
 `.env`, o sea `proyecto/backend/.env`). Cuida el cupo gratuito: pausa entre
 turnos (`-pausa`), un solo reintento del adaptador, tope de llamadas HTTP
-(`-max-llamadas`, 120) y corte en el primer 429. La corrida completa (9 casos ×
-3) son unos 54 turnos, unas 55–60 llamadas y unos 10 minutos.
+(`-max-llamadas`, 120) y corte en el primer 429. Un 503 o timeout deja esa
+repetición sin puntuar; con 3 en un caso, el caso queda INCOMPLETO. La corrida
+completa (10 casos × 3) son unos 75 turnos, unas 80–90 llamadas y 12–15 minutos.
 
-`-json archivo` guarda el reporte. Un caso **pasa** si cada campo puntuado llega
+`-json archivo` guarda el reporte (con el hash de cada prompt, `conducta_<oficio>@…`). Un caso **pasa** si cada campo puntuado llega
 al umbral en las K repeticiones.
 
 **No va en CI ni en `verificar-repo`** (gasta cupo). Lo que sí corre en CI es
