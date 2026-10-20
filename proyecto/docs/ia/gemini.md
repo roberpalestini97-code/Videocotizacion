@@ -51,7 +51,8 @@ Los valores con los que levantamos backend y videollamada, y cómo crearlos en u
 | Variable | Obligatoria | Valor |
 |---|---|---|
 | `PROVEEDOR_LLM` | sí | `gemini` |
-| `PROVEEDOR_STT` / `PROVEEDOR_TTS` | sí | `navegador` (la voz es del cliente; el servidor no la procesa) |
+| `PROVEEDOR_STT` | sí | `navegador` (el navegador reconoce la voz y manda texto) o `gemini` (el cliente manda PCM16 y el servidor transcribe con la misma clave y modelo, timeout de 12 s por intento; T47). Render usa `gemini` |
+| `PROVEEDOR_TTS` | sí | `navegador` (la voz del asesor la sintetiza el navegador) |
 | `PROVEEDOR_WHATSAPP` | sí | `enlace` (arma `wa.me`, no envía nada) |
 | `GEMINI_API_KEY` | una de las dos | la clave. Preferible el archivo en producción |
 | `GEMINI_API_KEY_FILE` | una de las dos | ruta a un archivo con la clave (secreto de Docker); no las dos a la vez |

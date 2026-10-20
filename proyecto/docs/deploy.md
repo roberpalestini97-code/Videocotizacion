@@ -20,7 +20,8 @@ corre en Render (un contenedor persistente) y los dos fronts en Vercel.
 ## Variables
 
 Render (ver `render.yaml`): `GEMINI_API_KEY` se carga a mano en el dashboard (no se versiona).
-`CLAVE_HMAC` la genera Render.
+`CLAVE_HMAC` la genera Render. `PROVEEDOR_STT=gemini` (T47): el celular habla de corrido y el
+servidor transcribe; cada turno de voz son dos llamadas a Gemini (transcripción + LLM).
 
 Vercel `videocotizacion` (Root Directory `real-time-quote-bot`):
 
@@ -38,4 +39,5 @@ Vercel `videocotizacion-panel` (Root Directory `proyecto/panel-asesor`): sin var
 - `ENTORNO=desarrollo` + `ALMACEN=memoria`: cada reinicio o deploy de Render borra sesiones y cotizaciones
   y vuelve a sembrar la demo. Producción real = Postgres y `ENTORNO=produccion` (T11).
 - Plan free de Render: se duerme a los 15 min sin tráfico; el primer pedido tarda ~1 min.
-- Gemini en nivel gratuito: solo datos ficticios (`docs/ia/gemini.md`).
+- Gemini en nivel gratuito: solo datos ficticios (`docs/ia/gemini.md`). Con `PROVEEDOR_STT=gemini` el
+  audio del cliente también va a Gemini (no se guarda): el cupo gratuito se gasta el doble por turno de voz.
