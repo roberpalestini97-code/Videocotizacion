@@ -37,7 +37,10 @@ import (
 	"videocotizacion/backend/internal/turno"
 )
 
-var errCupo = errors.New("cupo del proveedor agotado (HTTP 429)")
+var (
+	errCupo      = errors.New("cupo del proveedor agotado (HTTP 429)")
+	errAbandonar = errors.New("caso abandonado: 3 errores del proveedor")
+)
 
 func main() {
 	dir := flag.String("dir", filepath.Join("..", "conductas", "evaluacion"), "carpeta con rubrica.json y casos/")
@@ -162,6 +165,11 @@ func correr(dir string, k int, pausa time.Duration, filtro, env string, maxLlama
 		rc := reporteCaso{ID: c.ID}
 		for r := 1; r <= k && rep.Cortada == ""; r++ {
 			err := correrCaso(c, r, prov, cot, pausa, &primero, maxLlamadas, ext, acum, &rc, verboso)
+			if errors.Is(err, errAbandonar) {
+				rc.Fallas = append(rc.Fallas, err.Error())
+				rc.Reps++
+				break
+			}
 			if err != nil {
 				rep.Cortada = err.Error()
 				break
@@ -222,7 +230,7 @@ func correrCaso(c evaluacion.Caso, rep int, prov proveedores.Conjunto, cot *coti
 			rc.Errores++
 			rc.Fallas = append(rc.Fallas, fmt.Sprintf("rep %d turno %d: %s (sin puntuar)", rep, i+1, errores.CodigoDe(err)))
 			if rc.Errores >= 3 {
-				return fmt.Errorf("%s: %d errores del proveedor", c.ID, rc.Errores)
+				return errAbandonar
 			}
 			return nil
 		}
@@ -332,7 +340,11 @@ func imprimir(rep reporte) {
 			pasan++
 		}
 		if c.Errores > 0 {
-			estado += fmt.Sprintf(", %d errores del proveedor", c.Errores)
+			// Con turnos sin puntuar el veredicto es parcial: no se cuenta.
+			if c.Pasa {
+				pasan--
+			}
+			estado = fmt.Sprintf("INCOMPLETO (%s con lo puntuado), %d errores del proveedor", estado, c.Errores)
 		}
 		fmt.Printf("%-40s %4d  %s  [%s]\n", c.ID, c.Reps, strings.Join(partes, " "), estado)
 		for _, f := range c.Fallas {
