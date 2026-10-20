@@ -50,12 +50,12 @@ func invalidaLLM(err error) error {
 
 var (
 	enumOficio    = conjunto("pintura", "jardineria", "paisajismo", "mantenimiento", "reparaciones", "limpieza", "otro", "sin_definir")
-	enumTrabajo   = conjunto("pintura_interior", "pintura_exterior", "pintura_fachada_altura", "impermeabilizacion_techo", "pintura_rejas_aberturas", "corte_cesped", "poda", "desmalezado", "mantenimiento_jardin_periodico", "parquizacion", "diseno_paisajismo", "riego", "limpieza_terreno", "limpieza_final_obra", "reparacion_general", "otro", "sin_definir")
+	enumTrabajo   = conjunto("pintura_interior", "pintura_exterior", "pintura_fachada_altura", "impermeabilizacion_techo", "pintura_rejas_aberturas", "enduido_completo", "tratamiento_hongos", "hidrolavado", "corte_cesped", "poda", "desmalezado", "mantenimiento_jardin_periodico", "parquizacion", "diseno_paisajismo", "riego", "colocacion_cesped", "cercos_vivos", "limpieza_terreno", "limpieza_final_obra", "reparacion_general", "otro", "sin_definir")
 	enumComplej   = conjunto("simple", "media", "tecnica", "sin_definir")
 	enumOrigen    = conjunto("dicho_por_cliente", "visto_en_camara", "estimado", "plano")
 	enumAndamio   = conjunto("si", "no", "sin_definir")
 	enumMedio     = conjunto("escalera", "andamio", "silleta", "hidroelevador", "ninguno", "sin_definir")
-	enumEstado    = conjunto("bueno", "regular", "malo", "con_humedad", "descascarado", "con_hongos", "no_aplica", "sin_definir")
+	enumEstado    = conjunto("bueno", "regular", "malo", "con_humedad", "descascarado", "con_hongos", "con_salitre", "no_aplica", "sin_definir")
 	enumLocalidad = conjunto("mar_chiquita", "santa_clara_del_mar", "cobo", "parque_lago", "mar_del_plata", "otra", "sin_definir")
 	enumUrgencia  = conjunto("baja", "media", "alta", "sin_definir")
 	enumCliente   = conjunto("particular_primera_vez", "particular_recurrente", "propietario_ausente", "administracion_consorcio", "comercio", "inmobiliaria", "constructora_estudio", "sin_definir")
