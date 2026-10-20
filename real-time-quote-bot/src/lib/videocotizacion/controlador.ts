@@ -114,6 +114,14 @@ export type Dependencias = {
   crearMuestreador: (regla: ReglaFotograma, enviar: (t: Uint8Array) => boolean) => MuestreadorLike;
   voz: Voz;
   reconocedor: Reconocedor;
+  /** STT en el servidor (sesion.lista.stt = "servidor"): toma la voz de la pista de la llamada
+   *  y la manda en tramas 0x01. Sin esto se sigue con el reconocedor del navegador. */
+  crearReconocedorServidor?: (o: {
+    stream: MediaStream;
+    enviar: (t: Uint8Array) => boolean;
+  }) => Reconocedor;
+  /** Se llama dentro del toque de aceptar el aviso: el celular habilita el audio. */
+  desbloquearAudio?: () => void;
   avatar: AvatarPuerto;
   /** Inyectable para pruebas; por defecto setInterval/clearInterval. */
   setInterval?: (fn: () => void, ms: number) => unknown;
@@ -196,6 +204,12 @@ export class ControladorVC {
   private yaFueLista = false;
   private cierreSolicitado = false;
   private ultimoTextoCliente = "";
+  /** Reconocedor de servidor de esta llamada; si no hay, se usa el del navegador. */
+  private recServidor: Reconocedor | null = null;
+
+  private get rec(): Reconocedor {
+    return this.recServidor ?? this.d.reconocedor;
+  }
 
   constructor(private readonly d: Dependencias) {
     this.estado = ESTADO_NUEVO(d.reconocedor.disponible(), d.reconocedor.modo);
@@ -317,6 +331,7 @@ export class ControladorVC {
     )) {
       return; // el contrato exige los cuatro en true
     }
+    this.d.desbloquearAudio?.();
     const g = this.generacion;
     try {
       await this.d.cliente.registrarConsentimiento(sesion.sesion_id, sesion.token_sesion.valor, {
@@ -452,6 +467,7 @@ export class ControladorVC {
     switch (e.tipo) {
       case "sesion.lista":
         this.set({ limites: e.datos.limites });
+        if (e.datos.stt === "servidor") this.usarSttServidor();
         break;
       case "transcripcion.parcial":
         this.set({ parcial: e.datos.texto });
@@ -517,21 +533,38 @@ export class ControladorVC {
     });
   }
 
+  /** Pasa la escucha al STT del servidor (voz continua, sin tocar para hablar). */
+  private usarSttServidor() {
+    const crear = this.d.crearReconocedorServidor;
+    const stream = this.stream;
+    if (this.recServidor || !crear || !stream) return;
+    const rec = crear({ stream, enviar: (t) => this.medios?.enviarTrama(t) ?? false });
+    if (!rec.disponible()) return;
+    this.d.reconocedor.detener();
+    this.recServidor = rec;
+    this.set({
+      escuchando: false,
+      oyendo: false,
+      modoEscucha: "continuo",
+      reconocimientoDisponible: true,
+    });
+  }
+
   private hablar(turno: number, texto: string, clipId?: string) {
-    this.d.reconocedor.pausar(true);
+    this.rec.pausar(true);
     this.d.avatar.hablar({ turno, texto, ...(clipId ? { clipId } : {}) });
     this.set({ asesorHablando: true });
     const terminar = () => {
       this.d.avatar.callar();
-      this.d.reconocedor.pausar(false);
+      this.rec.pausar(false);
       this.set({ asesorHablando: false });
     };
     this.d.voz.hablar(texto, { onFin: terminar });
   }
 
   private arrancarEscucha() {
-    if (!this.d.reconocedor.disponible() || this.estado.escuchando) return;
-    this.d.reconocedor.iniciar({
+    if (!this.rec.disponible() || this.estado.escuchando) return;
+    this.rec.iniciar({
       onParcial: (t) => this.set({ parcial: t }),
       onFinal: (t) => {
         this.set({ parcial: "" });
@@ -543,6 +576,12 @@ export class ControladorVC {
       onError: (codigo) => {
         // "network" en la PC lo dispara Chromium sin la API de Google: el reconocedor lo
         // reintenta y no llega acá. En el celular sí llega y se muestra.
+        if (codigo === "envio") {
+          this.set({
+            avisoError: "No pudimos mandar tu voz. Esperá que se reconecte o escribile al asesor.",
+          });
+          return;
+        }
         if (codigo === "not-allowed" || codigo === "service-not-allowed") {
           this.set({
             escuchando: false,
@@ -582,12 +621,14 @@ export class ControladorVC {
       this.d.avatar.callar();
       this.set({ asesorHablando: false });
     }
-    this.d.reconocedor.pausar(false);
+    this.rec.pausar(false);
     this.set({ avisoError: undefined });
-    this.d.reconocedor.escucharAhora?.();
+    this.rec.escucharAhora?.();
   }
 
   private destruirEscucha() {
+    this.recServidor?.detener();
+    this.recServidor = null;
     this.d.reconocedor.detener();
     this.set({ escuchando: false, parcial: "" });
   }
@@ -848,6 +889,8 @@ export class ControladorVC {
   private destruirMedios() {
     this.pararReloj();
     this.pararMuestreo();
+    this.recServidor?.detener();
+    this.recServidor = null;
     this.d.reconocedor.detener();
     this.d.voz.cancelar();
     this.d.avatar.callar();

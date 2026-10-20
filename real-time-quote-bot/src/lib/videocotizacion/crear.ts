@@ -7,6 +7,7 @@ import { ControladorVC } from "./controlador";
 import { MuestreadorFotogramas, crearCodificadorCanvas } from "./fotogramas";
 import { SesionMedios } from "./medios";
 import { ReconocedorNavegador, VozNavegador } from "./voz";
+import { ReconocedorServidor, desbloquearAudio } from "./voz-servidor";
 
 export type Entorno = {
   /** Video local (autoimagen) del que se toman los fotogramas. */
@@ -17,6 +18,7 @@ export type Entorno = {
 export function crearControlador(entorno: Entorno): ControladorVC {
   const config = leerConfig();
   const movil = esCelular();
+  const vozServidor = preferirVozServidor(movil);
   const cliente = new ClienteVC({ apiBase: config.apiBase, clavePublica: config.clavePublica });
   return new ControladorVC({
     config,
@@ -77,8 +79,24 @@ export function crearControlador(entorno: Entorno): ControladorVC {
     },
     voz: new VozNavegador("es-AR"),
     reconocedor: new ReconocedorNavegador("es-AR", movil ? "pulsar" : "continuo"),
+    // Si el servidor transcribe (sesion.lista.stt), el celular habla de corrido sin tocar.
+    ...(vozServidor
+      ? { crearReconocedorServidor: (o) => new ReconocedorServidor(o), desbloquearAudio }
+      : {}),
     avatar: entorno.avatar ?? crearAvatarVivo(),
   });
+}
+
+/**
+ * Voz por el servidor: en el celular, salvo `?voz=navegador`. En la PC solo con `?voz=servidor`
+ * (el reconocimiento del navegador anda bien y no gasta llamadas al modelo).
+ */
+export function preferirVozServidor(movil: boolean): boolean {
+  if (typeof location === "undefined") return movil;
+  const pedido = new URLSearchParams(location.search).get("voz");
+  if (pedido === "servidor") return true;
+  if (pedido === "navegador") return false;
+  return movil;
 }
 
 /** Celular o tablet (incluye iPad, que se presenta como Mac con pantalla táctil). */
