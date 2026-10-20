@@ -129,7 +129,7 @@ func correr(dir string, k int, pausa time.Duration, filtro, env string, maxLlama
 		return errors.New("sin tarifario (correr desde proyecto/backend)")
 	}
 	prov := proveedores.Conjunto{
-		Transcriptor: navegador.Transcriptor{}, Extractor: ext,
+		Transcriptor: navegador.Transcriptor{}, Extractor: &diagnostico{Extractor: ext},
 		Sintetizador: navegador.Sintetizador{}, Mensajeria: &falsos.Mensajeria{},
 	}
 	turnos := 0
@@ -213,6 +213,9 @@ func correrCaso(c evaluacion.Caso, rep int, prov proveedores.Conjunto, cot *coti
 		if len(sal.SalidaLLM) > 0 {
 			ultima = sal.SalidaLLM
 		}
+		if m := prov.Extractor.(*diagnostico).tomar(); verboso && len(m) > 0 {
+			fmt.Printf("  %s rep=%d turno=%d intentos_invalidos=%q\n", c.ID, rep, i+1, m)
+		}
 		if verboso {
 			fmt.Printf("  %s rep=%d turno=%d ms=%d valida=%t marcas=%v oficio=%s trabajo=%s zona=%s fuera=%t faltantes=%v accion=%s cotizacion=%t\n",
 				c.ID, rep, i+1, time.Since(ini).Milliseconds(), obs.Valida, sal.Marcas, obs.Oficio, obs.Trabajo, obs.Zona,
@@ -237,6 +240,32 @@ func correrCaso(c evaluacion.Caso, rep int, prov proveedores.Conjunto, cot *coti
 		}
 	}
 	return nil
+}
+
+// diagnostico anota por qué no validó cada salida del modelo (solo rutas de
+// campos, sin valores) para explicar un salida_invalida en el reporte.
+type diagnostico struct {
+	proveedores.Extractor
+	motivos []string
+}
+
+func (d *diagnostico) Extraer(ctx context.Context, p proveedores.PedidoExtraccion) (proveedores.RespuestaExtraccion, error) {
+	res, err := d.Extractor.Extraer(ctx, p)
+	switch {
+	case err != nil:
+		d.motivos = append(d.motivos, err.Error())
+	default:
+		if _, verr := cotizador.ValidarSalidaLLM(res.JSON); verr != nil && !errors.Is(verr, cotizador.ErrMontoEnRespuesta) {
+			d.motivos = append(d.motivos, verr.Error())
+		}
+	}
+	return res, err
+}
+
+func (d *diagnostico) tomar() []string {
+	m := d.motivos
+	d.motivos = nil
+	return m
 }
 
 func observar(sal turno.TextoSalida) evaluacion.Observado {
