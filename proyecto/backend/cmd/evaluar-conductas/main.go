@@ -273,13 +273,22 @@ func (d *diagnostico) Extraer(ctx context.Context, p proveedores.PedidoExtraccio
 	res, err := d.Extractor.Extraer(ctx, p)
 	switch {
 	case err != nil:
-		d.motivos = append(d.motivos, err.Error())
+		d.motivos = append(d.motivos, conCausa(err))
 	default:
 		if _, verr := cotizador.ValidarSalidaLLM(res.JSON); verr != nil && !errors.Is(verr, cotizador.ErrMontoEnRespuesta) {
-			d.motivos = append(d.motivos, verr.Error())
+			d.motivos = append(d.motivos, conCausa(verr))
 		}
 	}
 	return res, err
+}
+
+// conCausa agrega la causa al código del catálogo (errores.Error solo
+// muestra el código). Las causas nombran rutas de campo, no valores.
+func conCausa(err error) string {
+	if c := errors.Unwrap(err); c != nil {
+		return err.Error() + ": " + c.Error()
+	}
+	return err.Error()
 }
 
 func (d *diagnostico) tomar() []string {
