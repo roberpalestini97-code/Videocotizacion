@@ -1,0 +1,62 @@
+{
+  "rubrica": "rubrica.1",
+  "id": "demo-rejas-santa-clara-abreviada",
+  "descripcion": "Demo de rejas: \"Santa Clara\" a secas, como se dice en la zona.",
+  "origen": "Reconstrucción ficticia de la demo local del 2026-10-20 (logs del backend: turnos de 9, 16, 35 y 120 caracteres; zona=sin_definir y faltantes=[zona] en el turno 4). El log no guarda el texto del cliente: el turno 4 es una variante de unos 120 caracteres.",
+  "oficio_sesion": "pintura",
+  "turnos": [
+    {
+      "cliente": "Buen día!",
+      "esperado": {
+        "oficio": [
+          "pintura",
+          "sin_definir"
+        ],
+        "accion": [
+          "preguntar"
+        ]
+      }
+    },
+    {
+      "cliente": "Necesito pintura",
+      "esperado": {
+        "oficio": [
+          "pintura"
+        ],
+        "accion": [
+          "preguntar"
+        ]
+      }
+    },
+    {
+      "cliente": "Quiero pintar las rejas del frente.",
+      "esperado": {
+        "trabajo": [
+          "pintura_rejas_aberturas"
+        ],
+        "accion": [
+          "preguntar",
+          "pedir_ver"
+        ]
+      }
+    },
+    {
+      "cliente": "Es en Santa Clara, cerca del centro. Son dos ventanas con rejas y la reja del frente, unos 10 metros. Hace años no se pinta",
+      "esperado": {
+        "oficio": [
+          "pintura"
+        ],
+        "trabajo": [
+          "pintura_rejas_aberturas"
+        ],
+        "zona": [
+          "santa_clara_del_mar"
+        ],
+        "fuera_de_zona": false,
+        "faltantes_excluye": [
+          "zona"
+        ]
+      }
+    }
+  ]
+}
