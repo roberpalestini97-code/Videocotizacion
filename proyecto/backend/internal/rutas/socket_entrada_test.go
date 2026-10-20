@@ -21,6 +21,7 @@ import (
 	"videocotizacion/backend/internal/errores"
 	"videocotizacion/backend/internal/proveedores"
 	"videocotizacion/backend/internal/proveedores/falsos"
+	"videocotizacion/backend/internal/proveedores/navegador"
 )
 
 func TestTextoTurnoConProveedoresFalsos(t *testing.T) {
@@ -534,4 +535,65 @@ func leerEvento(t *testing.T, conn *websocket.Conn) eventoLeido {
 	}
 	ev.crudo = string(p)
 	return ev
+}
+
+func TestModoSTT(t *testing.T) {
+	c, _, _, _, _ := falsos.Conjunto()
+	if got := modoSTT(c.Transcriptor); got != "servidor" {
+		t.Fatalf("falso: %s", got)
+	}
+	if got := modoSTT(navegador.Transcriptor{}); got != "navegador" {
+		t.Fatalf("navegador: %s", got)
+	}
+	if got := modoSTT(nil); got != "navegador" {
+		t.Fatalf("nil: %s", got)
+	}
+}
+
+// Ruido o silencio (transcripción vacía): no hay turno ni llamada al LLM.
+func TestAudioTranscripcionVaciaNoCorreTurno(t *testing.T) {
+	c, tr, ex, _, _ := falsos.Conjunto()
+	tr.Texto = "   "
+	g := nuevaFixtureSesionTopeProv(t, 5, c, nil)
+	srv := httptest.NewServer(g.h)
+	t.Cleanup(srv.Close)
+	id, _, tok := sesionConMedios(t, g, true)
+	conn := enviarToken(t, dialMedios(t, srv, id, g.origen, ""), tok)
+	exigirLista(t, conn, id, tok)
+	escribirBinario(t, conn, tramaAudioPCM(2, []byte{0, 0, 1, 0}, true))
+	ctx, cancelar := context.WithTimeout(context.Background(), 300*time.Millisecond)
+	defer cancelar()
+	if _, p, err := conn.Read(ctx); err == nil {
+		t.Fatalf("no se esperaba respuesta: %s", p)
+	}
+	if tr.Llamadas() != 1 || ex.Llamadas() != 0 {
+		t.Fatalf("stt %d llm %d", tr.Llamadas(), ex.Llamadas())
+	}
+}
+
+// Una frase de varios segundos pasa los 128 KiB de una trama: se junta hasta
+// el fin de turno (tope 30 s de PCM16 16 kHz).
+func TestAudioLargoEnVariasTramas(t *testing.T) {
+	c, tr, ex, _, _ := falsos.Conjunto()
+	raw, err := os.ReadFile(filepath.Join("..", "..", "..", "conductas", "ejemplos", "01-pintura-interior-pide-medidas.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	ex.JSON = string(raw)
+	g := nuevaFixtureSesionTopeProv(t, 5, c, nil)
+	srv := httptest.NewServer(g.h)
+	t.Cleanup(srv.Close)
+	id, _, tok := sesionConMedios(t, g, true)
+	conn := enviarToken(t, dialMedios(t, srv, id, g.origen, ""), tok)
+	exigirLista(t, conn, id, tok)
+	tramo := make([]byte, 100<<10) // ~3,2 s cada una
+	for i := uint32(0); i < 3; i++ {
+		escribirBinario(t, conn, tramaAudioPCM(i, tramo, i == 2))
+	}
+	if ev := leerEvento(t, conn); ev.Tipo != "transcripcion.final" {
+		t.Fatalf("esperaba transcripcion.final: %+v", ev)
+	}
+	if tr.Llamadas() != 1 || tr.Unidades() < 9000 {
+		t.Fatalf("stt %d consumo %d ms", tr.Llamadas(), tr.Unidades())
+	}
 }

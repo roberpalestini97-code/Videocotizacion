@@ -745,3 +745,87 @@ describe("ControladorVC: tocá para hablar (celular)", () => {
     expect(t.c.getState().avisoError).toMatch(/audio-capture/);
   });
 });
+
+describe("ControladorVC: voz transcripta en el servidor", () => {
+  function conServidor(disponible = true) {
+    const recServidor = {
+      modo: "continuo" as const,
+      disponible: () => disponible,
+      iniciar: vi.fn(),
+      detener: vi.fn(),
+      pausar: vi.fn(),
+    };
+    const crearReconocedorServidor = vi.fn(() => recServidor);
+    const desbloquearAudio = vi.fn();
+    const nav = {
+      modo: "pulsar" as const,
+      disponible: () => true,
+      iniciar: vi.fn(),
+      detener: vi.fn(),
+      pausar: vi.fn(),
+      escucharAhora: vi.fn(),
+    };
+    const t = armar({
+      reconocedor: nav,
+      crearReconocedorServidor,
+      desbloquearAudio,
+    } as Partial<Dependencias>);
+    return { t, nav, recServidor, crearReconocedorServidor, desbloquearAudio };
+  }
+
+  async function llamadaConStt(t: ReturnType<typeof armar>, stt?: "servidor" | "navegador") {
+    await t.c.abrir(ID_ENLACE);
+    await t.c.continuar();
+    await t.c.aceptarConsentimiento(CONSENTIMIENTO);
+    // medios.ts entrega sesion.lista antes de pasar al estado "lista".
+    t.servidor(
+      ev("sesion.lista", {
+        sesion_id: ID_SESION,
+        limites: sesion.limites,
+        ...(stt ? { stt } : {}),
+      }),
+    );
+    t.estadoMedios("lista", { intento: 0 });
+  }
+
+  it("con stt=servidor escucha de corrido con la pista de la llamada y manda tramas por el socket", async () => {
+    const { t, nav, recServidor, crearReconocedorServidor, desbloquearAudio } = conServidor();
+    await llamadaConStt(t, "servidor");
+    expect(desbloquearAudio).toHaveBeenCalledTimes(1);
+    expect(crearReconocedorServidor).toHaveBeenCalledTimes(1);
+    expect(nav.detener).toHaveBeenCalled();
+    expect(nav.iniciar).not.toHaveBeenCalled();
+    expect(recServidor.iniciar).toHaveBeenCalledTimes(1);
+    expect(t.c.getState()).toMatchObject({ modoEscucha: "continuo", escuchando: true });
+    const { enviar } = (
+      crearReconocedorServidor.mock.calls[0] as unknown as [{ enviar: (t: Uint8Array) => boolean }]
+    )[0];
+    expect(enviar(new Uint8Array([1]))).toBe(true);
+    expect(t.medios.enviarTrama).toHaveBeenCalled();
+    // Mientras habla el asesor no se escucha.
+    t.servidor(ev("avatar.respuesta", { turno: 1, texto: "Hola" }));
+    expect(recServidor.pausar).toHaveBeenLastCalledWith(true);
+    t.terminarVoz();
+    expect(recServidor.pausar).toHaveBeenLastCalledWith(false);
+    // El texto vuelve del servidor y se muestra.
+    t.servidor(ev("transcripcion.final", { turno: 1, texto: "quiero pintar" }));
+    expect(t.c.getState().mensajes.at(-1)).toMatchObject({ de: "cliente", texto: "quiero pintar" });
+    await t.c.cortar();
+    expect(recServidor.detener).toHaveBeenCalled();
+  });
+
+  it("sin stt=servidor sigue con el reconocedor del navegador (tocá para hablar)", async () => {
+    const { t, nav, crearReconocedorServidor } = conServidor();
+    await llamadaConStt(t);
+    expect(crearReconocedorServidor).not.toHaveBeenCalled();
+    expect(nav.iniciar).toHaveBeenCalledTimes(1);
+    expect(t.c.getState().modoEscucha).toBe("pulsar");
+  });
+
+  it("si no hay pista de audio para el servidor, queda el reconocedor del navegador", async () => {
+    const { t, nav, recServidor } = conServidor(false);
+    await llamadaConStt(t, "servidor");
+    expect(recServidor.iniciar).not.toHaveBeenCalled();
+    expect(nav.iniciar).toHaveBeenCalledTimes(1);
+  });
+});

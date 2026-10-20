@@ -140,7 +140,10 @@ export class SesionMedios {
         this.intento = 0;
         this.ritmoLento = false;
         this.haEstadoLista = true;
+        // Primero el evento (trae el modo de STT) y después el estado que arranca la escucha.
+        this.o.onEvento(e);
         this.poner("lista");
+        return;
       } else if (e.tipo === "sesion.cerrada") {
         this.cerradaPorServidor = true;
       }

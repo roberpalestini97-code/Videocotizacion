@@ -38,8 +38,8 @@ type usoMedios struct {
 }
 
 const (
-	maxCargaAudioTurno = 128 << 10 // eventos-sesion.md: carga útil ≤ 128 KiB por trama; tope por turno
-	fotosPorTurno      = 2         // fotogramas más recientes que van al Extractor
+	maxCargaAudioTurno = 30 * 16000 * 2 // eventos-sesion.md: 30 s de PCM16 16 kHz por turno (cada trama ≤ 128 KiB)
+	fotosPorTurno      = 2              // fotogramas más recientes que van al Extractor
 )
 
 // atenderMedios lee lo que sigue a sesion.lista. El texto no puede pasar de
@@ -492,17 +492,23 @@ func (h *enlace) responderTrama(ctx context.Context, tenant dominio.TenantID, se
 		if tipoAudio == 0x02 {
 			frecuencia = 0 // Opus: el consumo lo mide el adaptador de STT.
 		}
+		inicio := time.Now()
 		tr, err := h.prov.Transcriptor.Transcribir(ctx, proveedores.Audio{
 			PCM: carga, FrecuenciaHz: frecuencia, Final: true,
 		})
 		if err != nil {
+			h.log.Warn("transcripción sin respuesta del proveedor", "sesion", sesionID, "bytes_audio", len(carga),
+				"duracion_ms", time.Since(inicio).Milliseconds(), "codigo", string(errores.CodigoDe(err)), "detalle", detalleProveedor(err))
 			return soloMensajes(eventoErrorProveedor(siguienteSeq(seq), err))
 		}
-		texto := tr.Texto
-		if texto == "" {
-			texto = " "
+		// Sin el texto: lo que dice el cliente no va a los logs.
+		h.log.Info("transcripción", "sesion", sesionID, "ms_audio", tr.MilisegsAudio,
+			"duracion_ms", time.Since(inicio).Milliseconds(), "caracteres", utf8.RuneCountInString(tr.Texto))
+		if strings.TrimSpace(tr.Texto) == "" {
+			// Ruido o silencio: no hay turno ni llamada al LLM; el cliente sigue escuchando.
+			return respuestaMedios{}
 		}
-		return h.ejecutarTurnoConTexto(ctx, tenant, sesionID, texto, seq)
+		return h.ejecutarTurnoConTexto(ctx, tenant, sesionID, tr.Texto, seq)
 	}
 	seqFoto := uint32(0)
 	if t.ok {

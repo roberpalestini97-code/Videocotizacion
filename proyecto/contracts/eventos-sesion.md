@@ -36,7 +36,7 @@ uniones `EventoCliente` y `EventoServidor`.
 ### Servidor → cliente
 | tipo | datos | notas |
 |---|---|---|
-| `sesion.lista` | `sesion_id`, `limites` | token aceptado |
+| `sesion.lista` | `sesion_id`, `limites`, `stt?` | token aceptado; `stt`: `navegador` (el cliente manda `texto.enviar`, por defecto) o `servidor` (el cliente manda tramas `0x01`) |
 | `transcripcion.parcial` / `transcripcion.final` | `turno`, `texto` | solo los finales disparan un turno del LLM |
 | `avatar.respuesta` | `turno`, `texto`, `clip_id?` | `clip_id` en modo clips; sin montos (ADR 0002 §4) |
 | `avatar.visemas` | `turno`, `items[{v, t_ms, d_ms}]` | 15 visemas: `sil PP FF TH DD kk CH SS nn RR aa E I O U` |
@@ -83,7 +83,10 @@ audio en `LimitesSesion`.
 
 ## 6. Pendiente para congelar
 - **Backend T04 (2026-10-10):** con proveedores falsos, el WS acumula tramas `0x01`/`0x02` hasta
-  `flags` fin de turno (tope 128 KiB por turno) y dispara STT→turno LLM; Opus real queda en T13.
+  `flags` fin de turno y dispara STT→turno LLM; Opus real queda en T13.
+- **STT en el servidor (2026-10-19):** `PROVEEDOR_STT=gemini` transcribe el PCM16 (WAV inline, sin
+  guardar). Tope por turno: 30 s de PCM16 16 kHz (960 000 B, varias tramas de ≤ 128 KiB). Una
+  transcripción vacía (ruido, silencio) no dispara turno ni respuesta.
 - P1 resuelta por BRIEF (navegador + clips), pero falta medir fps/sincronía real (T08).
 - Probar `sesion.autenticar` (token en el primer mensaje) en Chrome/Safari/Firefox reales.
 - Confirmar con av el set de 15 visemas y con fe la reconexión.

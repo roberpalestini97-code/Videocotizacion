@@ -246,6 +246,13 @@ func TestProduccionCableaReales(t *testing.T) {
 	if _, ok := prov.Sintetizador.(proveedores.VozEnCliente); !ok {
 		t.Fatal("TTS navegador no marca voz en el cliente")
 	}
+	c.Proveedores.STT = "gemini"
+	if prov, err = construirProveedores(c); err != nil {
+		t.Fatal(err)
+	}
+	if _, ok := prov.Transcriptor.(proveedores.VozEnCliente); ok || len(prov.Falsos()) != 0 {
+		t.Fatal("STT gemini tiene que transcribir en el servidor")
+	}
 	c.Gemini.Clave = secreto.Secreto{}
 	if _, err := construirProveedores(c); err == nil {
 		t.Fatal("gemini sin clave")

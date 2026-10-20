@@ -29,7 +29,7 @@ window.TABLERO = {
       "no_hace_falta_cerrar": "Las 21 tareas en revisión no bloquean esta demo. Siguen en revisión porque quien escribe no se revisa a sí mismo."
     },
     "pendiente_goal": [
-      "2026-10-19 SIGUEN (Rober marca goal): 1) STT en el servidor con Gemini para voz tipo Zoom en el celular (transcriptor.go sin commitear; falta config PROVEEDOR_STT=gemini, arranque, tramas PCM16 0x01 desde el front y prueba en celular real)",
+      "2026-10-19 SIGUEN (Rober marca goal): 1) STT en el servidor con Gemini (T47, en revision: falta probar en celular real y activar PROVEEDOR_STT=gemini en Render)",
       "2026-10-19 SIGUEN: 2) T45 cerrar deploy tras merge del PR #10: produccion Vercel, proxy /v1 y login del panel, llamada E2E WS+Gemini; de paso T44 (cotizacion.emitida llega a Mis cotizaciones)",
       "2026-10-19 SIGUEN: 3) T08 medir avatar con entornos T46 en Android gama media e iPhone viejo (necesita equipos de Rober)",
       "2026-10-19 SIGUEN: 4) T12 CI en GitHub Actions que corra verificar-repo en cada PR",
@@ -568,6 +568,14 @@ window.TABLERO = {
       "status": "en_revision",
       "rehacer": false,
       "nota": "Rama feat/T46-entornos-avatar. Plan docs/avatar/entornos.md. Luz: HDRI 1k CC0 (Poly Haven hotel_room, greenwich_park_02). Fondo: vista en perspectiva recortada del panorama 8k + desenfoque leve (scripts/generar-fondos-entornos.mjs; el HDRI 1k como fondo se veia borroso con el plano de busto). Respaldo de silla procedural en la oficina; en la plaza no se ve banco con el plano de busto. Laura y Juan oficina, Tito plaza; fallback al degrade si falla la carga. Fotos de asesores regeneradas con el entorno. Probado: capturas headless de los 3 avatares, vitest 174 (3 nuevos), typecheck, build NITRO_PRESET=vercel con public/entornos. NO probado: celular real, rendimiento en gama baja."
+    },
+    {
+      "id": "T47",
+      "titulo": "Voz del celular transcripta en el servidor (STT Gemini) para hablar de corrido sin tocar",
+      "agente": "go",
+      "status": "en_revision",
+      "rehacer": false,
+      "nota": "Rama feat/stt-servidor-gemini. Backend: PROVEEDOR_STT=gemini (misma clave/modelo que el LLM, timeout 12 s por intento), transcriptor WAV inline sin guardar audio, sesion.lista anuncia stt (navegador|servidor; contrato eventos NO CONGELADO, campo opcional), tope de audio por turno 30 s (antes 128 KiB = 4 s), transcripcion vacia no corre turno, log de la transcripcion sin el texto. Front: ReconocedorServidor (pista de la llamada -> PCM16 16 kHz, detector de voz por energia con calibracion, frase entera en tramas 0x01 al detectar 1,2 s de silencio, en pausa mientras habla el asesor); celular por defecto, PC solo con ?voz=servidor, ?voz=navegador lo apaga. Probado: go test rutas/config/arranque/gemini/falsos (tests nuevos: transcriptor con Gemini simulado, WS stt, audio largo, transcripcion vacia); contrato validar 0 fallas y 506 vectores; vitest 176, tsc, eslint; Gemini real con el WAV entero 3/3 exacto (3-9 s); E2E local Chrome headless 390x844 UA Android con mic falso (voz Helena es-ES): sin tocar, frase -> tramas 0x01 -> transcripcion.final -> pizarron Pintura -> avatar.respuesta. NO probado: celular real (Android/iPhone), eco del parlante en celular real, verificar-repo completo y go test tras los ultimos cambios (log STT + timeout 12 s: solo go vet/gofmt) por disco lleno; deploy Render con PROVEEDOR_STT=gemini. Ojo: cada turno de voz son 2 llamadas a Gemini (STT + LLM) y un turno tardo hasta 36 s con Gemini lento."
     }
   ],
   "votes": [],
@@ -639,6 +647,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-20T00:30:00-03:00",
+      "texto": "Claude: feat/stt-servidor-gemini (T47). Backend: PROVEEDOR_STT=gemini (misma clave/modelo que el LLM, timeout 12 s por intento), transcriptor WAV inline sin guardar audio, sesion.lista anuncia stt (navegador|servidor; contrato eventos NO CONGELADO, campo opcional), tope de audio por turno 30 s (antes 128 KiB = 4 s), transcripcion vacia no corre turno, log de la transcripcion sin el texto. Front: ReconocedorServidor (pista de la llamada -> PCM16 16 kHz, detector de voz por energia con calibracion, frase entera en tramas 0x01 al detectar 1,2 s de silencio, en pausa mientras habla el asesor); celular por defecto, PC solo con ?voz=servidor, ?voz=navegador lo apaga. Probado: go test rutas/config/arranque/gemini/falsos (tests nuevos: transcriptor con Gemini simulado, WS stt, audio largo, transcripcion vacia); contrato validar 0 fallas y 506 vectores; vitest 176, tsc, eslint; Gemini real con el WAV entero 3/3 exacto (3-9 s); E2E local Chrome headless 390x844 UA Android con mic falso (voz Helena es-ES): sin tocar, frase -> tramas 0x01 -> transcripcion.final -> pizarron Pintura -> avatar.respuesta. NO probado: celular real (Android/iPhone), eco del parlante en celular real, verificar-repo completo y go test tras los ultimos cambios (log STT + timeout 12 s: solo go vet/gofmt) por disco lleno; deploy Render con PROVEEDOR_STT=gemini. Ojo: cada turno de voz son 2 llamadas a Gemini (STT + LLM) y un turno tardo hasta 36 s con Gemini lento."
+    },
     {
       "ts": "2026-10-18T14:00:00-03:00",
       "texto": "Claude: feat/portada-unica. Queda una sola portada (la v1) en la raiz: /, /como-funciona, /faq, /contacto, /legales. Se borraron la portada de / (Talonario) y la /v2 (Encuadre) con su CSS; /v1/* y /v2 redirigen a la raiz. Celular vertical: asesor arriba y camara abajo, mitad y mitad, chat a lo ancho y datos en vivo en una fila deslizable. Probado: tsc, vitest 171, build NITRO_PRESET=vercel, rutas y redirecciones en vite dev; llamada completa contra el backend de prod (Render) con camara y mic falsos de Chrome, en PC 1280x800 y celular 390x844, con Laura, Tito y Juan: WS, GLB 3D, fotogramas, texto y respuesta de Gemini. NO probado: voz real en celular (sigue el boton Toca para hablar; la voz tipo Zoom con STT en el servidor queda pendiente, bloqueada por disco lleno para compilar Go)."

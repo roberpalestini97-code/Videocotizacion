@@ -48,13 +48,13 @@ const (
 const (
 	ProveedorFalso     = "falso"
 	ProveedorNavegador = "navegador" // STT y TTS en el navegador del cliente
-	ProveedorGemini    = "gemini"    // LLM: Google Gemini por REST (AI Studio)
+	ProveedorGemini    = "gemini"    // LLM y STT: Google Gemini por REST (AI Studio)
 	ProveedorEnlace    = "enlace"    // WhatsApp: enlace wa.me, sin envío
 )
 
 // proveedoresAdmitidos por variable; cualquier otro valor es un error.
 var proveedoresAdmitidos = map[string][]string{
-	"PROVEEDOR_STT":      {ProveedorFalso, ProveedorNavegador},
+	"PROVEEDOR_STT":      {ProveedorFalso, ProveedorNavegador, ProveedorGemini},
 	"PROVEEDOR_TTS":      {ProveedorFalso, ProveedorNavegador},
 	"PROVEEDOR_LLM":      {ProveedorFalso, ProveedorGemini},
 	"PROVEEDOR_WHATSAPP": {ProveedorFalso, ProveedorEnlace},
@@ -149,7 +149,7 @@ func Cargar(getenv Getenv, cmd Comando) (Config, error) {
 			WhatsApp: l.texto("PROVEEDOR_WHATSAPP", ""),
 		},
 	}
-	if cmd == Servir && c.Proveedores.LLM == ProveedorGemini {
+	if cmd == Servir && c.Proveedores.UsaGemini() {
 		c.Gemini = Gemini{
 			Clave:      l.claveGemini(getenv),
 			Modelo:     l.texto("GEMINI_MODEL", ""),
@@ -253,15 +253,21 @@ func (c Config) validarProveedores(prod bool) []error {
 			errs = append(errs, fmt.Errorf("producción no puede usar %s=falso", p.variable))
 		}
 	}
-	if c.Proveedores.LLM == ProveedorGemini {
+	if c.Proveedores.UsaGemini() {
 		if c.Gemini.Clave.Vacio() {
-			errs = append(errs, errors.New("PROVEEDOR_LLM=gemini necesita GEMINI_API_KEY o GEMINI_API_KEY_FILE"))
+			errs = append(errs, errors.New("PROVEEDOR_LLM=gemini o PROVEEDOR_STT=gemini necesita GEMINI_API_KEY o GEMINI_API_KEY_FILE"))
 		}
 		if prod && c.Gemini.URLBase != "" && !strings.HasPrefix(c.Gemini.URLBase, "https://") {
 			errs = append(errs, errors.New("GEMINI_URL_BASE en producción tiene que ser https"))
 		}
 	}
 	return errs
+}
+
+// UsaGemini informa si algún puerto (LLM o STT) va a Gemini: comparten clave,
+// modelo y timeout.
+func (p Proveedores) UsaGemini() bool {
+	return p.LLM == ProveedorGemini || p.STT == ProveedorGemini
 }
 
 func admitido(variable, valor string) bool {

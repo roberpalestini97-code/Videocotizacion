@@ -61,7 +61,10 @@ export type AvisoSesion = "sin_voz_proximo" | "duracion_proxima" | "cuota_proxim
 type Sobre<T extends string, D> = { v: 1; tipo: T; seq: number; ts: string; datos: D };
 
 export type EventoServidor =
-  | Sobre<"sesion.lista", { sesion_id: string; limites: LimitesSesion }>
+  | Sobre<
+      "sesion.lista",
+      { sesion_id: string; limites: LimitesSesion; stt?: "navegador" | "servidor" }
+    >
   | Sobre<"transcripcion.parcial", { turno: number; texto: string }>
   | Sobre<"transcripcion.final", { turno: number; texto: string }>
   | Sobre<"avatar.respuesta", { turno: number; texto: string; clip_id?: string }>

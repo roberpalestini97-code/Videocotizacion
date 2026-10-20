@@ -12,6 +12,7 @@ import (
 
 	"videocotizacion/backend/internal/claves"
 	"videocotizacion/backend/internal/dominio"
+	"videocotizacion/backend/internal/proveedores"
 )
 
 const (
@@ -78,7 +79,7 @@ func (h *enlace) conectarMedios(w http.ResponseWriter, r *http.Request) {
 		cerrarMedios(conn, cierreToken, "token")
 		return
 	}
-	if err := conn.Write(r.Context(), websocket.MessageText, eventoLista(r.PathValue("sesion_id"))); err != nil {
+	if err := conn.Write(r.Context(), websocket.MessageText, eventoLista(r.PathValue("sesion_id"), modoSTT(h.prov.Transcriptor))); err != nil {
 		return
 	}
 	// Recién acá se pueden llamar proveedores (eventos-sesion.md §1.4).
@@ -139,7 +140,16 @@ func tokenDelHandshake(tipo websocket.MessageType, payload []byte) (string, bool
 	return ev.Datos.Token, true
 }
 
-func eventoLista(sesionID string) []byte {
+// modoSTT dice quién transcribe la voz del cliente: "navegador" (el cliente
+// manda texto.enviar) o "servidor" (el cliente manda tramas PCM16 0x01).
+func modoSTT(t proveedores.Transcriptor) string {
+	if v, ok := t.(proveedores.VozEnCliente); t == nil || ok && v.VozEnCliente() {
+		return "navegador"
+	}
+	return "servidor"
+}
+
+func eventoLista(sesionID, stt string) []byte {
 	var buf bytes.Buffer
 	enc := json.NewEncoder(&buf)
 	enc.SetEscapeHTML(false)
@@ -151,6 +161,7 @@ func eventoLista(sesionID string) []byte {
 		"datos": map[string]any{
 			"sesion_id": sesionID,
 			"limites":   limitesProvisorios(),
+			"stt":       stt,
 		},
 	})
 	return buf.Bytes()

@@ -6,6 +6,7 @@
 package arranque
 
 import (
+	"cmp"
 	"context"
 	_ "embed"
 	"errors"
@@ -134,7 +135,10 @@ func construirProveedores(cfg config.Config) (proveedores.Conjunto, error) {
 		real          map[string]func() error
 	}{
 		{"PROVEEDOR_STT", cfg.Proveedores.STT, func() { c.Transcriptor = &falsos.Transcriptor{Texto: "turno de voz de prueba"} },
-			map[string]func() error{config.ProveedorNavegador: func() error { c.Transcriptor = navegador.Transcriptor{}; return nil }}},
+			map[string]func() error{
+				config.ProveedorNavegador: func() error { c.Transcriptor = navegador.Transcriptor{}; return nil },
+				config.ProveedorGemini:    func() (err error) { c.Transcriptor, err = abrirTranscriptorGemini(cfg.Gemini); return err },
+			}},
 		{"PROVEEDOR_LLM", cfg.Proveedores.LLM, func() { c.Extractor = &falsos.Extractor{JSON: string(devSalidaLLM)} },
 			map[string]func() error{config.ProveedorGemini: func() (err error) { c.Extractor, err = abrirGemini(cfg.Gemini); return err }}},
 		{"PROVEEDOR_TTS", cfg.Proveedores.TTS, func() { c.Sintetizador = &falsos.Sintetizador{} },
@@ -174,6 +178,19 @@ func abrirGemini(g config.Gemini) (proveedores.Extractor, error) {
 	return gemini.Nuevo(gemini.Opciones{
 		Clave: g.Clave, Modelo: g.Modelo, URLBase: g.URLBase, Esquema: esq,
 		Timeout: g.Timeout, Reintentos: max(g.Reintentos, 0),
+	})
+}
+
+// timeoutSTT acota cada intento de transcripción: una frase tarda 3–9 s
+// (medido 2026-10-19); si un intento se cuelga conviene reintentar antes.
+const timeoutSTT = 12 * time.Second
+
+// abrirTranscriptorGemini arma el STT de servidor con la clave y el modelo del
+// LLM. No llama a la red.
+func abrirTranscriptorGemini(g config.Gemini) (proveedores.Transcriptor, error) {
+	return gemini.NuevoTranscriptor(gemini.Opciones{
+		Clave: g.Clave, Modelo: g.Modelo, URLBase: g.URLBase,
+		Timeout: min(cmp.Or(g.Timeout, timeoutSTT), timeoutSTT), Reintentos: max(g.Reintentos, 0),
 	})
 }
 

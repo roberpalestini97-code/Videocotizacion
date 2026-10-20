@@ -39,15 +39,15 @@ import (
 // gemini-3.5-flash-lite estaba saturado (HTTP 503 / cuelgue); 3.1-flash-lite
 // respondió en ~6–9 s. Cambiarlo con GEMINI_MODEL.
 const (
-	ModeloPorDefecto   = "gemini-3.1-flash-lite"
-	URLBasePorDefecto  = "https://generativelanguage.googleapis.com/v1beta"
-	TimeoutPorDefecto  = 20 * time.Second
-	ReintentosDefecto  = 2
-	EsperaBaseDefecto  = 500 * time.Millisecond
-	MaxTokensDefecto   = 2048
-	MaxRespuestaBytes  = 256 << 10 // cuerpo HTTP leído como máximo
-	MaxTextoSalida     = 32 << 10  // JSON del modelo como máximo
-	MaxFotogramas      = 4         // por pedido; se mandan los más recientes
+	ModeloPorDefecto  = "gemini-3.1-flash-lite"
+	URLBasePorDefecto = "https://generativelanguage.googleapis.com/v1beta"
+	TimeoutPorDefecto = 20 * time.Second
+	ReintentosDefecto = 2
+	EsperaBaseDefecto = 500 * time.Millisecond
+	MaxTokensDefecto  = 2048
+	MaxRespuestaBytes = 256 << 10 // cuerpo HTTP leído como máximo
+	MaxTextoSalida    = 32 << 10  // JSON del modelo como máximo
+	MaxFotogramas     = 4         // por pedido; se mandan los más recientes
 	// false: prueba 2026-10-13. Gemini 3.5-flash-lite da 503 / se cuelga con JPEG.
 	// Volver a true cuando el modelo deje de estar saturado.
 	adjuntarFotogramas = false
@@ -174,6 +174,12 @@ func (e *Extractor) Extraer(ctx context.Context, p proveedores.PedidoExtraccion)
 	if err != nil {
 		return proveedores.RespuestaExtraccion{}, errores.Envolver(errores.ErrorInterno, errors.New("gemini: armar pedido"))
 	}
+	return e.ejecutar(ctx, cuerpo)
+}
+
+// ejecutar manda el pedido con los reintentos del adaptador (429 y 5xx, y el
+// timeout de un intento si el contexto sigue vivo). Lo usan Extraer y Transcribir.
+func (e *Extractor) ejecutar(ctx context.Context, cuerpo []byte) (proveedores.RespuestaExtraccion, error) {
 	var ultimo error
 	for intento := 0; ; intento++ {
 		if err := ctx.Err(); err != nil {

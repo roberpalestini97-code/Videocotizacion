@@ -685,7 +685,19 @@ evento(
   'c',
 );
 evento('sesion.cerrar', obj({ motivo: cte('cliente_cerro') }), 'el cliente corta.', 'c');
-evento('sesion.lista', obj({ sesion_id: re('IdSesion'), limites: re('LimitesSesion') }), 'token aceptado; arranca la conversación.', 's');
+evento(
+  'sesion.lista',
+  obj(
+    {
+      sesion_id: re('IdSesion'),
+      limites: re('LimitesSesion'),
+      stt: { type: 'string', enum: ['navegador', 'servidor'], description: 'Quién transcribe la voz: navegador (el cliente manda texto.enviar) o servidor (el cliente manda tramas 0x01 PCM16). Ausente = navegador.' },
+    },
+    ['sesion_id', 'limites'],
+  ),
+  'token aceptado; arranca la conversación.',
+  's',
+);
 evento('transcripcion.parcial', obj({ turno: ent(1, 500), texto: TEXTO_EV }), 'transcripción parcial (texto plano, R19).', 's');
 evento('transcripcion.final', obj({ turno: ent(1, 500), texto: TEXTO_EV }), 'transcripción final del turno.', 's');
 evento(
