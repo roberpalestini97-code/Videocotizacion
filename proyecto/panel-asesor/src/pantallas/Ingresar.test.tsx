@@ -20,7 +20,8 @@ describe('Ingresar: contraseña', () => {
   it('muestra el formulario, pone el foco en el título y no pide nada al servidor todavía', async () => {
     const app = await montarApp({ conSesion: false });
     const titulo = await screen.findByRole('heading', { name: 'Ingresá a tu panel' });
-    expect(titulo).toHaveFocus();
+    // El foco se pone en un efecto después de pintar: en CI el título aparece antes que el foco.
+    await waitFor(() => expect(titulo).toHaveFocus());
     expect(document.title).toBe('Ingresar · Panel del asesor');
     expect(app.servidor.pedidos.map((p) => `${p.metodo} ${p.ruta}`)).not.toContain('POST /v1/panel/sesion');
   });

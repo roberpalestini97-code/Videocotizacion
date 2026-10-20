@@ -206,9 +206,9 @@ describe("URLs permitidas", () => {
       `ws://127.0.0.1:8080/v1/sesiones/${ID_SESION}/medios`,
     );
     expect(socketEnLoopback("https://api.ejemplo.test", fijo)).toBe(fijo);
-    expect(socketEnLoopback("http://localhost:8787", "ws://localhost:8787/v1/sesiones/x/medios")).toBe(
-      "ws://localhost:8787/v1/sesiones/x/medios",
-    );
+    expect(
+      socketEnLoopback("http://localhost:8787", "ws://localhost:8787/v1/sesiones/x/medios"),
+    ).toBe("ws://localhost:8787/v1/sesiones/x/medios");
   });
   it("solo se abre un wa.me del contrato", () => {
     expect(urlWhatsAppPermitida("https://wa.me/5492236000000?text=VC-AB12-CD34EF")).toBe(true);

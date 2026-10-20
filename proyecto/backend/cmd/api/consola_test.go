@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"log/slog"
 	"strings"
+	"sync"
 	"testing"
 
 	"videocotizacion/backend/internal/secreto"
@@ -11,7 +12,7 @@ import (
 
 func TestConsolaMuestraCadaDatoYRedactaSecretos(t *testing.T) {
 	var buf bytes.Buffer
-	log := slog.New(&consola{w: &buf, nivel: slog.LevelDebug})
+	log := slog.New(&consola{mu: &sync.Mutex{}, w: &buf, nivel: slog.LevelDebug})
 	clave := "clave-que-no-puede-aparecer"
 	log.Info("turno",
 		"sesion", "ses_demo",

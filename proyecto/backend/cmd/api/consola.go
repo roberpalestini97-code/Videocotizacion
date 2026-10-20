@@ -19,14 +19,14 @@ func nuevoRegistro(w io.Writer, nivel slog.Level, entorno string) slog.Handler {
 	if config.Entorno(entorno) == config.Produccion {
 		return slog.NewJSONHandler(w, &slog.HandlerOptions{Level: nivel})
 	}
-	return &consola{w: w, nivel: nivel}
+	return &consola{mu: &sync.Mutex{}, w: w, nivel: nivel}
 }
 
 // consola escribe el registro para leerlo en la terminal de desarrollo.
 // No inventa datos: imprime el mensaje y cada atributo que el llamador ya
 // pasó. Los secretos siguen redactados por su LogValue.
 type consola struct {
-	mu      sync.Mutex
+	mu      *sync.Mutex // compartido con los handlers derivados (WithAttrs, WithGroup): escriben en el mismo w
 	w       io.Writer
 	nivel   slog.Level
 	grupo   string

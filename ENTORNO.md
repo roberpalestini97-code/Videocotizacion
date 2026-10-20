@@ -25,7 +25,7 @@ En Windows 10 u 11, con PowerShell:
 | Git | actual | clonar el monorepo |
 | Node.js | **22 o más nueva** (referencia: 22.17.1). El panel declara `"node": ">=22"` | videollamada, panel, conductas y contrato |
 | npm | el que trae ese Node | `npm ci` |
-| Go | **1.24 o más nueva** (`proyecto/backend/go.mod` dice `go 1.24.0`; referencia: 1.26.5) | API |
+| Go | **1.25 o más nueva** (`proyecto/backend/go.mod` dice `go 1.25.0`; la imagen y el CI usan 1.27.2, con los arreglos de seguridad de net/http y crypto/tls) | API |
 | Chrome o Edge | actual | la voz es el reconocimiento `es-AR` del navegador. Firefox no alcanza para esa parte |
 
 Docker Desktop es opcional. El día a día usa `ALMACEN=memoria` y no levanta Postgres. Docker hace falta solo si vas a probar `proyecto/infra/` (compose de producción). Ese compose **no** es este entorno: lee otros nombres de variables (`VC_*`) y todavía no están alineados con lo que lee la API.

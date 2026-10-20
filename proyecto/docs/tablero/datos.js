@@ -26,35 +26,59 @@ window.TABLERO = {
       "definicion": "App gratis de uso propio: la videollamada cotiza con voz del navegador, Gemini en nivel gratuito (solo datos ficticios) y tarifas provisorias. Panel local en camino a llamadas reales (T44, semilla + dev:api). No incluye API vendible ni modelo 3D propio en producción.",
       "probado_2026_10_12": "Rober: pruebas manuales locales OK (videollamada + flujo general). Agente: TestPanelSemillaLocalLoginListaVacia; motor_cotizacion en JSON; levantar-local panel dev:api.",
       "falta_para_cotizar": "Confirmar en una llamada nueva que cotizacion.emitida llega al panel (Mis cotizaciones) con GEMINI activo; declarar en nota T44 cuando Rober lo verifique.",
-      "no_hace_falta_cerrar": "Las 21 tareas en revisión no bloquean esta demo. Siguen en revisión porque quien escribe no se revisa a sí mismo."
+      "no_hace_falta_cerrar": "Las 26 tareas en revisión no bloquean esta demo. Siguen en revisión porque quien escribe no se revisa a sí mismo."
+    },
+    "prioridades": {
+      "fecha": "2026-10-20",
+      "criterio": "Orden propuesto por Claude (Opus 5.5) y revisado por un agente Sonnet 5.5 (otro modelo). Primero que la demo cotice de punta a punta en Render/Vercel; después calidad del modelo y CI; antes de usuarios reales, legal y seguridad; al final la API vendible.",
+      "ahora": [
+        "1. T47 cierre: Rober prueba en celular real contra Render (sesion.lista stt=servidor, eco del parlante, latencia). render.yaml con PROVEEDOR_STT=gemini ya en main (PR #13)",
+        "2. T45 + T44 en paralelo con T17: produccion Vercel, proxy /v1 y login del panel, llamada E2E WS+Gemini que emita cotización y llegue a Mis cotizaciones (cierra P-t44-panel-gemini)",
+        "3. T17 arnés de conductas contra Gemini real: en logs locales la zona no se extrae tras 4 turnos (120 caracteres) y la demo no llega a cotizar",
+        "4. T48 decidir visión: fotogramas apagados (fotos = nil en socket_entrada.go). Reactivar o declarar 'sin visión' y dejar de mandarlos",
+        "5. T12 CI: en revision (PR apilado sobre #14); queda ver el workflow en verde en GitHub"
+      ],
+      "proximo": [
+        "T49 cupo/latencia Gemini con STT en servidor y caída a reconocimiento del navegador ante 429",
+        "T50 aviso 'despertando servidor' y pre-despertar Render al abrir la portada",
+        "T51 smoke E2E de llamada (WS + proveedor falso) en CI contra preview",
+        "T52 tope de abuso y gasto de la demo pública",
+        "T43 revisión independiente de T04a; el resto de en_revision es fondo (no bloquea la demo)",
+        "T26/P-tarifas con respuestas de pintor y jardinero"
+      ],
+      "antes_de_usuarios_reales": [
+        "T27 retención y ARCO (no espera a Postgres; el consentimiento previo ya está en T10)",
+        "T28 revisión de seguridad, T29 secretos/TLS/staging, T53 persistencia de la demo, T11 compose real, T04a Postgres con ENTORNO=produccion"
+      ],
+      "despues_api_vendible": [
+        "T18",
+        "T21",
+        "T22",
+        "T23",
+        "T30"
+      ],
+      "bloqueadas_por_hardware": [
+        "T08 medir avatar en equipos de Rober (Android gama media, iPhone viejo)"
+      ],
+      "deuda_revision": "T07, T10, T25 y T47 están en main sin revisión cruzada de otro modelo (regla 1). Queda declarado como deuda; no bloquea la demo."
     },
     "pendiente_goal": [
-      "2026-10-19 SIGUEN (Rober marca goal): 1) STT en el servidor con Gemini (T47, en revision: falta probar en celular real y activar PROVEEDOR_STT=gemini en Render)",
-      "2026-10-19 SIGUEN: 2) T45 cerrar deploy tras merge del PR #10: produccion Vercel, proxy /v1 y login del panel, llamada E2E WS+Gemini; de paso T44 (cotizacion.emitida llega a Mis cotizaciones)",
-      "2026-10-19 SIGUEN: 3) T08 medir avatar con entornos T46 en Android gama media e iPhone viejo (necesita equipos de Rober)",
-      "2026-10-19 SIGUEN: 4) T12 CI en GitHub Actions que corra verificar-repo en cada PR",
-      "Rama feat/tablero-cobertura-oct2026: T42 checklist panel, T11 compose-smoke, estabilidad tests",
-      "T44: confirmación Mis cotizaciones post-Gemini (Rober: lo prueba y avisa)",
-      "P-tarifas: 10 preguntas README — entrevistas proximamente",
-      "T13/T11: compose cuando Docker estable (IA solo free tier por ahora)",
-      "T04a/T43: revisión PostgreSQL/RLS",
-      "T41 revisiones cruzadas"
+      "2026-10-20 (orden en meta.prioridades): 1) T47 probar en celular real contra Render",
+      "2026-10-20: 2) T45/T44 llamada E2E en produccion que emita cotización y llegue al panel",
+      "2026-10-20: 3) T17 arnés de conductas (la zona no se extrae)",
+      "2026-10-20: 4) T48 decidir visión (fotogramas apagados)",
+      "2026-10-20: 5) T12 CI con verificar-repo"
     ],
     "ruta_desarrollo_sugerida": [
-      "1. PR feat/T26-T44-motor-panel-local → main (demo: videollamada Lovable + panel API + motor tarifas)",
-      "2. T44: Rober confirma Mis cotizaciones tras llamada Gemini; luego marcar T44 hecha",
-      "3. IA: solo capas gratuitas (Gemini free); sin pago exterior ni tope de gasto hasta escalar",
-      "4. Front: dominio Lovable por ahora (P-dominio); panel UX simple y fácil de manejar (P-estilo → T34 cuando toque)",
-      "5. T26/P-tarifas: próximamente entrevistas README; hasta entonces tarifario referencia + motor reglas",
-      "6. Enums T05: visto Rober 2026-10-12; tipos extra en esquema; reglas motor opcionales después",
-      "7. Legal: Ley 25.326 validada con abogado (P-abogado cerrada); seguir notas en docs/seguridad",
-      "8. Paralelo sin bloquear demo: T11 Docker, T43/T04a PG, revisiones T41"
+      "1. Demo de punta a punta en Render + Vercel: T47, T45, T44",
+      "2. Calidad del modelo: T17 (conductas) y T48 (visión)",
+      "3. Red de seguridad: T12 CI, T51 smoke E2E",
+      "4. Demo pública sin sorpresas: T49 cupo Gemini, T50 Render dormido, T52 abuso",
+      "5. IA: solo capas gratuitas (Gemini free) hasta escalar; front en dominio Lovable/Vercel (P-dominio)",
+      "6. T26/P-tarifas: tarifario real cuando lleguen las entrevistas",
+      "7. Antes de usuarios reales: T27, T28, T29, T53, T11, T04a/T43",
+      "8. API vendible: T18, T21, T22, T23, T30"
     ],
-    "plan_trabajo_oct_2026": {
-      "ahora": ["T42 verificación panel + T11 compose-smoke", "Esperar confirmación T44 panel post-llamada"],
-      "proxima_semana": ["P-tarifas: cargar respuestas pintor/jardinero en tarifas-2026.json", "T43/T04a PG con PG_PRUEBA_URL"],
-      "cuando_escale": ["Dominio propio", "Plan pago IA exterior", "Compose producción"]
-    },
     "goal": "Todos los agentes trabajan en su lista de tareas asignadas y avanzan juntos hacia el mismo objetivo: una videollamada de cotización con avatar propio y una API que se pueda vender a terceros.",
     "reglas": [
       "Contrato primero. Quien escribe no revisa: lo mira otro agente, con otro modelo.",
@@ -293,9 +317,9 @@ window.TABLERO = {
       "id": "T12",
       "titulo": "CI con lint de OpenAPI, tests de contrato, lint y build de Go y del front, y escaneo de dependencias y secretos",
       "agente": "ops",
-      "status": "pendiente",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": ""
+      "nota": "Rama T12-ci-github-actions (apilada sobre docs/tablero-prioridades, PR #14). .github/workflows/ci.yml en PR a main y push a main: verificar-repo.ps1 en ubuntu (go test, conductas, contrato 506, Lovable contrato:verificar, docker compose config), go vet + build + govulncheck, redocly + spectral, videollamada (typecheck, lint, vitest, build), panel (npm run todo), npm audit de produccion nivel alto, gitleaks en PR. Para dejar el CI en verde se arreglo: mock del panel con consumo que pasaba el tope desde el ~dia 17 (6 pruebas rojas), go vet copylocks en cmd/api/consola.go (mutex compartido), pgx 5.9.2 y x/text 0.41 (GO-2026-5004 inyeccion SQL y otros), go 1.25 en go.mod e imagen golang 1.27.2-alpine3.24 (con 1.24.7 ya no compilaria), source-map-js 1.2.2, prettier en Lovable, contrato del panel desactualizado (faltaban enums de T05). Probado local: verificar-repo verde; redocly y spectral sin errores; Lovable typecheck, lint (0 errores), 185 tests, build; panel todo (238 tests, verificar-dist ok); go vet limpio; govulncheck sin vulnerabilidades de modulos (stdlib local 1.27.0, CI usa 1.27.2); npm audit 0 altas. NO probado: el workflow en GitHub (se ve en el PR), gitleaks (no corrido local), docker build con 1.27.2. Inestable bajo carga: MisCotizaciones primera pagina fallo 1 vez de 4 corriendo en paralelo."
     },
     {
       "id": "T13",
@@ -335,7 +359,7 @@ window.TABLERO = {
       "agente": "qa",
       "status": "pendiente",
       "rehacer": false,
-      "nota": ""
+      "nota": "2026-10-20 prioridad alta: en una prueba local (stt=navegador, 4 turnos de pintura) el cliente escribió 120 caracteres y zona siguió sin_definir; la demo no llegó a cotizar. Incluir ese caso en el arnés."
     },
     {
       "id": "T18",
@@ -495,7 +519,7 @@ window.TABLERO = {
       "agente": "arq",
       "status": "en_revision",
       "rehacer": true,
-      "nota": "Contrato 0.1.2-borrador. Entrada por enlace opaco de cada profesional en el front propio; avatares elegibles; desafío anti-bots; los 7 huecos del panel cerrados. Verificado por mí: 91 negativos y 245 vectores en 0 fallas, Redocly sin errores. Falta revisión de seg."
+      "nota": "Contrato 0.1.2-borrador. Entrada por enlace opaco de cada profesional en el front propio; avatares elegibles; desafío anti-bots; los 7 huecos del panel cerrados. Verificado por mí: 91 negativos y 245 vectores en 0 fallas, Redocly sin errores. Falta revisión de seg. 2026-10-20 hueco nuevo: el contrato marca PerfilAsesor.consentimiento_asesor obligatorio, pero panel_perfil.go lo omite si no hay fila (y panel_perfil_test lo exige). El panel conserva el texto alternativo con eslint-disable. Decide arq: opcional en el contrato o siempre presente."
     },
     {
       "id": "T38",
@@ -556,10 +580,10 @@ window.TABLERO = {
     {
       "id": "T45",
       "titulo": "Deploy demo: fronts en Vercel (videocotizacion + panel) y API Go en Render (WebSocket)",
-      "agente": "infra",
-      "status": "en_curso",
+      "agente": "ops",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": "Rama feat/deploy-vercel-render. Backend: ORIGENES_PUBLICOS (CORS + origenes de la clave demo) y URL_MEDIOS (base wss de ws_url). render.yaml (memoria + SEMILLA_LOCAL, demo), panel-asesor/vercel.json (proxy /v1 mismo origen), imagen con esquema-salida-llm, TanStack Start 1.168.61 (CVE-2026-102989, Vercel bloqueaba el build). Probado 2026-10-17: go test -p 1 ./...; Render build+arranque, GET /v1/version 200; CORS preflight 204 para videocotizacion.vercel.app y 403 para origen ajeno; enlace demo responde; preview Vercel de la rama renderiza la portada. NO probado: produccion Vercel (espera merge a main), proxy /v1 del panel, login panel, llamada E2E con WebSocket y Gemini, bun.lock (no se regenero)."
+      "nota": "Rama feat/deploy-vercel-render. Backend: ORIGENES_PUBLICOS (CORS + origenes de la clave demo) y URL_MEDIOS (base wss de ws_url). render.yaml (memoria + SEMILLA_LOCAL, demo), panel-asesor/vercel.json (proxy /v1 mismo origen), imagen con esquema-salida-llm, TanStack Start 1.168.61 (CVE-2026-102989, Vercel bloqueaba el build). Probado 2026-10-17: go test -p 1 ./...; Render build+arranque, GET /v1/version 200; CORS preflight 204 para videocotizacion.vercel.app y 403 para origen ajeno; enlace demo responde; preview Vercel de la rama renderiza la portada. NO probado: produccion Vercel (espera merge a main), proxy /v1 del panel, login panel, llamada E2E con WebSocket y Gemini, bun.lock (no se regenero). 2026-10-20: PR #5 (deploy) y #13 (PROVEEDOR_STT=gemini) mergeados en main; GET /v1/version de Render 200 (api 0.1.4-borrador). Sigue NO probado: produccion Vercel, proxy /v1 y login del panel, llamada E2E WS+Gemini."
     },
     {
       "id": "T46",
@@ -575,7 +599,55 @@ window.TABLERO = {
       "agente": "go",
       "status": "en_revision",
       "rehacer": false,
-      "nota": "Rama feat/stt-servidor-gemini. Backend: PROVEEDOR_STT=gemini (misma clave/modelo que el LLM, timeout 12 s por intento), transcriptor WAV inline sin guardar audio, sesion.lista anuncia stt (navegador|servidor; contrato eventos NO CONGELADO, campo opcional), tope de audio por turno 30 s (antes 128 KiB = 4 s), transcripcion vacia no corre turno, log de la transcripcion sin el texto. Front: ReconocedorServidor (pista de la llamada -> PCM16 16 kHz, detector de voz por energia con calibracion, frase entera en tramas 0x01 al detectar 1,2 s de silencio, en pausa mientras habla el asesor); celular por defecto, PC solo con ?voz=servidor, ?voz=navegador lo apaga. Probado: go test rutas/config/arranque/gemini/falsos (tests nuevos: transcriptor con Gemini simulado, WS stt, audio largo, transcripcion vacia); contrato validar 0 fallas y 506 vectores; vitest 176, tsc, eslint; Gemini real con el WAV entero 3/3 exacto (3-9 s); E2E local Chrome headless 390x844 UA Android con mic falso (voz Helena es-ES): sin tocar, frase -> tramas 0x01 -> transcripcion.final -> pizarron Pintura -> avatar.respuesta. NO probado: celular real (Android/iPhone), eco del parlante en celular real, deploy Render con PROVEEDOR_STT=gemini. Ojo: cada turno de voz son 2 llamadas a Gemini (STT + LLM) y un turno tardo hasta 36 s con Gemini lento."
+      "nota": "Rama feat/stt-servidor-gemini. Backend: PROVEEDOR_STT=gemini (misma clave/modelo que el LLM, timeout 12 s por intento), transcriptor WAV inline sin guardar audio, sesion.lista anuncia stt (navegador|servidor; contrato eventos NO CONGELADO, campo opcional), tope de audio por turno 30 s (antes 128 KiB = 4 s), transcripcion vacia no corre turno, log de la transcripcion sin el texto. Front: ReconocedorServidor (pista de la llamada -> PCM16 16 kHz, detector de voz por energia con calibracion, frase entera en tramas 0x01 al detectar 1,2 s de silencio, en pausa mientras habla el asesor); celular por defecto, PC solo con ?voz=servidor, ?voz=navegador lo apaga. Probado: go test rutas/config/arranque/gemini/falsos (tests nuevos: transcriptor con Gemini simulado, WS stt, audio largo, transcripcion vacia); contrato validar 0 fallas y 506 vectores; vitest 176, tsc, eslint; Gemini real con el WAV entero 3/3 exacto (3-9 s); E2E local Chrome headless 390x844 UA Android con mic falso (voz Helena es-ES): sin tocar, frase -> tramas 0x01 -> transcripcion.final -> pizarron Pintura -> avatar.respuesta. NO probado: celular real (Android/iPhone), eco del parlante en celular real, deploy Render con PROVEEDOR_STT=gemini. Ojo: cada turno de voz son 2 llamadas a Gemini (STT + LLM) y un turno tardo hasta 36 s con Gemini lento. 2026-10-20: render.yaml con PROVEEDOR_STT=gemini mergeado (PR #13). NO verificado que Render haya redeployado con gemini (solo se ve en sesion.lista por WebSocket) ni la prueba en celular real."
+    },
+    {
+      "id": "T48",
+      "titulo": "Decidir y reparar la visión: los fotogramas de cámara no llegan a Gemini (fotos = nil en el turno, adjuntarFotogramas=false en el adaptador)",
+      "agente": "go",
+      "status": "pendiente",
+      "rehacer": false,
+      "nota": "socket_entrada.go fija fotos = nil (comentario: Gemini 503 con JPEG) y el log siempre dice fotogramas_a_gemini=0, aunque el front manda JPEG cada 3 s. Hecho = probar con tamaño/modelo menor y reactivar, o decidir 'sin visión' con arq (ADR 0006) y dejar de muestrear en el front."
+    },
+    {
+      "id": "T49",
+      "titulo": "Cupo y latencia de Gemini free con STT en servidor: medir en Render, manejar 429 y caer al reconocimiento del navegador",
+      "agente": "go",
+      "status": "pendiente",
+      "rehacer": false,
+      "nota": "Con PROVEEDOR_STT=gemini cada turno de voz son 2 llamadas (STT + LLM) y un turno tardó hasta 36 s (T47). Relacionada con T13 (RPM/RPD sin número público). ops ayuda en Render."
+    },
+    {
+      "id": "T50",
+      "titulo": "Render dormido: aviso 'despertando servidor' en el front y pre-despertar con GET /v1/version al abrir la portada",
+      "agente": "fe",
+      "status": "pendiente",
+      "rehacer": false,
+      "nota": "Plan free de Render se duerme a los 15 min y el primer pedido tarda ~1 min (docs/deploy.md). No usar ping externo permanente (límites del plan free)."
+    },
+    {
+      "id": "T51",
+      "titulo": "Smoke E2E de llamada (WebSocket + proveedor falso) en CI contra el preview",
+      "agente": "qa",
+      "status": "pendiente",
+      "rehacer": false,
+      "nota": "T45 declara NO probada la llamada E2E con WebSocket; T10 tiene Playwright solo contra mock. Depende de T12."
+    },
+    {
+      "id": "T52",
+      "titulo": "Tope de abuso y gasto en la demo pública (clave demo y enlace de la semilla abiertos en Render)",
+      "agente": "go",
+      "status": "pendiente",
+      "rehacer": false,
+      "nota": "T40 pide R53–R58 antes de abrir crearSesion al público y P-gasto quedó en free tier sin tope. Revisa seg."
+    },
+    {
+      "id": "T53",
+      "titulo": "Persistencia de la demo en Render: hoy memoria, cada sueño o deploy borra sesiones y cotizaciones del panel",
+      "agente": "ops",
+      "status": "pendiente",
+      "rehacer": false,
+      "nota": "Afecta a T44 (ver cotizaciones en Mis cotizaciones después de un rato). Camino: Postgres de T04a con ENTORNO=produccion o una base gratuita para la demo."
     }
   ],
   "votes": [],
@@ -647,6 +719,14 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-20T11:30:00-03:00",
+      "texto": "Claude: T12 en revision. CI en GitHub Actions (verificar-repo + go vet/govulncheck + lint OpenAPI + fronts + npm audit + gitleaks). Para que arranque en verde: 6 pruebas del panel que dependian del dia del mes, mutex copiado en la consola del backend, pgx/x-text con vulnerabilidades (pgx GO-2026-5004), imagen Go 1.24.7 a 1.27.2, contrato del panel desactualizado, prettier y source-map-js en Lovable. Hueco de contrato anotado en T37 (consentimiento_asesor). NO probado: el workflow en GitHub ni docker build."
+    },
+    {
+      "ts": "2026-10-20T10:00:00-03:00",
+      "texto": "Claude: rama T47-render-stt-gemini ya mergeada (PR #13), sin cambios pendientes. Tablero verificado con datos (48 tareas, servido por HTTP). Prioridades reordenadas en meta.prioridades (sección Prioridades del tablero) con revisión de un agente Sonnet 5.5: subieron T17 y T48, la cola de revisión pasa a fondo salvo T43. Tareas nuevas T48–T53 (visión, cupo Gemini, Render dormido, smoke E2E, abuso de la demo, persistencia). T45 a en_revision y agente ops. No probado: redeploy de Render con gemini ni celular real. index.html: sección Prioridades lee meta.prioridades. verificar-repo verde (go, conductas, contrato 0 fallas, 506 vectores, Lovable contrato:verificar; docker compose omitido sin cliente docker)."
+    },
     {
       "ts": "2026-10-20T01:00:00-03:00",
       "texto": "Claude: T47 verificado en main @ 879817a (PR #11 mergeado por Rober) con disco liberado: verificar-repo verde (go test ./... incluido rutas/arranque/config/gemini, conductas 0 fallas, contrato 0 fallas y 506 vectores, Lovable contrato:verificar ok; docker omitido). Sigue sin probar: celular real y PROVEEDOR_STT=gemini en Render."

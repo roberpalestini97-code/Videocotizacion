@@ -55,7 +55,7 @@ Guía completa, para un clone en una máquina nueva: **[ENTORNO.md](./ENTORNO.md
 
 Resumen (el detalle y los valores están en esa guía y en las plantillas):
 
-1. Instalar Git, Node.js 22+, Go 1.24+ y Chrome o Edge.
+1. Instalar Git, Node.js 22+, Go 1.25+ y Chrome o Edge.
 2. `Copy-Item proyecto\backend\.env.example proyecto\backend\.env` y completar `GEMINI_API_KEY` (no está en el repo).
 3. `Copy-Item real-time-quote-bot\.env.example real-time-quote-bot\.env.local` (valores públicos ya completos).
 4. `npm ci` en `real-time-quote-bot`, `proyecto/panel-asesor`, `proyecto/conductas` y `proyecto/contracts/verificacion`. `go mod download` en `proyecto/backend`.
