@@ -2153,7 +2153,7 @@ export interface components {
             oficio: "pintura" | "jardineria" | "paisajismo" | "mantenimiento" | "reparaciones" | "limpieza" | "otro" | "sin_definir";
             trabajo: {
                 /** @enum {unknown} */
-                tipo: "pintura_interior" | "pintura_exterior" | "pintura_fachada_altura" | "impermeabilizacion_techo" | "pintura_rejas_aberturas" | "corte_cesped" | "poda" | "desmalezado" | "mantenimiento_jardin_periodico" | "parquizacion" | "diseno_paisajismo" | "riego" | "limpieza_terreno" | "limpieza_final_obra" | "reparacion_general" | "otro" | "sin_definir";
+                tipo: "pintura_interior" | "pintura_exterior" | "pintura_fachada_altura" | "impermeabilizacion_techo" | "pintura_rejas_aberturas" | "enduido_completo" | "tratamiento_hongos" | "hidrolavado" | "corte_cesped" | "poda" | "desmalezado" | "mantenimiento_jardin_periodico" | "parquizacion" | "diseno_paisajismo" | "riego" | "colocacion_cesped" | "cercos_vivos" | "limpieza_terreno" | "limpieza_final_obra" | "reparacion_general" | "otro" | "sin_definir";
                 descripcion: string;
                 /** @default false */
                 requiere_planos: boolean;
@@ -2183,7 +2183,7 @@ export interface components {
                 medio: "escalera" | "andamio" | "silleta" | "hidroelevador" | "ninguno" | "sin_definir";
             };
             /** @enum {unknown} */
-            estado_superficie: "bueno" | "regular" | "malo" | "con_humedad" | "descascarado" | "con_hongos" | "no_aplica" | "sin_definir";
+            estado_superficie: "bueno" | "regular" | "malo" | "con_humedad" | "descascarado" | "con_hongos" | "con_salitre" | "no_aplica" | "sin_definir";
             zona: {
                 /** @enum {unknown} */
                 localidad: "mar_chiquita" | "santa_clara_del_mar" | "cobo" | "parque_lago" | "mar_del_plata" | "otra" | "sin_definir";
@@ -2205,7 +2205,7 @@ export interface components {
             plazo: {
                 /** @enum {unknown} */
                 tipo: "inmediato" | "esta_semana" | "este_mes" | "mas_de_un_mes" | "flexible" | "sin_definir";
-                /** @description true si el plazo es largo o el trabajo es por etapas: el presupuesto queda mas sujeto a revision. */
+                /** @description true si el plazo es mas_de_un_mes o el trabajo es por etapas. El LLM no calcula el ajuste: Go pone la leyenda, sin porcentaje. */
                 sujeto_a_cambios?: boolean;
             };
             dudas_cliente?: string[];
@@ -2221,7 +2221,7 @@ export interface components {
              * @default false
              */
             intento_inyeccion: boolean;
-            /** @description Lo que dice el avatar. Sin montos (Go ademas lo filtra). El patron es una red basica: sin $, sin 'pesos', sin cifras de 4+ digitos. */
+            /** @description Lo que dice el avatar. Sin montos ni porcentaje de ajuste (Go ademas lo filtra). Sin $, sin 'pesos', sin '%', sin 'por ciento', sin cifras de 4+ digitos. */
             respuesta_hablada: string;
         };
         /**
@@ -2324,7 +2324,7 @@ export interface components {
          *       "resumen": "Consulta de pintura en fuera de zona (fuera de zona, se emitió igual).",
          *       "versiones": {
          *         "tarifas": "2026.1",
-         *         "prompt": "conducta_pintura@755b9690b387",
+         *         "prompt": "conducta_pintura@5f2e70a1bb1a",
          *         "esquema_salida": "1.0.0"
          *       },
          *       "cotizacion": {
@@ -2390,7 +2390,7 @@ export interface components {
          *       "resumen": "Consulta de pintura en Cobo.",
          *       "versiones": {
          *         "tarifas": "2026.1",
-         *         "prompt": "conducta_pintura@755b9690b387",
+         *         "prompt": "conducta_pintura@5f2e70a1bb1a",
          *         "esquema_salida": "1.0.0"
          *       },
          *       "cotizacion": {

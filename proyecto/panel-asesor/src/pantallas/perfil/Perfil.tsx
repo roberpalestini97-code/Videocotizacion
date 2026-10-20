@@ -191,6 +191,9 @@ function FormularioPerfil({ inicial }: { inicial: PerfilAsesor }) {
           <div>
             <dt>Aviso de privacidad aceptado</dt>
             <dd>
+              {/* El contrato lo marca obligatorio, pero el backend lo omite si el asesor no tiene fila de consentimiento
+                  (panel_perfil.go). Hasta que arq alinee el contrato, se conserva el texto alternativo. */}
+              {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
               {guardado.consentimiento_asesor ? (
                 <>
                   Versión {guardado.consentimiento_asesor.version}, el{' '}
