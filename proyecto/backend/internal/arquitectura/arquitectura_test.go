@@ -63,6 +63,9 @@ var permitidos = map[string][]string{
 	},
 	"cmd/api":          {"internal/arranque", "internal/config"},
 	"cmd/medir-gemini": {"internal/cotizador", "internal/dominio", "internal/prompts", "internal/proveedores", "internal/proveedores/gemini", "internal/secreto"},
+	// Arnés de conductas contra Gemini (T17): no corre en CI.
+	"cmd/evaluar-conductas": {"internal/config", "internal/cotizador", "internal/dominio", "internal/errores", "internal/evaluacion", "internal/prompts", "internal/proveedores", "internal/proveedores/falsos", "internal/proveedores/gemini", "internal/proveedores/navegador", "internal/secreto", "internal/turno"},
+	"internal/evaluacion":   {},
 	"internal/arquitectura": {},
 }
 

@@ -1,0 +1,17 @@
+{
+  "rubrica": "rubrica.1",
+  "id": "fuera-de-alcance-gas",
+  "descripcion": "Trabajo de gas: fuera de alcance.",
+  "oficio_sesion": "pintura",
+  "turnos": [
+    {
+      "cliente": "Necesito que me cambien la instalación de gas de la cocina y conectar un calefactor nuevo en Cobo.",
+      "esperado": {
+        "accion": [
+          "fuera_de_alcance"
+        ],
+        "cotizacion": false
+      }
+    }
+  ]
+}

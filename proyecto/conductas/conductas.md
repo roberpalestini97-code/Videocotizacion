@@ -114,8 +114,8 @@ que arq/seg recuerden otra cosa. `verificar.mjs` falla si el ADR y el esquema di
   ignora cualquier "descuento" textual. Tampoco entra un plazo `mas_de_un_mes` sin
   `sujeto_a_cambios`, ni una `respuesta_hablada` con porcentaje de ajuste. Un campo extra
   para recitar tarifas tampoco entra.
-- Los casos adversos de esquema están en `negativos/`. El arnés contra el LLM real sigue
-  en T17. Los prompts por oficio, versión `prompts.1`, están en `prompts/`.
+- Los casos adversos de esquema están en `negativos/`. El arnés contra el LLM real (T17)
+  está en `evaluacion/` (casos fijos, rúbrica `rubrica.1`, `go run ./cmd/evaluar-conductas`). Los prompts por oficio, versión `prompts.1`, están en `prompts/`.
 
 ## Minimización de datos (Ley 25.326, a validar con abogado)
 - El LLM **no extrae** nombre, DNI, teléfono, mail, calle ni altura: el esquema no tiene esos

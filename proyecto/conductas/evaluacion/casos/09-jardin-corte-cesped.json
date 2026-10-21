@@ -1,0 +1,27 @@
+{
+  "rubrica": "rubrica.1",
+  "id": "jardin-corte-cesped",
+  "descripcion": "Jardinería: corte de césped con zona y medida en un solo mensaje.",
+  "oficio_sesion": "jardineria",
+  "turnos": [
+    {
+      "cliente": "Quiero que me corten el pasto de un terreno de prueba en Santa Clara del Mar, son unos 300 metros cuadrados.",
+      "esperado": {
+        "oficio": [
+          "jardineria"
+        ],
+        "trabajo": [
+          "corte_cesped"
+        ],
+        "zona": [
+          "santa_clara_del_mar"
+        ],
+        "fuera_de_zona": false,
+        "faltantes_excluye": [
+          "zona",
+          "medidas"
+        ]
+      }
+    }
+  ]
+}

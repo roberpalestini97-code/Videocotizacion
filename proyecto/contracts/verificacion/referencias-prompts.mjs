@@ -7,7 +7,7 @@ import { referenciaPrompt, referenciaDeCuerpo } from '../fuente/prompts.mjs';
 const DIR = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'conductas', 'prompts');
 const OFICIOS_CONTRATO = ['pintura', 'jardineria', 'reparaciones', 'mantenimiento', 'limpieza'];
 const ANCLAS_GO = {
-  pintura: 'conducta_pintura@5f2e70a1bb1a',
+  pintura: 'conducta_pintura@0effa663fdc5',
   jardineria: 'conducta_jardineria@3f9fbb3beea7',
   limpieza: 'conducta_limpieza@36694d88643d',
   mantenimiento: 'conducta_mantenimiento@79b1b1006e65',

@@ -1,0 +1,40 @@
+{
+  "rubrica": "rubrica.1",
+  "id": "rejas-completo-emite",
+  "descripcion": "Rejas con todos los datos: la tarifa pintura_rejas_portones va por unidad, así que el modelo tiene que anotar cuántas rejas y portones (unidad) para que Go cotice.",
+  "oficio_sesion": "pintura",
+  "turnos": [
+    {
+      "cliente": "Quiero pintar tres rejas de ventana y un portón de una casa de prueba en Mar Chiquita. Tienen algo de óxido."
+    },
+    {
+      "cliente": "Se pintan desde el piso, no hace falta escalera. Lo quiero para este mes.",
+      "esperado": {
+        "trabajo": [
+          "pintura_rejas_aberturas"
+        ],
+        "zona": [
+          "mar_chiquita"
+        ],
+        "fuera_de_zona": false,
+        "faltantes_excluye": [
+          "zona",
+          "medidas"
+        ],
+        "accion": [
+          "emitir_presupuesto",
+          "confirmar_datos"
+        ]
+      }
+    },
+    {
+      "cliente": "Sí, está todo bien así. Armame el presupuesto.",
+      "esperado": {
+        "accion": [
+          "emitir_presupuesto"
+        ],
+        "cotizacion": true
+      }
+    }
+  ]
+}

@@ -333,9 +333,9 @@ window.TABLERO = {
       "id": "T17",
       "titulo": "Arnés de evaluación de conductas contra el LLM real: casos fijos, rúbrica y repeticiones, con resultados validados por técnicos",
       "agente": "qa",
-      "status": "pendiente",
+      "status": "en_revision",
       "rehacer": false,
-      "nota": ""
+      "nota": "Rama T17-arnes-conductas. Arnés: cd proyecto/backend; go run ./cmd/evaluar-conductas -k 3 corre conductas/evaluacion/casos (10 casos ficticios, 25 turnos) K veces por turno.DesdeTexto (mismo camino que el turno WS: prompt por oficio, Gemini, validación, reintento, cotizador Go) con GEMINI_API_KEY de backend/.env. Rúbrica versionada conductas/evaluacion/rubrica.json (rubrica.1, umbral 0,8 por campo: oficio, trabajo, zona, fuera_de_zona, faltantes, accion, cotizacion, intento_inyeccion). Cuida el cupo: -pausa, 1 reintento, tope 120 llamadas, corte en 429; un 503/timeout deja la repetición sin puntuar y el caso INCOMPLETO. No corre en CI: go test ./internal/evaluacion solo valida rúbrica y casos contra el esquema. Caso de la demo local 2026-10-20 (zona nunca extraída): reconstruido en 4 variantes de 9/16/35/~120 caracteres (el log no guarda el texto del cliente). RESULTADOS gemini-3.1-flash-lite, k=3, 2026-10-20: (A0) prompt conducta_pintura@5f2e70a1bb1a sin arreglos: 3/7 (cortada por 503); turno 4 de rejas con óxido salida_invalida 3/9 → la zona del mensaje se pierde (la causa más probable de la demo); otra localidad sin fuera_de_zona 0/3; interior completo nunca emite (confirmar_datos 3/3). (A) mismo prompt + enums Go arreglados: 6/10; demo Mar de Cobo zona 1/3 por /estado_superficie fuera del enum (aliviarEnumsParaGemini manda estado como texto libre y el modelo inventa un valor; el reintento genérico no lo corrige); otra sin fuera_de_zona 0/3; rejas con todos los datos accion 0/6 y cotización 0/3 (pedir_ver por el óxido; tarifa por unidad y el prompt pedía superficie); jardín faltantes 2/3. (B) prompt propuesto conducta_pintura@0effa663fdc5: 8/10 pasan y 2 INCOMPLETOS por 503 que pasan en lo puntuado; 0 salidas inválidas; zona 10/10 puntuadas en las 4 demos; interior y rejas completos cotizan 3/3 cada uno. ARREGLOS en la rama: fix(cotizador) enums de ValidarSalidaLLM = esquema 1.0 (faltaban enduido_completo, tratamiento_hongos, hidrolavado, colocacion_cesped, cercos_vivos, con_salitre; test nuevo que compara); pintura.md PROPUESTA para Rober/arquitecto (valores de estado, Santa Clara/Mar de Cobo/otra con fuera_de_zona, rejas por unidad, cuándo emitir) con anclas de hash actualizadas en Go y referencias-prompts. Probado: go test ./... y verificar-repo verde. NO probado: el texto real de la demo; otros oficios salvo 1 caso de jardinería; fotos (adjuntarFotogramas=false); voz; otros modelos; K=3 da tasas gruesas; la validación por técnicos del título sigue pendiente. Seguimientos: que el reintento nombre el campo inválido (turno.correccionReintento); probar volver a mandar los enums a Gemini 3.1 (el alivio era por 3.5)."
     },
     {
       "id": "T18",
@@ -647,6 +647,10 @@ window.TABLERO = {
     }
   ],
   "log": [
+    {
+      "ts": "2026-10-20T20:00:00-03:00",
+      "texto": "Claude: T17-arnes-conductas. Arnés go run ./cmd/evaluar-conductas (10 casos ficticios × K, rúbrica rubrica.1, no va en CI). Confirmó lo de la demo: la zona se pierde porque el turno termina en salida_invalida (estado_superficie inventado; Gemini lo recibe como texto libre) y las rejas nunca emiten. Fix de enums Go = esquema y prompt de pintura propuesto: de 6/10 a 8/10 casos (2 incompletos por 503), 0 salidas inválidas, rejas e interior cotizan 3/3. Revisión: otro modelo."
+    },
     {
       "ts": "2026-10-20T01:00:00-03:00",
       "texto": "Claude: T47 verificado en main @ 879817a (PR #11 mergeado por Rober) con disco liberado: verificar-repo verde (go test ./... incluido rutas/arranque/config/gemini, conductas 0 fallas, contrato 0 fallas y 506 vectores, Lovable contrato:verificar ok; docker omitido). Sigue sin probar: celular real y PROVEEDOR_STT=gemini en Render."

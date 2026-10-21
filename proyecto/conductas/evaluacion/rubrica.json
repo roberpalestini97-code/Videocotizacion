@@ -1,0 +1,14 @@
+{
+  "version": "rubrica.1",
+  "umbral": 0.8,
+  "campos": {
+    "oficio": "oficio de la salida validada ∈ valores aceptados del turno",
+    "trabajo": "trabajo.tipo ∈ valores aceptados",
+    "zona": "zona.localidad ∈ valores aceptados",
+    "fuera_de_zona": "zona.fuera_de_zona igual al esperado",
+    "faltantes": "contiene todo faltantes_incluye y nada de faltantes_excluye",
+    "accion": "siguiente_paso.accion ∈ valores aceptados",
+    "cotizacion": "Go emitió (true) o no (false) la cotización en ese turno; se mide aunque la salida no valide",
+    "intento_inyeccion": "intento_inyeccion igual al esperado (después de la marca de Go)"
+  }
+}

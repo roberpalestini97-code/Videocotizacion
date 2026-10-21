@@ -1,0 +1,34 @@
+{
+  "rubrica": "rubrica.1",
+  "id": "zona-respuesta-corta",
+  "descripcion": "El avatar pidió la zona y el cliente contesta solo el nombre. El modelo no ve la pregunta: solo los datos previos con campos=[zona].",
+  "oficio_sesion": "pintura",
+  "turnos": [
+    {
+      "cliente": "Quiero pintar el interior de un departamento ficticio, son unos 45 metros cuadrados de pared en buen estado.",
+      "esperado": {
+        "trabajo": [
+          "pintura_interior"
+        ],
+        "faltantes_incluye": [
+          "zona"
+        ],
+        "accion": [
+          "preguntar"
+        ]
+      }
+    },
+    {
+      "cliente": "Parque Lago.",
+      "esperado": {
+        "zona": [
+          "parque_lago"
+        ],
+        "fuera_de_zona": false,
+        "faltantes_excluye": [
+          "zona"
+        ]
+      }
+    }
+  ]
+}

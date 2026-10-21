@@ -1,0 +1,40 @@
+{
+  "rubrica": "rubrica.1",
+  "id": "interior-completo-emite",
+  "descripcion": "Pintura interior con todos los datos en dos mensajes y la confirmación del cliente: tiene que emitir y Go cotizar a más tardar en el turno 3.",
+  "oficio_sesion": "pintura",
+  "turnos": [
+    {
+      "cliente": "Hola, quiero pintar el living y un dormitorio de una casa de prueba en Mar Chiquita. Son unos 50 metros cuadrados de pared."
+    },
+    {
+      "cliente": "Las paredes están en buen estado, techo de 2,5 metros, se llega con escalera. Lo quiero para este mes.",
+      "esperado": {
+        "trabajo": [
+          "pintura_interior"
+        ],
+        "zona": [
+          "mar_chiquita"
+        ],
+        "fuera_de_zona": false,
+        "faltantes_excluye": [
+          "zona",
+          "medidas"
+        ],
+        "accion": [
+          "emitir_presupuesto",
+          "confirmar_datos"
+        ]
+      }
+    },
+    {
+      "cliente": "Sí, está todo bien así. Armame el presupuesto.",
+      "esperado": {
+        "accion": [
+          "emitir_presupuesto"
+        ],
+        "cotizacion": true
+      }
+    }
+  ]
+}
